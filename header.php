@@ -66,7 +66,7 @@
 							<div class="logo_container">
 								<a href="#">
 									<div class="logo_content d-flex flex-row align-items-end justify-content-start">
-										<div class="logo_img"><a href="./"><img class="logo_pibg" src="images/logos/logo_sf.png" alt="" style="width: 300px;"></a></div>
+										<div class="logo_img" style="width: 300px;"><a href="./"><img src="images/logos/logo_sf.png" alt="" style="width: 300px !important;"></a></div>
 										<!-- <div class="logo_text">learn</div> -->
 									</div>
 								</a>
