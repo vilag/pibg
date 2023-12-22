@@ -73,7 +73,7 @@ require 'header.php';
 				</div>
 				<div class="col-lg-6 featured_col">
 					<!-- Background image artist https://unsplash.com/@jtylernix -->
-					<div class="featured_background" style="background-image:url(images/navidad.png)"></div>
+					<div class="featured_background" style="background-image:url(images/fondos/fondo1.png)"></div>
 				</div>
 			</div>
 			
