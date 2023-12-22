@@ -130,6 +130,7 @@
 			<ul class="menu_mm">
 				<li class="menu_mm"><a href="./">Inicio</a></li>
 				<li class="menu_mm"><a href="predic1.html">Predicaciones</a></li>
+				<li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li>
 				<!-- <li class="menu_mm"><a href="index.html">Home</a></li>
 				<li class="menu_mm"><a href="courses.html">Courses</a></li>
 				<li class="menu_mm"><a href="instructors.html">Instructors</a></li>
