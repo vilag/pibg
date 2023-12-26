@@ -76,6 +76,34 @@ require 'header.php';
 					<div class="featured_background" style="background-image:url(images/fondos/fondo1.png)"></div>
 				</div>
 			</div>
+
+			<div class="row courses_row">
+				
+				<!-- Course -->
+				<div class="col-lg-4 col-md-6">
+					<div class="course">
+						<div class="course_image">
+							<iframe style="width: 100%; height: 250px;" src="https://www.youtube.com/embed/vHhsIvv5bAo?si=8roMNBjdPGTlFq2r" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+						</div>
+						<div class="course_body">
+							<div class="course_header d-flex flex-row align-items-center justify-content-start">
+								<div class="course_tag" style="padding: 5px; color: #fff;">9 de Septiembre de 2023</div>
+								<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+							</div>
+							<div class="course_title"><h3><a href="#">Gloria in Excelsis (RV 589)</a></h3></div>
+							<div class="course_text">Concierto por el CXXXV Aniversario de la Primera Iglesia Bautista de Guadalajara.</div>
+							<div class="course_footer d-flex align-items-center justify-content-start">
+								<!-- <div class="course_author_image"><img src="images/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div> -->
+								<div class="course_author_name" style="margin-left: 0px;">Director: <a href="#">Fernando Sosa Santana</a></div>
+								<!-- <div class="course_sales ml-auto"><span>352</span> Sales</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				
+
+			</div>
 			
 
 			<!-- Pagination -->

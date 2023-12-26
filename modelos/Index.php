@@ -16,7 +16,12 @@ Class Index
         return ejecutarConsultaSimpleFila($sql);  
     }
 
-    
+    public function listar_calendario($fecha)
+	{
+		$sql="SELECT DAY(fecha_hora) as dia, MONTH(fecha_hora) as mes, TIME(fecha_hora) as hora, nom_activ  FROM calendario WHERE DATE(fecha_hora)>='$fecha' LIMIT 5";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
 	
 
    
