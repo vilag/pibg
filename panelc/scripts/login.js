@@ -31,7 +31,7 @@ function login()
             {
 
                  //alert("valido");
-                 $(location).attr("href","index.php");
+                 $(location).attr("href","calendario.php");
                                 
             }
             if (data==null) {

@@ -45,10 +45,7 @@ switch ($_GET["op"]){
 
 			//Determinamos los accesos del usuario
 			in_array(1,$valores)?$_SESSION['administrador']=1:$_SESSION['administrador']=0;
-			in_array(2,$valores)?$_SESSION['agente_ventas1']=1:$_SESSION['agente_ventas1']=0;
-			in_array(3,$valores)?$_SESSION['Administrativo']=1:$_SESSION['Administrativo']=0;
-			in_array(4,$valores)?$_SESSION['consulta1']=1:$_SESSION['consulta1']=0;
-			in_array(5,$valores)?$_SESSION['Produccion']=1:$_SESSION['Produccion']=0;
+		
 			
 
 	    }

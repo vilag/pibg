@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CelestialUI Admin</title>
+    <title>PIBG MANAGMENT</title>
     <!-- base:css -->
     <link rel="stylesheet" href="vendors/typicons.font/font/typicons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
@@ -13,8 +13,9 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    
     <!-- endinject -->
-    <link rel="shortcut icon" href="images/favicon.png" />
+    <!-- <link rel="shortcut icon" href="images/favicon.png" /> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
@@ -210,14 +211,14 @@
               </div>
               <div class="sidebar-profile-name">
                 <p class="sidebar-name">
-                  Kenneth Osborne
+                  <?php echo $_SESSION['nombre'];?>
                 </p>
                 <p class="sidebar-designation">
                   Welcome
                 </p>
               </div>
             </div>
-            <div class="nav-search">
+            <!-- <div class="nav-search">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Type to search..." aria-label="search" aria-describedby="search">
                 <div class="input-group-append">
@@ -226,8 +227,14 @@
                   </span>
                 </div>
               </div>
-            </div>
+            </div> -->
             <p class="sidebar-menu-title">Dash menu</p>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="calendario.php">
+              <img src="images/iconos/calendar.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Calendario</span>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="index.html">
