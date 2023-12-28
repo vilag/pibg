@@ -31,7 +31,7 @@ require 'header.php';
 	<div class="courses" style="background-image: url(images/fondos/bach3.png); background-repeat: no-repeat; background-size: cover;">
 		<div class="container" >
 		<div class="row" style="margin-top: 80px; padding-left: 20px;">
-			<p style="line-height : 65px;"><b style="font-size: 50px; color: #37434D;">Coro</b>  <br> <b style="font-size: 70px; color: #37434D;">Johann Sebastian Bach</b></p>
+			<p style="line-height : 65px;"><b style="font-size: 50px; color: #37434D;">Coro</b>  <br> <b style="font-size: 60px; color: #37434D;">Johann Sebastian Bach</b></p>
 			
 		</div>
 			<!-- <div class="row">
