@@ -27,37 +27,45 @@ if ($_SESSION['administrador']==1)
                         <div class="d-flex flex-wrap justify-content-between">
                             <h4 class="card-title mb-3">Registrar nuevo dia</h4>
                         </div>
-                        <form class="forms-sample">
-                            <div class="col-lg-6" style="float: left;">
+                        <form class="forms-sample" style="padding-top: 20px;">
+                            <label for="">Seleccion rapida</label>
+                            <div class="col-lg-12" style="float: left; height: 100px; margin-top: 20px;" id="box_act_sem">
+                              
+                            </div>
+                            <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
                                 <label>Fecha</label>
                                 <input type="date" class="form-control" id="fecha_actividad" onchange="mostrar_dia();">
                               </div>
                             </div>
-                            <div class="col-lg-6" style="float: left;">
+                            <div class="col-lg-6" style="float: left; height: 100px;">
                                 <div class="form-group">
-                                    <label>Hora</label>
+                                    <label>Hora (Formato 24 hrs)</label>
                                     <input type="text" class="form-control" id="hora_actividad" onclick="mostrar_horas_capt();">
                                     <div id="horas_capt" style="display: none; width: 30%; height: 150px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
 
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6" style="float: left;">
+                            <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
                                 <label>Dia</label>
                                 <input type="text" class="form-control" id="dia" disabled>
                               </div>
                             </div>
-                            <div class="col-lg-6" style="float: left;">
+                            <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
                                 <label>Nombre de Actividad</label>
-                                <input type="text" class="form-control" id="nom_actividad">
+                                <input type="text" class="form-control" id="nom_actividad" onclick="mostrar_nombre_capt();">
+                                <div id="nombre_act_capt" style="display: none; width: 50%; height: 250px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
+
+                                </div>
                               </div>
                             </div>
-                            <div class="col-lg-6" style="float: left;">
+                            <div class="col-lg-12" style="float: left;">
                                 <div class="form-group" style="margin-top: 50px; text-align: right;">
-                                    <button class="btn btn-primary mr-2">Guardar</button>
+                                    <!-- <button class="btn btn-primary mr-2" >Guardar</button> -->
+                                    <b style="padding: 20px; background-color: #000; color: #fff; cursor: pointer; border-radius: 10px;" onclick="guardar_dia_calendario();">Guardar</b>
                                 </div>
                             </div>
                             

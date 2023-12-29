@@ -1,4 +1,5 @@
 listar_dias();
+listar_activ_sem();
 
 function listar_dias()
 {
@@ -43,4 +44,50 @@ function set_hora(idcal,hora){
 	//alert(hora)
 	$("#hora_actividad").val(hora);
 	document.getElementById("horas_capt").style.display="none";
+}
+
+function mostrar_nombre_capt(){
+	document.getElementById("nombre_act_capt").style.display="block";
+
+	$.post("ajax/calendario.php?op=listar_nombres",function(r){
+		$("#nombre_act_capt").html(r);					
+	});
+}
+
+function set_nombre(idcal,nom_activ){
+	//alert(hora)
+	$("#nom_actividad").val(nom_activ);
+	document.getElementById("nombre_act_capt").style.display="none";
+}
+
+function listar_activ_sem(){
+
+	$.post("ajax/calendario.php?op=listar_activ_sem",function(r){
+		$("#box_act_sem").html(r);					
+	});
+}
+
+function set_dia_sem(idactiv, nombre, hora){
+	$("#hora_actividad").val(hora);
+	$("#nom_actividad").val(nombre);
+}
+
+function guardar_dia_calendario(){
+	var fecha_actividad = $("#fecha_actividad").val();
+	var hora_actividad = $("#hora_actividad").val();
+	var dia = $("#dia").val();
+	var nom_actividad = $("#nom_actividad").val();
+
+	var fecha_hora = fecha_actividad+" "+hora_actividad;
+
+	alert(fecha_hora);
+
+	$.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad},function(data, status)
+	{
+		data = JSON.parse(data);
+
+		alert("Registro guardado exitosamente");
+
+	});
+	
 }

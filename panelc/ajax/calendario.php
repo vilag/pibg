@@ -48,8 +48,8 @@ switch ($_GET["op"]){
 						
 						echo '
                                
-                           <div style="width: 100%; height: 50px;">
-                             <p onclick="set_hora('.$reg->idcal.',\''.$reg->hora.'\');" style="cursor: pointer;">'.$reg->hora.'</p>
+                           <div onclick="set_hora('.$reg->idcal.',\''.$reg->hora.'\');" style="width: 100%; height: 50px; border-bottom: rgba(0,0,0,0.2) 1px solid !important; display: flex; align-items: center; justify-content: center;">
+                             <p style="cursor: pointer;">'.$reg->hora.'</p>
                            </div>
 
 						';
@@ -58,7 +58,50 @@ switch ($_GET["op"]){
 
 		break;
 
+        case 'listar_nombres':
 		
+
+			$rspta = $calendario->listar_nombres();
+			while ($reg = $rspta->fetch_object())
+					{
+						
+						echo '
+                               
+                           <div onclick="set_nombre('.$reg->idcal.',\''.$reg->nom_activ.'\');" style="width: 100%; height: 50px; border-bottom: rgba(0,0,0,0.2) 1px solid !important; display: flex; align-items: center; justify-content: center;">
+                             <p style="cursor: pointer;">'.$reg->nom_activ.'</p>
+                           </div>
+
+						';
+						
+					}
+
+		break;
+
+        case 'listar_activ_sem':
+		
+
+			$rspta = $calendario->listar_activ_sem();
+			while ($reg = $rspta->fetch_object())
+					{
+						
+						echo '
+                            <b style="margin: 10px; padding: 10px; background-color: #042C49; color: #fff; border-radius: 5px; cursor: pointer;" onclick="set_dia_sem('.$reg->idactiv.',\''.$reg->nombre.'\',\''.$reg->hora.'\');">'.$reg->nombre.'</b>  
+						';
+						
+					}
+
+		break;
+
+		case 'guardar_dia_calendario':
+			
+			$fecha_hora = $_POST['fecha_hora'];
+			$dia = $_POST['dia'];
+			$nom_actividad = $_POST['nom_actividad'];
+										
+			$rspta=$calendario->guardar_dia_calendario($fecha_hora,$dia,$nom_actividad);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 	
 }
 ?>
