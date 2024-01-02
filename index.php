@@ -25,134 +25,9 @@
 
 	<!-- Header -->
 
-	<header class="header">
-
-		<!-- Top Bar -->
-		<div class="top_bar">
-			<div class="top_bar_container">
-				<div class="container">
-					<div class="row">
-						<div class="col">
-							<div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
-								<ul class="top_bar_contact_list">
-									<!-- <li><div class="question">Have any questions?</div></li> -->
-									<li>
-										<div>(33) 36144120</div>
-									</li>
-									<li>
-										<div>pibgdlar@gmail.com</div>
-									</li>
-								</ul>
-								<!-- <div class="top_bar_login ml-auto">
-									<ul>
-										<li><a href="#">Register</a></li>
-										<li><a href="#">Login</a></li>
-									</ul>
-								</div> -->
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Header Content -->
-		<div class="header_container" style="background-color: rgba(255,255,255,1);">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="header_content d-flex flex-row align-items-center justify-content-start">
-							<div class="logo_container">
-								<a href="#">
-									<div class="logo_content d-flex flex-row align-items-end justify-content-start">
-										<div class="logo_img"><a href="./"><img class="logo_pibg" src="images/logos/logo_sf.png" alt="" style="width: 300px;"></a></div>
-										<!-- <div class="logo_text">learn</div> -->
-									</div>
-								</a>
-							</div>
-							<nav class="main_nav_contaner ml-auto">
-								<ul class="main_nav">
-									<li><a href="./" style="background-color: rgba(0,0,0,0); color: #000;">Inicio</a></li>
-									<!-- <li><a href="about.html">about us</a></li> -->
-									<!-- <li><a href="courses.html">courses</a></li> -->
-									<li><a href="predic1.html" style="background-color: rgba(0,0,0,0); color: #000;">Predicaciones</a></li>
-									<li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #000;">Coro J.S. Bach</a></li>
-									<!-- <li><a href="#" style="background-color: rgba(0,0,0,0); color: #FFF;">Contacto</a></li> -->
-								</ul>
-								<!-- <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div> -->
-
-								<!-- Hamburger -->
-
-								<div class="hamburger menu_mm">
-									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
-								</div>
-							</nav>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Header Search Panel -->
-		<div class="header_search_container">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="header_search_content d-flex flex-row align-items-center justify-content-end">
-							<form action="#" class="header_search_form">
-								<input type="search" class="search_input" placeholder="Search" required="required">
-								<button class="header_search_button d-flex flex-column align-items-center justify-content-center">
-									<i class="fa fa-search" aria-hidden="true"></i>
-								</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<!-- Menu -->
-
-	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
-		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
-		<!-- <div class="search">
-			<form action="#" class="header_search_form menu_mm">
-				<input type="search" class="search_input menu_mm" placeholder="Search" required="required">
-				<button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
-					<i class="fa fa-search menu_mm" aria-hidden="true"></i>
-				</button>
-			</form>
-		</div> -->
-		<nav class="menu_nav">
-			<ul class="menu_mm">
-				<li class="menu_mm"><a href="./">Inicio</a></li>
-				<li class="menu_mm"><a href="predic1.html">Predicaciones</a></li>
-				<li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li>
-				<!-- <li class="menu_mm"><a href="index.html">Home</a></li>
-				<li class="menu_mm"><a href="courses.html">Courses</a></li>
-				<li class="menu_mm"><a href="instructors.html">Instructors</a></li>
-				<li class="menu_mm"><a href="#">Events</a></li>
-				<li class="menu_mm"><a href="blog.html">Blog</a></li>
-				<li class="menu_mm"><a href="contact.html">Contact</a></li> -->
-			</ul>
-		</nav>
-		<div class="menu_extra">
-			<div class="menu_phone"><span class="menu_title">phone:</span>(33) 36144120</div>
-			<div class="menu_social">
-				<span class="menu_title">Síguenos</span>
-				<ul>
-					<li><a href="https://www.youtube.com/@pibguadalajara5203" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-					<li><a href="https://www.facebook.com/gdlpib" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-					<li><a href="https://www.instagram.com/pibgdl/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-					<!-- <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> -->
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<!-- Home -->
+	<?php
+		require('header.php');
+	?>
 
 	<!-- Home -->
 
@@ -543,28 +418,66 @@
 				<!-- News -->
 
 				<div class="col-lg-6 grouped_col">
-					<div class="grouped_title">Predicaciónes</div>
+					<div class="grouped_title">Predicaciones</div>
 					<div class="news">
 
+						<!-- Mostrar las últimas dos predicacines -->
+						<?php
+							//info del servidor
+							require('config/global.php');
+							$connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+							//verificamos la conexion
+							if(!$connection) 
+							{
+								echo "<p>Error al conectarse a la base de datos. Código de error: " .  mysqli_connect_errno() . " " .  mysqli_connect_error() . "</p>";
+							}
+							else
+							{
+								//consulta
+								$consulta = "SELECT * FROM sermones ORDER BY idsermones DESC LIMIT 2;";
+								$result = mysqli_query($connection,$consulta);
+								$error_message = mysqli_error($connection);
+								if(!$result) 
+								{
+									echo "<p>No se ha podido realizar la consulta</p>" . " " . $error_message;
+								}else{
+									while ($colum = mysqli_fetch_array($result))
+									{
+										echo "<div class='news_post d-flex flex-row align-items-start justify-content-start'>";
+										echo "<div><div class='news_post_image'><img src='" . $colum['imagen'] . "' alt=''></div></div>";
+										echo "<div class='news_post_body'>";
+										echo "<div class='news_post_date'>" . $colum['fecha_eti'] . "</div>";
+										echo "<div class='news_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "'>" . $colum['nom_sermon'] . "</a></div>";
+										echo "<div class='news_post_author'>" . $colum['predicador'] . "</div>";
+										echo "</div></div>";
+									}
+								}
+
+								//cerrar la conexion con la base de datos
+								mysqli_close( $connection );
+							}
+						?>
+
 						<!-- News Post -->
-						<div class="news_post d-flex flex-row align-items-start justify-content-start">
+						<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
 							<div><div class="news_post_image"><img src="images/predicaciones/1.png" alt=""></div></div>
 							<div class="news_post_body">
 								<div class="news_post_date">Enero 06, 2022</div>
-								<div class="news_post_title"><a href="predic2.html">Meditación del Salmo 108</a></div>
+								<div class="news_post_title"><a href="blog.php">Meditación del Salmo 108</a></div>
 								<div class="news_post_author">Pastor: Isaac Sotomayor Gutiérrez</div>
 							</div>
-						</div>
+						</div> -->
 
 						<!-- News Post -->
-						<div class="news_post d-flex flex-row align-items-start justify-content-start">
+						<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
 							<div><div class="news_post_image"><img src="images/predicaciones/2.png" alt=""></div></div>
 							<div class="news_post_body">
 								<div class="news_post_date">Diciembre 29, 2021</div>
-								<div class="news_post_title"><a href="predic1.html">Meditación del Salmos 107</a></div>
+								<div class="news_post_title"><a href="blog.php">Meditación del Salmos 107</a></div>
 								<div class="news_post_author">Pastor: Isaac Sotomayor Gutiérrez</div>
 							</div>
-						</div>
+						</div> -->
 
 
 						<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
@@ -642,86 +555,10 @@
 
 <!-- Footer -->
 
-<footer class="footer">
-		<div class="container">
-			<div class="row">
+<?php
+	require('footer.php');
+?>
 
-				<!-- About -->
-				<div class="col-lg-3 footer_col">
-					<div class="footer_about">
-						<div class="logo_container">
-							<a href="#">
-								<div class="logo_content d-flex flex-row align-items-end justify-content-start">
-									<div class="logo_img"><img src="images/logos/logo_sf.png" alt="" style="width: 300px;"></div>
-									<!-- <div class="logo_text">learn</div>-->
-								</div>
-							</a>
-						</div>
-						<div class="footer_about_text">
-							<p>Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</p>
-							<p>Juan 17.3</p>
-						</div>
-						<div class="footer_social">
-							<ul>
-								<!-- <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li> -->
-								<li><a href="https://www.youtube.com/@pibguadalajara5203" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-								<li><a href="https://www.facebook.com/gdlpib" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-								<li><a href="https://www.instagram.com/pibgdl/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							</ul>
-						</div>
-						<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | Primera Iglesia Bautista de Guadalajara </i>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
-					</div>
-				</div>
-
-				<div class="col-lg-3 footer_col">
-					<div class="footer_links">
-						<div class="footer_title">Menú</div>
-						<ul class="footer_list">
-							<li><a href="./">Inicio</a></li>
-							<li><a href="predic1.html">Predicaciones</a></li>
-							<!-- <li><a href="#">Testimonials</a></li>
-							<li><a href="#">Services</a></li>
-							<li><a href="contact.html">Contact</a></li>
-							<li><a href="#">Facts</a></li> -->
-						</ul>
-					</div>
-				</div>
-
-				<div class="col-lg-3 footer_col">
-					<div class="footer_links">
-						<div class="footer_title">Contácto</div>
-						<ul class="footer_list">
-							<li>(33) 36144120</li>
-							<li>pibgdlar@gmail.com</li>
-						
-						</ul>
-					</div>
-				</div>
-
-				<div class="col-lg-3 footer_col">
-					<div class="footer_contact">
-						<div class="footer_title">Dirección</div>
-						<div class="footer_contact_info">
-							<div class="footer_contact_item">
-								<!-- <div class="footer_contact_title">Address:</div> -->
-								<div class="footer_contact_line">C. Independencia 657, Zona Centro, Guadalajara, Jal.</div>
-							</div>
-							<!-- <div class="footer_contact_item">
-								<div class="footer_contact_title">Phone:</div>
-								<div class="footer_contact_line">+53 345 7953 32453</div>
-							</div>
-							<div class="footer_contact_item">
-								<div class="footer_contact_title">Email:</div>
-								<div class="footer_contact_line">yourmail@gmail.com</div>
-							</div> -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
 </div>
 <script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>

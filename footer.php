@@ -1,5 +1,4 @@
 <!-- Footer -->
-
 <footer class="footer">
 		<div class="container">
 			<div class="row">
@@ -28,8 +27,9 @@
 							</ul>
 						</div>
 						<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | Primera Iglesia Bautista de Guadalajara </i>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+							Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | Primera Iglesia Bautista de Guadalajara </i>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						</div>
 					</div>
 				</div>
 
@@ -38,7 +38,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos
 						<div class="footer_title">Menú</div>
 						<ul class="footer_list">
 							<li><a href="./">Inicio</a></li>
-							<li><a href="predic1.html">Predicaciones</a></li>
+							<li><a href="blog.php">Predicaciones</a></li>
+							<li><a href="bach.php">Coro J. S. Bach</a></li>
 							<!-- <li><a href="#">Testimonials</a></li>
 							<li><a href="#">Services</a></li>
 							<li><a href="contact.html">Contact</a></li>
@@ -81,6 +82,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos
 		</div>
 	</footer>
 </div>
+
 <script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -97,5 +99,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos
 <script src="plugins/video-js/Youtube.min.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
+
 </body>
 </html>
