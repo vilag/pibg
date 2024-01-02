@@ -79,7 +79,7 @@ function buscar_dia_sem(){
 
 	var dia=moment().format('dddd');
 	if (dia=="Monday") {dia="Lunes";}
-	alert(dia);
+	//alert(dia);
 
 	// $.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad},function(data, status)
 	// {
