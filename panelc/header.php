@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PIBG MANAGMENT</title>
+    <title>PIBG MANAGE</title>
     <!-- base:css -->
     <link rel="stylesheet" href="vendors/typicons.font/font/typicons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     
     <!-- endinject -->
-    <!-- <link rel="shortcut icon" href="images/favicon.png" /> -->
+    <link rel="shortcut icon" href="images/logos/p.png" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
@@ -26,8 +26,8 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.svg" alt="logo"/></a>
-          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="logo"/></a>
+          <a class="navbar-brand brand-logo" href="index.html"><img src="images/logos/3.png" alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logos/3.png" alt="logo"/></a>
           <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
             <span class="typcn typcn-th-menu"></span>
           </button>
@@ -35,11 +35,11 @@
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
           <ul class="navbar-nav mr-lg-2">
             <li class="nav-item  d-none d-lg-flex">
-              <a class="nav-link" href="#">
-                Calendar
+              <a class="nav-link" href="calendario.php">
+                Calendario
               </a>
             </li>
-            <li class="nav-item  d-none d-lg-flex">
+            <!-- <li class="nav-item  d-none d-lg-flex">
               <a class="nav-link active" href="#">
                 Statistic
               </a>
@@ -48,10 +48,10 @@
               <a class="nav-link" href="#">
                 Employee
               </a>
-            </li>
+            </li> -->
           </ul>
           <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item d-none d-lg-flex  mr-2">
+            <!-- <li class="nav-item d-none d-lg-flex  mr-2">
               <a class="nav-link" href="#">
                 Help
               </a>
@@ -148,7 +148,7 @@
                   </div>
                 </a>
               </div>
-            </li>
+            </li> -->
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle  pl-0 pr-0" href="#" data-toggle="dropdown" id="profileDropdown">
                 <i class="typcn typcn-user-outline mr-0"></i>

@@ -31,8 +31,9 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light py-5 px-4 px-sm-5" style="text-align: center;">
               <div class="brand-logo">
-                <!-- <img src="images/logo.svg" alt="logo"> -->
-                <h1>INICIAR SESIÓN</h1>
+                <img src="images/logos/3.png" alt="logo">
+                <hr>
+                <h2>INICIAR SESIÓN</h2>
               </div>
               <h4>¡Hola! Inicia sesión para comenzar</h4>
               <!-- <h6 class="font-weight-light">Sign in to continue.</h6> -->

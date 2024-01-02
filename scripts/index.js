@@ -1,5 +1,6 @@
 consul_dia();
 listar_cal();
+buscar_dia_sem();
 function consul_dia()
 {
 	
@@ -72,5 +73,20 @@ function listar_cal(){
 	$.post("ajax/index.php?op=listar_calendario&fecha="+fecha_hora,function(r){
 		$("#box_calendario").html(r);
 	});
+}
+
+function buscar_dia_sem(){
+
+	var dia=moment().format('dddd');
+	if (dia=="Monday") {dia="Lunes";}
+	alert(dia);
+
+	// $.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad},function(data, status)
+	// {
+	// 	data = JSON.parse(data);
+
+	// 	alert("Registro guardado exitosamente");
+
+	// });
 }
 

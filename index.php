@@ -192,7 +192,7 @@
 				</div>
 
 				<!-- Slider Item -->
-				<div class="owl-item">
+				<!-- <div class="owl-item">
 
 					<div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qovhwpl1rlazcjwuveaf.png)"></div>
 					<div class="home_container">
@@ -200,20 +200,20 @@
 							<div class="row">
 								<div class="col">
 									<div class="home_content ">
-										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
+										<div class="home_logo"><img src="images/home_logo.png" alt=""></div>
 										<div class="home_text">
 											<div><label for="" style="font-size: 25px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div>
 											<div><b style="font-size: 80px; color: rgba(255,255,255,0.3);">Juan 17:3</b></div></div>
-										<!-- <div class="home_buttons">
+										<div class="home_buttons">
 											<div class="button home_button"><a href="#">learn more<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
 											<div class="button home_button"><a href="#">see all courses<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
-										</div> -->
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- Slider Item -->
 				<!-- <div class="owl-item">
