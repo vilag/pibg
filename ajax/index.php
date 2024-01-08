@@ -79,6 +79,23 @@ switch ($_GET["op"]){
 						';	
 					}
 		break;
+
+		case 'buscar_activ_sem':
+
+			$dia = $_POST['dia'];
+			$hora = $_POST['hora'];
+
+			$rspta=$index->buscar_activ_sem($dia,$hora);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
+
+		case 'buscar_primer_dia':
+
+			$rspta=$index->buscar_primer_dia();
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 	
 }
 ?>

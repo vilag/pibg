@@ -22,7 +22,20 @@ Class Index
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
-	
+
+	public function buscar_activ_sem($dia,$hora)
+	{
+		$sql="SELECT dia, nombre, hora FROM activ_sem WHERE num_dia>='$dia' AND hora_fin>='$hora' ORDER BY num_dia ASC LIMIT 1";
+		return ejecutarConsultaSimpleFila($sql);
+		//return ejecutarConsulta($sql);			
+	}
+
+	public function buscar_primer_dia()
+	{
+		$sql="SELECT * FROM activ_sem ORDER BY num_dia ASC LIMIT 1";
+		return ejecutarConsultaSimpleFila($sql);
+		//return ejecutarConsulta($sql);			
+	}
 
    
 }

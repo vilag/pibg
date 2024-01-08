@@ -138,7 +138,7 @@
 										<div ><b>Próxima Transmisión</b></div>
 										<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
 									</div>
-									<div class="featured_title"><h3><a href="#" style="color: #FFF;" id="nombre_actvidad">Culto de Oración</a></h3></div>
+									<div class="featured_title"><h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3></div>
 									<div style="margin-top: 15px;">
 										<label id="dia_sp"></label>
 										<label id="dia_sp_num"></label>
