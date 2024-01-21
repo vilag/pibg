@@ -114,7 +114,7 @@ require 'header.php';
 								<div class="course_tag" style="padding: 5px; color: #fff;">9 de Septiembre de 2023</div>
 								<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
 							</div>
-							<div class="course_title"><h3><a href="#">Gloria in Excelsis (RV 589)</a></h3></div>
+							<div class="course_title"><h3><a href="#">Gloria in Excelsis (RV 589) - Vivaldi</a></h3></div>
 							<div class="course_text">Concierto por el CXXXV Aniversario de la Primera Iglesia Bautista de Guadalajara.</div>
 							<div class="course_footer d-flex align-items-center justify-content-start">
 								<!-- <div class="course_author_image"><img src="images/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div> -->
@@ -125,7 +125,70 @@ require 'header.php';
 					</div>
 				</div>
 
-				
+				<div class="col-lg-4 col-md-6">
+					<div class="course">
+						<div class="course_image">
+							<!-- <iframe style="width: 100%; height: 250px;" src="https://www.youtube.com/watch?v=LNT3Q5OvIW0&ab_channel=CoroJ.S.Bach" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+							<iframe style="width: 100%; height: 250px;" src="https://www.youtube.com/embed/LNT3Q5OvIW0?si=HVsuFZNU4PF10c1u" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+						</div>
+						<div class="course_body">
+							<div class="course_header d-flex flex-row align-items-center justify-content-start">
+								<div class="course_tag" style="padding: 5px; color: #fff;">9 de Septiembre de 2023</div>
+								<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+							</div>
+							<div class="course_title"><h3><a href="#">Santo eres Tú - Händel</a></h3></div>
+							<div class="course_text">Concierto por el CXXXV Aniversario de la Primera Iglesia Bautista de Guadalajara.</div>
+							<div class="course_footer d-flex align-items-center justify-content-start">
+								<!-- <div class="course_author_image"><img src="images/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div> -->
+								<div class="course_author_name" style="margin-left: 0px;">Director: <a href="#">Fernando Sosa Santana</a></div>
+								<!-- <div class="course_sales ml-auto"><span>352</span> Sales</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="course">
+						<div class="course_image">
+								<iframe style="width: 100%; height: 250px;" src="https://www.youtube.com/embed/zUCaXrTae_E?si=g64PhI4hI78rGgKq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+						</div>
+						<div class="course_body">
+							<div class="course_header d-flex flex-row align-items-center justify-content-start">
+								<div class="course_tag" style="padding: 5px; color: #fff;">9 de Septiembre de 2023</div>
+								<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+							</div>
+							<div class="course_title"><h3><a href="#">Y en la tierra paz (Et in terra pax) - Vivaldi</a></h3></div>
+							<div class="course_text">Concierto por el CXXXV Aniversario de la Primera Iglesia Bautista de Guadalajara.</div>
+							<div class="course_footer d-flex align-items-center justify-content-start">
+								<!-- <div class="course_author_image"><img src="images/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div> -->
+								<div class="course_author_name" style="margin-left: 0px;">Director: <a href="#">Fernando Sosa Santana</a></div>
+								<!-- <div class="course_sales ml-auto"><span>352</span> Sales</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="course">
+						<div class="course_image">
+						<iframe style="width: 100%; height: 250px;" src="https://www.youtube.com/embed/V0hrDpZPWFs?si=5sidsGEsYgJTiep8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+							
+						</div>
+						<div class="course_body">
+							<div class="course_header d-flex flex-row align-items-center justify-content-start">
+								<div class="course_tag" style="padding: 5px; color: #fff;">9 de Septiembre de 2023</div>
+								<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+							</div>
+							<div class="course_title"><h3><a href="#">Aleluya - Händel</a></h3></div>
+							<div class="course_text">Concierto por el CXXXV Aniversario de la Primera Iglesia Bautista de Guadalajara.</div>
+							<div class="course_footer d-flex align-items-center justify-content-start">
+								<!-- <div class="course_author_image"><img src="images/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div> -->
+								<div class="course_author_name" style="margin-left: 0px;">Director: <a href="#">Fernando Sosa Santana</a></div>
+								<!-- <div class="course_sales ml-auto"><span>352</span> Sales</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
 
 			</div>
 			

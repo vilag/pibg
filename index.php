@@ -146,12 +146,16 @@
 										<label id="mes_sp"></label>
 										<label id="hora_sp"></label>
 									</div>
+									<div style="width: 100%; margin-top: 30px;">
+										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px;">Ver Transmisión</a>
+									</div>
 									
 									<!-- <div class="featured_footer d-flex align-items-center justify-content-start"> -->
 										<!-- <div class="featured_author_image"><img src="images/featured_author.jpg" alt=""></div> -->
+										
 										<!-- <button style="padding: 10px; background-color: rgba(0,0,0,0); color: #FFF; border: #ccc 1px solid;">Ver Transmisión</button> -->
-										<!-- <div class="featured_author_name">By <a href="#">James S. Morrison</a></div>
-										<div class="featured_sales ml-auto"><span>352</span> Sales</div> -->
+										<!-- <div class="featured_author_name">By <a href="#">James S. Morrison</a></div> -->
+										<!-- <div class="featured_sales ml-auto"><span>352</span> Sales</div> -->
 									<!-- </div> -->
 								</div>
 							</div>
@@ -168,7 +172,7 @@
 
 	<!-- Video -->
 
-	<div class="video" style="padding-top: 50px;">
+	<!-- <div class="video" style="padding-top: 50px;">
 		<div class="container">
 			<div class="row" style="padding-left: 20px;">
 				<b style="font-size: 30px;">Ultima Transmisión</b>
@@ -180,10 +184,10 @@
 				
 				<div class="col">
 					<div class="video_container_outer">
-						<!-- <img src="images/iconos/boton-de-play.png" alt="" style="width: 60px; position: absolute; z-index: 9999; margin-left: 43%; margin-top: 25%;"> -->
+						<img src="images/iconos/boton-de-play.png" alt="" style="width: 60px; position: absolute; z-index: 9999; margin-left: 43%; margin-top: 25%;">
 						<div class="video_container">
 							
-							<!-- Video poster image artist: https://unsplash.com/@annademy -->
+							
 							<video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "images/fondos/transmision.png", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=WCceYU_yNBA"}], "youtube": { "iv_load_policy": 1 } }'>
 							</video>
 						</div>
@@ -191,7 +195,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="courses" style="padding-bottom: 50px;">
 		<div class="container">
@@ -235,7 +239,24 @@
 		</div>
 	</div>
 
+	<div class="milestones">
+		
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
+		<div class="container" style="margin-top: -70px;">
+			<div class="row milestones_container">
+				<div class="row">
 
+					<div class="col-lg-12" >
+						<h2 style="color: #fff; margin-left: 10px;">Lecturas del dia</h2><br><br>
+						<p id="p_lecturas_dia"></p>
+					</div>
+					
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
 
 
 	<div class="courses">
@@ -246,7 +267,7 @@
 					<!-- <div class="section_subtitle">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
 				</div>
 			</div>
-			<!--<div class="row">
+			<!-- <div class="row">
 				<div class="col">
 					<div class="course_search">
 						<form action="#" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">

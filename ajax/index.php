@@ -96,6 +96,23 @@ switch ($_GET["op"]){
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
+
+		case 'listar_lecturas':
+
+			$fecha = $_GET['fecha'];
+
+			$rspta = $index->listar_lecturas($fecha);
+				
+			while ($reg = $rspta->fetch_object())
+					{
+					
+
+						echo '
+							<a href="'.$reg->link.'" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px; margin-left: 10px;">'.$reg->cita.'</a>
+							
+						';	
+					}
+		break;
 	
 }
 ?>

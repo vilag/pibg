@@ -37,6 +37,13 @@ Class Index
 		//return ejecutarConsulta($sql);			
 	}
 
+	public function listar_lecturas($fecha)
+	{
+		$sql="SELECT * FROM lectura_diaria WHERE fecha='$fecha' ORDER BY idlectura ASC";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
+
    
 }
 

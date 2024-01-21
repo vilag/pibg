@@ -1,5 +1,6 @@
 consul_dia();
 listar_cal();
+listar_lecturas();
 function consul_dia()
 {
 	
@@ -114,4 +115,12 @@ function listar_cal(){
 	});
 }
 
-
+function listar_lecturas(){
+	var fecha=moment().format('YYYY-MM-DD');
+	var hora=moment().format('HH:mm:ss');
+	//var fecha_hora=fecha+" "+hora;
+	//alert(fecha_hora);
+	$.post("ajax/index.php?op=listar_lecturas&fecha="+fecha,function(r){
+		$("#p_lecturas_dia").html(r);
+	});
+}
