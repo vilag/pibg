@@ -60,7 +60,7 @@
 									<li><a href="./" style="background-color: rgba(0,0,0,0); color: #000;">Inicio</a></li>
 									<!-- <li><a href="about.html">about us</a></li> -->
 									<!-- <li><a href="courses.html">courses</a></li> -->
-									<li><a href="blog.php" style="background-color: rgba(0,0,0,0); color: #000;">Predicaciones</a></li>
+									<li><a href="predicaciones.php" style="background-color: rgba(0,0,0,0); color: #000;">Predicaciones</a></li>
                                     <li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #000;">Coro J.S. Bach</a></li>
 									<!-- <li><a href="#" style="background-color: rgba(0,0,0,0); color: #FFF;">Contacto</a></li> -->
 								</ul>

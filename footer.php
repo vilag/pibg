@@ -38,7 +38,7 @@
 						<div class="footer_title">Menú</div>
 						<ul class="footer_list">
 							<li><a href="./">Inicio</a></li>
-							<li><a href="blog.php">Predicaciones</a></li>
+							<li><a href="predicaciones.php">Predicaciones</a></li>
 							<li><a href="bach.php">Coro J. S. Bach</a></li>
 							<!-- <li><a href="#">Testimonials</a></li>
 							<li><a href="#">Services</a></li>
