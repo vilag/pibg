@@ -33,9 +33,9 @@ Class Calendario
     	return ejecutarConsulta($sql);  
     }
 
-	public function guardar_dia_calendario($fecha_hora,$dia,$nom_actividad)
+	public function guardar_dia_calendario($fecha_hora,$dia,$nom_actividad,$tema_actividad,$tipo_act)
     {
-    	$sql="INSERT INTO calendario(fecha_hora, dia_nom, nom_activ) VALUES('$fecha_hora','$dia','$nom_actividad')"; 
+    	$sql="INSERT INTO calendario(fecha_hora, dia_nom, nom_activ, tema, tipo) VALUES('$fecha_hora','$dia','$nom_actividad', '$tema_actividad', '$tipo_act')"; 
     	return ejecutarConsulta($sql);  
     }
 

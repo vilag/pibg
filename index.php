@@ -126,10 +126,10 @@
 			<div class="row">
 				<div class="col">
 					<!-- Home Slider Nav -->
-					<div class="home_slider_nav_container d-flex flex-row align-items-start justify-content-between">
+					<!-- <div class="home_slider_nav_container d-flex flex-row align-items-start justify-content-between">
 						<div class="home_slider_nav home_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
 						<div class="home_slider_nav home_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-					</div>
+					</div> -->
 					<div class="featured_container">
 						<div class="row">
 							<div class="col-lg-6 featured_col">
@@ -138,7 +138,12 @@
 										<div ><b>Próxima Transmisión</b></div>
 										<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
 									</div>
-									<div class="featured_title"><h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3></div>
+									<div class="featured_title">
+										<h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3>
+									</div>
+									<div style="margin-top: 15px;">
+										<label style="color: #fff;" id="tema_actividad"></label>
+									</div>
 									<div style="margin-top: 15px;">
 										<label id="dia_sp"></label>
 										<label id="dia_sp_num"></label>
@@ -241,7 +246,7 @@
 
 	<div class="milestones">
 		
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1706298697/paginaWeb/Lectura%20diaria/qgjdezvpsauzsxn9lw4s.png" data-speed="0.8"></div>
 		<div class="container" style="margin-top: -70px;">
 			<div class="row milestones_container">
 				<div class="row">
@@ -283,33 +288,28 @@
 
 					<!-- Courses Slider -->
 					<div class="courses_slider_container">
-						<div class="owl-carousel owl-theme courses_slider">
+						<div class="owl-carousel owl-theme courses_slider" id="box_activ_des">
 
 							<!-- Slider Item -->
-							<div class="owl-item">
+							<!-- <div class="owl-item">
 								<div class="course">
 									<div class="course_image"><img src="images/destacados/2.png" alt=""></div>
 									<div class="course_body" style="height: 380px;">
 
-										<div class="course_title"><h3><a href="#">Tour por el mundo que necesita salvación</a></h3></div>
+										<div class="course_title"><h3><a href="#" id="nom_activ_esp_1"></a></h3></div>
 										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="">Fecha: 26 de noviembre 2023</label><br>
+											<label for="" id="detalle_activ_esp1">Fecha: 26 de noviembre 2023</label><br>
 											<label for="">Hora: 10:45 hrs.</label>
 										</div>
-										<!-- <div class="course_footer d-flex align-items-center justify-content-start">
-											<div class="course_author_image"><img src="images/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div>
-											<div class="course_author_name">By <a href="#">James S. Morrison</a></div>
-											<div class="course_sales ml-auto"><span>352</span> Sales</div>
-										</div> -->
+										
 										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											<!-- <div class="course_tag"><a href="#">Ver más</a></div> -->
-											<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+											
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<!-- Slider Item -->
+							
 							<div class="owl-item">
 								<div class="course">
 									<div class="course_image"><img src="images/destacados/3.png" alt=""></div>
@@ -320,20 +320,15 @@
 											<label for="">Fecha: 03 de diciembre 2023</label><br>
 											<label for="">Hora: 10:00 hrs.</label>
 										</div>
-										<!-- <div class="course_footer d-flex align-items-center justify-content-start">
-											<div class="course_author_image"><img src="images/course_author_2.jpg" alt=""></div>
-											<div class="course_author_name">By <a href="#">Mark Smith</a></div>
-											<div class="course_sales ml-auto"><span>352</span> Sales</div>
-										</div> -->
+										
 										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											<!-- <div class="course_tag"><a href="#">Ver más</a></div> -->
-											<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+											
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<!-- Slider Item -->
+							
 							<div class="owl-item">
 								<div class="course">
 									<div class="course_image"><img src="images/destacados/1.png" alt="https://unsplash.com/@annademy"></div>
@@ -344,24 +339,19 @@
 											<label for="">Fecha: 24 de diciembre 2023</label><br>
 											<label for="">Hora: 19:00 hrs.</label>
 										</div>
-										<!-- <div class="course_footer d-flex align-items-center justify-content-start">
-											<div class="course_author_image"><img src="images/course_author_3.jpg" alt=""></div>
-											<div class="course_author_name">By <a href="#">Julia Williams</a></div>
-											<div class="course_sales ml-auto"><span>352</span> Sales</div>
-										</div> -->
+										
 										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											<!-- <div class="course_tag"><a href="#">Ver más</a></div> -->
-											<!-- <div class="course_price ml-auto">Price: <span>$35</span></div> -->
+											
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 						</div>
 
 						<!-- Courses Slider Nav -->
-						<div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-						<div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+						<!-- <div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+						<div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div> -->
 
 					</div>
 				</div>

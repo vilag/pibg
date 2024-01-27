@@ -19,7 +19,7 @@ function mostrar_dia()
 
 	var dia = moment(fecha_actividad).format('dddd');
 
-    //alert(dia);
+   // alert(dia);
 
 	if (dia=="Monday") {dia="Lunes";}
 	if (dia=="Tuesday") {dia="Martes";}
@@ -27,7 +27,7 @@ function mostrar_dia()
 	if (dia=="Thursday") {dia="Jueves";}
 	if (dia=="Friday") {dia="Viernes";}
 	if (dia=="Saturday") {dia="Sabado";}
-	if (dia=="Monday") {dia="Domingo";}
+	if (dia=="Sunday") {dia="Domingo";}
 
 	$("#dia").val(dia);
 }
@@ -72,21 +72,36 @@ function set_dia_sem(idactiv, nombre, hora){
 	$("#nom_actividad").val(nombre);
 }
 
-function guardar_dia_calendario(){
+function guardar_dia_calendario()
+{
 	var fecha_actividad = $("#fecha_actividad").val();
 	var hora_actividad = $("#hora_actividad").val();
 	var dia = $("#dia").val();
 	var nom_actividad = $("#nom_actividad").val();
+	var tema_actividad = $("#tema_actividad").val();
+	var tipo_actividad = $("#tipo_actividad").val();
+	var tipo_act = 0;
+	//alert(tipo_actividad);
+	if (tipo_actividad=="on") {
+		tipo_act = 1;
+	}
+	//alert(tipo_act);
+	//return;
 
 	var fecha_hora = fecha_actividad+" "+hora_actividad;
 
-	alert(fecha_hora);
+	//alert(fecha_hora);
 
-	$.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad},function(data, status)
+	$.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad,tema_actividad:tema_actividad,tipo_act:tipo_act},function(data, status)
 	{
 		data = JSON.parse(data);
 
 		alert("Registro guardado exitosamente");
+		$("#fecha_actividad").val("");
+		$("#hora_actividad").val("");
+		$("#dia").val("");
+		$("#nom_actividad").val("");
+		listar_dias();
 
 	});
 	

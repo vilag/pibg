@@ -62,6 +62,14 @@ switch ($_GET["op"]){
 							$mes = "Diciembre";
 						}
 
+						if ($reg->tema<>"") {
+							$disp_tema = "display: block;";
+							$disp_tema2 = "margin-top: -5px;";
+						}else{
+							$disp_tema = "display: none;";
+							$disp_tema2 = "margin-top: 5px;";
+						}
+
 						echo '
 
 							<div class="event d-flex flex-row align-items-start justify-content-start">
@@ -73,7 +81,8 @@ switch ($_GET["op"]){
 								</div>
 								<div class="event_body">
 									<div class="event_title"><a href="#">'.$reg->nom_activ.'</a></div>
-									<div class="event_subtitle">Hora: '.$reg->hora.' hrs.</div>
+									<div style="'.$disp_tema.'"><label>'.$reg->tema.'</label></div>
+									<div style="'.$disp_tema2.'"><b>'.$reg->hora.' hrs.</b></div>
 								</div>
 							</div>
 						';	
@@ -110,6 +119,47 @@ switch ($_GET["op"]){
 						echo '
 							<a href="'.$reg->link.'" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px; margin-left: 10px;">'.$reg->cita.'</a>
 							
+						';	
+					}
+		break;
+
+		case 'activ_esp1':
+
+			$fecha = $_POST['fecha'];
+
+			$rspta=$index->activ_esp1($fecha);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
+
+		case 'listar_activ_dest':
+
+			$fecha = $_GET['fecha'];
+
+			$rspta = $index->listar_activ_dest($fecha);
+				
+			while ($reg = $rspta->fetch_object())
+					{
+					
+
+						echo '
+							
+						<div class="col-lg-4 col-md-6 col-sm-12" style="float: left;">
+							<div class="course">
+								<div class="course_image"><img src="'.$reg->imagen.'" alt="" style="width: 100%;"></div>
+								<div class="course_body" style="height: 280px;">
+
+									<div class="course_title"><h3><a href="#">'.$reg->nombre.'</a></h3></div>
+									<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+										<label for="">'.$reg->detalle.'</label><br>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						
+
 						';	
 					}
 		break;

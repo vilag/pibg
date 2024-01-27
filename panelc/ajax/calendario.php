@@ -97,8 +97,10 @@ switch ($_GET["op"]){
 			$fecha_hora = $_POST['fecha_hora'];
 			$dia = $_POST['dia'];
 			$nom_actividad = $_POST['nom_actividad'];
+			$tema_actividad = $_POST['tema_actividad'];
+			$tipo_act = $_POST['tipo_act'];
 										
-			$rspta=$calendario->guardar_dia_calendario($fecha_hora,$dia,$nom_actividad);
+			$rspta=$calendario->guardar_dia_calendario($fecha_hora,$dia,$nom_actividad,$tema_actividad,$tipo_act);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;

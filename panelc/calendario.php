@@ -62,6 +62,20 @@ if ($_SESSION['administrador']==1)
                                 </div>
                               </div>
                             </div>
+                            <div class="col-lg-10" style="float: left; height: 100px;">
+                              <div class="form-group">
+                                <label>Tema</label>
+                                <input type="text" class="form-control" id="tema_actividad" >
+                                
+                              </div>
+                            </div>
+                            <div class="col-lg-2" style="float: left; height: 100px;">
+                              <div class="form-group" style="text-align: center;">
+                                <label>Tipo (Culto)</label>
+                                <input type="checkbox" class="form-control" id="tipo_actividad" style="margin-top: 20px;">
+                                
+                              </div>
+                            </div>
                             <div class="col-lg-12" style="float: left;">
                                 <div class="form-group" style="margin-top: 50px; text-align: right;">
                                     <!-- <button class="btn btn-primary mr-2" >Guardar</button> -->
