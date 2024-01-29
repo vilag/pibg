@@ -90,7 +90,7 @@ no se pierda, mas tenga vida eterna.”</div>
                     ¿Te gustaria conocer más? escribenos y con gusto te atenderemos.
                     <br><br>
                     <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="tel:+523332550900">3332550900</a>
-                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; margin-left: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="mailto:pibgdlar@gmail.com">pibgdlar@gmail.com</a>
+                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="mailto:pibgdlar@gmail.com">pibgdlar@gmail.com</a>
                     
                     <div class="section_subtitle" style="font-size: 20px; line-height : 30px; text-align: left ;">
                     Si lo prefieres dejanos tus datos y con gusto te contactaremos.
