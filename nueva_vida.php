@@ -80,9 +80,9 @@ no se pierda, mas tenga vida eterna.”</div>
 
             </div>
             <div class="row" style="margin-top: 20px;">
-           
+                <object type="application/pdf" data="files/quien_es_jesus.pdf" width="100%" height="1000"></object>
 
-                <iframe src="files/quien_es_jesus.pdf" height="1000px" width="100%"></iframe>
+                <!-- <iframe src="files/quien_es_jesus.pdf" height="1000px" width="100%"></iframe> -->
                 <!-- <iframe src="http://docs.google.com/viewer?url=files/quien_es_jesus.pdf&embedded=true" width="600" height="780" style="border: none;"></iframe> -->
                 <!-- <embed src="files/quien_es_jesus.pdf" type="application/pdf" width="100%" height="600px" /> -->
                 <!-- <div style="position:relative;padding-top:max(60%,324px);width:100%;height:0;"><iframe style="position:absolute;border:none;width:100%;height:100%;left:0;top:0;" src="https://online.fliphtml5.com/evenl/odcp/"  seamless="seamless" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" ></iframe></div> -->
