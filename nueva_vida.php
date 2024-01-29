@@ -51,6 +51,20 @@ require 'header.php';
 	</div> -->
 
 	<!-- Courses -->
+    <!-- <div style="position: absolute; width: 100%; height: 100%; background-color: #000; z-index: 9999;">
+        <b>rueba</b>
+    </div> -->
+
+    <div id="intro_morsa" class="fade-out_video" style="width: 100%; height: 100%; background-color: rgb(229, 232, 236); position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; align-items: center;">
+		<div style="width: 60%; height: auto; overflow: hidden;">
+            
+            <video id="videoBG" muted autoplay controls style=" width: 100%;">
+				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4" type="video/mp4">
+				
+			</video>
+		</div> 
+          
+	</div>
 
 	<div class="courses">
 		<div class="container" >
