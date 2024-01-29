@@ -58,6 +58,13 @@ Class Index
 		return ejecutarConsulta($sql);			
 	}
 
+	public function enviar_datos_nuevo_contacto($nombre,$telefono,$fecha_hora)
+	{
+		$sql="INSERT INTO nuevos_contactos (nombre, telefono, fecha_hora) VALUE('$nombre','$telefono','$fecha_hora')";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
+
    
 }
 

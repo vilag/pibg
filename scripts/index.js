@@ -52,7 +52,7 @@ function consul_dia()
 				
 				
 
-				$("#dia_sp").text(dia_nom);
+				$("#dia_sp").text(dia_nomt);
 				$("#dia_sp_num").text(dia);
 				$("#mes_sp").text(mes_text);
 				
@@ -144,5 +144,23 @@ function listar_activ_dest(){
 
 	$.post("ajax/index.php?op=listar_activ_dest&fecha="+fecha,function(r){
 		$("#box_activ_des").html(r);
+	});
+}
+
+function enviar_datos_nuevo_contacto(){
+	var nombre = $("#nombre").val();
+	var telefono = $("#telefono").val();
+	var fecha=moment().format('YYYY-MM-DD');
+	var hora=moment().format('HH:mm:ss');
+	var fecha_hora=fecha+" "+hora;
+
+	$.post("ajax/index.php?op=enviar_datos_nuevo_contacto",{nombre:nombre,telefono:telefono,fecha_hora:fecha_hora},function(data, status)
+	{
+		data = JSON.parse(data);
+
+		alert("Datos enviados exitosamente, pronto nos pondremos en contácto con usted. Dios lo bendiga.");
+		$("#nombre").val("");
+		$("#telefono").val("");
+
 	});
 }

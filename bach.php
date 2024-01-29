@@ -79,19 +79,22 @@ require 'header.php';
 			</div> -->
 
 			<!-- Featured Course -->
-			<!-- <div class="row featured_row">
+			<div class="row featured_row">
 				<div class="col-lg-6 featured_col">
-					<div class="featured_content" style="padding-top: 100px; padding-bottom: 100px;">
+					<div class="featured_content">
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
-							<div class="featured_tag"><a href="#">Domingo 24 de diciembre 2023</a></div>
+							<div class="featured_tag"><a href="#">PRÓXIMO CONCIERTO</a></div>
 							
 						</div>
-						<div class="featured_title"><h3><a href="courses.html">Concierto Navideño</a></h3></div>
+						<div class="featured_title"><h3><a href="courses.html">Concierto de Resurreción</a></h3></div>
 						<div class="featured_text">No a nosotros, oh Jehová, no a nosotros, Sino a tu nombre da gloria, Por tu misericordia, por tu verdad. <br><br> SALMOS 115:1</div>
 						<div class="featured_footer d-flex align-items-center justify-content-start">
 							
 							<div class="featured_author_name">Director: <a href="#">Fernando Sosa Santana</a></div>
 							
+						</div>
+						<div style="width 100%; text-align: right; margin-top: 50px;">
+							<b>Domingo 31 de marzo 2024</b>
 						</div>
 					</div>
 				</div>
@@ -99,7 +102,7 @@ require 'header.php';
 					
 					<div class="featured_background" style="background-image:url(images/fondos/fondo1.png)"></div>
 				</div>
-			</div> -->
+			</div>
 
 			<div class="row courses_row">
 				

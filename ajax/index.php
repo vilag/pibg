@@ -163,6 +163,17 @@ switch ($_GET["op"]){
 						';	
 					}
 		break;
+
+		case 'enviar_datos_nuevo_contacto':
+
+			$nombre = $_POST['nombre'];
+			$telefono = $_POST['telefono'];
+			$fecha_hora = $_POST['fecha_hora'];
+
+			$rspta=$index->enviar_datos_nuevo_contacto($nombre,$telefono,$fecha_hora);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 	
 }
 ?>
