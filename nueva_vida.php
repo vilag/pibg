@@ -62,7 +62,7 @@ require 'header.php';
 				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4" type="video/mp4">
 				
 			</video>
-            <div style="margin-top: 50px; justify-content: center; text-align: center;">
+            <div style="display: none; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
                 <button class="course_button" style="box-shadow: 5px 5px 10px rgba(0,0,0,0.2);" onclick="salir_video();">
                     <span>Continuar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                 </button>
