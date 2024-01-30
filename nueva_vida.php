@@ -55,6 +55,8 @@ require 'header.php';
         <b>rueba</b>
     </div> -->
 
+   
+
     <style>
         @media (max-width: 945px) {
 
@@ -197,6 +199,25 @@ no se pierda, mas tenga vida eterna.”</div>
 	</div>
 
 <!--Footer-->
+
+<script>
+        //function mostrar_video()
+//{
+	var video = document.getElementById("video_intro");
+	if (window.matchMedia("(max-width: 380px)").matches) {
+		
+		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706579890/paginaWeb/nueva_vida/uheumifrybnsblvqkrlz.mp4');
+		//var vide0 = document.getElementById("Video");
+		// vide.onerror = function() {
+		// 	vide0.setAttribute('src', 'https://download.blender.org/peach/trailer/trailer_400p.ogg');
+		// 	vide0.play();
+		// };
+		/* La pantalla tiene al menos 400 píxeles de ancho */
+	  }else{
+		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4');
+	  }
+//}
+    </script>
 <?php
 	require 'footer.php';
 ?>
