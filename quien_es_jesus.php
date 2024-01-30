@@ -127,7 +127,7 @@ no se pierda, mas tenga vida eterna.”</div>
                     <div class="section_subtitle" style="font-size: 20px; line-height : 30px; text-align: left ;">
                     ¿Te gustaria conocer más? escribenos y con gusto te atenderemos.
                     <br><br>
-                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="tel:+523332550900">3332550900</a><br><br>
+                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="tel:+523332550900">3336144120</a><br><br>
                     <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="mailto:pibgdlar@gmail.com">pibgdlar@gmail.com</a>
 
                     <div class="section_subtitle" style="font-size: 20px; line-height : 30px; text-align: left ;">
