@@ -62,13 +62,14 @@ require 'header.php';
                 width: 100% !important; 
                 height: auto; 
                 overflow: hidden;
+                margin-top: 0px !important;
             }
         
         }
     </style>
 
-    <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; align-items: center; padding-top: 150px;">
-		<div class="estilo_video" style="width: 80%; height: auto; overflow: hidden;">
+    <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; align-items: center; ">
+		<div class="estilo_video" style="width: 80%; height: auto; overflow: hidden; margin-top: 150px;">
             <div style="width: 100%; position: absolute; text-align: right; padding: 5px; z-index: 9999;">
                 <img src="images/iconos/cerrar.png" style="width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
             </div>
