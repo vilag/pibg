@@ -184,8 +184,9 @@ function mostrar_btn_salida_video()
 
 function mostrar_video()
 {
+	var video = document.getElementById("video_intro");
 	if (window.matchMedia("(max-width: 380px)").matches) {
-		var video = document.getElementById("video_intro");
+		
 		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706579890/paginaWeb/nueva_vida/uheumifrybnsblvqkrlz.mp4');
 		//var vide0 = document.getElementById("Video");
 		// vide.onerror = function() {
@@ -193,5 +194,7 @@ function mostrar_video()
 		// 	vide0.play();
 		// };
 		/* La pantalla tiene al menos 400 píxeles de ancho */
+	  }else{
+		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4');
 	  }
 }
