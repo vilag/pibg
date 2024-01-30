@@ -3,6 +3,7 @@ listar_cal();
 listar_lecturas();
 listar_activ_dest();
 mostrar_btn_salida_video();
+mostrar_video();
 function consul_dia()
 {
 	
@@ -169,8 +170,8 @@ function enviar_datos_nuevo_contacto(){
 function salir_video(){
 	document.getElementById("intro_nueva_vida").style.display = "none";
 
-	var video = document.getElementById("video_intro");
-	video.pause();
+	// var video = document.getElementById("video_intro");
+	// video.pause();
 
 }
 
@@ -179,4 +180,20 @@ function mostrar_btn_salida_video()
 	setTimeout(() => {
 		document.getElementById("btn_salir_video").style.display="block";
 	}, 2000);
+}
+
+function mostrar_video()
+{
+	if (window.matchMedia("(max-width: 380px)").matches) {
+		var video = document.getElementById("video_intro");
+		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706579890/paginaWeb/nueva_vida/uheumifrybnsblvqkrlz.mp4');
+		//var vide0 = document.getElementById("Video");
+		// vide.onerror = function() {
+		// 	vide0.setAttribute('src', 'https://download.blender.org/peach/trailer/trailer_400p.ogg');
+		// 	vide0.play();
+		// };
+		/* La pantalla tiene al menos 400 píxeles de ancho */
+	  } else {
+		/* La pantalla tiene menos de 400 píxeles de ancho */
+	  }
 }

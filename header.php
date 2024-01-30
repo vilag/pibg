@@ -62,7 +62,14 @@
 									<!-- <li><a href="courses.html">courses</a></li> -->
 									<li><a href="predicaciones.php" style="background-color: rgba(0,0,0,0); color: #000;">Predicaciones</a></li>
                                     <li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #000;">Coro J.S. Bach</a></li>
-									<!-- <li><a href="#" style="background-color: rgba(0,0,0,0); color: #FFF;">Contacto</a></li> -->
+									<li>
+										<a href="quien_es_jesus.php">
+											<button class="course_button">
+											<span>¿Quién es Jesús?</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+											</button>
+										</a>
+										
+									</li>
 								</ul>
 								<!-- <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div> -->
 
@@ -115,6 +122,14 @@
 				<li class="menu_mm"><a href="./">Inicio</a></li>
 				<li class="menu_mm"><a href="blog.php">Predicaciones</a></li>
 				<li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li>
+				<li>
+					<a href="quien_es_jesus.php">
+						<button class="course_button">
+						<span>¿Quién es Jesús?</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</button>
+					</a>
+										
+				</li>
 				<!-- <li class="menu_mm"><a href="index.html">Home</a></li>
 				<li class="menu_mm"><a href="courses.html">Courses</a></li>
 				<li class="menu_mm"><a href="instructors.html">Instructors</a></li>
