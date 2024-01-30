@@ -73,7 +73,7 @@ require 'header.php';
 
 	<div class="courses">
 		<div class="container" >
-			<div style="width: 90%; height: auto; overflow: hidden;">
+			<div style="width: 100%; height: auto; overflow: hidden;">
 
 				<video id="videoBG" muted autoplay controls style=" width: 100%;">
 					<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4" type="video/mp4">
