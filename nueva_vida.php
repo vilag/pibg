@@ -55,7 +55,7 @@ require 'header.php';
         <b>rueba</b>
     </div> -->
 
-    <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: #ff8644; position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center;">
+    <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: #ff8644; position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; padding-top: 100px;">
 		<div style="width: 90%; height: auto; overflow: hidden;">
 
             <video id="videoBG" muted autoplay controls style=" width: 100%;">
