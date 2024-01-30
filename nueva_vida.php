@@ -77,7 +77,7 @@ require 'header.php';
             </div>
             
             <video id="videoBG" muted autoplay controls style="width: 100%;">
-				<source id="video_intro" src="" type="video/mp4">
+				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4" type="video/mp4">
 				
 			</video>
             <div style="display: block; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
@@ -200,24 +200,6 @@ no se pierda, mas tenga vida eterna.”</div>
 
 <!--Footer-->
 
-<script>
-        //function mostrar_video()
-//{
-	var video = document.getElementById("video_intro");
-	if (window.matchMedia("(max-width: 380px)").matches) {
-		
-		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706579890/paginaWeb/nueva_vida/uheumifrybnsblvqkrlz.mp4');
-		//var vide0 = document.getElementById("Video");
-		// vide.onerror = function() {
-		// 	vide0.setAttribute('src', 'https://download.blender.org/peach/trailer/trailer_400p.ogg');
-		// 	vide0.play();
-		// };
-		/* La pantalla tiene al menos 400 píxeles de ancho */
-	  }else{
-		video.setAttribute('src', 'https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4');
-	  }
-//}
-    </script>
 <?php
 	require 'footer.php';
 ?>
