@@ -164,3 +164,7 @@ function enviar_datos_nuevo_contacto(){
 
 	});
 }
+
+function salir_video(){
+	document.getElementById("intro_nueva_vida").style.display = "none";
+}

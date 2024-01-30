@@ -55,13 +55,18 @@ require 'header.php';
         <b>rueba</b>
     </div> -->
 
-    <div id="intro_morsa" class="fade-out_video" style="width: 100%; height: 100%; background-color: rgb(229, 232, 236); position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: #ff8644; position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center;">
 		<div style="width: 90%; height: auto; overflow: hidden;">
 
             <video id="videoBG" muted autoplay controls style=" width: 100%;">
 				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4" type="video/mp4">
 				
 			</video>
+            <div style="margin-top: 50px; justify-content: center; text-align: center;">
+                <button class="course_button" style="box-shadow: 5px 5px 10px rgba(0,0,0,0.2);" onclick="salir_video();">
+                    <span>Continuar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                </button>
+            </div>
 		</div> 
           
 	</div>
