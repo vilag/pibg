@@ -178,5 +178,5 @@ function mostrar_btn_salida_video()
 {
 	setTimeout(() => {
 		document.getElementById("btn_salir_video").style.display="block";
-	}, 62000);
+	}, 2000);
 }

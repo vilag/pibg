@@ -55,24 +55,21 @@ require 'header.php';
         <b>rueba</b>
     </div> -->
 
-    <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; align-items: center; padding-top: 120px;">
-		<div style="width: 80%; height: auto; overflow: hidden;">
-            <div style="width: 100%; position: absolute; text-align: right; padding: 5px; z-index: 9999;">
-                <img src="images/iconos/cerrar.png" style="width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
-            </div>
-            
-            <video id="videoBG" muted autoplay controls style="width: 100%;">
+    <!-- <div id="intro_nueva_vida" style="width: 100%; height: 100%; background-color: #ff8644; position: fixed; margin-left: 0px; z-index: 9999; display: flex; justify-content: center; padding-top: 100px;">
+		<div style="width: 90%; height: auto; overflow: hidden;">
+
+            <video id="videoBG" muted autoplay controls style=" width: 100%;">
 				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1706571307/paginaWeb/nueva_vida/bsrtzb1hrzljboqkrtbw.mp4" type="video/mp4">
 				
 			</video>
-            <div style="display: block; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
+            <div style="display: none; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
                 <button class="course_button" style="box-shadow: 5px 5px 10px rgba(0,0,0,0.2);" onclick="salir_video();">
                     <span>Continuar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                 </button>
             </div>
 		</div> 
           
-	</div>
+	</div> -->
 
 	<div class="courses">
 		<div class="container" >
