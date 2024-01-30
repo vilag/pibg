@@ -193,7 +193,5 @@ function mostrar_video()
 		// 	vide0.play();
 		// };
 		/* La pantalla tiene al menos 400 píxeles de ancho */
-	  } else {
-		/* La pantalla tiene menos de 400 píxeles de ancho */
 	  }
 }
