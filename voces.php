@@ -28,9 +28,12 @@
                 <div style="width: 100%; padding-left: 20px; background-color: #ccc; border-radius: 10px; padding: 10px;">
                     <div style="width: 100%; margin-bottom: 10px;">
                         <b style="font-size: 30px;">SOPRANO</b>
+                        <button onclick="PlaySound();">Play</button>
+                        <button onclick="PlaySound2();">Pause</button>
+                        <button onclick="PlaySound3();">Reiniciar</button>
                     </div>
                     <div style="width: 100%;">
-                        <audio controls style="width: 100%;">
+                        <audio controls style="width: 100%;" id="audio_prueba">
                             <source src="audio/en_la_tierra_paz/soprano.mp3" type="audio/mp3">
                             Your browser does not support the audio element.
                         </audio>
@@ -41,4 +44,5 @@
     </div>
 
 </body>
+<script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
 </html>

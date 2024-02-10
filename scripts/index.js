@@ -182,3 +182,16 @@ function mostrar_btn_salida_video()
 	}, 2000);
 }
 
+function PlaySound() {
+    var sound = document.getElementById("audio_prueba");
+    sound.play();
+}
+function PlaySound2() {
+    var sound = document.getElementById("audio_prueba");
+    sound.pause();
+}
+function PlaySound3() {
+    var sound = document.getElementById("audio_prueba");
+    sound.currentTime = 0
+}
+
