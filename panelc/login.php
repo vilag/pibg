@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>CelestialUI Admin</title>
+  <title>Login Managment</title>
 
   <meta http-equiv="Expires" content="0">
   <meta http-equiv="Last-Modified" content="0">
@@ -20,7 +20,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+  <link rel="shortcut icon" href="images/logos/icono.png" />
 </head>
 
 <body>
@@ -31,11 +31,11 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light py-5 px-4 px-sm-5" style="text-align: center;">
               <div class="brand-logo">
-                <img src="images/logos/3.png" alt="logo">
+                <img src="images/logos/logo_manage.png" style="width: 100%;" alt="logo">
                 <hr>
                 <h2>INICIAR SESIÓN</h2>
               </div>
-              <h4>¡Hola! Inicia sesión para comenzar</h4>
+              <h4>Inicia sesión para comenzar.</h4>
               <!-- <h6 class="font-weight-light">Sign in to continue.</h6> -->
               <form class="pt-3">
                 <div class="form-group">

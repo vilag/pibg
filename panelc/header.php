@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     
     <!-- endinject -->
-    <link rel="shortcut icon" href="images/logos/p.png" />
+    <link rel="shortcut icon" href="images/logos/icono.png" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
@@ -26,8 +26,8 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href="index.html">Managment</a>
-          <a class="navbar-brand brand-logo-mini" href="index.html">Managment</a>
+          <a class="navbar-brand brand-logo" href="index.html"><img src="images/logos/logo_manage.png" style="width: 150px; height: 45px;" alt=""></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logos/logo_manage.png" style="width: 150px; height: 45px;" alt=""></a>
           <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
             <span class="typcn typcn-th-menu"></span>
           </button>
