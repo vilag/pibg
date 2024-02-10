@@ -24,16 +24,32 @@
     <div style="width: 100%;">
         <div style="width: 100%; padding-left: 100px; padding-right: 100px; margin-top: 50px;">
             <b style="font-size: 30px;">En la tierra paz</b>
-            <div style="width: 100%;  height: auto; margin-top: 30px;">
-                <div style="width: 100%; padding-left: 20px; background-color: #ccc; border-radius: 10px; padding: 10px;">
-                    <div style="width: 100%; margin-bottom: 10px;">
-                        <b style="font-size: 30px;">SOPRANO</b>
-                        <button onclick="PlaySound();">Play</button>
-                        <button onclick="PlaySound2();">Pause</button>
-                        <button onclick="PlaySound3();">Reiniciar</button>
+            <div style="width: 100%;  height: auto; margin-top: 20px;">
+                <div style="margin-top: 10px; width: 100%; padding-left: 20px; background-color: #1A456D; border-radius: 10px; padding: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
+                    <div style="width: 100%; margin-bottom: 20px; margin-top: 8px;">
+                        <b style="font-size: 18px; margin-left: 7px; color: #E0E4E7;">SOPRANO</b>
+                        
                     </div>
-                    <div style="width: 100%;">
-                        <audio controls style="width: 100%;" id="audio_prueba">
+                    <div style="width: 100%; margin-top: -30px;">
+                        <button onclick="PlaySound();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 50px;" alt=""></button>
+                        <button onclick="PlaySound2();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 50px;" alt=""></button>
+                        <button onclick="PlaySound3();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/reiniciar.png" style="width: 50px;" alt=""></button>
+                        <audio controls id="audio_prueba" style="opacity: 0;">
+                            <source src="audio/en_la_tierra_paz/soprano.mp3" type="audio/mp3">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; width: 100%; padding-left: 20px; background-color: #1A456D; border-radius: 10px; padding: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
+                    <div style="width: 100%; margin-bottom: 20px; margin-top: 8px;">
+                        <b style="font-size: 18px; margin-left: 7px; color: #E0E4E7;">SOPRANO</b>
+        
+                    </div>
+                    <div style="width: 100%; margin-top: -30px;">
+                        <button onclick="PlaySound();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 50px;" alt=""></button>
+                        <button onclick="PlaySound2();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 50px;" alt=""></button>
+                        <button onclick="PlaySound3();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/reiniciar.png" style="width: 50px;" alt=""></button>
+                        <audio controls id="audio_prueba" style="opacity: 0;">
                             <source src="audio/en_la_tierra_paz/soprano.mp3" type="audio/mp3">
                             Your browser does not support the audio element.
                         </audio>
