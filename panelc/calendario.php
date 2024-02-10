@@ -41,10 +41,10 @@ if ($_SESSION['administrador']==1)
                             <div class="col-lg-6" style="float: left; height: 100px;">
                                 <div class="form-group">
                                     <label>Hora (Formato 24 hrs)</label>
-                                    <input type="text" class="form-control" id="hora_actividad" onclick="mostrar_horas_capt();">
-                                    <div id="horas_capt" style="display: none; width: 30%; height: 150px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
+                                    <input type="text" class="form-control" id="hora_actividad">
+                                    <!-- <div id="horas_capt" style="display: none; width: 30%; height: 150px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
 
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-lg-6" style="float: left; height: 100px;">
@@ -56,10 +56,10 @@ if ($_SESSION['administrador']==1)
                             <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
                                 <label>Nombre de Actividad</label>
-                                <input type="text" class="form-control" id="nom_actividad" onclick="mostrar_nombre_capt();">
-                                <div id="nombre_act_capt" style="display: none; width: 50%; height: 250px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
+                                <input type="text" class="form-control" id="nom_actividad">
+                                <!-- <div id="nombre_act_capt" style="display: none; width: 50%; height: 250px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
 
-                                </div>
+                                </div> -->
                               </div>
                             </div>
                             <div class="col-lg-10" style="float: left; height: 100px;">
@@ -94,7 +94,7 @@ if ($_SESSION['administrador']==1)
                     <!-- <p class="card-description">
                         Add class <code>.table-striped</code>
                     </p> -->
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="height: 400px; overflow: scroll;">
                         <table class="table table-striped">
                         <thead>
                             <tr>

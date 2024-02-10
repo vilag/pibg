@@ -12,7 +12,7 @@ Class Calendario
 
 	public function listar_dias()
     {
-    	$sql="SELECT DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ FROM calendario WHERE DATE(fecha_hora)>=NOW() ORDER BY fecha_hora"; 
+    	$sql="SELECT DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ FROM calendario WHERE DATE(fecha_hora)>=NOW() ORDER BY fecha_hora DESC"; 
     	return ejecutarConsulta($sql);  
     }
 	public function listar_horas()

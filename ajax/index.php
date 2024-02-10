@@ -117,7 +117,7 @@ switch ($_GET["op"]){
 					
 
 						echo '
-							<a href="'.$reg->link.'" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px; margin-left: 10px;">'.$reg->cita.'</a>
+							<a href="'.$reg->link_cita.'" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px; margin-left: 10px;">'.$reg->cita.'</a>
 							
 						';	
 					}

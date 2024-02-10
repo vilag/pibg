@@ -237,6 +237,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="lectura_diaria.php">
+              <img src="images/iconos/libro.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Plan de lectura</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item">
             <a class="nav-link" href="index.html">
               <i class="typcn typcn-device-desktop menu-icon"></i>
               <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
@@ -335,14 +341,14 @@
               <i class="typcn typcn-document-text menu-icon"></i>
               <span class="menu-title">Documentation</span>
             </a>
-          </li>
+          </li> -->
         </ul>
-        <ul class="sidebar-legend">
+        <!-- <ul class="sidebar-legend">
           <li>
             <p class="sidebar-menu-title">Category</p>
           </li>
           <li class="nav-item"><a href="#" class="nav-link">#Sales</a></li>
           <li class="nav-item"><a href="#" class="nav-link">#Marketing</a></li>
           <li class="nav-item"><a href="#" class="nav-link">#Growth</a></li>
-        </ul>
+        </ul> -->
       </nav>

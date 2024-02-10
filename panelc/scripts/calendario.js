@@ -32,13 +32,13 @@ function mostrar_dia()
 	$("#dia").val(dia);
 }
 
-function mostrar_horas_capt(){
-	document.getElementById("horas_capt").style.display="block";
+// function mostrar_horas_capt(){
+// 	document.getElementById("horas_capt").style.display="block";
 
-	$.post("ajax/calendario.php?op=listar_horas",function(r){
-		$("#horas_capt").html(r);					
-	});
-}
+// 	$.post("ajax/calendario.php?op=listar_horas",function(r){
+// 		$("#horas_capt").html(r);					
+// 	});
+// }
 
 function set_hora(idcal,hora){
 	//alert(hora)
@@ -46,13 +46,13 @@ function set_hora(idcal,hora){
 	document.getElementById("horas_capt").style.display="none";
 }
 
-function mostrar_nombre_capt(){
-	document.getElementById("nombre_act_capt").style.display="block";
+// function mostrar_nombre_capt(){
+// 	document.getElementById("nombre_act_capt").style.display="block";
 
-	$.post("ajax/calendario.php?op=listar_nombres",function(r){
-		$("#nombre_act_capt").html(r);					
-	});
-}
+// 	$.post("ajax/calendario.php?op=listar_nombres",function(r){
+// 		$("#nombre_act_capt").html(r);					
+// 	});
+// }
 
 function set_nombre(idcal,nom_activ){
 	//alert(hora)
