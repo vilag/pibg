@@ -24,14 +24,17 @@
     <div style="width: 100%;">
         <div style="width: 100%; padding-left: 100px; padding-right: 100px; margin-top: 50px;">
             <b style="font-size: 30px;">En la tierra paz</b>
-            <div style="width: 100%; background-color: #ccc; height: 100px; margin-top: 30px;">
-                <div style="width: 100%; float: left; display: flex; justify-content: center; padding-top: 10px; align-items: center;">
-                    <b style="font-size: 50px;">SOPRANO</b>
-                    <audio controls style="margin-left: 20px;">
-                        <!-- <source src="horse.ogg" type="audio/ogg"> -->
-                        <source src="audio/en_la_tierra_paz/soprano.mp3" type="audio/mp3">
-                        Your browser does not support the audio element.
-                    </audio>
+            <div style="width: 100%;  height: auto; margin-top: 30px;">
+                <div style="width: 100%; padding-left: 20px; background-color: #ccc; border-radius: 10px; padding: 10px;">
+                    <div style="width: 100%;">
+                        <b style="font-size: 30px;">SOPRANO</b>
+                    </div>
+                    <div style="width: 100%;">
+                        <audio controls>
+                            <source src="audio/en_la_tierra_paz/soprano.mp3" type="audio/mp3">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
                 </div>
             </div>
         </div>
