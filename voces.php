@@ -23,17 +23,15 @@
 <body>
     <div style="width: 100%;">
         <div style="width: 100%; padding-left: 10px; padding-right: 10px; margin-top: 50px;">
-
-
-
-
-            <b style="font-size: 30px;">En la tierra paz</b>
+            <div style="width: 100%; text-align: center;">
+                <b style="font-size: 20px;">En la tierra paz</b>
+            </div>
             <div style="width: 100%;  height: auto; margin-top: 20px;">
                 <div style="margin-top: 10px; width: 100%; background-color: #1A456D; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
-                    <div style="width: 100%; padding: 10px;">
+                    <div style="width: 100%; padding: 10px; text-align: center;">
                         <b style="font-size: 18px; margin-left: 7px; color: #E0E4E7;">SOPRANO</b>   
                     </div>
-                    <div style="width: 100%; padding: 10px;">
+                    <div style="width: 100%; padding: 10px; margin-top: -15px; text-align: center;">
                         <button onclick="PlaySound();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 50px;" alt=""></button>
                         <button onclick="PlaySound2();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 50px;" alt=""></button>
                         <button onclick="PlaySound3();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/reiniciar.png" style="width: 50px;" alt=""></button>
