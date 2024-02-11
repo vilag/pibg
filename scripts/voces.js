@@ -42,5 +42,7 @@ function listar_voces(idobra, nombre){
 function listar_obras_1(){
 	$.post("ajax/index.php?op=listar_obras_1",function(r){
 		$("#box_obras").html(r);
+        document.getElementById("div_busquedas").style.display = "block";
+		document.getElementById("div_voces").style.display = "none";
 	});
 }
