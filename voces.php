@@ -31,8 +31,8 @@
                 <input id="text_nom" type="text" style="width: 100%; height: 50px; padding-left: 10px;" placeholder="Buscar Obra">
             </div>
             <div style="width: 100%; margin-top: 10px;">
-                <button style="width: 100%; height: 40px; background-color: #1D4268; color: #fff; border-radius: 10px; font-weight: 500;" onclick="listar_obras();">Buscar</button>
-                <button style="width: 100%; height: 40px; background-color: #1D4268; color: #fff; border-radius: 10px; font-weight: 500; margin-top: 5px;" onclick="listar_obras_1();">Ver Todos</button>
+                <button style="width: 100%; height: 40px; background-color: #1D4268; color: #fff; border-radius: 10px; font-weight: 500;" onclick="listar_obras();">Buscar obra</button>
+                <button style="width: 100%; height: 40px; background-color: #1D4268; color: #fff; border-radius: 10px; font-weight: 500; margin-top: 5px;" onclick="listar_obras_1();">Ver todas las obras</button>
             </div>
             <div id="div_busquedas" style="padding-top: 20px;">
                 <div style="text-align: center;">
