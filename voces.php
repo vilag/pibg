@@ -39,15 +39,12 @@
                 </div>
                 <div style="width: 100%; margin-top: 0px; height: auto; max-height: 200px; overflow: scroll;" id="box_obras">             
                 </div>
-                
             </div>
             <div id="div_voces" style="display: none; text-align: center; margin-top: 20px;">
-                <p style="padding: 10px;"><b id="p_nom_obra" style="font-size: 18px;"></b></p>
-                <div style="width: 100%;  height: auto; margin-top: 20px;" id="box_voces"> 
+                <p style="padding: 10px;"><b id="p_nom_obra" style="font-size: 20px;"></b></p>
+                <div style="width: 100%;  height: auto; margin-top: 10px;" id="box_voces"> 
                 </div>
             </div>
-            
-            
         </div>
     </div>
 

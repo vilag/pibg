@@ -205,15 +205,15 @@ switch ($_GET["op"]){
 
 						echo '
 							
-						<div style="margin-top: 10px; width: 100%; background-color: #1A456D; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
+						<div style="margin-top: 10px; width: 100%; background-color: #EEF2F3; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
 							<div style="width: 100%; padding: 10px; text-align: center;">
-								<b style="font-size: 18px; margin-left: 7px; color: #E0E4E7;">'.$reg->voz.'</b>   
+								<b style="font-size: 18px; margin-left: 7px; color: #1D4268;">'.$reg->voz.'</b>   
 							</div>
 							<div style="width: 100%; padding: 10px; margin-top: -15px; justify-content: center;">
 								<button id="btn_play'.$reg->idvoz.'" onclick="PlaySound('.$reg->idvoz.');" style="display: none; background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 40px;" alt=""></button>
 								<button id="btn_pause'.$reg->idvoz.'" onclick="PlaySound2('.$reg->idvoz.');" style="display: none; background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 40px;" alt=""></button>
 								<button onclick="PlaySound3('.$reg->idvoz.');" style="display: none; background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/reiniciar.png" style="width: 40px;" alt=""></button>
-								<audio controls id="audio_voz'.$reg->idvoz.'" style="opacity: 0; position: absolute; width; 100%;">
+								<audio controls id="audio_voz'.$reg->idvoz.'" style="display: none; position: absolute; width; 100%;">
 									<source src="'.$reg->enlace.'" type="audio/mp3">
 									Your browser does not support the audio element.
 								</audio>

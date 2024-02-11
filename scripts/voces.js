@@ -1,4 +1,5 @@
 listar_obras_1();
+
 function PlaySound(idvoz) {
     var sound = document.getElementById("audio_voz"+idvoz);
     sound.play();
@@ -28,6 +29,7 @@ function listar_obras(){
 		$("#box_obras").html(r);
 	});
 }
+
 
 function listar_voces(idobra, nombre){
 	$.post("ajax/index.php?op=listar_voces&idobra="+idobra,function(r){
