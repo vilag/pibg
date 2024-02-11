@@ -174,6 +174,56 @@ switch ($_GET["op"]){
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
+
+		case 'listar_obras':
+
+			$nombre = $_GET['nombre'];
+
+			$rspta = $index->listar_obras($nombre);
+				
+			while ($reg = $rspta->fetch_object())
+					{
+					
+						echo '							
+							<div onclick="listar_voces('.$reg->idobra.',\''.$reg->nombre.'\');" style="line-height: 23px; padding: 15px 10px 10px 10px; border: #ccc 1px solid; background-color: #EBEFF1; margin-top: 5px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">							
+								<b style="margin-top: -5px; font-size: 20px;">'.$reg->nombre.'</b><br>
+								<label>'.$reg->autor.'</label>
+							</div>  
+						';	
+					}
+		break;
+
+		case 'listar_voces':
+
+			$idobra = $_GET['idobra'];
+
+			$rspta = $index->listar_voces($idobra);
+				
+			while ($reg = $rspta->fetch_object())
+					{
+					
+
+						echo '
+							
+						<div style="margin-top: 10px; width: 100%; background-color: #1A456D; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
+							<div style="width: 100%; padding: 10px; text-align: center;">
+								<b style="font-size: 18px; margin-left: 7px; color: #E0E4E7;">'.$reg->voz.'</b>   
+							</div>
+							<div style="width: 100%; padding: 10px; margin-top: -15px; text-align: center;">
+								<button onclick="PlaySound('.$reg->idvoz.');" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 50px;" alt=""></button>
+								<button onclick="PlaySound2('.$reg->idvoz.');" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 50px;" alt=""></button>
+								<button onclick="PlaySound3('.$reg->idvoz.');" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/reiniciar.png" style="width: 50px;" alt=""></button>
+								<audio controls id="audio_voz'.$reg->idvoz.'" style="opacity: 0; position: absolute;">
+									<source src="'.$reg->enlace.'" type="audio/mp3">
+									Your browser does not support the audio element.
+								</audio>
+							</div>
+						</div>
+						
+
+						';	
+					}
+		break;
 	
 }
 ?>

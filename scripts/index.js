@@ -182,16 +182,35 @@ function mostrar_btn_salida_video()
 	}, 2000);
 }
 
-function PlaySound() {
-    var sound = document.getElementById("audio_prueba");
+function PlaySound(idvoz) {
+    var sound = document.getElementById("audio_voz"+idvoz);
     sound.play();
 }
-function PlaySound2() {
-    var sound = document.getElementById("audio_prueba");
+function PlaySound2(idvoz) {
+    var sound = document.getElementById("audio_voz"+idvoz);
     sound.pause();
 }
-function PlaySound3() {
-    var sound = document.getElementById("audio_prueba");
+function PlaySound3(idvoz) {
+    var sound = document.getElementById("audio_voz"+idvoz);
     sound.currentTime = 0
+	sound.play();
 }
 
+function listar_obras(){
+	document.getElementById("div_busquedas").style.display = "block";
+	document.getElementById("div_voces").style.display = "none";
+	var nombre = $("#text_nom").val();
+
+	$.post("ajax/index.php?op=listar_obras&nombre="+nombre,function(r){
+		$("#box_obras").html(r);
+	});
+}
+
+function listar_voces(idobra, nombre){
+	$.post("ajax/index.php?op=listar_voces&idobra="+idobra,function(r){
+		$("#box_voces").html(r);
+		document.getElementById("div_busquedas").style.display = "none";
+		document.getElementById("div_voces").style.display = "block";
+		$("#p_nom_obra").text(nombre);
+	});
+}

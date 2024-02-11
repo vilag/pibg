@@ -65,6 +65,19 @@ Class Index
 		return ejecutarConsulta($sql);			
 	}
 
+	public function listar_voces($idobra)
+	{
+		$sql="SELECT * FROM bach_voces WHERE idobra='$idobra'";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
+
+	public function listar_obras($nombre)
+	{
+		$sql="SELECT * FROM bach_obras WHERE nombre LIKE '%".$nombre."%'";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
    
 }
 

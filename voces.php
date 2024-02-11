@@ -24,25 +24,26 @@
     <div style="width: 100%;">
         <div style="width: 100%; padding-left: 10px; padding-right: 10px; margin-top: 50px;">
             <div style="width: 100%; text-align: center;">
-                <b style="font-size: 20px;">En la tierra paz</b>
+                <b style="font-size: 20px;">Coro Johann Sebastian Bach</b><br>
+                <label for="">Voces</label>
             </div>
-            <div style="width: 100%;  height: auto; margin-top: 20px;">
-                <div style="margin-top: 10px; width: 100%; background-color: #1A456D; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
-                    <div style="width: 100%; padding: 10px; text-align: center;">
-                        <b style="font-size: 18px; margin-left: 7px; color: #E0E4E7;">SOPRANO</b>   
-                    </div>
-                    <div style="width: 100%; padding: 10px; margin-top: -15px; text-align: center;">
-                        <button onclick="PlaySound();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 50px;" alt=""></button>
-                        <button onclick="PlaySound2();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 50px;" alt=""></button>
-                        <button onclick="PlaySound3();" style="background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/reiniciar.png" style="width: 50px;" alt=""></button>
-                        <audio controls id="audio_prueba" style="opacity: 0; position: absolute;">
-                            <source src="audio/en_la_tierra_paz/soprano.mp3" type="audio/mp3">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
+            <div style="width: 100%;">
+                <input id="text_nom" type="text" style="width: 100%; height: 50px; padding-left: 10px;" placeholder="Buscar Obra">
+            </div>
+            <div style="width: 100%; margin-top: 10px;">
+                <button style="width: 100%; height: 40px;" onclick="listar_obras();">Buscar</button>
+            </div>
+            <div id="div_busquedas">
+                <div style="width: 100%; margin-top: 10px; height: auto; max-height: 200px; overflow: scroll;" id="box_obras">             
                 </div>
                 
             </div>
+            <div id="div_voces" style="display: none; text-align: center; margin-top: 20px;">
+                <p style="padding: 10px;"><b id="p_nom_obra" style="font-size: 18px;"></b></p>
+            </div>
+            <div style="width: 100%;  height: auto; margin-top: 20px;" id="box_voces"> 
+            </div>
+            
         </div>
     </div>
 
