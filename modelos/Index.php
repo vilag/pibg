@@ -78,6 +78,12 @@ Class Index
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
+	public function listar_obras_1()
+	{
+		$sql="SELECT * FROM bach_obras ORDER BY nombre ASC";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
    
 }
 

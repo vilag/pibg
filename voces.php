@@ -33,8 +33,11 @@
             <div style="width: 100%; margin-top: 10px;">
                 <button style="width: 100%; height: 40px;" onclick="listar_obras();">Buscar</button>
             </div>
-            <div id="div_busquedas">
-                <div style="width: 100%; margin-top: 10px; height: auto; max-height: 200px; overflow: scroll;" id="box_obras">             
+            <div id="div_busquedas" style="padding-top: 20px;">
+                <div style="text-align: center;">
+                    <label style="font-size: 18px;">Obras</label>
+                </div>
+                <div style="width: 100%; margin-top: 0px; height: auto; max-height: 200px; overflow: scroll;" id="box_obras">             
                 </div>
                 
             </div>
@@ -49,5 +52,5 @@
     </div>
 
 </body>
-<script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
+<script type="text/javascript" src="scripts/voces.js?v=<?php echo(rand()); ?>"></script>
 </html>
