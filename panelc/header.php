@@ -13,6 +13,7 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="css/modal.css">
     
     <!-- endinject -->
     <link rel="shortcut icon" href="images/logos/icono.png" />
@@ -240,6 +241,12 @@
             <a class="nav-link" href="lectura_diaria.php">
               <img src="images/iconos/libro.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Plan de lectura</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="bach.php">
+              <img src="images/iconos/libro.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Coro Bach</span>
             </a>
           </li>
           <!-- <li class="nav-item">

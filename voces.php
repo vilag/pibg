@@ -33,6 +33,7 @@
             <div style="width: 100%; margin-top: 10px;">
                 <button style="width: 100%; height: 40px; background-color: #1D4268; color: #fff; border-radius: 10px; font-weight: 500;" onclick="listar_obras();">Buscar obra</button>
                 <button style="width: 100%; height: 40px; background-color: #1D4268; color: #fff; border-radius: 10px; font-weight: 500; margin-top: 5px;" onclick="listar_obras_1();">Ver todas las obras</button>
+                <button type="button" id="btn-foto" class="btn" style="border: rgba(0,0,0,0.2) 1px solid;">Seleccionar Audio</button>
             </div>
             <div id="div_busquedas" style="padding-top: 20px;">
                 <div style="text-align: center;">
@@ -50,5 +51,7 @@
     </div>
 
 </body>
+<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
 <script type="text/javascript" src="scripts/voces.js?v=<?php echo(rand()); ?>"></script>
+<script type="text/javascript" src="scripts/servicio-imagen.js?v=<?php echo(rand()); ?>"></script>
 </html>
