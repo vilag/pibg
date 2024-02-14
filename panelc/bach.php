@@ -66,6 +66,9 @@ if ($_SESSION['administrador']==1)
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <div style="width: 100%; text-align: center;">
+                            <a href="https://primeraiglesiabautistagdl.org/voces.php" target="_blank">Ver Página</a>
+                        </div>
                     <button id="btn_back_obras" style="margin-bottom: 20px; display: none;" onclick="regresar_a_obras();">Regresar</button>
                     <h4 >Registro de obras y voces</h4><br>
                     <!-- <p class="card-description">
