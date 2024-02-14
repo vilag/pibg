@@ -245,7 +245,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="bach.php">
-              <img src="images/iconos/libro.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Coro Bach</span>
             </a>
           </li>
