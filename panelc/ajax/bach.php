@@ -21,8 +21,10 @@ switch ($_GET["op"]){
                                 <b>'.$reg->nombre.'</b><br>
                                 <label>'.$reg->autor.'</label>
                                 <div style="width: 100%;">
-                                    <button style="padding: 5px; width: 100px; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="listar_voces('.$reg->idobra.',\''.$reg->nombre.'\');">Ver</button>
-                                    <button style="padding: 5px; width: 100px; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="listar_voces('.$reg->idobra.',\''.$reg->nombre.'\');">Editar</button>
+                                    <button style="padding: 5px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="listar_voces('.$reg->idobra.',\''.$reg->nombre.'\');">Ver</button>
+                                    
+                                    <a style="padding: 9px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" href="#modal1" onclick="editar_obra('.$reg->idobra.',\''.$reg->nombre.'\',\''.$reg->autor.'\')">Editar</a>
+                                    <button style="padding: 5px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="eliminar_obra('.$reg->idobra.');">Eliminar</button>
                                 </div>
                             </div>
                                
@@ -43,6 +45,16 @@ switch ($_GET["op"]){
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
+        case 'actualizar_obra':
+			
+			$nombre = $_POST['nombre'];
+			$autor = $_POST['autor'];
+            $idobra = $_POST['idobra'];
+										
+			$rspta=$bach->actualizar_obra($nombre,$autor,$idobra);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 
         case 'listar_voces':
 
@@ -56,26 +68,19 @@ switch ($_GET["op"]){
 
 						echo '
 
-                            <tr>
-                                <td class="py-1">
-                                    '.$reg->voz.'
-                                </td>
-                                <td>
-                                    <audio controls="controls">
+						<div style="padding: 15px; width: 100%; margin-top: 15px; background-color: #1F4168; color: #fff; line-height: 25px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2);">
+							<b>'.$reg->voz.'</b><br>
+							<audio controls="controls" style="margin-top: 10px;">
                                         <source src="'.$reg->enlace.'" type="audio/mpeg" />
                                         Your browser does not support the audio element.
-                                    </audio>
-                                </td>
-                                <td>
-                                    <button>Ver</button>
+                            </audio>
+							<div style="width: 100%;">
                                     
-                                </td>
-                                
-                               
-                            </tr>
-							
-						
-						
+                                    
+                                    <a style="padding: 9px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" href="#modal2" onclick="editar_voz('.$reg->idvoz.',\''.$reg->voz.'\',\''.$reg->enlace.'\')">Editar</a>
+                                    <button style="padding: 5px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="eliminar_voz('.$reg->idvoz.');">Eliminar</button>
+                            </div>
+						</div>
 
 						';	
 					}
@@ -92,6 +97,33 @@ switch ($_GET["op"]){
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
 
-	
+		case 'eliminar_obra':
+			
+            $idobra = $_POST['idobra'];
+										
+			$rspta=$bach->eliminar_obra($idobra);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
+
+		case 'actualizar_voz':
+			
+			$idvoz = $_POST['idvoz'];
+			$voz = $_POST['voz'];
+            $archivo_audio = $_POST['archivo_audio'];
+										
+			$rspta=$bach->actualizar_voz($idvoz,$voz,$archivo_audio);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
+
+		case 'eliminar_voz':
+			
+            $idvoz = $_POST['idvoz'];
+										
+			$rspta=$bach->eliminar_voz($idvoz);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 }
 ?>
