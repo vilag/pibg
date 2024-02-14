@@ -21,10 +21,10 @@ switch ($_GET["op"]){
                                 <b>'.$reg->nombre.'</b><br>
                                 <label>'.$reg->autor.'</label>
                                 <div style="width: 100%;">
-                                    <button style="padding: 5px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="listar_voces('.$reg->idobra.',\''.$reg->nombre.'\');">Ver</button>
+                                    <button style="padding: 5px; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="listar_voces('.$reg->idobra.',\''.$reg->nombre.'\');"><img src="images/iconos/voz.png" alt="" style="width: 20px;"></button>
                                     
-                                    <a style="padding: 9px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" href="#modal1" onclick="editar_obra('.$reg->idobra.',\''.$reg->nombre.'\',\''.$reg->autor.'\')">Editar</a>
-                                    <button style="padding: 5px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="eliminar_obra('.$reg->idobra.');">Eliminar</button>
+                                    <a style="padding: 9px; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" href="#modal1" onclick="editar_obra('.$reg->idobra.',\''.$reg->nombre.'\',\''.$reg->autor.'\')"><img src="images/iconos/editar.png" alt="" style="width: 20px;"></a>
+                                    <button style="padding: 5px; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="eliminar_obra('.$reg->idobra.');"><img src="images/iconos/basura.png" alt="" style="width: 20px;"></button>
                                 </div>
                             </div>
                                
@@ -77,8 +77,8 @@ switch ($_GET["op"]){
 							<div style="width: 100%;">
                                     
                                     
-                                    <a style="padding: 9px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" href="#modal2" onclick="editar_voz('.$reg->idvoz.',\''.$reg->voz.'\',\''.$reg->enlace.'\')">Editar</a>
-                                    <button style="padding: 5px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="eliminar_voz('.$reg->idvoz.');">Eliminar</button>
+                                    <a style="padding: 9px; width: 25%; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" href="#modal2" onclick="editar_voz('.$reg->idvoz.',\''.$reg->voz.'\',\''.$reg->enlace.'\')"><img src="images/iconos/editar.png" alt="" style="width: 20px;"></a>
+                                    <button style="padding: 5px; border-radius: 5px; background-color: #1F4168; border: #ccc 1px solid; color: #fff;" onclick="eliminar_voz('.$reg->idvoz.');"><img src="images/iconos/basura.png" alt="" style="width: 20px;"></button>
                             </div>
 						</div>
 
