@@ -85,6 +85,12 @@ require 'header.php';
 			width: 80%; 
 			height: auto; 
 			overflow: hidden; 
+			margin-top: 80px;
+		}
+		.estilo_video_div_2{
+			width: 80%; 
+			height: auto; 
+			overflow: hidden; 
 			margin-top: 130px;
 		}
 
@@ -92,7 +98,7 @@ require 'header.php';
     </style>
 
     <div id="intro_nueva_vida" class="estilo_video_sombra">
-		<div class="estilo_video estilo_video_div">
+		<div id="div_video_cont" class="estilo_video estilo_video_div">
             <div style="width: 100%; position: absolute; text-align: right; padding: 5px; z-index: 9999;">
                 <img id="btn_cerrar_video" src="images/iconos/cerrar.png" style="display: none; width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
             </div>
