@@ -79,21 +79,10 @@ require 'header.php';
 			display: flex; 
 			justify-content: center; 
 			align-items: center;
-			margin-top: 100px; 
+			/* margin-top: 100px;  */
 		}
 
-		.estilo_video_agrad_2{
-			width: 100%; 
-			height: 100%; 
-			background-color: rgba(0,0,0,0.8); 
-			position: fixed; 
-			margin-left: 0px; 
-			z-index: 9999; 
-			display: flex; 
-			justify-content: center; 
-			align-items: center; 
-			margin-top: 0px; 
-		}
+		
     </style>
 
     <div id="intro_nueva_vida" class="estilo_video_agrad">
