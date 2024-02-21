@@ -180,8 +180,8 @@ function mostrar_btn_salida_video()
 	setTimeout(() => {
 		document.getElementById("btn_salir_video").style.display="block";
 		document.getElementById("btn_cerrar_video").style.display = "block";
-		$("#div_video_cont").removeClass("estilo_video_div").addClass("estilo_video_div_2");
-	}, 100000);
+		// $("#content_video").removeClass("estilo_video").addClass("estilo_video_2");
+	}, 102000);
 }
 
 
