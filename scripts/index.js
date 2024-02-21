@@ -179,6 +179,8 @@ function mostrar_btn_salida_video()
 {
 	setTimeout(() => {
 		document.getElementById("btn_salir_video").style.display="block";
+		document.getElementById("btn_cerrar_video").style.display = "block";
+		$("#intro_nueva_vida").removeClass("estilo_video_agrad").addClass("estilo_video_agrad_2");
 	}, 80000);
 }
 
