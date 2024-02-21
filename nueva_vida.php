@@ -69,7 +69,7 @@ require 'header.php';
         
         }
 
-		.estilo_video_agrad{
+		.estilo_video_sombra{
 			width: 100%; 
 			height: 100%; 
 			background-color: rgba(0,0,0,0.8); 
@@ -81,12 +81,18 @@ require 'header.php';
 			align-items: center;
 			/* margin-top: 100px;  */
 		}
+		.estilo_video_div{
+			width: 80%; 
+			height: auto; 
+			overflow: hidden; 
+			margin-top: 130px;
+		}
 
 		
     </style>
 
-    <div id="intro_nueva_vida" class="estilo_video_agrad">
-		<div class="estilo_video" style="width: 80%; height: auto; overflow: hidden; margin-top: 130px;">
+    <div id="intro_nueva_vida" class="estilo_video_sombra">
+		<div class="estilo_video estilo_video_div">
             <div style="width: 100%; position: absolute; text-align: right; padding: 5px; z-index: 9999;">
                 <img id="btn_cerrar_video" src="images/iconos/cerrar.png" style="display: none; width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
             </div>
