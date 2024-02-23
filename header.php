@@ -12,6 +12,16 @@
 
 	<header class="header">
 
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N34HVRZYW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7N34HVRZYW');
+</script>
+
 		<!-- Top Bar -->
 		<div class="top_bar">
 			<div class="top_bar_container">
