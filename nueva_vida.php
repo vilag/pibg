@@ -99,7 +99,7 @@ require 'header.php';
             </div>
             
             <video id="videoBG" muted autoplay style="width: 100%;">
-				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1707590571/paginaWeb/nueva_vida/k6azzpcu8doachvekraw.mp4" type="video/mp4">
+				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1708921798/paginaWeb/nueva_vida/video_agradecimiento.mp4" type="video/mp4">
 				
 			</video>
             <div style="display: none; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
