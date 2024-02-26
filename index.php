@@ -28,10 +28,11 @@
 	<?php
 		require('header.php');
 	?>
-
+	
 	<!-- Home -->
 
 	<div class="home">
+	<input id="input_vista" type="hidden" value="1">
 		<div class="home_slider_container">
 
 			<!-- Home Slider -->

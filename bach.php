@@ -25,7 +25,7 @@
 <?php
 require 'header.php';
 ?>
-	
+	<input id="input_vista" type="hidden" value="0">
 	<!-- Home -->
 
 	<!-- <div class="home">
@@ -217,6 +217,6 @@ require 'header.php';
 <?php
 	require 'footer.php';
 ?>
-
+<script type="text/javascript" src="scripts/predic.js?v=<?php echo(rand()); ?>"></script>
 </body>
 </html>

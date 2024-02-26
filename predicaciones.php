@@ -19,6 +19,7 @@
 	
 	<!-- Home -->
 	<div class="home">
+	<input id="input_vista" type="hidden" value="0">
 		<div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="images/predicaciones/caratula.png" data-speed="0.8"></div>
 		<div class="home_container">
 			<div class="container">
@@ -226,7 +227,7 @@
 		require 'footer.php';
 	?>
 </div>
-
+<script type="text/javascript" src="scripts/predic.js?v=<?php echo(rand()); ?>"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>

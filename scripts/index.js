@@ -1,9 +1,11 @@
+ver_vista();
 consul_dia();
 listar_cal();
 listar_lecturas();
 listar_activ_dest();
 mostrar_btn_salida_video();
 listar_obras_1();
+
 function consul_dia()
 {
 	
@@ -184,5 +186,12 @@ function mostrar_btn_salida_video()
 	}, 102000);
 }
 
-
+function ver_vista()
+{
+	var vista = $("#input_vista").val();
+	if (vista==1) {
+		$("#barra_menu").removeClass("estilo_nav").addClass("estilo_nav_index");
+	}
+	
+}
 
