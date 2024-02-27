@@ -18,6 +18,8 @@ function consul_dia()
 		$.post("ajax/index.php?op=contar_act_dia",{fecha_hora:fecha_hora},function(data, status)
 		{
 			data = JSON.parse(data);
+
+			
             
 			//if (data!=null) {
 
@@ -49,7 +51,7 @@ function consul_dia()
 				if (mes==12) {var mes_text = "diciembre";}
 
 				var dia_nom = dia_nomt.substring(0,3);
-
+				//alert(nom_activ);
 				$("#nombre_actvidad").text(nom_activ);
 				//$("#nombre_actvidad2").text(nom_activ);
 				//alert(tema);

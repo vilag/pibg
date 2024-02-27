@@ -49,6 +49,16 @@
 									<div class="home_content " style="margin-top: 50px;">
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
+
+											<div class="featured_header d-flex flex-row align-items-center justify-content-start">
+												<div ><b>Próxima Transmisión</b></div>
+												
+											</div>
+											<div class="featured_title">
+												<h3><a href="#" style="color: #FFF !important;" id="nombre_actvidad"></a></h3>
+											</div>
+
+
 											<div><label for="" style="font-size: 25px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div>
 											<div><b style="font-size: 80px; color: rgba(255,255,255,0.3);">Juan 17:3</b></div>
 											<!-- <br><br><br>
@@ -135,13 +145,13 @@
 						<div class="row">
 							<div class="col-lg-6 featured_col">
 								<div class="featured_content" style="background-color: #040A13;">
-									<div class="featured_header d-flex flex-row align-items-center justify-content-start">
+									<!-- <div class="featured_header d-flex flex-row align-items-center justify-content-start">
 										<div ><b>Próxima Transmisión</b></div>
-										<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
+										
 									</div>
 									<div class="featured_title">
 										<h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3>
-									</div>
+									</div> -->
 									<div style="margin-top: 15px;">
 										<label style="color: #fff;" id="tema_actividad"></label>
 									</div>

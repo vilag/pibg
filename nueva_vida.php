@@ -98,7 +98,7 @@ require 'header.php';
                 <img id="btn_cerrar_video" src="images/iconos/cerrar.png" style="display: none; width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
             </div>
             
-            <video id="videoBG" muted autoplay style="width: 100%;">
+            <video id="videoBG" muted controls style="width: 100%;">
 				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1708921798/paginaWeb/nueva_vida/video_agradecimiento.mp4" type="video/mp4">
 				
 			</video>
