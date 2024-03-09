@@ -215,14 +215,14 @@
 						<div style="float: left; width: 50%; text-align: center;">
 							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid;">
 								<div class="news_post_date" style="font-size: 18px;">Miercoles</div>
-								<div class="news_post_title"><a href="blog.php">Estudio biblico en linea</a></div>
+								<div class="news_post_title"><a href="#">Estudio biblico en linea</a></div>
 								<div class="news_post_author">21:00 hrs.</div>
 							</div>
 						</div>
 						<div style="float: left; width: 50%; text-align: center;">
 							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid;">
 								<div class="news_post_date" style="font-size: 18px;">Viernes</div>
-								<div class="news_post_title"><a href="blog.php">Estudio biblico en casa</a></div>
+								<div class="news_post_title"><a href="#">Estudio biblico en casa</a></div>
 								<div class="news_post_author">21:00 hrs.</div>
 							</div>
 						</div>
