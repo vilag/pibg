@@ -4,7 +4,7 @@ listar_cal();
 listar_lecturas();
 listar_activ_dest();
 mostrar_btn_salida_video();
-listar_obras_1();
+//listar_obras_1();
 
 function consul_dia()
 {
@@ -31,6 +31,7 @@ function consul_dia()
 				
 				var dia_nomt = data.dia_nom;
 				var nom_activ = data.nom_activ;
+				
 				var tema = data.tema;
 				$("#tema_actividad").text(tema);
 				//alert(data.tema);
@@ -195,5 +196,10 @@ function ver_vista()
 		$("#barra_menu").removeClass("estilo_nav").addClass("estilo_nav_index");
 	}
 	
+}
+
+function enviar_mensaje(){
+
+	$("#a_enviar_mensaje_est").attr("href","https://api.whatsapp.com/send?phone=3330230905&text=Hola, me gustaria unirme a un estudio bíblico.");
 }
 

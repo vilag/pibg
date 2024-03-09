@@ -98,7 +98,7 @@
 								<!-- Hamburger -->
 
 								<div class="hamburger menu_mm">
-									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+									<i style="color: #CDD0D2 !important;" class="fa fa-bars menu_mm" aria-hidden="true"></i>
 								</div>
 							</nav>
 

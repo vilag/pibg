@@ -50,17 +50,12 @@
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
 
-											<div class="featured_header d-flex flex-row align-items-center justify-content-start">
-												<div ><b>Próxima Transmisión</b></div>
-												
-											</div>
-											<div class="featured_title">
-												<h3><a href="#" style="color: #FFF !important;" id="nombre_actvidad"></a></h3>
-											</div>
+											
+											
 
 
-											<div><label for="" style="font-size: 25px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div>
-											<div><b style="font-size: 80px; color: rgba(255,255,255,0.3);">Juan 17:3</b></div>
+											<div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div>
+											<div><b style="font-size: 40px; color: rgba(255,255,255,0.3);">Juan 17:3</b></div>
 											<!-- <br><br><br>
 											<label for="">PRÓXIMA TRANSMISIÓN:</label><br>
 											<b>Culto de Adoración</b><br>
@@ -144,14 +139,33 @@
 					<div class="featured_container">
 						<div class="row">
 							<div class="col-lg-6 featured_col">
-								<div class="featured_content" style="background-color: #040A13;">
+								<div class="featured_content" style="background-color: #040A13; padding-top: 50px !important;">
+									<div style="width: 100%;">
+										<b>ACTIVIDADES SEMANALES</b>
+									</div>
+									<div style="width: 100%; margin-top: 20px;">
+										<b style="color: #fff;">Culto de Adoración</b><br>
+										<label for="" style="padding: 3px; background-color: ">Domingo 12:00 hrs.</label>
+									</div>
+									<div style="width: 100%; margin-top: 10px;">
+										<b style="color: #fff;">Culto de Adoración Vespertino</b><br>
+										<label for="">Domingo 18:00 hrs.</label>
+									</div>
+									<div style="width: 100%; margin-top: 10px;">
+										<b style="color: #fff;">Culto de Oración</b><br>
+										<label for="">Miercoles 19:00 hrs.</label>
+									</div>
+									<div style="width: 100%; margin-top: 10px;">
+										<b style="color: #fff;">Culto de Estudio Bíblico</b><br>
+										<label for="">Viernes 19:00 hrs.</label>
+									</div>
 									<!-- <div class="featured_header d-flex flex-row align-items-center justify-content-start">
 										<div ><b>Próxima Transmisión</b></div>
 										
 									</div>
 									<div class="featured_title">
 										<h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3>
-									</div> -->
+									</div>
 									<div style="margin-top: 15px;">
 										<label style="color: #fff;" id="tema_actividad"></label>
 									</div>
@@ -164,7 +178,7 @@
 									</div>
 									<div style="width: 100%; margin-top: 30px;">
 										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px;">Ver Transmisión</a>
-									</div>
+									</div> -->
 									
 									<!-- <div class="featured_footer d-flex align-items-center justify-content-start"> -->
 										<!-- <div class="featured_author_image"><img src="images/featured_author.jpg" alt=""></div> -->
@@ -187,6 +201,148 @@
 	</div>
 
 	<!-- Video -->
+
+	<div class="courses">
+		<div class="container">
+			 <div class="row">
+				<div class="col-lg-10 offset-lg-1">
+					<div class="section_title text-center"><h2>Grupos de Estudio Bíblico</h2></div>
+					<div class="section_subtitle" style="font-size: 20px; margin-top: 30px;">Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos.</div>
+					<div style="text-align: center;">
+						<b style="font-size: 25px;">Mateo 18:20</b>
+					</div>
+					<div style="width: 100%; margin-top: 50px;">
+						<div style="float: left; width: 50%; text-align: center;">
+							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid;">
+								<div class="news_post_date" style="font-size: 18px;">Miercoles</div>
+								<div class="news_post_title"><a href="blog.php">Estudio biblico en linea</a></div>
+								<div class="news_post_author">21:00 hrs.</div>
+							</div>
+						</div>
+						<div style="float: left; width: 50%; text-align: center;">
+							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid;">
+								<div class="news_post_date" style="font-size: 18px;">Viernes</div>
+								<div class="news_post_title"><a href="blog.php">Estudio biblico en casa</a></div>
+								<div class="news_post_author">21:00 hrs.</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="course_search" style="text-align: center;">
+					<a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>
+					
+						<!-- <form action="#" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between" style="text-align: center !important;"> -->
+							
+							<!-- <div><input type="text" class="course_input" placeholder="Course" required="required"></div>
+							<div><input type="text" class="course_input" placeholder="Level" required="required"></div> -->
+							
+						<!-- </form> -->
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+
+					<!-- Courses Slider -->
+					<div class="courses_slider_container">
+						<div class="owl-carousel owl-theme courses_slider">
+
+							<!-- Slider Item -->
+							<div class="owl-item">
+								<div class="course">
+									<div class="course_image"><img src="images/destacados/2.png" alt=""></div>
+									<div class="course_body" style="height: 200px; padding-top: 15px;">
+
+										<div class="course_title"><h3><a href="#">Escuela Bíblica Dominical</a></h3></div>
+										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+											<label for="">Todos los domingos</label><br>
+											<label for="">Hora: 10:30 am</label>
+										</div>
+										
+										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="owl-item">
+								<div class="course">
+									<div class="course_image"><img src="images/destacados/1.png" alt=""></div>
+									<div class="course_body" style="height: 200px; padding-top: 15px;">
+
+										<div class="course_title"><h3><a href="#" id="nom_activ_esp_1">Unión de Jóvenes</a></h3></div>
+										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+											<label for="" id="detalle_activ_esp1">Todos los domingos</label><br>
+											<label for="">Hora: 05:00 pm</label>
+										</div>
+										
+										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="owl-item">
+								<div class="course">
+									<div class="course_image"><img src="images/destacados/3.png" alt=""></div>
+									<div class="course_body" style="height: 200px; padding-top: 15px;">
+
+										<div class="course_title"><h3><a href="#">Unión Femenil</a></h3></div>
+										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+											<label for="">Todos los viernes</label><br>
+											<!-- <label for="">Hora: 19:00 hrs.</label> -->
+										</div>
+										
+										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<!-- Courses Slider Nav -->
+						<div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+						<div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="courses">
+		<div class="container">
+			 <div class="row">
+				<div class="col-lg-10 offset-lg-1">
+					<div class="section_title text-center"><h2>Actividades Destacadas</h2></div>
+					
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col">
+
+					<div class="courses_slider_container">
+						<div class="owl-carousel owl-theme courses_slider" id="box_activ_des">
+
+						</div>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Milestones -->
 
 	<!-- <div class="video" style="padding-top: 50px;">
 		<div class="container">
@@ -213,7 +369,7 @@
 		</div>
 	</div> -->
 
-	<div class="courses" style="padding-bottom: 50px;">
+	<!-- <div class="courses" style="padding-bottom: 50px;">
 		<div class="container">
 			<div class="row featured_row" style="padding: 20px;">
 				<b style="font-size: 20px;">Actividades Semanales</b>
@@ -253,7 +409,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="milestones">
 		
@@ -275,102 +431,7 @@
 	</div>
 
 
-	<div class="courses">
-		<div class="container">
-			 <div class="row">
-				<div class="col-lg-10 offset-lg-1">
-					<div class="section_title text-center"><h2>Actividades Destacadas</h2></div>
-					<!-- <div class="section_subtitle">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
-				</div>
-			</div>
-			<!-- <div class="row">
-				<div class="col">
-					<div class="course_search">
-						<form action="#" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">
-							<div><input type="text" class="course_input" placeholder="Course" required="required"></div>
-							<div><input type="text" class="course_input" placeholder="Level" required="required"></div>
-							<button class="course_button"><span>search course</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-						</form>
-					</div>
-				</div>
-			</div> -->
-			<div class="row">
-				<div class="col">
-
-					<!-- Courses Slider -->
-					<div class="courses_slider_container">
-						<div class="owl-carousel owl-theme courses_slider" id="box_activ_des">
-
-							<!-- Slider Item -->
-							<!-- <div class="owl-item">
-								<div class="course">
-									<div class="course_image"><img src="images/destacados/2.png" alt=""></div>
-									<div class="course_body" style="height: 380px;">
-
-										<div class="course_title"><h3><a href="#" id="nom_activ_esp_1"></a></h3></div>
-										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="" id="detalle_activ_esp1">Fecha: 26 de noviembre 2023</label><br>
-											<label for="">Hora: 10:45 hrs.</label>
-										</div>
-										
-										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											
-										</div>
-									</div>
-								</div>
-							</div>
-
-							
-							<div class="owl-item">
-								<div class="course">
-									<div class="course_image"><img src="images/destacados/3.png" alt=""></div>
-									<div class="course_body" style="height: 380px;">
-
-										<div class="course_title"><h3><a href="#">Caravana Medica</a></h3></div>
-										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="">Fecha: 03 de diciembre 2023</label><br>
-											<label for="">Hora: 10:00 hrs.</label>
-										</div>
-										
-										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											
-										</div>
-									</div>
-								</div>
-							</div>
-
-							
-							<div class="owl-item">
-								<div class="course">
-									<div class="course_image"><img src="images/destacados/1.png" alt="https://unsplash.com/@annademy"></div>
-									<div class="course_body" style="height: 380px;">
-
-										<div class="course_title"><h3><a href="#">Concierto, Coro Johann Sebastian Bach</a></h3></div>
-										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="">Fecha: 24 de diciembre 2023</label><br>
-											<label for="">Hora: 19:00 hrs.</label>
-										</div>
-										
-										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-						</div>
-
-						<!-- Courses Slider Nav -->
-						<!-- <div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-						<div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div> -->
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Milestones -->
+	
 
 	
 
