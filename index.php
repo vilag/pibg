@@ -139,25 +139,50 @@
 					<div class="featured_container">
 						<div class="row">
 							<div class="col-lg-6 featured_col">
-								<div class="featured_content" style="background-color: #040A13; padding-top: 50px !important;">
+								<div class="featured_content" style="background-color: #040A13; padding-top: 50px !important; height: 500px;">
 									<div style="width: 100%;">
 										<b>ACTIVIDADES SEMANALES</b>
 									</div>
-									<div style="width: 100%; margin-top: 20px;">
-										<b style="color: #fff;">Culto de Adoración</b><br>
-										<label for="" style="padding: 3px; background-color: ">Domingo 12:00 hrs.</label>
+									<div style="width: 100%; margin-top: 20px; float: left;">
+										<div style="width: 70%; float: left;">
+											<b style="color: #fff;">Culto de Adoración</b><br>
+											<label for="" style="padding: 5px 10px; background-color: #FF5C00; color: #fff; margin-top: 5px;">Domingo 12:00 hrs.</label>
+										</div>
+										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
+											<img src="images/iconos/flechas2.png" style="width: 60px;" alt="">
+										</div>
+										
 									</div>
-									<div style="width: 100%; margin-top: 10px;">
-										<b style="color: #fff;">Culto de Adoración Vespertino</b><br>
-										<label for="">Domingo 18:00 hrs.</label>
+									
+									<div style="width: 100%; margin-top: 20px; float: left;">
+										<div style="width: 70%; float: left;">
+											<b style="color: #fff;">Culto de Adoración Vespertino</b><br>
+											<label for="" style="padding: 5px 10px; background-color: transparent; color: #fff; margin-top: 5px;">Domingo 18:00 hrs.</label>
+										</div>
+										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
+											<img src="images/iconos/flechas2.png" style="width: 60px; opacity: 0;" alt="">
+										</div>
+										
 									</div>
-									<div style="width: 100%; margin-top: 10px;">
-										<b style="color: #fff;">Culto de Oración</b><br>
-										<label for="">Miercoles 19:00 hrs.</label>
+									<div style="width: 100%; margin-top: 20px; float: left;">
+										<div style="width: 70%; float: left;">
+											<b style="color: #fff;">Culto de Oración</b><br>
+											<label for="" style="padding: 5px 10px; background-color: transparent; color: #fff; margin-top: 5px;">Miercoles 19:00 hrs.</label>
+										</div>
+										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
+											<img src="images/iconos/flechas2.png" style="width: 60px; opacity: 0;" alt="">
+										</div>
+										
 									</div>
-									<div style="width: 100%; margin-top: 10px;">
-										<b style="color: #fff;">Culto de Estudio Bíblico</b><br>
-										<label for="">Viernes 19:00 hrs.</label>
+									<div style="width: 100%; margin-top: 20px; float: left;">
+										<div style="width: 70%; float: left;">
+											<b style="color: #fff;">Culto de Estudio Bíblico</b><br>
+											<label for="" style="padding: 5px 10px; background-color: transparent; color: #fff; margin-top: 5px;">Viernes 19:00 hrs.</label>
+										</div>
+										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
+											<img src="images/iconos/flechas2.png" style="width: 60px; opacity: 0;" alt="">
+										</div>
+										
 									</div>
 									<!-- <div class="featured_header d-flex flex-row align-items-center justify-content-start">
 										<div ><b>Próxima Transmisión</b></div>
