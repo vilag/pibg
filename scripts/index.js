@@ -237,26 +237,28 @@ function set_live()
 	var fecha=moment().format('YYYY-MM-DD');
 	var hora=moment().format('HH:mm:ss');
 	
+	
 
-	if ((dia=="Sunday" && hora >= "12:00:00") || (dia=="Sunday" && hora <= "14:00:00")) {
+	if ((dia=="Sunday" && hora >= "12:00:00" && hora <= "14:00:00")) {
+		alert(hora);
 		document.getElementById("caja_live_dom").style.display="block";
 	}else{
 		document.getElementById("caja_live_dom").style.display="none";
 	}
 
-	if ((dia=="Sunday" && hora >= "18:00:00") || (dia=="Sunday" && hora <= "20:00:00")) {
+	if ((dia=="Sunday" && hora >= "18:00:00" && hora <= "20:00:00")) {
 		document.getElementById("caja_live_dom2").style.display="block";
 	}else{
 		document.getElementById("caja_live_dom2").style.display="none";
 	}
 
-	if ((dia=="Wednesday" && hora >= "19:00:00") || (dia=="Wednesday" && hora <= "20:30:00")) {
+	if ((dia=="Wednesday" && hora >= "19:00:00" && hora <= "20:30:00")) {
 		document.getElementById("caja_live_mie").style.display="block";
 	}else{
 		document.getElementById("caja_live_mie").style.display="none";
 	}
 
-	if ((dia=="Friday" && hora >= "19:00:00") || (dia=="Friday" && hora <= "20:30:00")) {
+	if ((dia=="Friday" && hora >= "19:00:00" && hora <= "20:30:00")) {
 		document.getElementById("caja_live_vie").style.display="block";
 	}else{
 		document.getElementById("caja_live_vie").style.display="none";
