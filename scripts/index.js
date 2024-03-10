@@ -4,10 +4,32 @@ listar_cal();
 listar_lecturas();
 listar_activ_dest();
 mostrar_btn_salida_video();
-//listar_obras_1();
+set_live();
+
+
+// setTimeout(() => {
+// 	$("#punto_live").removeClass("entrada").addClass("salida");
+// 	setInterval(() => {
+// 		$("#punto_live").removeClass("salida").addClass("entrada");
+// 		setTimeout(() => {
+// 			$("#punto_live").removeClass("entrada").addClass("salida");
+// 		}, 1000);
+// 	}, 1000);
+// }, 1000);
+
+
 
 function consul_dia()
 {
+	setInterval(() => {
+		setTimeout(() => {
+			document.getElementById("punto_live").style.display="none";
+		}, 1000);
+		setTimeout(() => {
+			document.getElementById("punto_live").style.display="block";
+		}, 2000);
+	}, 3000);
+	
 	
 		var dia=moment().format('dddd');
 		var anio=moment().format('YYYY');
@@ -201,5 +223,59 @@ function ver_vista()
 function enviar_mensaje(){
 
 	$("#a_enviar_mensaje_est").attr("href","https://api.whatsapp.com/send?phone=3330230905&text=Hola, me gustaria unirme a un estudio bíblico.");
+}
+
+// function ocultar_punto_live()
+// {
+// 	$("#punto_live").removeClass("fade-in").addClass("fade-out");
+// }
+
+function set_live()
+{
+	var dia=moment().format('dddd');
+	var anio=moment().format('YYYY');
+	var fecha=moment().format('YYYY-MM-DD');
+	var hora=moment().format('HH:mm:ss');
+	
+
+	if ((dia=="Sunday" && hora >= "12:00:00") || (dia=="Sunday" && hora <= "14:00:00")) {
+		document.getElementById("caja_live_dom").style.display="block";
+	}else{
+		document.getElementById("caja_live_dom").style.display="none";
+	}
+
+	if ((dia=="Sunday" && hora >= "18:00:00") || (dia=="Sunday" && hora <= "20:00:00")) {
+		document.getElementById("caja_live_dom2").style.display="block";
+	}else{
+		document.getElementById("caja_live_dom2").style.display="none";
+	}
+
+	if ((dia=="Wednesday" && hora >= "19:00:00") || (dia=="Wednesday" && hora <= "20:30:00")) {
+		document.getElementById("caja_live_mie").style.display="block";
+	}else{
+		document.getElementById("caja_live_mie").style.display="none";
+	}
+
+	if ((dia=="Friday" && hora >= "19:00:00") || (dia=="Friday" && hora <= "20:30:00")) {
+		document.getElementById("caja_live_vie").style.display="block";
+	}else{
+		document.getElementById("caja_live_vie").style.display="none";
+	}
+
+	if (dia>"Sunday" && dia<="Wednesday") {
+		document.getElementById("eti_activ_mie").style.backgroundColor = "#FF5C00";
+	}
+	if (dia>"Wednesday" && dia<="Friday") {
+		document.getElementById("eti_activ_vie").style.backgroundColor = "#FF5C00";
+	}
+	if (dia>"Friday" && dia<="Sunday") {
+		
+		document.getElementById("eti_activ_dom").style.backgroundColor = "#FF5C00";
+		
+		if ( dia=="Sunday" && hora >= "14:00:00") {
+			document.getElementById("eti_activ_dom").style.backgroundColor = "none";
+			document.getElementById("eti_activ_dom2").style.backgroundColor = "#FF5C00";
+		}
+	}
 }
 

@@ -15,6 +15,7 @@
 <link href="plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/personal.css">
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -127,6 +128,49 @@
 
 	<!-- Featured Course -->
 
+	<style>
+		.swing-in-left-fwd {
+
+			-webkit-animation: swing-in-left-fwd 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) both 3s;
+					animation: swing-in-left-fwd 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) both 3s;
+		}
+
+		@-webkit-keyframes swing-in-left-fwd {
+		0% {
+			-webkit-transform: rotateY(100deg);
+					transform: rotateY(100deg);
+			-webkit-transform-origin: left;
+					transform-origin: left;
+			opacity: 0;
+		}
+		100% {
+			-webkit-transform: rotateY(0);
+					transform: rotateY(0);
+			-webkit-transform-origin: left;
+					transform-origin: left;
+			opacity: 1;
+		}
+		}
+		@keyframes swing-in-left-fwd {
+		0% {
+			-webkit-transform: rotateY(100deg);
+					transform: rotateY(100deg);
+			-webkit-transform-origin: left;
+					transform-origin: left;
+			opacity: 0;
+		}
+		100% {
+			-webkit-transform: rotateY(0);
+					transform: rotateY(0);
+			-webkit-transform-origin: left;
+					transform-origin: left;
+			opacity: 1;
+		}
+		}
+
+
+	</style>
+
 	<div class="featured">
 		<div class="container">
 			<div class="row">
@@ -144,45 +188,78 @@
 										<b>ACTIVIDADES SEMANALES</b>
 									</div>
 									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 70%; float: left;">
+										<div style="width: 75%; float: left;">
 											<b style="color: #fff;">Culto de Adoración</b><br>
-											<label for="" style="padding: 5px 10px; background-color: #FF5C00; color: #fff; margin-top: 5px;">Domingo 12:00 hrs.</label>
+											<label id="eti_activ_dom" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo 12:00 hrs.</label>
 										</div>
-										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
-											<img src="images/iconos/flechas2.png" style="width: 60px;" alt="">
+										<div style="width: 25%; float: left; padding-top: 10px;">
+										
+											<div class="estilo_caja_live" id="caja_live_dom">
+												<div class="estilo_content_punto_live">
+													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+												</div>
+												<div class="estilo_text_live">
+													<b style="color: red; font-size: 15px;">LIVE</b>
+												</div>
+											</div>
+
 										</div>
 										
 									</div>
 									
 									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 70%; float: left;">
+										<div style="width: 75%; float: left;">
 											<b style="color: #fff;">Culto de Adoración Vespertino</b><br>
-											<label for="" style="padding: 5px 10px; background-color: transparent; color: #fff; margin-top: 5px;">Domingo 18:00 hrs.</label>
+											<label id="eti_activ_dom2" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo 18:00 hrs.</label>
 										</div>
-										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
-											<img src="images/iconos/flechas2.png" style="width: 60px; opacity: 0;" alt="">
-										</div>
+										<div style="width: 25%; float: left; padding-top: 10px;">
 										
+											<div class="estilo_caja_live" id="caja_live_dom2">
+												<div class="estilo_content_punto_live">
+													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+												</div>
+												<div class="estilo_text_live">
+													<b style="color: red; font-size: 15px;">LIVE</b>
+												</div>
+											</div>
+
+										</div>			
 									</div>
 									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 70%; float: left;">
+										<div style="width: 75%; float: left;">
 											<b style="color: #fff;">Culto de Oración</b><br>
-											<label for="" style="padding: 5px 10px; background-color: transparent; color: #fff; margin-top: 5px;">Miercoles 19:00 hrs.</label>
+											<label id="eti_activ_mie" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Miercoles 19:00 hrs.</label>
 										</div>
-										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
-											<img src="images/iconos/flechas2.png" style="width: 60px; opacity: 0;" alt="">
-										</div>
+										<div style="width: 25%; float: left; padding-top: 10px;">
 										
+											<div class="estilo_caja_live" id="caja_live_mie">
+												<div class="estilo_content_punto_live">
+													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+												</div>
+												<div class="estilo_text_live">
+													<b style="color: red; font-size: 15px;">LIVE</b>
+												</div>
+											</div>
+
+										</div>	
 									</div>
 									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 70%; float: left;">
+										<div style="width: 75%; float: left;">
 											<b style="color: #fff;">Culto de Estudio Bíblico</b><br>
-											<label for="" style="padding: 5px 10px; background-color: transparent; color: #fff; margin-top: 5px;">Viernes 19:00 hrs.</label>
+											<label id="eti_activ_vie" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Viernes 19:00 hrs.</label>
 										</div>
-										<div style="width: 30%; float: left; text-align: right; padding-top: 10px;">
-											<img src="images/iconos/flechas2.png" style="width: 60px; opacity: 0;" alt="">
-										</div>
+										<div style="width: 25%; float: left; padding-top: 10px;">
 										
+											<div class="estilo_caja_live" id="caja_live_vie">
+												<div class="estilo_content_punto_live">
+													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+												</div>
+												<div class="estilo_text_live">
+													<b style="color: red; font-size: 15px;">LIVE</b>
+												</div>
+											</div>
+
+										</div>	
 									</div>
 									<!-- <div class="featured_header d-flex flex-row align-items-center justify-content-start">
 										<div ><b>Próxima Transmisión</b></div>
@@ -216,7 +293,27 @@
 							</div>
 							<div class="col-lg-6 featured_col">
 								<!-- Background image artist https://unsplash.com/@jtylernix -->
-								<div class="featured_background" style="background-image:url(images//act_sem/culto_ador.png)"></div>
+								<div class="featured_background" style="background-image:url(images//act_sem/culto_ador2.png)"></div>
+								<div style="width: 100%; position: absolute; margin-top: -450px; padding-left: 50px; padding-right: 50px;">
+									<!-- <div style="width: 150px; height: 50px; border: red 1px solid; border-radius: 10px;">
+										<div style="width: 40%; float: left; padding-top: 16px; padding-left: 25px;">
+											<div id="punto_live" style="width: 15px; height: 15px; background-color: red; border-radius: 50%;"></div>
+										</div>
+										<div style="width: 60%; float: left; padding-top: 5px; padding-left: 4px;">
+											<b style="color: red; font-size: 25px;">LIVE</b>
+										</div>
+									</div> -->
+
+									<!-- <div style="width: 100%; margin-top: 50px;">
+										<p style="color: #fff; font-size: 18px;">Apert. Semana Jóvenes A / Coro Lumbrera</p>
+									</div>
+									<div style="width: 100%; margin-top: 50px;">
+										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
+											<button style="cursor: pointer; padding: 10px 50px; border-radius: 10px; background-color: #FF5C00; color: #fff; border: none;"><b>Entrar</b></button>	
+										</a>
+										
+									</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -238,14 +335,14 @@
 					</div>
 					<div style="width: 100%; margin-top: 50px;">
 						<div style="float: left; width: 50%; text-align: center;">
-							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid;">
+							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid; padding-left: 10px; padding-right: 10px;">
 								<div class="news_post_date" style="font-size: 18px;">Miercoles</div>
 								<div class="news_post_title"><a href="#">Estudio biblico en linea</a></div>
 								<div class="news_post_author">21:00 hrs.</div>
 							</div>
 						</div>
 						<div style="float: left; width: 50%; text-align: center;">
-							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid;">
+							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid; padding-left: 10px; padding-right: 10px;">
 								<div class="news_post_date" style="font-size: 18px;">Viernes</div>
 								<div class="news_post_title"><a href="#">Estudio biblico en casa</a></div>
 								<div class="news_post_author">21:00 hrs.</div>
@@ -443,7 +540,7 @@
 			<div class="row milestones_container">
 				<div class="row">
 
-					<div class="col-lg-12" >
+					<div class="col-lg-12" style="padding-left: 30px;">
 						<h2 style="color: #fff; margin-left: 10px;">Lecturas del dia</h2><br><br>
 						<p id="p_lecturas_dia"></p>
 					</div>
