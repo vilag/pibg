@@ -266,9 +266,13 @@ function set_live()
 
 	if (dia>"Sunday" && dia<="Wednesday") {
 		document.getElementById("eti_activ_mie").style.backgroundColor = "#FF5C00";
+	}else{
+		document.getElementById("eti_activ_mie").style.backgroundColor = "none";
 	}
 	if (dia>"Wednesday" && dia<="Friday") {
 		document.getElementById("eti_activ_vie").style.backgroundColor = "#FF5C00";
+	}else{
+		document.getElementById("eti_activ_vie").style.backgroundColor = "none";
 	}
 	if (dia>"Friday" && dia<="Sunday") {
 		
@@ -278,6 +282,8 @@ function set_live()
 			document.getElementById("eti_activ_dom").style.backgroundColor = "none";
 			document.getElementById("eti_activ_dom2").style.backgroundColor = "#FF5C00";
 		}
+	}else{
+		document.getElementById("eti_activ_dom").style.backgroundColor = "none";
 	}
 }
 
