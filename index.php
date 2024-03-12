@@ -193,15 +193,17 @@
 											<label id="eti_activ_dom" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo 12:00 hrs.</label>
 										</div>
 										<div style="width: 25%; float: left; padding-top: 10px;">
-										
-											<div class="estilo_caja_live" id="caja_live_dom">
-												<div class="estilo_content_punto_live">
-													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
+												<div class="estilo_caja_live" id="caja_live_dom">
+													<div class="estilo_content_punto_live">
+														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+													</div>
+													<div class="estilo_text_live">
+														<b style="color: red; font-size: 15px;">LIVE</b>
+													</div>
 												</div>
-												<div class="estilo_text_live">
-													<b style="color: red; font-size: 15px;">LIVE</b>
-												</div>
-											</div>
+											</a>
+											
 
 										</div>
 										
@@ -213,15 +215,17 @@
 											<label id="eti_activ_dom2" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo 18:00 hrs.</label>
 										</div>
 										<div style="width: 25%; float: left; padding-top: 10px;">
-										
-											<div class="estilo_caja_live" id="caja_live_dom2">
-												<div class="estilo_content_punto_live">
-													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
+												<div class="estilo_caja_live" id="caja_live_dom2">
+													<div class="estilo_content_punto_live">
+														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+													</div>
+													<div class="estilo_text_live">
+														<b style="color: red; font-size: 15px;">LIVE</b>
+													</div>
 												</div>
-												<div class="estilo_text_live">
-													<b style="color: red; font-size: 15px;">LIVE</b>
-												</div>
-											</div>
+											</a>
+											
 
 										</div>			
 									</div>
@@ -231,15 +235,17 @@
 											<label id="eti_activ_mie" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Miercoles 19:00 hrs.</label>
 										</div>
 										<div style="width: 25%; float: left; padding-top: 10px;">
-										
-											<div class="estilo_caja_live" id="caja_live_mie">
-												<div class="estilo_content_punto_live">
-													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
+												<div class="estilo_caja_live" id="caja_live_mie">
+													<div class="estilo_content_punto_live">
+														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+													</div>
+													<div class="estilo_text_live">
+														<b style="color: red; font-size: 15px;">LIVE</b>
+													</div>
 												</div>
-												<div class="estilo_text_live">
-													<b style="color: red; font-size: 15px;">LIVE</b>
-												</div>
-											</div>
+											</a>
+											
 
 										</div>	
 									</div>
@@ -249,15 +255,17 @@
 											<label id="eti_activ_vie" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Viernes 19:00 hrs.</label>
 										</div>
 										<div style="width: 25%; float: left; padding-top: 10px;">
-										
-											<div class="estilo_caja_live" id="caja_live_vie">
-												<div class="estilo_content_punto_live">
-													<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
+												<div class="estilo_caja_live" id="caja_live_vie">
+													<div class="estilo_content_punto_live">
+														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+													</div>
+													<div class="estilo_text_live">
+														<b style="color: red; font-size: 15px;">LIVE</b>
+													</div>
 												</div>
-												<div class="estilo_text_live">
-													<b style="color: red; font-size: 15px;">LIVE</b>
-												</div>
-											</div>
+											</a>
+											
 
 										</div>	
 									</div>
