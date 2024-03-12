@@ -240,7 +240,7 @@ function set_live()
 	
 
 	if ((dia=="Sunday" && hora >= "12:00:00" && hora <= "14:00:00")) {
-		alert(hora);
+		//alert(hora);
 		document.getElementById("caja_live_dom").style.display="block";
 	}else{
 		document.getElementById("caja_live_dom").style.display="none";
@@ -264,26 +264,26 @@ function set_live()
 		document.getElementById("caja_live_vie").style.display="none";
 	}
 
-	if (dia>"Sunday" && dia<="Wednesday") {
-		document.getElementById("eti_activ_mie").style.backgroundColor = "#FF5C00";
-	}else{
-		document.getElementById("eti_activ_mie").style.backgroundColor = "none";
-	}
-	if (dia>"Wednesday" && dia<="Friday") {
-		document.getElementById("eti_activ_vie").style.backgroundColor = "#FF5C00";
-	}else{
-		document.getElementById("eti_activ_vie").style.backgroundColor = "none";
-	}
-	if (dia>"Friday" && dia<="Sunday") {
+	// if (dia>"Sunday" && dia<="Wednesday") {
+	// 	document.getElementById("eti_activ_mie").style.backgroundColor = "#FF5C00";
+	// }else{
+	// 	document.getElementById("eti_activ_mie").style.backgroundColor = "none";
+	// }
+	// if (dia>"Wednesday" && dia<="Friday") {
+	// 	document.getElementById("eti_activ_vie").style.backgroundColor = "#FF5C00";
+	// }else{
+	// 	document.getElementById("eti_activ_vie").style.backgroundColor = "none";
+	// }
+	// if (dia>"Friday" && dia<="Sunday") {
 		
-		document.getElementById("eti_activ_dom").style.backgroundColor = "#FF5C00";
+	// 	document.getElementById("eti_activ_dom").style.backgroundColor = "#FF5C00";
 		
-		if ( dia=="Sunday" && hora >= "14:00:00") {
-			document.getElementById("eti_activ_dom").style.backgroundColor = "none";
-			document.getElementById("eti_activ_dom2").style.backgroundColor = "#FF5C00";
-		}
-	}else{
-		document.getElementById("eti_activ_dom").style.backgroundColor = "none";
-	}
+	// 	if ( dia=="Sunday" && hora >= "14:00:00") {
+	// 		document.getElementById("eti_activ_dom").style.backgroundColor = "none";
+	// 		document.getElementById("eti_activ_dom2").style.backgroundColor = "#FF5C00";
+	// 	}
+	// }else{
+	// 	document.getElementById("eti_activ_dom").style.backgroundColor = "none";
+	// }
 }
 
