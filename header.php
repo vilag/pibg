@@ -169,6 +169,9 @@
 		</nav>
 		<div class="menu_extra">
 			<div class="menu_phone">
+				<a href="https://api.whatsapp.com/send?phone=3330230905" target="_blank"><span class="menu_title">phone:</span>(33) 30230905</a>
+			</div>
+			<div class="menu_phone">
 				<a href="tel:+523336144120"><span class="menu_title">phone:</span>(33) 36144120</a>
 			</div>
 			<div class="menu_social">
