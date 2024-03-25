@@ -31,12 +31,19 @@
 							<div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
 								<ul class="top_bar_contact_list">
 									<!-- <li><div class="question">Have any questions?</div></li> -->
-									<li>
-										<div><img src="images/iconos/telefono.png" alt="" style="width: 18px;">&nbsp;&nbsp;&nbsp;<label style="color: #fff;">(33) 36144120</label></div>
+									<li style="cursor: pointer;">
+										<a href="https://api.whatsapp.com/send?phone=3330230905" target="_blank"><div><img src="images/iconos/whatsapp.png" alt="" style="width: 18px;">&nbsp;&nbsp;&nbsp;<label style="color: #fff;">(33) 30230905</label></div></a>
+										
 									</li>
-									<li>
-										<div><img src="images/iconos/email.png" alt="" style="width: 18px;">&nbsp;&nbsp;&nbsp;<label style="color: #fff;">pibgdlar@gmail.com</label></div>
+									<li style="cursor: pointer;">
+										<a href="tel:+523336144120"><div><img src="images/iconos/telefono.png" alt="" style="width: 18px;">&nbsp;&nbsp;&nbsp;<label style="color: #fff;">(33) 36144120</label></div></a>
+										
 									</li>
+									<li style="cursor: pointer;">
+										<a href="mailto:pibgdlar@gmail.com"><div><img src="images/iconos/email.png" alt="" style="width: 18px;">&nbsp;&nbsp;&nbsp;<label style="color: #fff;">pibgdlar@gmail.com</label></div></a>
+										
+									</li>
+									
 								</ul>
 								<div class="ml-auto">
 									<ul>
@@ -161,7 +168,9 @@
 			</ul>
 		</nav>
 		<div class="menu_extra">
-			<div class="menu_phone"><span class="menu_title">phone:</span>(33) 36144120</div>
+			<div class="menu_phone">
+				<a href="tel:+523336144120"><span class="menu_title">phone:</span>(33) 36144120</a>
+			</div>
 			<div class="menu_social">
 				<span class="menu_title">Síguenos</span>
 				<ul>
