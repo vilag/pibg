@@ -114,8 +114,9 @@ no se pierda, mas tenga vida eterna.”</div>
                     <div class="section_subtitle" style="font-size: 20px; line-height : 30px; text-align: left ;">
                     ¿Te gustaria conocer más? escribenos y con gusto te atenderemos.
                     <br><br>
-                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="tel:+523332550900">3336144120</a><br><br>
-                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="mailto:pibgdlar@gmail.com">pibgdlar@gmail.com</a>
+					<a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); cursor: pointer;" href="https://api.whatsapp.com/send?phone=3330230905" target="_blank"><img src="images/iconos/whatsapp.png" alt="" style="width: 18px; cursor: pointer;">&nbsp;&nbsp;&nbsp;<label style="color: #fff; cursor: pointer;">(33) 30230905</label></a><br><br>
+                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="tel:+523332550900"><img src="images/iconos/telefono.png" alt="" style="width: 18px; cursor: pointer;">&nbsp;&nbsp;&nbsp;3336144120</a><br><br>
+                    <a style="background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);" href="mailto:pibgdlar@gmail.com"><img src="images/iconos/email.png" alt="" style="width: 18px; cursor: pointer;">&nbsp;&nbsp;&nbsp;<label style="color: #fff; cursor: pointer;">pibgdlar@gmail.com</a>
 
                     <div class="section_subtitle" style="font-size: 20px; line-height : 30px; text-align: left ;">
                     Si lo prefieres dejanos tus datos y con gusto te contactaremos.
