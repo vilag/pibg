@@ -336,11 +336,11 @@
 		<div class="container">
 			<div class="row milestones_container">
 				<div class="row">
-					<div class="col-lg-6" >
+					<div class="col-lg-6" style="padding: 0px 30px;" >
 						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
 						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-6" style="padding: 0px 30px;">
 						<form >
 							<div style="width: 100%; float: left; margin-top: 10px;">
 								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
@@ -351,7 +351,7 @@
 							<div style="width: 100%; float: left; margin-top: 10px;">
 								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
 							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
+							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
 								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
 								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
 							</div>
@@ -751,39 +751,6 @@
 	
 
 	<!-- Join -->
-
-	<div class="join" style="padding-bottom: 20px;" id="notif">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-10 offset-lg-1">
-					<div class="section_title text-center"><h2>¿Desea recibir notificaciones?</h2></div>
-					<div class="section_subtitle" style="font-size: 18px;">Registrate para recibir noticias sobre nuevas publicaciones.</div>
-				</div>
-			</div>
-		</div>
-		<br><br>
-		<!-- <div class="button join_button"><a href="#">Registrarse<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div> -->
-		<a href="#notif"><button  class="course_button"><span>Registrarme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>
-	</div>
-	
-		<div class="container" >
-
-			<div class="row">
-				<div class="col">
-					<div class="course_search">
-						
-						<form class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between" style="margin-bottom: 50px;">
-									<div><input type="text" class="course_input" placeholder="Nombre" id="nombre" required="required"></div>
-									<div><input type="text" class="course_input" placeholder="Teléfono" id="telefono" required="required"></div>
-									<b onclick="enviar_datos_nuevo_contacto();" style="cursor: pointer; width: 150px; text-align: center; background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);"> Enviar</b>
-
-									<!-- <button  class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
-						</form>
-					</div>
-				</div>
-			</div>
-
-		</div>
 
 	
 		
