@@ -400,138 +400,7 @@
 		}
 	</style>
 
-	<div class="courses" style="padding-bottom: 50px;">
-		<div class="container">
-			<div class="row featured_row" style="padding: 20px; display: flex; justify-content: center;">
-				<b style="font-size: 35px;">Ministerios</b>
-				<div style="position: absolute; margin-top: 220px; z-index: 1; left: -40px;">
-					<button onclick="siguiente();">Siguiente</button>
-				</div>
-				<div style="position: absolute; margin-top: 220px; z-index: 1; right: 0px;">
-					<button onclick="anterior();">Anterior</button>
-				</div>
-			</div>
-			<div id="content_ministerios" class="barra_min" style="margin-top: 30px; width: 100vw; height: 400px; margin-left: -200px; overflow-x: scroll;">
-				
-				<div style="width: 3200px;">
-					<div class="col-lg-3 featured_col fade-in_ninos" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/ninos.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Adoración</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Domingo 12:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Niños</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_jov" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/jovenes.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto Dominical Vespertino</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Domingo 18:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Jóvenes</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_adul" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/adultos.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Oración</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Miercoles 19:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Adultos</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_anc" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/ancianitos.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Estudio Biblico</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Viernes 19:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Tercera edad</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_mis" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/misiones.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Estudio Biblico</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Viernes 19:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Misiones</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_core" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/core.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Estudio Biblico</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Viernes 19:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Academia Coré</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_coros" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/coros.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Estudio Biblico</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Viernes 19:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Coros</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-					<div class="col-lg-3 featured_col fade-in_esc" style="margin-right: 0px; margin-left: 0px; float: left; width: 400px;">
-						<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/ministerios/esc.png); background-repeat: no-repeat; background-size: cover;">
-							<!-- <div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Estudio Biblico</a></h3></div>
-							<div class="featured_text">
-								<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Viernes 19:00 hrs.</b>
-							</div> -->
-						</div>
-						<div style="width: 100%; padding: 20px 0px; font-size: 20px; text-align: center;">
-							<b>Escuela Dominical</b>
-						</div>
-						<div style="width: 100%; margin-top: -10px; margin-bottom: 20px; text-align: center;">
-							<button style="background-color: rgba(0,0,0,0); color: #000; border: #000 1px solid; border-radius: 10px; padding: 10px 20px;">Ver más</button>
-						</div>
-					</div>
-				</div>
-				
-				
-			</div>
-		</div>
-	</div>
+	
 
 	<div class="courses">
 		<div class="container">
@@ -882,6 +751,39 @@
 	
 
 	<!-- Join -->
+
+	<div class="join" style="padding-bottom: 20px;" id="notif">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 offset-lg-1">
+					<div class="section_title text-center"><h2>¿Desea recibir notificaciones?</h2></div>
+					<div class="section_subtitle" style="font-size: 18px;">Registrate para recibir noticias sobre nuevas publicaciones.</div>
+				</div>
+			</div>
+		</div>
+		<br><br>
+		<!-- <div class="button join_button"><a href="#">Registrarse<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div> -->
+		<a href="#notif"><button  class="course_button"><span>Registrarme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>
+	</div>
+	
+		<div class="container" >
+
+			<div class="row">
+				<div class="col">
+					<div class="course_search">
+						
+						<form class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between" style="margin-bottom: 50px;">
+									<div><input type="text" class="course_input" placeholder="Nombre" id="nombre" required="required"></div>
+									<div><input type="text" class="course_input" placeholder="Teléfono" id="telefono" required="required"></div>
+									<b onclick="enviar_datos_nuevo_contacto();" style="cursor: pointer; width: 150px; text-align: center; background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);"> Enviar</b>
+
+									<!-- <button  class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
 
 	
 		
