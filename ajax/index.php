@@ -246,6 +246,18 @@ switch ($_GET["op"]){
 						';	
 					}
 		break;
+
+		case 'guardar_motivo':
+
+			$nombre_peticion = $_POST['nombre_peticion'];
+			$telefono_peticion = $_POST['telefono_peticion'];
+			$motivo_peticion = $_POST['motivo_peticion'];
+			$fecha_hora = $_POST['fecha_hora'];
+
+			$rspta=$index->guardar_motivo($nombre_peticion,$telefono_peticion,$motivo_peticion,$fecha_hora);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 	
 }
 ?>

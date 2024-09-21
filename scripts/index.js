@@ -29,8 +29,8 @@ function consul_dia()
 			document.getElementById("punto_live").style.display="block";
 		}, 2000);
 	}, 3000);
-	
-	
+
+
 		var dia=moment().format('dddd');
 		var anio=moment().format('YYYY');
 		var fecha=moment().format('YYYY-MM-DD');
@@ -41,23 +41,23 @@ function consul_dia()
 		{
 			data = JSON.parse(data);
 
-			
-            
+
+
 			//if (data!=null) {
 
 				//var idcal = data.idcal;
 
-				var dia = data.dia;			
+				var dia = data.dia;
 				var mes = data.mes;
 				var hora = data.hora;
-				
+
 				var dia_nomt = data.dia_nom;
 				var nom_activ = data.nom_activ;
-				
+
 				var tema = data.tema;
 				$("#tema_actividad").text(tema);
 				//alert(data.tema);
-				 
+
 				tipo = data.tipo;
 
 				if (mes==1) {var mes_text = "enero";}
@@ -78,16 +78,16 @@ function consul_dia()
 				$("#nombre_actvidad").text(nom_activ);
 				//$("#nombre_actvidad2").text(nom_activ);
 				//alert(tema);
-				
-				
+
+
 
 				$("#dia_sp").text(dia_nomt);
 				$("#dia_sp_num").text(dia);
 				$("#mes_sp").text(mes_text);
-				
-				
+
+
 				$("#hora_sp").text(hora+" hrs.");
-				
+
 			// }else{
 
 			// 	var dia=moment().format('dddd');
@@ -120,7 +120,7 @@ function consul_dia()
 			// 				$("#hora_sp").text(data.hora+" hrs.");
 
 			// 			});
-						
+
 			// 		}else{
 			// 			$("#nombre_actvidad").text(data.nombre);
 			// 			$("#dia_sp").text(data.dia);
@@ -131,8 +131,8 @@ function consul_dia()
 
 
 			// }
-            
-					
+
+
 
 		});
 
@@ -217,7 +217,9 @@ function ver_vista()
 	if (vista==1) {
 		$("#barra_menu").removeClass("estilo_nav").addClass("estilo_nav_index");
 	}
-	
+
+
+
 }
 
 function enviar_mensaje(){
@@ -236,8 +238,8 @@ function set_live()
 	var anio=moment().format('YYYY');
 	var fecha=moment().format('YYYY-MM-DD');
 	var hora=moment().format('HH:mm:ss');
-	
-	
+
+
 
 	if ((dia=="Sunday" && hora >= "12:00:00" && hora <= "14:00:00")) {
 		//alert(hora);
@@ -275,9 +277,9 @@ function set_live()
 	// 	document.getElementById("eti_activ_vie").style.backgroundColor = "none";
 	// }
 	// if (dia>"Friday" && dia<="Sunday") {
-		
+
 	// 	document.getElementById("eti_activ_dom").style.backgroundColor = "#FF5C00";
-		
+
 	// 	if ( dia=="Sunday" && hora >= "14:00:00") {
 	// 		document.getElementById("eti_activ_dom").style.backgroundColor = "none";
 	// 		document.getElementById("eti_activ_dom2").style.backgroundColor = "#FF5C00";
@@ -287,3 +289,48 @@ function set_live()
 	// }
 }
 
+
+
+window.onscroll = function() {
+	// console.log("Vertical: " + window.scrollY);
+	// console.log("Horizontal: " + window.scrollX);
+	var posicionVertical = window.scrollY;
+
+	if (posicionVertical>100) {
+		$("#barra_menu").removeClass("estilo_nav_index").addClass("estilo_nav");
+	}else{
+		$("#barra_menu").removeClass("estilo_nav").addClass("estilo_nav_index");
+	}
+};
+
+var avance_scroll = 0;
+
+function siguiente(){
+	avance_scroll = avance_scroll+400;
+	const element = document.getElementById("content_ministerios");
+    element.scrollTo(avance_scroll, 0);
+}
+
+function guardar_motivo()
+{
+	var nombre_peticion = $("#nombre_peticion").val();
+	var telefono_peticion = $("#telefono_peticion").val();
+	var motivo_peticion = $("#motivo_peticion").val();
+	var fecha=moment().format('YYYY-MM-DD');
+	var hora=moment().format('HH:mm:ss');
+	var fecha_hora=fecha+" "+hora;
+
+	if (nombre_peticion!="" && motivo_peticion!="") {
+		$.post("ajax/index.php?op=guardar_motivo",{nombre_peticion:nombre_peticion,telefono_peticion:telefono_peticion,motivo_peticion:motivo_peticion,fecha_hora:fecha_hora},function(data, status)
+		{
+			data = JSON.parse(data);
+
+			alert("Gracias por compartirnos su petición, Dios lo bendiga.");
+
+		});
+	}else{
+		alert("Por favor ayudenos capturado su nombre y motivo de oración, muchas gracias.");
+	}
+
+	
+}

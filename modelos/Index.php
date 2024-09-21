@@ -84,6 +84,13 @@ Class Index
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
+
+	public function guardar_motivo($nombre_peticion,$telefono_peticion,$motivo_peticion,$fecha_hora)
+	{
+		$sql="INSERT INTO motivos_oracion (nombre,telefono,motivo,fecha_hora) VALUES('$nombre_peticion','$telefono_peticion','$motivo_peticion','$fecha_hora')";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);			
+	}
    
 }
 

@@ -330,16 +330,86 @@
 		</div>
 	</div>
 
-	<!-- Video -->
+	<div class="milestones" style="margin-top: 50px;">
+		
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row milestones_container">
+				<div class="row">
+					<div class="col-lg-6" >
+						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
+						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
+					</div>
+					<div class="col-lg-6">
+						<form >
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
+								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
+							</div>
+
+						</form>
+					</div>
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+
+	<style>
+		.fade-in_ninos{-webkit-animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both}
+		@-webkit-keyframes fade-in_ninos{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_ninos{0%{opacity:0}100%{opacity:1}}
+		.fade-in_jov{-webkit-animation:fade-in_jov 1.2s cubic-bezier(.39,.575,.565,1.000) .2s both;animation:fade-in_jov 1.2s cubic-bezier(.39,.575,.565,1.000) .2s both}
+		@-webkit-keyframes fade-in_jov{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_jov{0%{opacity:0}100%{opacity:1}}
+		.fade-in_adul{-webkit-animation:fade-in_adul 1.2s cubic-bezier(.39,.575,.565,1.000) .4s both;animation:fade-in_adul 1.2s cubic-bezier(.39,.575,.565,1.000) .4s both}
+		@-webkit-keyframes fade-in_adul{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_adul{0%{opacity:0}100%{opacity:1}}
+		.fade-in_anc{-webkit-animation:fade-in_anc 1.2s cubic-bezier(.39,.575,.565,1.000) .6s both;animation:fade-in_anc 1.2s cubic-bezier(.39,.575,.565,1.000) .6s both}
+		@-webkit-keyframes fade-in_anc{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_anc{0%{opacity:0}100%{opacity:1}}
+		.fade-in_mis{-webkit-animation:fade-in_mis 1.2s cubic-bezier(.39,.575,.565,1.000) .8s both;animation:fade-in_mis 1.2s cubic-bezier(.39,.575,.565,1.000) .8s both}
+		@-webkit-keyframes fade-in_mis{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_mis{0%{opacity:0}100%{opacity:1}}
+		.fade-in_core{-webkit-animation:fade-in_core 1.2s cubic-bezier(.39,.575,.565,1.000) .10s both;animation:fade-in_core 1.2s cubic-bezier(.39,.575,.565,1.000) .10s both}
+		@-webkit-keyframes fade-in_core{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_core{0%{opacity:0}100%{opacity:1}}
+		.fade-in_coros{-webkit-animation:fade-in_coros 1.2s cubic-bezier(.39,.575,.565,1.000) .12s both;animation:fade-in_coros 1.2s cubic-bezier(.39,.575,.565,1.000) .12s both}
+		@-webkit-keyframes fade-in_coros{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_coros{0%{opacity:0}100%{opacity:1}}
+		.fade-in_esc{-webkit-animation:fade-in_esc 1.2s cubic-bezier(.39,.575,.565,1.000) .14s both;animation:fade-in_esc 1.2s cubic-bezier(.39,.575,.565,1.000) .14s both}
+		@-webkit-keyframes fade-in_esc{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_esc{0%{opacity:0}100%{opacity:1}}
+
+		.barra_min::-webkit-scrollbar {
+			width: 1px;
+			height: 1px;               /* width of the entire scrollbar */
+		}
+
+		.barra_min::-webkit-scrollbar-track {
+			background: rgb(212, 221, 226, 0.1);        /* color of the tracking area */
+		}
+
+		.barra_min::-webkit-scrollbar-thumb {
+			background-color: rgb(40, 57, 87);     /* color of the scroll thumb */
+			border-radius: 20px;       /* roundness of the scroll thumb */
+			border: 1px solid rgba(155, 168, 175, 0.5);;  /* creates padding around scroll thumb */
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+
+	
 
 	<div class="courses">
 		<div class="container">
 			 <div class="row">
 				<div class="col-lg-10 offset-lg-1">
 					<div class="section_title text-center"><h2>Grupos de Estudio Bíblico</h2></div>
-					<div class="section_subtitle" style="font-size: 20px; margin-top: 30px;">Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos.</div>
+					<div class="section_subtitle" style="font-size: 20px; margin-top: 30px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</div>
 					<div style="text-align: center;">
-						<b style="font-size: 25px;">Mateo 18:20</b>
+						<b style="font-size: 25px;">Salmos 25:5</b>
 					</div>
 					<div style="width: 100%; margin-top: 50px;">
 						<div style="float: left; width: 50%; text-align: center;">
@@ -499,47 +569,7 @@
 		</div>
 	</div> -->
 
-	<!-- <div class="courses" style="padding-bottom: 50px;">
-		<div class="container">
-			<div class="row featured_row" style="padding: 20px;">
-				<b style="font-size: 20px;">Actividades Semanales</b>
-			</div>
-			<div class="row featured_row">
-				<div class="col-lg-3 featured_col" style="margin-right: 0px; margin-left: 0px;">
-					<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/act_sem/culto_adoracion.png); background-repeat: no-repeat; background-size: cover;">
-						<div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Adoración</a></h3></div>
-						<div class="featured_text">
-							<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Domingo 12:00 hrs.</b>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 featured_col" style="margin-right: 0px; margin-left: 0px;">
-					<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/act_sem/culto_vespertino.png); background-repeat: no-repeat; background-size: cover;">
-						<div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto Dominical Vespertino</a></h3></div>
-						<div class="featured_text">
-							<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Domingo 18:00 hrs.</b>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 featured_col" style="margin-right: 0px; margin-left: 0px;">
-					<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/act_sem/culto_oracion.png); background-repeat: no-repeat; background-size: cover;">
-						<div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Oración</a></h3></div>
-						<div class="featured_text">
-							<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Miercoles 19:00 hrs.</b>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 featured_col" style="margin-right: 0px; margin-left: 0px;">
-					<div class="featured_content" style="padding-top: 20px; height: 250px; background-image: url(images/act_sem/culto_est_bib.png); background-repeat: no-repeat; background-size: cover;">
-						<div class="featured_title" style="height: 100px;"><h3><a style="font-size: 20px; color: #ccc; text-shadow: 5px 5px 10px black;" href="#">Culto de Estudio Biblico</a></h3></div>
-						<div class="featured_text">
-							<b style="color: #ccc; text-shadow: 5px 5px 10px black;">Viernes 19:00 hrs.</b>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
+	
 
 	<div class="milestones">
 		
@@ -718,53 +748,47 @@
 		</div>
 	</div>
 
-	<!-- <div class="milestones">
-		
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
-		<div class="container">
-			<div class="row milestones_container">
-				<div class="row">
-					<div class="col-lg-6" >
-						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
-						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
-					</div>
-					<div class="col-lg-6">
-						<form >
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input type="text" class="course_input" placeholder="Nombre" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input type="text" class="course_input" placeholder="Teléfono" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input type="text" class="course_input" placeholder="Motivo de Oración" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<button class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-							</div>
-
-						</form>
-					</div>
-				</div>
-				
-
-			</div>
-		</div>
-	</div> -->
+	
 
 	<!-- Join -->
 
-	<!-- <div class="join">
+	<div class="join" style="padding-bottom: 20px;" id="notif">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 offset-lg-1">
-					<div class="section_title text-center"><h2>Join Our Platform Today</h2></div>
-					<div class="section_subtitle">Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut</div>
+					<div class="section_title text-center"><h2>¿Desea recibir notificaciones?</h2></div>
+					<div class="section_subtitle" style="font-size: 18px;">Registrate para recibir noticias sobre nuevas publicaciones.</div>
 				</div>
 			</div>
 		</div>
-		<div class="button join_button"><a href="#">register now<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
-	</div> -->
+		<br><br>
+		<!-- <div class="button join_button"><a href="#">Registrarse<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div> -->
+		<a href="#notif"><button  class="course_button"><span>Registrarme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>
+	</div>
+	
+		<div class="container" >
+
+			<div class="row">
+				<div class="col">
+					<div class="course_search">
+						
+						<form class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between" style="margin-bottom: 50px;">
+									<div><input type="text" class="course_input" placeholder="Nombre" id="nombre" required="required"></div>
+									<div><input type="text" class="course_input" placeholder="Teléfono" id="telefono" required="required"></div>
+									<b onclick="enviar_datos_nuevo_contacto();" style="cursor: pointer; width: 150px; text-align: center; background-color: #044BA1; color: #fff; font-size: 15px; padding: 10px; border-radius: 10px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1);"> Enviar</b>
+
+									<!-- <button  class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	
+		
+		
+	
 
 <!-- Footer -->
 
