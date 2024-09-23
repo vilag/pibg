@@ -56,7 +56,7 @@
 
 
 											<div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div>
-											<div><b style="font-size: 40px; color: rgba(255,255,255,0.3);">Juan 17:3</b></div>
+											<div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: #000 2px solid;">Juan 17:3</b></div>
 											<!-- <br><br><br>
 											<label for="">PRÓXIMA TRANSMISIÓN:</label><br>
 											<b>Culto de Adoración</b><br>

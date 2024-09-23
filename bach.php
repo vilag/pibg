@@ -79,7 +79,7 @@ require 'header.php';
 			</div> -->
 
 			<!-- Featured Course -->
-			<div class="row featured_row">
+			<!-- <div class="row featured_row">
 				<div class="col-lg-6 featured_col">
 					<div class="featured_content">
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
@@ -102,7 +102,7 @@ require 'header.php';
 					
 					<div class="featured_background" style="background-image:url(images/fondos/fondo1.png)"></div>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="row courses_row">
 				
