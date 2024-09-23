@@ -20,6 +20,7 @@
 	
 	<!-- Home -->
 	<div class="home">
+		<input id="input_vista" type="hidden" value="0">
 		<?php
 			// Obtener los parámetros desde la URL (toma 1 por defecto)
 			$id = isset($_GET['id']) ? $_GET['id'] : 1;
