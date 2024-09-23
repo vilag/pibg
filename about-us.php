@@ -77,7 +77,7 @@
 				<div class="col-lg-6" >
 					<div class="about_content" >
 						<!-- <div class="about_title" style="font-size: 35px;">BREVE RESEÑA HISTORICA DE LA PRIMERA IGLESIA  BAUTISTA DE GUADALAJARA, A.R (MEXICO).</div> -->
-						<div class="about_text" style="margin-top: 0px;">
+						<div class="about_text" style="margin-top: 20px;">
                             
                                 <p>
                                     En 1901 la Iglesia llega a su sostenimiento propio. El hno. David a. Wilson funda la revista “El Expositor Bíblico.
