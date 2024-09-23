@@ -215,7 +215,7 @@
 							</div>	
 
 						</div>
-						<div class="estilo_caja_live">
+						<div class="estilo_caja_transm">
 							
 							<div class="estilo_subtitulo_about">
 								<h3>Transmisiones en vivo</h3>
