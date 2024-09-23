@@ -47,7 +47,7 @@
 						<div class="container">
 							<div class="row">
 								<div class="col">
-									<div class="home_content " style="margin-top: 100px;">
+									<div class="home_content " class="estilo_texto_inicial">
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
 
@@ -187,11 +187,12 @@
 						</div> -->
 					<!-- </div> -->
 					<div style="width: 100%; float: left; margin-top: 20px; margin-bottom: 20px;">
-						<div style="width: 33.3%; height: 180px; float: left; border-right: #ccc 2px solid; text-align: center; padding: 20px 50px;">
+
+						<div class="estilo_caja_about">
 							
-							<div style="height: 120px;">
+							<div class="estilo_subtitulo_about">
 								<h3>Conócenos</h3>
-								<h5 style="font-weight: 100;">Introduccion a la PIB Guadalajara</h5>
+								<h5 style="font-weight: 100; margin-top: 10px;">Introduccion a la PIB Guadalajara</h5>
 							</div>
 							<div style="height: 50px;">
 								<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;" href="about-us.php">
@@ -200,22 +201,25 @@
 								
 							</div>	
 						</div>
-						<div style="width: 33.3%; height: 180px; float: left; border-right: #ccc 2px solid; text-align: center; padding: 20px 50px;">
+						<div class="estilo_caja_min">
 		
-							<div style="height: 120px;">
+							<div class="estilo_subtitulo_about">
 								<h3>Ministerios</h3>
-								<h5 style="font-weight: 100;">Descripción general de los ministerios</h5>
+								<h5 style="font-weight: 100; margin-top: 10px;">Efesios 4:11</h5>
 							</div>
 							<div style="height: 50px;">
-								<button style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;">Ver ahora</button>
+								<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;" href="#">
+									Ver más
+								</a>
+								
 							</div>	
 
 						</div>
-						<div style="width: 33.3%; height: 180px; float: left; text-align: center; padding: 20px 50px;">
+						<div class="estilo_caja_live">
 							
-							<div style="height: 120px;">
+							<div class="estilo_subtitulo_about">
 								<h3>Transmisiones en vivo</h3>
-								<h5 style="font-weight: 100;">Domingos a las 12:00 & 6:00 PM</h5>
+								<h5 style="font-weight: 100; margin-top: 10px;">Domingos a las 12:00 & 6:00 PM</h5>
 								<h5 style="font-weight: 100;">Miercoles y Viernes a las 7:00 PM	</h5>
 							</div>
 							<div style="height: 50px;">
