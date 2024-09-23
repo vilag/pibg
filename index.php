@@ -172,7 +172,116 @@
 		}
 
 
+		.estilo_caja_about{
+    width: 33.3%; 
+    height: 200px; 
+    float: left; 
+    border-right: #ccc 2px solid; 
+    text-align: center; 
+    padding: 10px 10px;
+}
+
+.estilo_caja_min{
+    width: 33.3%; 
+    height: 200px; 
+    float: left; 
+    border-right: #ccc 2px solid; 
+    text-align: center; 
+    padding: 10px 10px;
+}
+
+.estilo_caja_transm{
+    width: 33.3%; 
+    height: 200px; 
+    float: left; 
+    text-align: center; 
+    padding: 10px 10px;
+}
+
+.estilo_texto_inicial{
+    margin-top: 100px;
+}
+
+.estilo_subtitulo_about{
+    height: 130px;
+}
+
+
+@media only screen and (min-width: 260px) and (max-width: 574px) {
+	.estilo_texto_inicial{
+        margin-top: 50px;
+    }
+
+    .estilo_subtitulo_about{
+        height: 170px;
+    }
+
+    .estilo_caja_about{
+        width: 100%; 
+        height: 250px; 
+        float: left; 
+        border-right: transparent 2px solid; 
+        text-align: center; 
+        padding: 10px 10px;
+    }
+
+    .estilo_caja_min{
+        width: 100%; 
+        height: 250px; 
+        float: left; 
+        border-right: transparent 2px solid; 
+        text-align: center; 
+        padding: 10px 10px;
+    }
+    
+    .estilo_caja_transm{
+        width: 100%; 
+        height: 250px; 
+        float: left; 
+        text-align: center; 
+        padding: 10px 10px;
+    }
+}
+
+@media only screen and (min-width: 574px) and (max-width: 1000px) {
+	.estilo_texto_inicial{
+        margin-top: 50px;
+    }
+
+    .estilo_subtitulo_about{
+        height: 170px;
+    }
+
+    .estilo_caja_about{
+        width: 33.3%; 
+        height: 200px; 
+        float: left; 
+        border-right: #ccc 2px solid; 
+        text-align: center; 
+        padding: 10px 10px;
+    }
+
+    .estilo_caja_min{
+        width: 33.3%; 
+        height: 200px; 
+        float: left; 
+        border-right: #ccc 2px solid; 
+        text-align: center; 
+        padding: 10px 10px;
+    }
+    
+    .estilo_caja_transm{
+        width: 33.3%; 
+        height: 200px; 
+        float: left; 
+        text-align: center; 
+        padding: 10px 10px;
+    }
+}
+
+
 	</style>
+
 
 	<div class="featured" style="background-color: #FAF7F2;">
 		<div class="container">
