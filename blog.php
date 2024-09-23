@@ -213,7 +213,7 @@
 <?php
 	require 'footer.php';
 ?>
-
+<script type="text/javascript" src="scripts/blog.js?v=<?php echo(rand()); ?>"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
