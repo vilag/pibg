@@ -107,7 +107,7 @@
 				</div> -->
 				<div class="col-lg-12 order-lg-2 order-1">
 					<div class="about_content">
-						<div class="about_title">IGLESIAS ORGANIZADAS.</div>
+						<div class="about_title">IGLESIAS ORGANIZADAS</div>
 						<div class="about_text">
                             <ul  style="line-height: 30px;">
                                 <li>1.	Iglesia Bautista de Tequila. Jal. (1912).</li>
