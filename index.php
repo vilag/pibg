@@ -47,7 +47,7 @@
 						<div class="container">
 							<div class="row">
 								<div class="col">
-									<div class="home_content " class="estilo_texto_inicial">
+									<div class="home_content estilo_texto_inicial">
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
 
