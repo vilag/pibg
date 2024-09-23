@@ -194,7 +194,10 @@
 								<h5 style="font-weight: 100;">Introduccion a la PIB Guadalajara</h5>
 							</div>
 							<div style="height: 50px;">
-								<button style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;">¿Quiénes somos?</button>
+								<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;" href="about-us.php">
+									¿Quiénes somos?
+								</a>
+								
 							</div>	
 						</div>
 						<div style="width: 33.3%; height: 180px; float: left; border-right: #ccc 2px solid; text-align: center; padding: 20px 50px;">
