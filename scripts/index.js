@@ -310,7 +310,7 @@ function siguiente(){
 	const element = document.getElementById("content_ministerios");
     element.scrollTo(avance_scroll, 0);
 }
-
+let dialog_motivo;
 function guardar_motivo()
 {
 	var nombre_peticion = $("#nombre_peticion").val();
@@ -325,12 +325,40 @@ function guardar_motivo()
 		{
 			data = JSON.parse(data);
 
-			alert("Gracias por compartirnos su petición, Dios lo bendiga.");
+			dialog_motivo = bootbox.dialog({
+				message: '<p style="line-height: 20px;">Gracias por compartirnos su petición, con gusto estaremos orando por usted.</p>'+
+				'<p style="line-height: 20px;">Nos encantaria que pudiera visitarnos, a continuación le compartimos algunas de nuestras actividades semanales:</p>'+
+				'<ul style="margin-top: 15px; margin-bottom: 15px;">'+
+					'<li>* Domingo 10:30 am - Escuela dominical.</li>'+
+					'<li>* Domingo 12:00 pm - Culto de adoración.</li>'+
+					'<li>* Domingo 06:00 pm - Culto de adoración vespertino.</li>'+
+					'<li>* Miercoles 07:00 pm - Culto de oración.</li>'+
+					'<li>* Viernes 07:00 pm - Culto de estudio biblico.</li>'+
+				'</ul>'+
+				'<p>Será bienvenido, Dios lo bendiga grandemente. </p>'+
+				'<div style="display: flex; justify-content: right; margin-top: 20px;">'+
+					'<a href="https://maps.app.goo.gl/azQQqR955ExPy28F8" target="_blank" style="background-color: #2e6d99; color: #fff; padding: 10px 20px; border-radius: 5px; border: none; margin: 2px;">Ver ubicación</a>'+
+					'<button style="background-color: #21214f; color: #fff; padding: 10px 20px; border-radius: 5px; border: none; margin: 2px;" onclick="cerrar_alert();">Cerrar</button>'+
+				'</div>',
+				closeButton: false
+				});
+
+				// do something in the background
+				
+
+			// bootbox.alert("Gracias por compartirnos su petición estaremos orando por usted, si nos permite nos gustaria escribirle al numero que nos compartió, mientras tanto esta cordialmente invitado a nuestras actividades semanales Dios lo bendiga.");
+			$("#nombre_peticion").val("");
+			$("#telefono_peticion").val("");
+			$("#motivo_peticion").val("");
 
 		});
 	}else{
-		alert("Por favor ayudenos capturado su nombre y motivo de oración, muchas gracias.");
+		bootbox.alert("Por favor ayudenos capturado su nombre y motivo de oración, muchas gracias.");
 	}
 
 	
+}
+
+function cerrar_alert(){
+	dialog_motivo.modal('hide');
 }
