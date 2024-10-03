@@ -326,8 +326,8 @@ function guardar_motivo()
 			data = JSON.parse(data);
 
 			dialog_motivo = bootbox.dialog({
-				message: '<p style="line-height: 20px;">Gracias por compartirnos su petición, con gusto estaremos orando por usted.</p>'+
-				'<p style="line-height: 20px;">Nos encantaria que pudiera visitarnos, a continuación le compartimos algunas de nuestras actividades semanales:</p>'+
+				message: '<p style="line-height: 20px;">Gracias por compartirnos su petición, con gusto estarémos orando por usted.</p>'+
+				'<p style="line-height: 20px;">Nos encantaria que pudiera visitarnos, a continuación le compartimos los horarios de nuestras actividades semanales:</p>'+
 				'<ul style="margin-top: 15px; margin-bottom: 15px;">'+
 					'<li>* Domingo 10:30 am - Escuela dominical.</li>'+
 					'<li>* Domingo 12:00 pm - Culto de adoración.</li>'+
