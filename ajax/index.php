@@ -257,6 +257,17 @@ switch ($_GET["op"]){
 			$rspta=$index->guardar_motivo($nombre_peticion,$telefono_peticion,$motivo_peticion,$fecha_hora);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
+
+			 $destinatario = "vilag2407@gmail.com";
+			 $asunto = "Nueva peticion de oración: ".$nombre_peticion;
+ 
+			 $carta = "De: $nombre_peticion \n";
+			//  $carta .= "Correo: $email \n";
+			 $carta .= "Telefono: $telefono_peticion \n";
+			 $carta .= "Mensaje: $motivo_peticion";
+ 
+			 mail($destinatario, $asunto, $carta);
+
 		break;
 	
 }
