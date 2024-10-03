@@ -258,8 +258,8 @@ switch ($_GET["op"]){
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 
-			 $destinatario = "vilag2407@gmail.com";
-			 $asunto = "Nueva peticion de oración: ".$nombre_peticion;
+			 $destinatario = "vilag2407@gmail.com, pibg.isotomayor@gmail.com, pibgdlar@gmail.com";
+			 $asunto = "Petición de oración desde pagina web: ".$nombre_peticion;
  
 			 $carta = "De: $nombre_peticion \n";
 			//  $carta .= "Correo: $email \n";
