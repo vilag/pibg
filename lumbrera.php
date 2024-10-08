@@ -106,7 +106,7 @@ require 'header.php';
 
             <div class="row featured_row">
 				<div class="col-lg-5 featured_col" >
-					<div class="featured_content" style="height: 747px !important;">
+					<div  style="height: 747px !important; background-color: #fff;">
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
 							<div class="featured_tag"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver transmisión</a></div>
 							<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
@@ -123,7 +123,7 @@ require 'header.php';
 					</div>
 				</div>
 				<div class="col-lg-7 featured_col">
-                    <img src="https://res.cloudinary.com/ddcszcshl/image/upload/v1728360997/Pibg/JUVENTUD_PIBG_rogx8i.jpg" alt="" style="width: 80%;">
+                    <img src="https://res.cloudinary.com/ddcszcshl/image/upload/v1728360997/Pibg/JUVENTUD_PIBG_rogx8i.jpg" alt="" style="width: 100%;">
 					<!-- Background image artist https://unsplash.com/@jtylernix -->
 					<!-- <div class="featured_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728360997/Pibg/JUVENTUD_PIBG_rogx8i.jpg); background-size: cover;"></div> -->
 				</div>
