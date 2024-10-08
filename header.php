@@ -156,6 +156,7 @@
 				<li class="menu_mm"><a href="./">Inicio</a></li>
 				<li class="menu_mm"><a href="blog.php">Predicaciones</a></li>
 				<li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li>
+				<li class="menu_mm"><a href="lumbrera.php">Jóvenes Lumbrera</a></li>
 				<li>
 					<a href="quien_es_jesus.php">
 						<button class="course_button">
