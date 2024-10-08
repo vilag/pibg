@@ -106,7 +106,7 @@ require 'header.php';
 
             <div class="row featured_row">
 				<div class="col-lg-5 featured_col" >
-					<div  style=" background-color: #fff;">
+					<div  style=" background-color: #fff; padding-bottom: 30px;">
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
 							<div class="featured_tag"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver transmisión</a></div>
 							<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
@@ -117,7 +117,7 @@ require 'header.php';
                         </div>
 						<div class="featured_footer d-flex align-items-center justify-content-start">
 							<!-- <div class="featured_author_image"><img src="images/featured_author.jpg" alt=""></div> -->
-							<div style="margin-left: 0px;" class="featured_author_name">Pastor invitado: <a href="#">Cristian Contreras</a></div>
+							<div style="margin-left: 0px; font-size: 16px;" class="featured_author_name">Pastor invitado:<br> <a href="#" style="font-size: 18px;">Cristian Contreras</a></div>
 							<!-- <div class="featured_sales ml-auto"><span>352</span> Sales</div> -->
 						</div>
 					</div>
