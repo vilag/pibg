@@ -21,14 +21,14 @@ set_live();
 
 function consul_dia()
 {
-	setInterval(() => {
-		setTimeout(() => {
-			document.getElementById("punto_live").style.display="none";
-		}, 1000);
-		setTimeout(() => {
-			document.getElementById("punto_live").style.display="block";
-		}, 2000);
-	}, 3000);
+	// setInterval(() => {
+	// 	setTimeout(() => {
+	// 		document.getElementById("punto_live").style.display="none";
+	// 	}, 1000);
+	// 	setTimeout(() => {
+	// 		document.getElementById("punto_live").style.display="block";
+	// 	}, 2000);
+	// }, 3000);
 
 
 		var dia=moment().format('dddd');
@@ -55,7 +55,7 @@ function consul_dia()
 				var nom_activ = data.nom_activ;
 
 				var tema = data.tema;
-				$("#tema_actividad").text(tema);
+				// $("#tema_actividad").text(tema);
 				//alert(data.tema);
 
 				tipo = data.tipo;
@@ -74,7 +74,7 @@ function consul_dia()
 				if (mes==12) {var mes_text = "diciembre";}
 
 				var dia_nom = dia_nomt.substring(0,3);
-				//alert(nom_activ);
+				//alert(dia_nomt);
 				$("#nombre_actvidad").text(nom_activ);
 				//$("#nombre_actvidad2").text(nom_activ);
 				//alert(tema);
@@ -310,7 +310,7 @@ function siguiente(){
 	const element = document.getElementById("content_ministerios");
     element.scrollTo(avance_scroll, 0);
 }
-let dialog_motivo;
+var dialog_motivo;
 function guardar_motivo()
 {
 	var nombre_peticion = $("#nombre_peticion").val();

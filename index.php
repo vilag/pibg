@@ -32,7 +32,7 @@
 	
 	<!-- Home -->
 
-	<div class="home" style="height: 500px;">
+	<div class="home" style="height: 700px;">
 	<input id="input_vista" type="hidden" value="1">
 		<div class="home_slider_container">
 
@@ -42,6 +42,7 @@
 				<!-- Slider Item -->
 				<div class="owl-item">
 					<!-- Background image artist https://unsplash.com/@benwhitephotography -->
+					<!-- <div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728360997/Pibg/JUVENTUD_PIBG_rogx8i.jpg)"></div> -->
 					<div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qhtvlqfjush9g8bieqbk.png)"></div>
 					<div class="home_container">
 						<div class="container">
@@ -52,15 +53,27 @@
 										<div class="home_text">
 
 											
-											
-										
+											<div><label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br><br><br>
+											<!-- <label style="font-size: 20px; color: #fff;" for="">Fiel es Dios, por el cual fuisteis llamados a la comunión con su Hijo Jesucristo nuestro Señor.</label> -->
+												<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
+											</div>
+											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
+											<!-- <div class="home_buttons">
+												<div class="button home_button"><a href="lumbrera.php">Ver Más<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+												<div class="button home_button"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver Transmisiones<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+											</div> -->
 
-											<div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div>
-											<div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: #000 2px solid;">Juan 17:3</b></div>
-											<!-- <br><br><br>
-											<label for="">PRÓXIMA TRANSMISIÓN:</label><br>
-											<b>Culto de Adoración</b><br>
-											<label for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
+											<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
+											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
+											<br><br><br>
+											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
+											<b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br>
+											<label style="color: #ccc;" id="dia_sp">Miércoles</label>
+											<label style="color: #ccc;" id="dia_sp_num">09</label>
+											<label style="color: #ccc;" for=""></label>
+											<label style="color: #ccc;" id="mes_sp">octubre</label>
+											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label>
+											<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
 										</div>
 										<!-- <div class="home_buttons">
 											<div class="button home_button"><a href="#">learn more<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
@@ -433,19 +446,19 @@
 										<div ><b>Próxima Transmisión</b></div>
 										
 									</div>
-									<div class="featured_title">
+									<!-- <div class="featured_title">
 										<h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3>
-									</div>
-									<div style="margin-top: 15px;">
+									</div> -->
+									<!-- <div style="margin-top: 15px;">
 										<label style="color: #fff;" id="tema_actividad"></label>
-									</div>
-									<div style="margin-top: 15px;">
+									</div> -->
+									<!-- <div style="margin-top: 15px;">
 										<label id="dia_sp"></label>
 										<label id="dia_sp_num"></label>
 										<label for=""></label>
 										<label id="mes_sp"></label>
 										<label id="hora_sp"></label>
-									</div>
+									</div> -->
 									<div style="width: 100%; margin-top: 30px;">
 										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px;">Ver Transmisión</a>
 									</div>
