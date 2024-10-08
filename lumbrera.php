@@ -106,7 +106,7 @@ require 'header.php';
 
             <div class="row featured_row">
 				<div class="col-lg-5 featured_col" >
-					<div  style="height: 747px !important; background-color: #fff;">
+					<div  style=" background-color: #fff;">
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
 							<div class="featured_tag"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver transmisión</a></div>
 							<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
