@@ -74,8 +74,10 @@ function consul_dia()
 				if (mes==12) {var mes_text = "diciembre";}
 
 				var dia_nom = dia_nomt.substring(0,3);
-				//alert(dia_nomt);
-				$("#nombre_actvidad").text(nom_activ);
+				// alert(nom_activ);
+				// document.getElementById("nombre_actvidad").innerHTML = nom_activ;
+				// document.getElementById("nombre_actvidad").value = nom_activ;
+				$("#nombre_actividad").text(nom_activ);
 				//$("#nombre_actvidad2").text(nom_activ);
 				//alert(tema);
 

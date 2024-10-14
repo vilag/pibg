@@ -42,7 +42,7 @@
 				<!-- Slider Item -->
 				<div class="owl-item">
 					<!-- Background image artist https://unsplash.com/@benwhitephotography -->
-					<!-- <div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728360997/Pibg/JUVENTUD_PIBG_rogx8i.jpg)"></div> -->
+					<!-- <div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728447824/Pibg/Dise%C3%B1o_sin_t%C3%ADtulo_2_vutrvg.png)"></div> -->
 					<div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qhtvlqfjush9g8bieqbk.png)"></div>
 					<div class="home_container">
 						<div class="container">
@@ -53,7 +53,8 @@
 										<div class="home_text">
 
 											
-											<div><label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br><br><br>
+											<div>
+												<label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br><br><br>
 											<!-- <label style="font-size: 20px; color: #fff;" for="">Fiel es Dios, por el cual fuisteis llamados a la comunión con su Hijo Jesucristo nuestro Señor.</label> -->
 												<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
 											</div>
@@ -67,10 +68,11 @@
 											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
 											<br><br><br>
 											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
-											<b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br>
-											<label style="color: #ccc;" id="dia_sp">Miércoles</label>
-											<label style="color: #ccc;" id="dia_sp_num">09</label>
-											<label style="color: #ccc;" for=""></label>
+											<b style="color: #ccc;" id="nombre_actividad">Semana de la Juventud - Dia 1</b><br>
+											<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
+											<label style="color: #ccc;" id="dia_sp">Lunes</label>
+											<label style="color: #ccc;" id="dia_sp_num">14</label>
+											<label style="color: #ccc;" for="">de</label>
 											<label style="color: #ccc;" id="mes_sp">octubre</label>
 											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label>
 											<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->

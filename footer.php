@@ -83,7 +83,6 @@
 	</footer>
 </div>
 
-<script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
