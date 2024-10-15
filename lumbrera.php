@@ -110,7 +110,7 @@ require 'header.php';
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
 							<p style="padding: 10px;">Transmisiones por:</p>
 							<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank"><img src="images/iconos/youtube3_negro.png" alt="" style="width: 30px; margin-left: 10px; cursor: pointer;"></a>
-							<a href="https://www.instagram.com/pibg.joven/?hl=es" target="_blank"><img src="images/iconos/instagram_b2.png" alt="" style="width: 30px; margin-left: 10px; cursor: pointer;"></a>
+							<a href="https://www.instagram.com/pibg.joven/?hl=es" target="_blank"><img src="images/iconos/instagram_b3.png" alt="" style="width: 30px; margin-left: 10px; cursor: pointer;"></a>
 							
 							<!-- <div class="featured_tag"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver transmisiones</a></div> -->
 							<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
