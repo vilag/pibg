@@ -54,9 +54,9 @@
 
 											
 											<div>
-												<label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br><br><br>
-											<!-- <label style="font-size: 20px; color: #fff;" for="">Fiel es Dios, por el cual fuisteis llamados a la comunión con su Hijo Jesucristo nuestro Señor.</label> -->
-												<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
+												<label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br>
+												<label style="font-size: 20px; color: #fff;" for="">del 13 al 20 de octubre</label>
+												
 											</div>
 											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
 											<!-- <div class="home_buttons">
@@ -68,13 +68,16 @@
 											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
 											<br><br><br>
 											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
-											<b style="color: #ccc;" id="nombre_actividad">Semana de la Juventud - Dia 1</b><br>
+											<b style="color: #ccc;" id="nombre_actividad">Semana de la Juventud - Dia 2 (LLAMADOS AL ARREPENTIMIENTO)</b><br>
+											
 											<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
-											<label style="color: #ccc;" id="dia_sp">Lunes</label>
-											<label style="color: #ccc;" id="dia_sp_num">14</label>
+											<label style="color: #ccc;" id="dia_sp">Martes</label>
+											<label style="color: #ccc;" id="dia_sp_num">15</label>
 											<label style="color: #ccc;" for="">de</label>
 											<label style="color: #ccc;" id="mes_sp">octubre</label>
-											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label>
+											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label><br><br>
+											<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
+
 											<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
 										</div>
 										<!-- <div class="home_buttons">

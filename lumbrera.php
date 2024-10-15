@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Coro J. S. Bach</title>
+<title>Lumbrera</title>
 <link href="images/iconos/icono.png" rel="icon">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -108,7 +108,11 @@ require 'header.php';
 				<div class="col-lg-5 featured_col" >
 					<div  style=" background-color: #fff; padding-bottom: 30px;">
 						<div class="featured_header d-flex flex-row align-items-center justify-content-start">
-							<div class="featured_tag"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver transmisión</a></div>
+							<p style="padding: 10px;">Transmisiones por:</p>
+							<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank"><img src="images/iconos/youtube3_negro.png" alt="" style="width: 30px; margin-left: 10px; cursor: pointer;"></a>
+							<a href="https://www.instagram.com/pibg.joven/?hl=es" target="_blank"><img src="images/iconos/instagram_b2.png" alt="" style="width: 30px; margin-left: 10px; cursor: pointer;"></a>
+							
+							<!-- <div class="featured_tag"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver transmisiones</a></div> -->
 							<!-- <div class="featured_price ml-auto">Price: <span>$35</span></div> -->
 						</div>
 						<div class="featured_title"><h3><a href="courses.html">Unión de Jóvenes Lumbrera</a></h3></div>
