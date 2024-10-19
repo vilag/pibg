@@ -333,7 +333,9 @@
 				append = '',
 				prepend = '';
 
-			repeat /= 2;
+			//repeat /= 2;
+
+			repeat=0;
 
 			while (repeat--) {
 				// Switch to only using appended clones

@@ -78,7 +78,7 @@ function consul_dia()
 				// document.getElementById("nombre_actvidad").innerHTML = nom_activ;
 				// document.getElementById("nombre_actvidad").value = nom_activ;
 				$("#nombre_actividad").text(nom_activ);
-				//$("#nombre_actvidad2").text(nom_activ);
+				$("#tema_actividad").text(tema);
 				//alert(tema);
 
 

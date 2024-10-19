@@ -66,16 +66,16 @@
 
 											<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
 											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
-											<br><br><br>
-											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
-											<b style="color: #ccc;" id="nombre_actividad">Semana de la Juventud - Dia 2 (LLAMADOS AL ARREPENTIMIENTO)</b><br>
-											
+											<br>
+											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br><br>
+											<b style="color: #ccc;" id="nombre_actividad"></b><br>
+											<p style="font-size: 20px; color: #ccc;" id="tema_actividad"></p>
 											<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
 											<label style="color: #ccc;" id="dia_sp">Martes</label>
 											<label style="color: #ccc;" id="dia_sp_num">15</label>
 											<label style="color: #ccc;" for="">de</label>
 											<label style="color: #ccc;" id="mes_sp">octubre</label>
-											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label><br><br>
+											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label><br><br><br>
 											<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
 
 											<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
@@ -227,7 +227,7 @@
 
 @media only screen and (min-width: 260px) and (max-width: 574px) {
 	.estilo_texto_inicial{
-        margin-top: 50px;
+        margin-top: -200px;
     }
 
     .estilo_subtitulo_about{
@@ -299,8 +299,34 @@
 
 
 	</style>
+	<!-- <div class="featured" style="margin-top: -450px;">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+				
 
-
+											
+					<div>
+						<label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br>
+						<label style="font-size: 20px; color: #fff;" for="">del 13 al 20 de octubre</label>
+						
+					</div>
+					
+					<br><br><br>
+					<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
+					<b style="color: #ccc;" id="nombre_actividad"></b><br>
+					<p></p>
+					<label style="color: #ccc;" id="dia_sp">Martes</label>
+					<label style="color: #ccc;" id="dia_sp_num">15</label>
+					<label style="color: #ccc;" for="">de</label>
+					<label style="color: #ccc;" id="mes_sp">octubre</label>
+					<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label><br><br>
+					<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
+					<hr style="height: 80px;">
+				
+			</div>
+		</div>
+	</div> -->
 	<div class="featured" style="background-color: #FAF7F2;">
 		<div class="container">
 			<div class="row">
