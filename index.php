@@ -985,7 +985,7 @@
 				<!-- Events -->
 
 				<div class="col-lg-6 grouped_col">
-					<div class="grouped_title">Calendario 2023</div>
+					<div class="grouped_title">Calendario 2024</div>
 					<div class="events" id="box_calendario">
 
 						

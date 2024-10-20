@@ -18,7 +18,7 @@ Class Index
 
     public function listar_calendario($fecha)
 	{
-		$sql="SELECT DAY(fecha_hora) as dia, MONTH(fecha_hora) as mes, TIME(fecha_hora) as hora, nom_activ, tema  FROM calendario WHERE DATE(fecha_hora)>='$fecha' ORDER BY DATE(fecha_hora) ASC, TIME(fecha_hora) ASC LIMIT 5";
+		$sql="SELECT DAY(fecha_hora) as dia, MONTH(fecha_hora) as mes, TIME(fecha_hora) as hora, nom_activ, tema  FROM calendario WHERE DATE(fecha_hora)>=DATE('$fecha') ORDER BY DATE(fecha_hora) ASC, TIME(fecha_hora) ASC LIMIT 5";
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}

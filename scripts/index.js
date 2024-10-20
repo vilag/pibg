@@ -144,7 +144,7 @@ function listar_cal(){
 	var fecha=moment().format('YYYY-MM-DD');
 	var hora=moment().format('HH:mm:ss');
 	var fecha_hora=fecha+" "+hora;
-
+	//alert(fecha_hora);
 	$.post("ajax/index.php?op=listar_calendario&fecha="+fecha_hora,function(r){
 		$("#box_calendario").html(r);
 	});
