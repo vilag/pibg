@@ -90,7 +90,7 @@
 							<div class="logo_container">
 								<a href="#">
 									<div class="logo_content d-flex flex-row align-items-end justify-content-start">
-										<div class="logo_img" style="width: 277px !important;"><a href="./"><img src="images/logos/logo_b.png" alt=""></a></div>
+										<div class="logo_img"><a href="./"><img src="images/logos/logo_b.png" alt="" style="width: 350px !important;"></a></div>
 										<!-- <div class="logo_text">learn</div> -->
 									</div>
 								</a>
