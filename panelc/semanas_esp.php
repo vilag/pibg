@@ -25,61 +25,44 @@ if ($_SESSION['administrador']==1)
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">Registrar en calendario</h4>
+                            <h4 class="card-title mb-3">Registrar tema semanal</h4>
                         </div>
                         <form class="forms-sample" style="padding-top: 20px;">
-                            <label for="">Seleccion rapida</label>
-                            <div class="col-lg-12" style="float: left; height: 100px; margin-top: 20px;" id="box_act_sem">
-                              
-                            </div>
+                            
                             <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Fecha</label>
-                                <input type="date" class="form-control" id="fecha_actividad" onchange="mostrar_dia();">
+                                <label>Fecha 1</label>
+                                <input type="date" class="form-control" id="fecha_actividad1" >
                               </div>
                             </div>
                             <div class="col-lg-6" style="float: left; height: 100px;">
-                                <div class="form-group">
-                                    <label>Hora (Formato 24 hrs)</label>
-                                    <input type="text" class="form-control" id="hora_actividad">
-                                    <!-- <div id="horas_capt" style="display: none; width: 30%; height: 150px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
-
-                                    </div> -->
-                                </div>
-                            </div>
-                            <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Dia</label>
-                                <input type="text" class="form-control" id="dia" disabled>
+                                <label>Fecha 2</label>
+                                <input type="date" class="form-control" id="fecha_actividad2">
                               </div>
                             </div>
-                            <div class="col-lg-6" style="float: left; height: 100px;">
+                            
+                            <div class="col-lg-12" style="float: left; height: 100px;">
                               <div class="form-group">
                                 <label>Nombre de Actividad</label>
-                                <input type="text" class="form-control" id="nom_actividad">
+                                <input type="text" class="form-control" id="nom_actividad_sem">
                                 <!-- <div id="nombre_act_capt" style="display: none; width: 50%; height: 250px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
 
                                 </div> -->
                               </div>
                             </div>
-                            <div class="col-lg-10" style="float: left; height: 100px;">
+                            <div class="col-lg-12" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Tema</label>
-                                <input type="text" class="form-control" id="tema_actividad" >
+                                <label>Detalle</label>
+                                <input type="text" class="form-control" id="detalle_actividad" >
                                 
                               </div>
                             </div>
-                            <div class="col-lg-2" style="float: left; height: 100px;">
-                              <div class="form-group" style="text-align: center;">
-                                <label>Tipo (Culto)</label>
-                                <input type="checkbox" class="form-control" id="tipo_actividad" style="margin-top: 20px;">
-                                
-                              </div>
-                            </div>
+                            
                             <div class="col-lg-12" style="float: left;">
                                 <div class="form-group" style="margin-top: 50px; text-align: right;">
                                     <!-- <button class="btn btn-primary mr-2" >Guardar</button> -->
-                                    <b style="padding: 20px; background-color: #000; color: #fff; cursor: pointer; border-radius: 10px;" onclick="guardar_dia_calendario();">Guardar</b>
+                                    <b style="padding: 20px; background-color: #000; color: #fff; cursor: pointer; border-radius: 10px;" onclick="guardar_activ_sem();">Guardar</b>
                                 </div>
                             </div>
                             
@@ -90,7 +73,7 @@ if ($_SESSION['administrador']==1)
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                    <h4 class="card-title">Calendario</h4>
+                    <h4 class="card-title">Temas semanales</h4>
                     <!-- <p class="card-description">
                         Add class <code>.table-striped</code>
                     </p> -->
@@ -99,21 +82,21 @@ if ($_SESSION['administrador']==1)
                         <thead>
                             <tr>
                                 <th>
-                                    Fecha
+                                    Fecha inicio
                                 </th>
                                 <th>
-                                    Hora
-                                </th>
-                                <th>
-                                    Dia
+                                    Hora termino
                                 </th>
                                 <th>
                                     Nombre
                                 </th>
+                                <th>
+                                    Detalle
+                                </th>
                             
                             </tr>
                         </thead>
-                        <tbody id="dias_calendario">
+                        <tbody id="temas_sem">
                             
                             
                         </tbody>
@@ -129,7 +112,7 @@ if ($_SESSION['administrador']==1)
           </div>
           <!-- content-wrapper ends -->
 
-           <script type="text/javascript" src="scripts/calendario.js?v=<?php echo(rand()); ?>"></script>
+           <script type="text/javascript" src="scripts/semanas_esp.js?v=<?php echo(rand()); ?>"></script>
 <?php
   require "footer.php";
 ?>

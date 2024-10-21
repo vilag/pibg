@@ -270,6 +270,15 @@ switch ($_GET["op"]){
 			 mail($destinatario, $asunto, $carta);
 
 		break;
+
+		case 'consul_sem_esp':
+
+			$fecha = $_POST['fecha'];
+
+			$rspta=$index->consul_sem_esp($fecha);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 	
 }
 ?>

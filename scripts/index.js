@@ -1,3 +1,4 @@
+consul_sem_esp();
 ver_vista();
 consul_dia();
 listar_cal();
@@ -78,7 +79,14 @@ function consul_dia()
 				// document.getElementById("nombre_actvidad").innerHTML = nom_activ;
 				// document.getElementById("nombre_actvidad").value = nom_activ;
 				$("#nombre_actividad").text(nom_activ);
-				$("#tema_actividad").text(tema);
+				if (tema!="") {
+					document.getElementById("tema_actividad").style.display="block";
+					$("#tema_actividad").text(tema);
+				}else{
+					document.getElementById("tema_actividad").style.display="none";
+					$("#tema_actividad").text("");
+				}
+				
 				//alert(tema);
 
 
@@ -363,4 +371,24 @@ function guardar_motivo()
 
 function cerrar_alert(){
 	dialog_motivo.modal('hide');
+}
+
+function consul_sem_esp(){
+	var fecha=moment().format('YYYY-MM-DD');
+	$.post("ajax/index.php?op=consul_sem_esp",{fecha:fecha},function(data, status)
+	{
+		data = JSON.parse(data);
+		$("#nom_activ_sem_esp").text(data.nombre);
+		$("#det_activ_sem_esp").text(data.detalle);
+		//alert(data.enlace);
+		// if (data.enlace!="") {
+		// 	document.getElementById("enlace_redirect").style.display="block";
+		// 	$("#enlace_redirect").attr("href",data.enlace);
+		// }else{
+		// 	document.getElementById("enlace_redirect").style.display="none";
+		// }
+		
+		//console.log(data.nombre);
+
+	});
 }

@@ -54,8 +54,8 @@
 
 											
 											<div>
-												<label for="" style="font-size: 28px; color: #FFF;">SEMANA DE LA JUVENTUD 2024</label><br>
-												<label style="font-size: 20px; color: #fff;" for="">del 13 al 20 de octubre</label>
+												<label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;"></label><br>
+												<label id="det_activ_sem_esp" style="font-size: 20px; color: #fff;" for=""></label>
 												
 											</div>
 											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
@@ -71,12 +71,13 @@
 											<b style="color: #ccc;" id="nombre_actividad"></b><br>
 											<p style="font-size: 20px; color: #ccc;" id="tema_actividad"></p>
 											<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
-											<label style="color: #ccc;" id="dia_sp">Martes</label>
-											<label style="color: #ccc;" id="dia_sp_num">15</label>
-											<label style="color: #ccc;" for="">de</label>
-											<label style="color: #ccc;" id="mes_sp">octubre</label>
-											<label style="color: #ccc;" id="hora_sp">19:00 hrs.</label><br><br><br>
-											<a href="lumbrera.php" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff;">Ver Más</a>
+											<label style="color: #ccc;" id="dia_sp"></label>
+											<label style="color: #ccc;" id="dia_sp_num"></label>
+											<label style="color: #ccc;" for=""></label>
+											<label style="color: #ccc;" id="mes_sp"></label>
+											<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
+											<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara5203/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
+											<!-- <a id="enlace_redirect_local" href="" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none;">Ver Más</a> -->
 
 											<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
 										</div>
@@ -327,7 +328,50 @@
 			</div>
 		</div>
 	</div> -->
-	<div class="featured" style="background-color: #FAF7F2;">
+	<style>
+		.estilo_act_sem{
+			padding: 20px 5px;
+			text-align: center;
+			/* box-shadow: 5px 5px 10px rgba(0,0,0,0.1); */
+			/* border-radius: 10px; */
+			margin: 5px;
+			/* background-color: #ccc; */
+		}
+	</style>
+	<div class="featured" style="background-color: #24344B;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12" style="text-align: center; padding-top: 40px; padding-bottom: 20px;">
+					<h3 style="color: #ccc;">Actividades Semanales</h3>
+				</div>	
+			</div>
+			<div class="row" style="padding-bottom: 40px; display: flex; justify-content: center;">
+				
+				<div class="col-lg-2 estilo_act_sem">
+					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Escuela <br> Dominical</p>
+					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 10:30 hrs.</p>
+				</div>
+				<div class="col-lg-2 estilo_act_sem">
+					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de <br> Adoración</p>
+					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 12:00 hrs.</p>
+				</div>
+				<div class="col-lg-2 estilo_act_sem">
+					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de Adoración <br> Vespertino</p>
+					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 18:00 hrs.</p>
+				</div>
+				<div class="col-lg-2 estilo_act_sem">
+					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de <br> Oración</p>
+					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Miércoles 19:00 hrs.</p>
+				</div>
+				<div class="col-lg-2 estilo_act_sem">
+					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de Estudio <br> Biblico</p>
+					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Viernes 19:00 hrs.</p>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div class="featured" style="background-color: #FAF7F2; display: none;">
 		<div class="container">
 			<div class="row">
 				<div class="col">

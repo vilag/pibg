@@ -18,7 +18,7 @@ Class Index
 
     public function listar_calendario($fecha)
 	{
-		$sql="SELECT DAY(fecha_hora) as dia, MONTH(fecha_hora) as mes, TIME(fecha_hora) as hora, nom_activ, tema  FROM calendario WHERE DATE(fecha_hora)>=DATE('$fecha') ORDER BY DATE(fecha_hora) ASC, TIME(fecha_hora) ASC LIMIT 5";
+		$sql="SELECT DAY(fecha_hora) as dia, MONTH(fecha_hora) as mes, TIME(fecha_hora) as hora, nom_activ, tema  FROM calendario WHERE fecha_hora>='$fecha' ORDER BY DATE(fecha_hora) ASC, TIME(fecha_hora) ASC LIMIT 5";
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
@@ -90,6 +90,17 @@ Class Index
 		$sql="INSERT INTO motivos_oracion (nombre,telefono,motivo,fecha_hora) VALUES('$nombre_peticion','$telefono_peticion','$motivo_peticion','$fecha_hora')";
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
+	}
+
+	public function consul_sem_esp($fecha)
+	{
+		// $sql="UPDATE actividades_destacadas SET expirado=1 WHERE fecha2<'$fecha'";
+		// return ejecutarConsultaSimpleFila($sql);
+		// return ejecutarConsulta($sql);
+
+		$sql="SELECT * FROM actividades_destacadas WHERE '$fecha'<=fecha2 LIMIT 1";
+		return ejecutarConsultaSimpleFila($sql);
+		// return ejecutarConsulta($sql);			
 	}
    
 }

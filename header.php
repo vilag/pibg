@@ -100,9 +100,10 @@
 									<li><a href="./" style="background-color: rgba(0,0,0,0); color: #fff;">Inicio</a></li>
 									<!-- <li><a href="about.html">about us</a></li> -->
 									<!-- <li><a href="courses.html">courses</a></li> -->
+									<li><a href="about-us.php" style="background-color: rgba(0,0,0,0); color: #fff;">Conócenos</a></li>
 									<li><a href="predicaciones.php" style="background-color: rgba(0,0,0,0); color: #fff;">Predicaciones</a></li>
-                                    <li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #fff;">Coro J.S. Bach</a></li>
-									<li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes Lumbrera</a></li>
+                                    <!-- <li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #fff;">Coro J.S. Bach</a></li> -->
+									<!-- <li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes Lumbrera</a></li> -->
 									
 								</ul>
 								<!-- <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div> -->
@@ -154,9 +155,10 @@
 		<nav class="menu_nav">
 			<ul class="menu_mm">
 				<li class="menu_mm"><a href="./">Inicio</a></li>
+				<li class="menu_mm"><a href="about-us.php">Conócenos</a></li>
 				<li class="menu_mm"><a href="blog.php">Predicaciones</a></li>
-				<li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li>
-				<li class="menu_mm"><a href="lumbrera.php">Jóvenes Lumbrera</a></li>
+				<!-- <li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li> -->
+				<!-- <li class="menu_mm"><a href="lumbrera.php">Jóvenes Lumbrera</a></li> -->
 				<li>
 					<a href="quien_es_jesus.php">
 						<button class="course_button">
