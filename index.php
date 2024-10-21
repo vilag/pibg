@@ -371,6 +371,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="featured" style="background-color: #FAF7F2; display: none;">
 		<div class="container">
 			<div class="row">
@@ -613,6 +614,45 @@
 		</div>
 	</div>
 
+	<style>
+		.estilo_btn_reunion{
+			color: #ccc; 
+			background-color: #24344B;
+		}
+		.estilo_btn_reunion:hover{
+			padding: 5px;
+			color: #ccc; 
+			background-color: rgba(255,255,255,0.1);
+			border-radius: 5px;
+
+		}
+	</style>
+
+	<div class="featured" style="background-color: #24344B; margin-top: -5px;">
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-lg-6" style="padding-top: 50px; padding-bottom: 50px; padding-right: 30px;">
+					<div class="col-lg-12" style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px;">
+						<b>Estudio biblico en línea</b>
+						<p style="color: #ccc;">Martes 22:00 hrs., Miércoles 21:00 hrs.</p>
+					</div>
+					<div class="col-lg-12"  style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px;">
+						<b>Estudio biblico en casas</b>
+						<p style="color: #ccc;">Viernes 21:00 hrs.</p>
+					</div>
+				</div>
+				<div class="col-lg-6" style="padding-top: 50px; padding-bottom: 50px; padding-left: 50px; padding-right: 30px;">
+					<h2 style="color: #fff;">Grupos de Estudio Bíblico</h2><br>
+					<p style="line-height: 20px; color: #ccc; margin: 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
+					<p style="color: #ccc; margin: 0px;">Salmos 25:5</p><br>
+					<!-- <p><a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a></p> -->
+					<p><a class="estilo_btn_reunion" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">Deseo reunirme</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- <style>
 		.fade-in_ninos{-webkit-animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both}
 		@-webkit-keyframes fade-in_ninos{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_ninos{0%{opacity:0}100%{opacity:1}}
@@ -781,7 +821,7 @@
 		</div>
 	</div> -->
 
-	<div class="courses">
+	<div class="courses" style="display: none;">
 		<div class="container">
 			 <div class="row">
 				<div class="col-lg-10 offset-lg-1">
