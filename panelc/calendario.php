@@ -71,8 +71,18 @@ if ($_SESSION['administrador']==1)
                             </div>
                             <div class="col-lg-2" style="float: left; height: 100px;">
                               <div class="form-group" style="text-align: center;">
-                                <label>Tipo (Culto)</label>
-                                <input type="checkbox" class="form-control" id="tipo_actividad" style="margin-top: 20px;">
+                                <div class="col-lg-12">
+                                  <label>Transmisión</label>
+                                </div>
+                                <div class="col-lg-12" style="padding-top: 20px;">
+                                  <input type="radio" id="activ1" name="tipo_actividad" value="Si">
+                                  <label style="color: #000; margin-top: -3px; margin-right: 15px;" for="marca1">Si</label>
+                                  <input type="radio" id="activ2" name="tipo_actividad" value="No">
+                                  <label style="color: #000; margin-top: -3px; margin-right: 5px;" for="marca2">No</label>
+                                </div>
+                                
+                                <!-- <input type="checkbox" class="form-control" id="tipo_actividad" style="margin-top: 20px;"> -->
+                                
                                 
                               </div>
                             </div>
@@ -109,6 +119,9 @@ if ($_SESSION['administrador']==1)
                                 </th>
                                 <th>
                                     Nombre
+                                </th>
+                                <th>
+                                    Transmisión
                                 </th>
                             
                             </tr>

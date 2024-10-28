@@ -80,13 +80,19 @@ function guardar_dia_calendario()
 	var nom_actividad = $("#nom_actividad").val();
 	var tema_actividad = $("#tema_actividad").val();
 	var tipo_actividad = $("#tipo_actividad").val();
+	var tipo_actividad = $('input[name="tipo_actividad"]:checked').val();
 	var tipo_act = 0;
 	//alert(tipo_actividad);
-	if (tipo_actividad=="on") {
-		tipo_act = 1;
+
+	if (tipo_actividad=="Si" || tipo_actividad=="No") {
+		if (tipo_actividad=="Si") {
+			tipo_act = 1;
+		}else{
+			tipo_act = 0;
+		}
+	}else{
+		alert("Es necesario seleccionar el estatus de transmisión");
 	}
-	//alert(tipo_act);
-	//return;
 
 	var fecha_hora = fecha_actividad+" "+hora_actividad;
 

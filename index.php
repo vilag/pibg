@@ -66,9 +66,9 @@
 
 											<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
 											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
-											<br>
-											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br><br>
-											<b style="color: #ccc;" id="nombre_actividad"></b><br>
+											<br><br>
+											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
+											<b style="color: #ccc; font-size: 22px;" id="nombre_actividad"></b><br>
 											<p style="font-size: 20px; color: #ccc;" id="tema_actividad"></p>
 											<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
 											<label style="color: #ccc;" id="dia_sp"></label>
@@ -218,7 +218,7 @@
 }
 
 .estilo_texto_inicial{
-    margin-top: 100px;
+    margin-top: 80px;
 }
 
 .estilo_subtitulo_about{
@@ -645,7 +645,7 @@
 				<div class="col-lg-6" style="padding-top: 50px; padding-bottom: 50px; padding-left: 50px; padding-right: 30px;">
 					<h2 style="color: #fff;">Grupos de Estudio Bíblico</h2><br>
 					<p style="line-height: 20px; color: #ccc; margin: 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
-					<p style="color: #ccc; margin: 0px;">Salmos 25:5</p><br>
+					<p style="color: #ccc; margin: 0px;"><b>Salmos 25:5</b></p><br>
 					<!-- <p><a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a></p> -->
 					<p><a class="estilo_btn_reunion" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">Deseo reunirme</a></p>
 				</div>

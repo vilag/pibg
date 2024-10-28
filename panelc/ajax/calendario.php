@@ -13,7 +13,12 @@ switch ($_GET["op"]){
 			$rspta = $calendario->listar_dias();
 			while ($reg = $rspta->fetch_object())
 					{
-						
+						if ($reg->tipo==1) {
+							$tipo = "Si";
+						}
+						if ($reg->tipo==0) {
+							$tipo = "No";
+						}
 						
 						echo '
                                
@@ -29,6 +34,9 @@ switch ($_GET["op"]){
                                 </td>
                                 <td>
                                     '.$reg->nom_activ.'
+                                </td>
+								<td>
+                                    '.$tipo.'
                                 </td>
                                
                             </tr>
