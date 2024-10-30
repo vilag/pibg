@@ -17,6 +17,8 @@
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="./styles/personal.css">
 
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 </head>
@@ -53,7 +55,7 @@
 										<div class="home_text">
 
 											
-											<div>
+											<div data-aos="fade-up-left">
 												<label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;"></label><br>
 												<label id="det_activ_sem_esp" style="font-size: 20px; color: #fff;" for=""></label>
 												
@@ -341,29 +343,29 @@
 	<div class="featured" style="background-color: #24344B;">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12" style="text-align: center; padding-top: 40px; padding-bottom: 20px;">
+				<div class="col-lg-12" style="text-align: center; padding-top: 40px; padding-bottom: 20px;" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
 					<h3 style="color: #ccc;">Actividades Semanales</h3>
 				</div>	
 			</div>
 			<div class="row" style="padding-bottom: 40px; display: flex; justify-content: center;">
 				
-				<div class="col-lg-2 estilo_act_sem">
+				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
 					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Escuela <br> Dominical</p>
 					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 10:30 hrs.</p>
 				</div>
-				<div class="col-lg-2 estilo_act_sem">
+				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
 					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de <br> Adoración</p>
 					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 12:00 hrs.</p>
 				</div>
-				<div class="col-lg-2 estilo_act_sem">
+				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
 					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de Adoración <br> Vespertino</p>
 					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 18:00 hrs.</p>
 				</div>
-				<div class="col-lg-2 estilo_act_sem">
+				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
 					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de <br> Oración</p>
 					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Miércoles 19:00 hrs.</p>
 				</div>
-				<div class="col-lg-2 estilo_act_sem">
+				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
 					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de Estudio <br> Biblico</p>
 					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Viernes 19:00 hrs.</p>
 				</div>
@@ -1216,6 +1218,7 @@
 ?>
 
 </div>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>

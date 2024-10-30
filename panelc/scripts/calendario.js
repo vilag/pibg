@@ -92,6 +92,7 @@ function guardar_dia_calendario()
 		}
 	}else{
 		alert("Es necesario seleccionar el estatus de transmisión");
+		return;
 	}
 
 	var fecha_hora = fecha_actividad+" "+hora_actividad;

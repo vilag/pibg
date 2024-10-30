@@ -6,7 +6,7 @@ listar_lecturas();
 listar_activ_dest();
 mostrar_btn_salida_video();
 set_live();
-
+AOS.init();
 
 // setTimeout(() => {
 // 	$("#punto_live").removeClass("entrada").addClass("salida");
