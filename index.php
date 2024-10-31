@@ -15,7 +15,7 @@
 <link href="plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
-<link rel="stylesheet" type="text/css" href="./styles/personal.css">
+<!-- <link rel="stylesheet" type="text/css" href="./styles/personal.css"> -->
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -34,7 +34,19 @@
 	
 	<!-- Home -->
 
-	<div class="home" style="height: 700px;">
+	<style>
+	.estilo_caja_texto_ini{
+		float: left; 
+		margin-top: 60px;
+	}
+
+	.estilo_home{
+		height: 700px;
+	}
+	
+	</style>
+
+	<div class="home estilo_home">
 	<input id="input_vista" type="hidden" value="1">
 		<div class="home_slider_container">
 
@@ -54,34 +66,57 @@
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
 
-											
-											<div data-aos="fade-up-left">
-												<label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;"></label><br>
-												<label id="det_activ_sem_esp" style="font-size: 20px; color: #fff;" for=""></label>
+											<div class="col-lg-6 estilo_caja_texto_ini">
+												<div data-aos="fade-up-left">
+													<label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;"></label><br>
+													<label id="det_activ_sem_esp" style="font-size: 20px; color: #fff;" for=""></label>
+													
+												</div>
+												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
+												<!-- <div class="home_buttons">
+													<div class="button home_button"><a href="lumbrera.php">Ver Más<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+													<div class="button home_button"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver Transmisiones<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+												</div> -->
+
+												<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
+												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
+													<div style="width: 100%; display: block;">
+														<br><br>
+														<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
+														<b style="color: #ccc; font-size: 22px;" id="nombre_actividad"></b><br>
+														<p style="font-size: 20px; color: #ccc;" id="tema_actividad"></p>
+														<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
+														<label style="color: #ccc;" id="dia_sp"></label>
+														<label style="color: #ccc;" id="dia_sp_num"></label>
+														<label style="color: #ccc;" for=""></label>
+														<label style="color: #ccc;" id="mes_sp"></label>
+														<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
+														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara5203/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
+														
+													</div>
+												
+												<!-- <a id="enlace_redirect_local" href="" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none;">Ver Más</a> -->
+
+												<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
+											</div>
+											<div class="col-lg-6" style="float: left; padding-top: 50px;">
+												<!-- <div style="width: 100%; margin-bottom: 10px;">
+													<label id="nav_videos1" style="padding: 5px 10px; background-color: #14415d; color: #fff; border-radius: 10px; display: block; width: 140px; text-align: center;" onclick="next_video();">Siguiente video</label>
+													<label id="nav_videos2" style="padding: 5px 10px; background-color: #14415d; color: #fff; border-radius: 10px; display: none; width: 140px; text-align: center;" onclick="ant_video();">Video anterior</label>
+												</div> -->
+												<div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
+													<video  style="width: 100%; " controls muted autoplay loop>
+														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389378/Pibg/videos/WhatsApp_Video_2024-10-30_at_12.57.11_PM_odm4zp.mp4" type="video/mp4">	
+													</video>
+													
+												</div>
+												<div id="video_dia_oracion2" style="width: 100%; display: none;">
+													<video  style="width: 100%; " controls muted autoplay>
+														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
+													</video>
+												</div>
 												
 											</div>
-											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
-											<!-- <div class="home_buttons">
-												<div class="button home_button"><a href="lumbrera.php">Ver Más<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
-												<div class="button home_button"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver Transmisiones<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
-											</div> -->
-
-											<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
-											<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
-											<br><br>
-											<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
-											<b style="color: #ccc; font-size: 22px;" id="nombre_actividad"></b><br>
-											<p style="font-size: 20px; color: #ccc;" id="tema_actividad"></p>
-											<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
-											<label style="color: #ccc;" id="dia_sp"></label>
-											<label style="color: #ccc;" id="dia_sp_num"></label>
-											<label style="color: #ccc;" for=""></label>
-											<label style="color: #ccc;" id="mes_sp"></label>
-											<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
-											<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara5203/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
-											<!-- <a id="enlace_redirect_local" href="" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none;">Ver Más</a> -->
-
-											<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
 										</div>
 										<!-- <div class="home_buttons">
 											<div class="button home_button"><a href="#">learn more<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
@@ -219,19 +254,21 @@
     padding: 10px 10px;
 }
 
-.estilo_texto_inicial{
+/* .estilo_texto_inicial{
     margin-top: 80px;
-}
+} */
 
 .estilo_subtitulo_about{
     height: 130px;
 }
 
 
+
+
 @media only screen and (min-width: 260px) and (max-width: 574px) {
-	.estilo_texto_inicial{
+	/* .estilo_texto_inicial{
         margin-top: -200px;
-    }
+    } */
 
     .estilo_subtitulo_about{
         height: 170px;
@@ -262,12 +299,16 @@
         text-align: center; 
         padding: 10px 10px;
     }
+
+	
+
 }
 
-@media only screen and (min-width: 574px) and (max-width: 1000px) {
-	.estilo_texto_inicial{
+
+@media only screen and (min-width: 575px) and (max-width: 1000px) {
+	/* .estilo_texto_inicial{
         margin-top: 50px;
-    }
+    } */
 
     .estilo_subtitulo_about{
         height: 170px;
@@ -298,6 +339,8 @@
         text-align: center; 
         padding: 10px 10px;
     }
+
+	
 }
 
 

@@ -69,10 +69,10 @@
     }
 }
 
-@media only screen and (min-width: 574px) and (max-width: 1000px) {
-	.estilo_texto_inicial{
+@media only screen and (min-width: 575px) and (max-width: 1000px) {
+	/* .estilo_texto_inicial{
         margin-top: 50px;
-    }
+    } */
 
     .estilo_subtitulo_about{
         height: 170px;
