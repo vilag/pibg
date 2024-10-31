@@ -43,6 +43,12 @@
 	.estilo_home{
 		height: 700px;
 	}
+
+	@media only screen and (max-width: 574px){
+		.estilo_home{
+			height: 800px;
+		}
+	}
 	
 	</style>
 
