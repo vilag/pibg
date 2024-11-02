@@ -112,7 +112,7 @@
 												</div> -->
 												<div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
 													<video  style="width: 100%; " controls muted autoplay loop>
-														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389378/Pibg/videos/WhatsApp_Video_2024-10-30_at_12.57.11_PM_odm4zp.mp4" type="video/mp4">	
+														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
 													</video>
 													
 												</div>
