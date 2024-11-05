@@ -393,19 +393,19 @@ function consul_sem_esp(){
 	});
 }
 
-function next_video()
-{
-	//alert("entra");
-	document.getElementById("video_dia_oracion1").style.display="block";
-	document.getElementById("video_dia_oracion2").style.display="none";
-	document.getElementById("nav_videos1").style.display="block";
-	document.getElementById("nav_videos2").style.display="none";
-}
+// function next_video()
+// {
+// 	//alert("entra");
+// 	document.getElementById("video_dia_oracion1").style.display="block";
+// 	document.getElementById("video_dia_oracion2").style.display="none";
+// 	document.getElementById("nav_videos1").style.display="block";
+// 	document.getElementById("nav_videos2").style.display="none";
+// }
 
-function ant_video()
-{
-	document.getElementById("video_dia_oracion1").style.display="none";
-	document.getElementById("video_dia_oracion2").style.display="block";
-	document.getElementById("nav_videos1").style.display="none";
-	document.getElementById("nav_videos2").style.display="block";
-}
+// function ant_video()
+// {
+// 	document.getElementById("video_dia_oracion1").style.display="none";
+// 	document.getElementById("video_dia_oracion2").style.display="block";
+// 	document.getElementById("nav_videos1").style.display="none";
+// 	document.getElementById("nav_videos2").style.display="block";
+// }

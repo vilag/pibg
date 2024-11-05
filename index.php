@@ -72,7 +72,7 @@
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
 
-											<div class="col-lg-6 estilo_caja_texto_ini">
+											<div class="col-lg-12 estilo_caja_texto_ini">
 												<div data-aos="fade-up-left">
 													<label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;"></label><br>
 													<label id="det_activ_sem_esp" style="font-size: 20px; color: #fff;" for=""></label>
@@ -105,11 +105,8 @@
 
 												<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
 											</div>
-											<div class="col-lg-6" style="float: left; padding-top: 50px;">
-												<!-- <div style="width: 100%; margin-bottom: 10px;">
-													<label id="nav_videos1" style="padding: 5px 10px; background-color: #14415d; color: #fff; border-radius: 10px; display: block; width: 140px; text-align: center;" onclick="next_video();">Siguiente video</label>
-													<label id="nav_videos2" style="padding: 5px 10px; background-color: #14415d; color: #fff; border-radius: 10px; display: none; width: 140px; text-align: center;" onclick="ant_video();">Video anterior</label>
-												</div> -->
+											<!-- <div class="col-lg-6" style="float: left; padding-top: 50px;">
+												
 												<div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
 													<video  style="width: 100%; " controls muted autoplay loop>
 														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
@@ -122,7 +119,7 @@
 													</video>
 												</div>
 												
-											</div>
+											</div> -->
 										</div>
 										<!-- <div class="home_buttons">
 											<div class="button home_button"><a href="#">learn more<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
@@ -421,6 +418,30 @@
 				
 			</div>
 		</div>
+	</div>
+
+	<div class="featured" style="display: none; background-image: url(images/Lectura_diaria/fondo2.png); background-repeat: no-repeat; background-size: cover;  height: 400px; background-position-y: 40%;">
+		<div style="height: 500px; height: 100%; background-color: rgba(255,255,255,0.8);">
+		<div class="container">
+				<div class="row">
+					<div class="col-lg-12" style="line-height: 20px; padding-top: 40px; padding-bottom: 20px;" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+						<p style="font-size: 25px; color: #000;">LECTURA DEL DIA</p>
+						<p style="font-size: 20px; color: #000; margin-top: -30px;">Salmos 1</p>
+					</div>	
+					<div class="col-lg-12" style="padding-top: 0px; padding-bottom: 20px;" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+						<p style="font-size: 18px; line-height: 25px; color: #000;">1. Bienaventurado el varón que no anduvo en consejo de malos, Ni estuvo en camino de pecadores, Ni en silla de escarnecedores se ha sentado;</p>
+						<p style="font-size: 18px; line-height: 25px; color: #000;">2. Sino que en la ley de Jehová está su delicia, Y en su ley medita de día y de noche.</p>
+						<p style="font-size: 18px; line-height: 25px; color: #000;">3. Será como árbol plantado junto a corrientes de aguas,
+
+Que da su fruto en su tiempo,
+
+Y su hoja no cae;
+
+Y todo lo que hace, prosperará</p>
+					</div>	
+				</div>
+			</div>
+		</div>	
 	</div>
 	
 	<div class="featured" style="background-color: #FAF7F2; display: none;">
