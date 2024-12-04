@@ -279,6 +279,60 @@ switch ($_GET["op"]){
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
+
+		case 'count_activ_esp':
+
+			$fecha = $_POST['fecha'];
+
+			$rspta=$index->count_activ_esp($fecha);
+			$pila = array();
+			
+			while ($reg = $rspta->fetch_object()){
+				array_push($pila, $reg);
+			}
+			
+			echo json_encode($pila);
+		break;
+
+		case 'listar_actividades_destacadas':
+
+			$fecha = $_GET['fecha'];
+
+			$rspta = $index->listar_actividades_destacadas($fecha);
+			$conteo = 1;
+			while ($reg = $rspta->fetch_object())
+					{
+					
+						echo '		
+							<div>					
+												<div id="mini'.$conteo.'" class="estilo_mini_princ1 fade-in_'.$conteo.'" style="
+													background-image: url('.$reg->imagen.'); 
+													background-repeat: no-repeat;
+													background-size: 400px 350px;
+													background-position: center; z-index: 1;">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px;">
+														<p class="yanone-kaffeesatz">'.$reg->nombre_corto.'</p>
+													</div>
+													<p id="nom_activ'.$conteo.'" style="display: none;">'.$reg->nombre.'</p>
+													<p id="det_activ'.$conteo.'" style="display: none;">'.$reg->detalle.'</p>
+												</div>
+												<div id="mini'.$conteo.'_2" class="estilo_mini_princ1-in" style="
+													background-image: url('.$reg->imagen.');
+													background-repeat: no-repeat;
+													background-size: cover;
+													background-position: center; display:none;">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1)); height: 100%; width: 100%;">
+														<p class="yanone-kaffeesatz"></p>
+													</div>
+													
+												</div>  
+							</div>
+						';	
+
+						$conteo = $conteo + 1;
+					}
+					
+		break;
 	
 }
 ?>

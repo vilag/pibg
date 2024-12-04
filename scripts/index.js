@@ -1,4 +1,7 @@
-consul_sem_esp();
+mostrar_texto_principal();
+//count_activ_esp();
+
+//consul_sem_esp();
 ver_vista();
 consul_dia();
 listar_cal();
@@ -86,7 +89,7 @@ function consul_dia()
 					document.getElementById("tema_actividad").style.display="none";
 					$("#tema_actividad").text("");
 				}
-				
+
 				//alert(tema);
 
 
@@ -354,7 +357,7 @@ function guardar_motivo()
 				});
 
 				// do something in the background
-				
+
 
 			// bootbox.alert("Gracias por compartirnos su petición estaremos orando por usted, si nos permite nos gustaria escribirle al numero que nos compartió, mientras tanto esta cordialmente invitado a nuestras actividades semanales Dios lo bendiga.");
 			$("#nombre_peticion").val("");
@@ -366,7 +369,7 @@ function guardar_motivo()
 		bootbox.alert("Por favor ayudenos capturado su nombre y motivo de oración, muchas gracias.");
 	}
 
-	
+
 }
 
 function cerrar_alert(){
@@ -387,25 +390,211 @@ function consul_sem_esp(){
 		// }else{
 		// 	document.getElementById("enlace_redirect").style.display="none";
 		// }
-		
+
 		//console.log(data.nombre);
 
 	});
 }
 
-// function next_video()
-// {
-// 	//alert("entra");
-// 	document.getElementById("video_dia_oracion1").style.display="block";
-// 	document.getElementById("video_dia_oracion2").style.display="none";
-// 	document.getElementById("nav_videos1").style.display="block";
-// 	document.getElementById("nav_videos2").style.display="none";
-// }
+function mostrar_texto_principal()
+{
+	$("#nom_activ_sem_esp").text("");
+	var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
+	var cita = "Juan 17:3";
+	var arr_texto_principal = texto_principal.split(' ');
+	var num_char_tp = arr_texto_principal.length;
+	var contador = 0;
+	setTimeout(() => {
+		setInterval(() => {
+			if (contador<num_char_tp) {
+				var fila = '<label class="fade-in">'+arr_texto_principal[contador]+'&nbsp;</label>';
+				$('#nom_activ_sem_esp').append(fila);
+			}
+			if (contador==(num_char_tp-1)) {
+				$("#det_activ_sem_esp").text(cita);
+				$("#det_activ_sem_esp").addClass("fade-in");
+			}
+			contador++;
+		}, 100);
+	}, 2000);
+	setTimeout(() => {
+		count_activ_esp();
+	}, 3000);
+	
+}
 
-// function ant_video()
-// {
-// 	document.getElementById("video_dia_oracion1").style.display="none";
-// 	document.getElementById("video_dia_oracion2").style.display="block";
-// 	document.getElementById("nav_videos1").style.display="none";
-// 	document.getElementById("nav_videos2").style.display="block";
-// }
+//var cant_activ_des = 0;
+var array_activ_des = [];
+var cont2 = 0;	
+var cont_consec = 0;
+function count_activ_esp(){
+	cont2 = 0;	
+	cont_consec = 0;
+	var fecha=moment().format('YYYY-MM-DD');
+	$.post("ajax/index.php?op=count_activ_esp",{fecha:fecha},function(data, status)
+	{
+		data = JSON.parse(data);
+		//console.log(data);
+		array_activ_des = data;
+		//cant_activ_des = data.length;
+		var cont=0;
+		var desfase = 3;
+		for (var index = 0; index < data.length; index++) {
+			desfase = desfase+0.1;
+			var fila='<div id="fila'+cont+'" class="estilo_back_ae">'+
+				'<style>'+
+					'.fade-in_'+cont+'{-webkit-animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1.000) '+desfase+'s both;animation:fade-in_'+cont+' 1.2s cubic-bezier(.39,.575,.565,1.000) '+desfase+'s both}'+
+					'@-webkit-keyframes fade-in_'+cont+'{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_'+cont+'{0%{opacity:0}100%{opacity:1}}'+
+				'</style>'+
+				'<div id="mini'+cont+'" class="estilo_mini_princ1 fade-in_'+cont+'" style="'+
+					'background-image: url('+data[index].imagen+');'+
+					'background-repeat: no-repeat;'+
+					'background-size: 400px 350px;'+
+					'background-position: center; z-index: 1;">'+
+					'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px;">'+
+						'<p class="yanone-kaffeesatz">'+data[index].nombre_corto+'</p>'+
+					'</div>'+
+				'</div>'+
+            '</div>';
+			var filaBig='<div id="filaBig'+cont+'">'+
+				
+				'<div id="mini'+cont+'_2" class="estilo_mini_princ1-in" style="'+
+					'background-image: url('+data[index].imagen+');'+
+					'background-repeat: no-repeat;'+
+					'background-size: cover;'+
+					'background-position: center; display:none;">'+
+					'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1)); height: 100%; width: 100%;">'+
+						'<p class="yanone-kaffeesatz"></p>'+
+					'</div>'+
+				'</div>'+
+            '</div>';
+			cont++;
+			$('#content_actividades_destacadas').append(fila);
+			$('#content_actividades_destacadas').append(filaBig);
+
+		}
+
+		animar_contenedores();
+		
+	});
+}
+
+
+
+function animar_contenedores(){
+	var cant_next = array_activ_des.length+cont_consec;
+	setTimeout(() => {
+		$("#mini"+cont_consec).removeClass("fade-in_"+cont_consec);
+		$("#mini"+cont_consec).addClass("fade-out");
+	}, 8000);
+
+	setTimeout(() => {
+		$("#mini"+cont2+"_2").addClass("fade-in");								
+		document.getElementById("mini"+cont2+"_2").style.display = "block";
+		setTimeout(() => {
+			var cont_ant = 	cont2-1;	
+			$("#mini"+cont_ant+"_2").removeClass("fade-in");
+			$("#mini"+cont_ant+"_2").addClass("fade-out");	
+		}, 600);	
+		$("#nom_activ_sem_esp").text("");
+		$("#nom_activ_sem_esp").removeClass("fade-in");
+		$("#det_activ_sem_esp").removeClass("fade-in");
+		$("#nom_activ_sem_esp").addClass("fade-in");
+		$("#det_activ_sem_esp").addClass("fade-in");
+		$("#nom_activ_sem_esp").text(array_activ_des[cont2].nombre);
+		$("#det_activ_sem_esp").text(array_activ_des[cont2].detalle);
+		
+
+	}, 8300);
+
+	setTimeout(() => {
+		$(".estilo_back_ae").addClass("slide-left");
+	}, 8800);
+
+	setTimeout(() => {
+		var fila='<div id="fila'+cant_next+'" class="estilo_back_ae">'+
+			'<style>'+
+				'.fade-in_'+cant_next+'{-webkit-animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in_'+cant_next+' 1.2s cubic-bezier(.39,.575,.565,1.000) both}'+
+				'@-webkit-keyframes fade-in_'+cant_next+'{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_'+cant_next+'{0%{opacity:0}100%{opacity:1}}'+
+			'</style>'+
+			'<div id="mini'+cant_next+'" class="estilo_mini_princ1 fade-in_'+cant_next+'" style="'+
+				'background-image: url('+array_activ_des[cont2].imagen+');'+
+				'background-repeat: no-repeat;'+
+				'background-size: 400px 350px;'+
+				'background-position: center; z-index: 1;">'+
+				'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px;">'+
+						'<p class="yanone-kaffeesatz">'+array_activ_des[cont2].nombre_corto+'</p>'+
+				'</div>'+
+			'</div>'+
+		'</div>';
+		$('#content_actividades_destacadas').append(fila);
+		$("#fila" + cont_consec).remove();	
+		$(".estilo_back_ae").removeClass("slide-left");
+								
+		
+		
+	}, 9300);
+
+	setTimeout(() => {
+
+		cont2++;
+		if (cont2==array_activ_des.length) {
+			setTimeout(() => {
+
+				var ult_ext1 = array_activ_des.length;
+				var ult_ext2 = array_activ_des.length+3;
+				
+				for (var index = ult_ext1; index <= ult_ext2; index++) {					
+					$("#mini"+index).removeClass("fade-in_"+index);
+					$("#mini"+index).addClass("fade-out");
+				}
+
+				var cont_ult = array_activ_des.length-1;	
+				$("#mini"+cont_ult+"_2").removeClass("fade-in");
+				$("#mini"+cont_ult+"_2").addClass("fade-out");
+				$("#nom_activ_sem_esp").text("");
+				$("#det_activ_sem_esp").text("");
+
+				setTimeout(() => {
+					for (var index = ult_ext1; index <= ult_ext2; index++) {					
+						$("#fila" + index).remove();
+					}
+					for (var index = 0; index <= array_activ_des.length; index++) {					
+						$("#filaBig" + index).remove();
+					}
+					
+					
+					
+				}, 2000);
+
+				setTimeout(() => {
+					
+					mostrar_texto_principal();
+					array_activ_des = [];
+				}, 5000);
+				
+				return;
+				cont2=0;
+				var cont_ult = array_activ_des.length-1;	
+				$("#mini"+cont_ult+"_2").removeClass("fade-in");
+				$("#mini"+cont_ult+"_2").addClass("fade-out");
+				$("#nom_activ_sem_esp").text("Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.");
+				$("#det_activ_sem_esp").text("Juan 17:3");
+				
+				cant_next++;
+				cont_consec++;
+				animar_contenedores();
+			}, 8000);			
+		}else{
+			$("#nom_activ_sem_esp").removeClass("fade-in");
+			$("#det_activ_sem_esp").removeClass("fade-in");
+			cant_next++;
+			cont_consec++;
+			animar_contenedores();
+		}
+		
+	}, 10000);
+
+}
+
+

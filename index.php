@@ -15,6 +15,9 @@
 <link href="plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
 <!-- <link rel="stylesheet" type="text/css" href="./styles/personal.css"> -->
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -37,11 +40,23 @@
 	<style>
 	.estilo_caja_texto_ini{
 		float: left; 
-		margin-top: 60px;
+		margin-top: 0px;
+		z-index: 1;
 	}
 
 	.estilo_home{
 		height: 700px;
+	}
+
+	.yanone-kaffeesatz {
+	font-family: "Yanone Kaffeesatz", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 300;
+	font-style: normal;
+	font-size: 20px;
+	color: #fff; 
+	line-height: 22px; 
+	margin-top: 160px; 
 	}
 
 	@media only screen and (max-width: 574px){
@@ -72,10 +87,11 @@
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
 
-											<div class="col-lg-12 estilo_caja_texto_ini">
-												<div data-aos="fade-up-left">
-													<label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;"></label><br>
-													<label id="det_activ_sem_esp" style="font-size: 20px; color: #fff;" for=""></label>
+											<div id="content_nom_activ_des" class="col-lg-10 estilo_caja_texto_ini">
+												<div id="div_content_texto_princ" class="content_texto_princ">
+													<!-- <label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</label><br> -->
+													<p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p>
+													<label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label>
 													
 												</div>
 												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
@@ -86,11 +102,11 @@
 
 												<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
 												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
-													<div style="width: 100%; display: block;">
+													<div class="content_proxima_transmision">
 														<br><br>
 														<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
 														<b style="color: #ccc; font-size: 22px;" id="nombre_actividad"></b><br>
-														<p style="font-size: 20px; color: #ccc;" id="tema_actividad"></p>
+														<p style="font-size: 20px; color: #ccc; line-height: 28px; margin: 0px 0px 15px 0px;" id="tema_actividad"></p>
 														<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
 														<label style="color: #ccc;" id="dia_sp"></label>
 														<label style="color: #ccc;" id="dia_sp_num"></label>
@@ -105,9 +121,163 @@
 
 												<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
 											</div>
-											<!-- <div class="col-lg-6" style="float: left; padding-top: 50px;">
+											<style>
+												.estilo_mini_princ1{
+													height: 250px; 
+													width: 150px; 
+													
+													float: left; 
+													margin-left: 20px; 
+													margin-right: 0px;
+													border-radius: 10px; 
+													box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
+													/* position: static; */
+    												margin-top: 0px;
+													/* transition: all 0.5s; */
+													opacity: 1;
+													margin-top: 100px;
+													/* border: none; */
+													/* display: block; */
+													transition: all 0.5s;
+												}
+
+												.estilo_mini_princ1:hover{
+													height: 250px; 
+													width: 150px; 
+													
+													float: left; 
+													margin-left: 20px; 
+													margin-right: 0px;
+													border-radius: 10px; 
+													box-shadow: 5px 5px 7px rgba(255,255,255,0.2);
+													/* position: static; */
+    												margin-top: 0px;
+													
+													opacity: 1;
+													margin-top: 100px;
+													/* border: #fff 3px solid; */
+													/* display: block; */
+													transition: all 0.5s;
+												}
+
+												.estilo_mini_princ1_active{
+													height: 250px; 
+													width: 150px; 
+													
+													float: left; 
+													margin-left: 20px; 
+													margin-right: 0px;
+													border-radius: 10px; 
+													box-shadow: 5px 5px 7px rgba(255,255,255,0.3);
+													/* position: static; */
+    												margin-top: 0px;
+													
+													opacity: 1;
+													margin-top: 100px;
+													/* border: #fff 3px solid; */
+													/* display: block; */
+													transition: all 0.5s;
+												}
+											
+												.estilo_mini_princ1-in{
+													height: 1000px;
+													width: 150vw;
+													
+													float: left;
+													margin-left: -100%;
+													margin-right: 10px;
+													border-radius: 10px;
+													box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+													opacity: 1;
+													position: absolute;
+													display: none;
+													margin-top: -50%;
+													
+													/* transition: width 0.5s, height 0.5s, margin-left 0.5s, margin-top 0.5s; */
+													
+												}
+												/* .flip-out-ver-left{-webkit-animation:flip-out-ver-left .45s cubic-bezier(.55,.085,.68,.53) both;animation:flip-out-ver-left .45s cubic-bezier(.55,.085,.68,.53) both}									
+												@-webkit-keyframes flip-out-ver-left{0%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}100%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);opacity:0}}@keyframes flip-out-ver-left{0%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}100%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);opacity:0}}
 												
-												<div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
+												.flip-in-ver-left{-webkit-animation:flip-in-ver-left .5s cubic-bezier(.25,.46,.45,.94) both;animation:flip-in-ver-left .5s cubic-bezier(.25,.46,.45,.94) both}
+												@-webkit-keyframes flip-in-ver-left{0%{-webkit-transform:rotateY(80deg);transform:rotateY(80deg);opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}}@keyframes flip-in-ver-left{0%{-webkit-transform:rotateY(80deg);transform:rotateY(80deg);opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}} */
+
+												.fade-out{-webkit-animation:fade-out 1s ease-out both;animation:fade-out 1s ease-out both}
+												@-webkit-keyframes fade-out{0%{opacity:1}100%{opacity:0}}@keyframes fade-out{0%{opacity:1}100%{opacity:0}}
+
+												.fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}
+												@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
+
+											
+/* 
+												.slide-left_static{-webkit-animation:slide-left .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-left .5s cubic-bezier(.25,.46,.45,.94) both}
+												@-webkit-keyframes slide-left{0%{-webkit-transform:translateX(0);transform:translateX(0)}100%{-webkit-transform:translateX(-170px);transform:translateX(-170px)}}@keyframes slide-left{0%{-webkit-transform:translateX(0);transform:translateX(0)}100%{-webkit-transform:translateX(-170px);transform:translateX(-170px)}} */
+
+												.slide-left{-webkit-animation:slide-left .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-left .5s cubic-bezier(.25,.46,.45,.94) both}
+												@-webkit-keyframes slide-left{0%{-webkit-transform:translateX(0);transform:translateX(0)}100%{-webkit-transform:translateX(-170px);transform:translateX(-170px)}}@keyframes slide-left{0%{-webkit-transform:translateX(0);transform:translateX(0)}100%{-webkit-transform:translateX(-170px);transform:translateX(-170px)}}
+												
+												.estilo_back_ae{
+													background-color: transparent;
+												}
+												/* .fade-in_1{-webkit-animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1.000) 3s both;animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1.000) 3s both}
+												@-webkit-keyframes fade-in_1{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_1{0%{opacity:0}100%{opacity:1}}
+											
+												.fade-in_2{-webkit-animation:fade-in_2 1.2s cubic-bezier(.39,.575,.565,1.000) 3.1s both;animation:fade-in_2 1.2s cubic-bezier(.39,.575,.565,1.000) 3.1s both}
+												@-webkit-keyframes fade-in_2{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_2{0%{opacity:0}100%{opacity:1}}
+
+												.fade-in_3{-webkit-animation:fade-in_3 1.2s cubic-bezier(.39,.575,.565,1.000) 3.2s both;animation:fade-in_3 1.2s cubic-bezier(.39,.575,.565,1.000) 3.2s both}
+												@-webkit-keyframes fade-in_3{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_3{0%{opacity:0}100%{opacity:1}}
+
+												.fade-in_4{-webkit-animation:fade-in_4 1.2s cubic-bezier(.39,.575,.565,1.000) 3.3s both;animation:fade-in_4 1.2s cubic-bezier(.39,.575,.565,1.000) 3.3s both}
+												@-webkit-keyframes fade-in_4{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_4{0%{opacity:0}100%{opacity:1}} */
+											</style>
+											<!-- <div style="width: 50%; overflow: scroll; position: absolute; height: 350px; margin-left: 50%;">
+												<div id="content_actividades_destacadas" style="float: left; padding-top: 100px;  width: 1000px !important;">
+
+												</div>
+											</div> -->
+											<div id="content_actividades_destacadas" class="estilo_content_activ_dest">
+
+												<!-- <div id="mini1" class="estilo_mini_princ1" style="
+													background-image: url('images/actividades_especiales/mayordomia.jpg'); 
+													background-repeat: no-repeat;
+													background-size: 400px 350px;
+													background-position: center;">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%;">
+														<p class="yanone-kaffeesatz">SEMANA DE <br>MAYORDOMÍA</p>
+													</div>
+													
+												</div>
+												<div id="mini1_2" class="estilo_mini_princ1-in" style="
+													background-image: url('images/actividades_especiales/mayordomia.jpg');
+													background-repeat: no-repeat;
+													background-size: cover;
+													background-position: center;">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%;">
+														<p class="yanone-kaffeesatz">SEMANA DE <br>MAYORDOMÍA</p>
+													</div>
+													
+												</div>
+
+
+
+												<div style="height: 100%; width: 150px; background-image: url(images/actividades_especiales/caravana-medica.png); float: left; margin-left: 20px; border-radius: 10px; box-shadow: 10px 10px 20px rgba(0,0,0,0.5);">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%;">
+														<p class="yanone-kaffeesatz">CARAVANA MÉDICO <br>MISIONERA</p>
+													</div>
+												</div>
+												<div style="height: 100%; width: 150px; background-image: url(images/actividades_especiales/misiones-mundiales.jpg); float: left; margin-left: 20px; border-radius: 10px; box-shadow: 10px 10px 20px rgba(0,0,0,0.5);">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%;">
+														<p class="yanone-kaffeesatz">ORACIÓN POR LAS<br>MISIONES MUNDIALES</p>
+													</div>
+												</div>
+												<div style="height: 100%; width: 150px; background-image: url(images/actividades_especiales/concierto-navidad.png); float: left; margin-left: 20px; border-radius: 10px; box-shadow: 10px 10px 20px rgba(0,0,0,0.5);">
+													<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%;">
+														<p class="yanone-kaffeesatz">CONCIERTO <br> NAVIDEÑO</p>
+													</div>
+												</div> -->
+												
+												<!-- <div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
 													<video  style="width: 100%; " controls muted autoplay loop>
 														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
 													</video>
@@ -117,9 +287,9 @@
 													<video  style="width: 100%; " controls muted autoplay>
 														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
 													</video>
-												</div>
+												</div> -->
 												
-											</div> -->
+											</div>
 										</div>
 										<!-- <div class="home_buttons">
 											<div class="button home_button"><a href="#">learn more<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
@@ -265,13 +435,77 @@
     height: 130px;
 }
 
+.estilo_texto_activ_esp{
+	font-size: 28px; 
+	color: #FFF; 
+	line-height: 35px; 
+	margin: 0px 0px 0px 0px;
+}
 
+.content_texto_princ{
+	height: 140px;
+}
+
+.text_secundario_estilo{
+	font-size: 20px; 
+	color: #fff; 
+	margin-top: 10px;
+}
+
+.estilo_content_activ_dest{
+	float: left; 
+	padding-top: 100px; 
+	width: 1000px !important; 
+	position: absolute; 
+	margin-left: 50%;
+}
+
+.content_proxima_transmision{
+	width: 50%; 
+	display: block;
+}
 
 
 @media only screen and (min-width: 260px) and (max-width: 574px) {
+	.text_secundario_estilo{
+		font-size: 12px; 
+		color: #fff; 
+		margin-top: 10px;
+	}
+
+	.content_proxima_transmision{
+		width: 100%; 
+		display: block;
+	}
+	.content_texto_princ{
+		height: 200px;
+		transition: all 1s;
+	}
+
+	.estilo_content_activ_dest{
+		float: left; 
+		padding-top: 100px; 
+		width: 1000px !important; 
+		position: absolute; 
+		margin-left: 50%;
+		display: none;
+	}
+	
 	/* .estilo_texto_inicial{
         margin-top: -200px;
     } */
+	.estilo_caja_texto_ini{
+		float: left; 
+		margin-top: -100px;
+		z-index: 1;
+	}
+
+	.estilo_texto_activ_esp{
+		font-size: 15px; 
+		color: #FFF; 
+		line-height: 20px; 
+		margin: 0px 0px 0px 0px;
+	}
 
     .estilo_subtitulo_about{
         height: 170px;
@@ -316,6 +550,12 @@
     .estilo_subtitulo_about{
         height: 170px;
     }
+	.estilo_texto_activ_esp{
+		font-size: 18px; 
+		color: #FFF; 
+		line-height: 20px; 
+		margin: 0px 0px 0px 0px;
+	}
 
     .estilo_caja_about{
         width: 33.3%; 
@@ -343,7 +583,52 @@
         padding: 10px 10px;
     }
 
+	.estilo_mini_princ1-in{
+													height: 1000px;
+													width: 140vw;
+													
+													float: left;
+													margin-left: -50%;
+													margin-right: 10px;
+													border-radius: 10px;
+													box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+													opacity: 1;
+													position: absolute;
+													display: none;
+													margin-top: -50%;
+													
+													/* transition: width 0.5s, height 0.5s, margin-left 0.5s, margin-top 0.5s; */
+													
+	}
+
 	
+}
+
+@media only screen and (min-width: 1001px) and (max-width: 1500px){
+	.estilo_mini_princ1-in{
+													height: 1000px;
+													width: 140vw;
+													
+													float: left;
+													margin-left: -75%;
+													margin-right: 10px;
+													border-radius: 10px;
+													box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+													opacity: 1;
+													position: absolute;
+													display: none;
+													margin-top: -50%;
+													
+													/* transition: width 0.5s, height 0.5s, margin-left 0.5s, margin-top 0.5s; */
+													
+	}
+
+	.estilo_texto_activ_esp{
+		font-size: 18px; 
+		color: #FFF; 
+		line-height: 20px; 
+		margin: 0px 0px 0px 0px;
+	}
 }
 
 
@@ -420,7 +705,9 @@
 		</div>
 	</div>
 
-	<div class="featured" style="display: none; background-image: url(images/Lectura_diaria/fondo2.png); background-repeat: no-repeat; background-size: cover;  height: 400px; background-position-y: 40%;">
+	
+
+	<!-- <div class="featured" style="display: block; background-image: url(images/Lectura_diaria/fondo2.png); background-repeat: no-repeat; background-size: cover;  height: 400px; background-position-y: 40%;">
 		<div style="height: 500px; height: 100%; background-color: rgba(255,255,255,0.8);">
 		<div class="container">
 				<div class="row">
@@ -442,7 +729,7 @@ Y todo lo que hace, prosperará</p>
 				</div>
 			</div>
 		</div>	
-	</div>
+	</div> -->
 	
 	<div class="featured" style="background-color: #FAF7F2; display: none;">
 		<div class="container">

@@ -102,6 +102,22 @@ Class Index
 		return ejecutarConsultaSimpleFila($sql);
 		// return ejecutarConsulta($sql);			
 	}
+
+	public function listar_actividades_destacadas($fecha)
+	{
+
+		$sql="SELECT * FROM actividades_destacadas WHERE '$fecha'<=fecha2";
+		return ejecutarConsulta($sql);
+		// return ejecutarConsulta($sql);			
+	}
+
+	public function count_activ_esp($fecha)
+	{
+
+		$sql="SELECT * FROM actividades_destacadas WHERE '$fecha'<=fecha2";
+		return ejecutarConsulta($sql);
+		//return ejecutarConsultaSimpleFila($sql);			
+	}
    
 }
 
