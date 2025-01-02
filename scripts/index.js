@@ -1,11 +1,12 @@
 mostrar_texto_principal();
+listar_lecturas();
 //count_activ_esp();
 
 //consul_sem_esp();
 ver_vista();
 consul_dia();
 listar_cal();
-listar_lecturas();
+
 listar_activ_dest();
 mostrar_btn_salida_video();
 set_live();
@@ -20,6 +21,11 @@ AOS.init();
 // 		}, 1000);
 // 	}, 1000);
 // }, 1000);
+
+var libro = "";
+var capitulo = 0;
+var versiculo1 = 0;
+var versiculo2 = 0;
 
 
 
@@ -160,16 +166,129 @@ function listar_cal(){
 		$("#box_calendario").html(r);
 	});
 }
-
+var array_lecturas_dia = [];
 function listar_lecturas(){
 	var fecha=moment().format('YYYY-MM-DD');
 	var hora=moment().format('HH:mm:ss');
-	//var fecha_hora=fecha+" "+hora;
+	var fecha_hora=fecha+" "+hora;
 	//alert(fecha_hora);
-	$.post("ajax/index.php?op=listar_lecturas&fecha="+fecha,function(r){
-		$("#p_lecturas_dia").html(r);
+	$.post("ajax/index.php?op=listar_lecturas",{fecha:fecha},function(data, status)
+	{
+		data = JSON.parse(data);
+		//console.log(data);
+		array_lecturas_dia = data;
+		// console.log("array_lecturas_dia");
+		// console.log(array_lecturas_dia);
+
+		//var cont_ld= 0;
+		for (var index = 0; index < array_lecturas_dia.length; index++) {
+			//console.log(resultado[index].number);
+			var fila_lect='<div id="fila_lect'+index+'" style="margin-bottom: 10px;">'+					
+				'<p style="color: #fff; font-size: 20px; line-height: 27px; margin-bottom: 20px;"><b>'+array_lecturas_dia[index].libro+' '+array_lecturas_dia[index].capitulo+'</b></p>'+
+					'<div id="fila_cap_ver'+index+'" style="line-height: 27px;"></div>'+
+				'</div>';
+			$('#p_lecturas_dia').append(fila_lect);
+			//cont_ld++;		
+		}
+
+		getCita();
+
 	});
+
+	libro = "Juan";
+	capitulo = 21;
+	versiculo1 = 20;
+	versiculo2 = 21;
+
+	
+	
 }
+
+async function getCita(){
+	try {
+		console.log("array_lecturas_dia");
+		console.log(array_lecturas_dia);
+		
+		for (var index = 0; index < array_lecturas_dia.length; index++) {
+			
+			const apiUrl = 'https://bible-api.deno.dev/api/read/rv1960/'+array_lecturas_dia[index].libro+'/'+array_lecturas_dia[index].capitulo+'';
+			const response = await fetch(apiUrl);
+			const resultado = await response.json();
+			console.log("resultado API");
+			console.log(resultado);
+
+			//var cont= 0;
+			for (var index2 = 0; index2 < resultado.vers.length; index2++) {
+				//console.log(resultado[index].number);
+				var fila='<div id="fila_lv'+index2+'" style="margin-bottom: 10px;">'+					
+					'<p style="color: #fff; font-size: 20px; line-height: 27px; font-weight: 300;">'+resultado.vers[index2].number+'. '+resultado.vers[index2].verse+'</p>'+
+				'</div>';
+				$('#fila_cap_ver'+index).append(fila);
+				//cont++;
+				
+			}
+		}
+
+
+
+		// $("#libro_cita").text(libro);
+		// $("#capitulo_cita").text(capitulo);
+		// $("#versiculo1_cita").text(":"+versiculo1);
+		// $("#versiculo2_cita").text("-"+versiculo2);
+		// const apiUrl='https://bible-api.deno.dev/api/read/rv1960/'+libro+'/'+capitulo+'/'+versiculo1+'-'+versiculo2+'';
+		// const response = await fetch(apiUrl);
+		// //const { results } = await response.json();
+		// const resultado = await response.json();
+		// console.log("resultado API");
+		// console.log(resultado);
+
+		// var cont= 0;
+		// for (let index = 0; index < resultado.length; index++) {
+		// 	//console.log(resultado[index].number);
+		// 	var fila='<div id="fila'+cont+'" style="margin-bottom: 10px;">'+					
+		// 		'<p style="color: #fff; font-size: 20px; line-height: 27px; font-weight: 300;">'+resultado[index].number+'. '+resultado[index].verse+'</p>'+
+		// 	'</div>';
+		// 	$('#p_lecturas_dia').append(fila);
+		// 	cont++;
+			
+		// }
+
+
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+
+// async function getCita(){
+// 	try {
+// 		$("#libro_cita").text(libro);
+// 		$("#capitulo_cita").text(capitulo);
+// 		$("#versiculo1_cita").text(":"+versiculo1);
+// 		$("#versiculo2_cita").text("-"+versiculo2);
+// 		const apiUrl='https://bible-api.deno.dev/api/read/rv1960/'+libro+'/'+capitulo+'/'+versiculo1+'-'+versiculo2+'';
+// 		const response = await fetch(apiUrl);
+// 		//const { results } = await response.json();
+// 		const resultado = await response.json();
+// 		console.log("resultado API");
+// 		console.log(resultado);
+
+// 		var cont= 0;
+// 		for (let index = 0; index < resultado.length; index++) {
+// 			//console.log(resultado[index].number);
+// 			var fila='<div id="fila'+cont+'" style="margin-bottom: 10px;">'+					
+// 				'<p style="color: #fff; font-size: 20px; line-height: 27px; font-weight: 300;">'+resultado[index].number+'. '+resultado[index].verse+'</p>'+
+// 			'</div>';
+// 			$('#p_lecturas_dia').append(fila);
+// 			cont++;
+			
+// 		}
+
+
+// 	} catch (error) {
+// 		console.error(error);
+// 	}
+// }
 
 function listar_activ_dest(){
 	var fecha=moment().format('YYYY-MM-DD');
@@ -573,17 +692,17 @@ function animar_contenedores(){
 					array_activ_des = [];
 				}, 5000);
 				
-				return;
-				cont2=0;
-				var cont_ult = array_activ_des.length-1;	
-				$("#mini"+cont_ult+"_2").removeClass("fade-in");
-				$("#mini"+cont_ult+"_2").addClass("fade-out");
-				$("#nom_activ_sem_esp").text("Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.");
-				$("#det_activ_sem_esp").text("Juan 17:3");
+				// return;
+				// cont2=0;
+				// var cont_ult = array_activ_des.length-1;	
+				// $("#mini"+cont_ult+"_2").removeClass("fade-in");
+				// $("#mini"+cont_ult+"_2").addClass("fade-out");
+				// $("#nom_activ_sem_esp").text("Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.");
+				// $("#det_activ_sem_esp").text("Juan 17:3");
 				
-				cant_next++;
-				cont_consec++;
-				animar_contenedores();
+				// cant_next++;
+				// cont_consec++;
+				// animar_contenedores();
 			}, 8000);			
 		}else{
 			$("#nom_activ_sem_esp").removeClass("fade-in");
@@ -596,5 +715,6 @@ function animar_contenedores(){
 	}, 10000);
 
 }
+
 
 

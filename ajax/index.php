@@ -106,22 +106,24 @@ switch ($_GET["op"]){
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
 
-		case 'listar_lecturas':
+		
 
-			$fecha = $_GET['fecha'];
+		// case 'listar_lecturas':
 
-			$rspta = $index->listar_lecturas($fecha);
+		// 	$fecha = $_GET['fecha'];
+
+		// 	$rspta = $index->listar_lecturas($fecha);
 				
-			while ($reg = $rspta->fetch_object())
-					{
+		// 	while ($reg = $rspta->fetch_object())
+		// 			{
 					
 
-						echo '
-							<a href="'.$reg->link_cita.'" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px; margin-left: 10px;">'.$reg->cita.'</a>
+		// 				echo '
+		// 					<a href="'.$reg->link_cita.'" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px; margin-left: 10px;">'.$reg->cita.'</a>
 							
-						';	
-					}
-		break;
+		// 				';	
+		// 			}
+		// break;
 
 		case 'activ_esp1':
 
@@ -292,6 +294,20 @@ switch ($_GET["op"]){
 				array_push($pila, $reg);
 			}
 			
+			echo json_encode($pila);
+		break;
+
+		case 'listar_lecturas':
+
+			$fecha = $_POST['fecha'];
+
+			$rspta = $index->listar_lecturas($fecha);
+			$pila = array();
+				
+			while ($reg = $rspta->fetch_object())
+			{
+				array_push($pila, $reg);
+			}
 			echo json_encode($pila);
 		break;
 

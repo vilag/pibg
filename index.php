@@ -631,6 +631,22 @@
 	}
 }
 
+		.barra_lecturas::-webkit-scrollbar {
+			width: 10px;
+			height: 10px;              
+		}
+
+		.barra_lecturas::-webkit-scrollbar-track {
+			background: rgb(212, 221, 226, 0.1);       
+		}
+
+		.barra_lecturas::-webkit-scrollbar-thumb {
+			background-color: rgb(40, 57, 87);    
+			border-radius: 20px;    
+			border: 1px solid rgba(155, 168, 175, 0.5);
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+		}
+
 
 	</style>
 	<!-- <div class="featured" style="margin-top: -450px;">
@@ -938,33 +954,25 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div>
 
-	<div class="milestones">
+	<div class="milestones" style="padding-bottom: 70px; padding-top: 120px;">
 		
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
-		<div class="container">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1706298697/paginaWeb/Lectura%20diaria/qgjdezvpsauzsxn9lw4s.png" data-speed="0.8"></div>
+		<div class="container" style="margin-top: -70px;">
 			<div class="row milestones_container">
 				<div class="row">
-					<div class="col-lg-6" style="padding: 0px 30px;" >
-						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
-						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
-					</div>
-					<div class="col-lg-6" style="padding: 0px 30px;">
-						<form >
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
-								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
-								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
-							</div>
 
-						</form>
+					<div class="col-lg-12" style="padding-left: 30px; text-align: center;">
+						<h2 style="color: #fff; font-weight: 300;">Lecturas del dia</h2><br>
+						<!-- <p id="p_lecturas_dia"></p> -->
+					</div>
+					<div class="col-lg-12">
+						<!-- <div class="col-lg-12">
+							<p style="color: #fff; font-size: 20px;"><label id="libro_cita"></label>&nbsp;<label id="capitulo_cita"></label>&nbsp;<label id="versiculo1_cita"></label><label id="versiculo2_cita"></label></p>
+						</div> -->
+						<div class="col-lg-12 barra_lecturas" id="p_lecturas_dia" style="height: 300px; overflow-y: scroll;">
+
+						</div>
+
 					</div>
 				</div>
 				
@@ -1011,6 +1019,43 @@ Y todo lo que hace, prosperará</p>
 			</div>
 		</div>
 	</div>
+
+	<div class="milestones">
+		
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row milestones_container">
+				<div class="row">
+					<div class="col-lg-6" style="padding: 0px 30px;" >
+						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
+						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
+					</div>
+					<div class="col-lg-6" style="padding: 0px 30px;">
+						<form >
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
+								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
+								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
+							</div>
+
+						</form>
+					</div>
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+
+	
 
 	<!-- <style>
 		.fade-in_ninos{-webkit-animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both}
@@ -1349,24 +1394,7 @@ Y todo lo que hace, prosperará</p>
 
 	
 
-	<div class="milestones">
-		
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1706298697/paginaWeb/Lectura%20diaria/qgjdezvpsauzsxn9lw4s.png" data-speed="0.8"></div>
-		<div class="container" style="margin-top: -70px;">
-			<div class="row milestones_container">
-				<div class="row">
 
-					<div class="col-lg-12" style="padding-left: 30px;">
-						<h2 style="color: #fff; margin-left: 10px;">Lecturas del dia</h2><br><br>
-						<p id="p_lecturas_dia"></p>
-					</div>
-					
-				</div>
-				
-
-			</div>
-		</div>
-	</div>
 
 
 	
