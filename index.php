@@ -655,8 +655,8 @@
 			margin-bottom: 10px; 
 			background-color: rgba(255,255,255,0.1); 
 			padding: 15px; 
-			box-shadow: 5px 5px 10px rgba(0,0,0,0.1); 
-			border-radius: 5px;
+			box-shadow: 5px 5px 10px rgba(0,0,0,0.05); 
+			border-radius: 0px;
 		}
 
 		.box_lecturas_dia:hover{
@@ -665,10 +665,10 @@
 			justify-content: center; 
 			align-items: center; 
 			margin-bottom: 10px; 
-			background-color: rgba(255,255,255,0.3); 
+			background-color: rgba(255,255,255,0.2); 
 			padding: 15px; 
-			box-shadow: 5px 5px 10px rgba(0,0,0,0.2); 
-			border-radius: 5px;
+			box-shadow: 5px 5px 10px rgba(0,0,0,0.05); 
+			border-radius: 0px;
 		}
 
 
@@ -711,6 +711,7 @@
 			/* background-color: #ccc; */
 		}
 	</style>
+	
 	<div class="featured" style="background-color: #24344B;">
 		<div class="container">
 			<div class="row">
@@ -998,14 +999,15 @@ Y todo lo que hace, prosperará</p>
 
 							</div>
 						</div>
-						<!-- <div class="col-lg-12">
-							<p style="color: #fff; font-size: 20px;"><label id="libro_cita"></label>&nbsp;<label id="capitulo_cita"></label>&nbsp;<label id="versiculo1_cita"></label><label id="versiculo2_cita"></label></p>
-						</div> -->
+						
 						
 
 					</div>
 				</div>
-				
+				<div class="col-lg-12" style="text-align: center; margin-top: 20px;">
+						
+					<p style="color: #fff;">Descarga el plan de lectura anual&nbsp;&nbsp;<a href="files/Lectura_biblica_anual_2025.pdf" download="Lectura_biblica_anual_2025.pdf" class="estilo_btn_plan_anual">AQUÍ</a></p>
+				</div>
 
 			</div>
 		</div>
@@ -1020,6 +1022,18 @@ Y todo lo que hace, prosperará</p>
 			padding: 5px;
 			color: #ccc; 
 			background-color: rgba(255,255,255,0.1);
+			border-radius: 5px;
+
+		}
+
+		.estilo_btn_plan_anual{
+			color: #ccc; 
+			
+		}
+		.estilo_btn_plan_anual:hover{
+			padding: 5px;
+			color: #ccc; 
+			background-color: #24344B;
 			border-radius: 5px;
 
 		}
