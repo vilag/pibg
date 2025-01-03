@@ -110,7 +110,7 @@
 														<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
 														<label style="color: #ccc;" id="dia_sp"></label>
 														<label style="color: #ccc;" id="dia_sp_num"></label>
-														<label style="color: #ccc;" for=""></label>
+														<label style="color: #ccc;" for="">de</label>
 														<label style="color: #ccc;" id="mes_sp"></label>
 														<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
 														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara5203/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
@@ -647,6 +647,30 @@
 			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 		}
 
+		.box_lecturas_dia{
+			cursor: pointer; 
+			display: flex; 
+			justify-content: center; 
+			align-items: center; 
+			margin-bottom: 10px; 
+			background-color: rgba(255,255,255,0.1); 
+			padding: 15px; 
+			box-shadow: 5px 5px 10px rgba(0,0,0,0.1); 
+			border-radius: 5px;
+		}
+
+		.box_lecturas_dia:hover{
+			cursor: pointer; 
+			display: flex; 
+			justify-content: center; 
+			align-items: center; 
+			margin-bottom: 10px; 
+			background-color: rgba(255,255,255,0.3); 
+			padding: 15px; 
+			box-shadow: 5px 5px 10px rgba(0,0,0,0.2); 
+			border-radius: 5px;
+		}
+
 
 	</style>
 	<!-- <div class="featured" style="margin-top: -450px;">
@@ -962,16 +986,22 @@ Y todo lo que hace, prosperará</p>
 				<div class="row">
 
 					<div class="col-lg-12" style="padding-left: 30px; text-align: center;">
-						<h2 style="color: #fff; font-weight: 300;">Lecturas del dia</h2><br>
+						<h2 style="color: #fff; font-weight: 300;">Lecturas del dia</h2>
+						<label style="color: #fff;" id="citasdia_resumen"></label>
 						<!-- <p id="p_lecturas_dia"></p> -->
 					</div>
 					<div class="col-lg-12">
+						<div style="float: left; text-align: center; padding: 20px; height: 320px; overflow-y: scroll;" class="col-lg-4 barra_lecturas" id="box_citas_lecturas">
+						</div>
+						<div style="float: left; padding: 20px;" class="col-lg-8">
+							<div class="col-lg-12 barra_lecturas" id="p_lecturas_dia" style="height: 300px; overflow-y: scroll;">
+
+							</div>
+						</div>
 						<!-- <div class="col-lg-12">
 							<p style="color: #fff; font-size: 20px;"><label id="libro_cita"></label>&nbsp;<label id="capitulo_cita"></label>&nbsp;<label id="versiculo1_cita"></label><label id="versiculo2_cita"></label></p>
 						</div> -->
-						<div class="col-lg-12 barra_lecturas" id="p_lecturas_dia" style="height: 300px; overflow-y: scroll;">
-
-						</div>
+						
 
 					</div>
 				</div>

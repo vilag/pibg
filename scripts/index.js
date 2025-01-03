@@ -181,41 +181,87 @@ function listar_lecturas(){
 		// console.log(array_lecturas_dia);
 
 		//var cont_ld= 0;
+		var text_citas = "";
 		for (var index = 0; index < array_lecturas_dia.length; index++) {
 			//console.log(resultado[index].number);
 			var fila_lect='<div id="fila_lect'+index+'" style="margin-bottom: 10px;">'+					
 				'<p style="color: #fff; font-size: 20px; line-height: 27px; margin-bottom: 20px;"><b>'+array_lecturas_dia[index].libro+' '+array_lecturas_dia[index].capitulo+'</b></p>'+
 					'<div id="fila_cap_ver'+index+'" style="line-height: 27px;"></div>'+
 				'</div>';
+			var fila_lect_cita='<div onclick="position_window('+index+');" id="fila_lect_cita'+index+'" class="box_lecturas_dia">'+					
+				'<p style="color: #fff; font-size: 18px; line-height: 27px;">'+array_lecturas_dia[index].libro+' '+array_lecturas_dia[index].capitulo+'</p>'+
+				'</div>';
 			$('#p_lecturas_dia').append(fila_lect);
-			//cont_ld++;		
+			$('#box_citas_lecturas').append(fila_lect_cita);
+			
+			//cont_ld++;
+			if (index==0) {
+				text_citas = text_citas+array_lecturas_dia[index].libro+" "+array_lecturas_dia[index].capitulo+", ";
+			}else{
+				if (array_lecturas_dia[index-1].libro==array_lecturas_dia[index].libro) {
+					text_citas = text_citas+array_lecturas_dia[index].capitulo+", ";
+				}else{
+					text_citas = text_citas+array_lecturas_dia[index].libro+" "+array_lecturas_dia[index].capitulo+", ";	
+				}
+			}
+				
+			
 		}
 
+		//var text = "Hello world!"; 
+		var result = text_citas.substring(0, (text_citas.length - 2));
+		$("#citasdia_resumen").text(result);
 		getCita();
 
 	});
 
-	libro = "Juan";
-	capitulo = 21;
-	versiculo1 = 20;
-	versiculo2 = 21;
+	// libro = "Juan";
+	// capitulo = 21;
+	// versiculo1 = 20;
+	// versiculo2 = 21;
 
 	
 	
 }
 
+//var extraheightScroll = 50;
+function position_window(indice){
+	//return;
+	
+	if (indice==0) {
+		const element = document.getElementById("p_lecturas_dia");
+		element.scrollTo(0, 0);
+	}else{
+		var heightTot = 0;
+		for (var index = 0; index < indice; index++) {
+			var height = document.getElementById("fila_cap_ver"+index);
+    		var tam_height = height.clientHeight;
+			heightTot = heightTot+tam_height+50;			
+		}
+		const element = document.getElementById("p_lecturas_dia");
+		element.scrollTo(0, (heightTot));
+	}
+
+	//extraheightScroll = extraheightScroll+5;
+	//console.log(heightTot);
+	//console.log("height");
+	//alert("entra");
+
+	//window.scrollTo(0, 1500);
+}
+
 async function getCita(){
 	try {
-		console.log("array_lecturas_dia");
-		console.log(array_lecturas_dia);
+		// console.log("array_lecturas_dia");
+		// console.log(array_lecturas_dia);
 		
 		for (var index = 0; index < array_lecturas_dia.length; index++) {
 			
 			const apiUrl = 'https://bible-api.deno.dev/api/read/rv1960/'+array_lecturas_dia[index].libro+'/'+array_lecturas_dia[index].capitulo+'';
 			const response = await fetch(apiUrl);
 			const resultado = await response.json();
-			console.log("resultado API");
-			console.log(resultado);
+			// console.log("resultado API");
+			// console.log(resultado);
 
 			//var cont= 0;
 			for (var index2 = 0; index2 < resultado.vers.length; index2++) {
