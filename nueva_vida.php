@@ -95,14 +95,14 @@ require 'header.php';
     <div id="intro_nueva_vida" class="estilo_video_sombra">
 		<div id="content_video" class="estilo_video" style="width: 80%; height: auto; overflow: hidden; margin-top: 130px;">
             <div style="width: 100%; position: absolute; text-align: right; padding: 5px; z-index: 9999;">
-                <img id="btn_cerrar_video" src="images/iconos/cerrar.png" style="display: none; width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
+                <img id="btn_cerrar_video" src="images/iconos/cerrar.png" style="display: block; width: 20px; cursor: pointer;" alt="" onclick="salir_video();">
             </div>
             
             <video id="videoBG" muted controls style="width: 100%;">
 				<source id="video_intro" src="https://res.cloudinary.com/dmtvvrw4s/video/upload/v1708921798/paginaWeb/nueva_vida/video_agradecimiento.mp4" type="video/mp4">
 				
 			</video>
-            <div style="display: none; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
+            <div style="display: block; margin-top: 50px; justify-content: center; text-align: center;" id="btn_salir_video">
                 <button class="course_button" style="box-shadow: 5px 5px 10px rgba(0,0,0,0.2);" onclick="salir_video();">
                     <span>Continuar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                 </button>
@@ -225,6 +225,6 @@ no se pierda, mas tenga vida eterna.”</div>
 <?php
 	require 'footer.php';
 ?>
-
+<script type="text/javascript" src="scripts/quien_es_jesus.js?v=<?php echo(rand()); ?>"></script>
 </body>
 </html>

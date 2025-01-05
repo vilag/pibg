@@ -186,6 +186,6 @@ no se pierda, mas tenga vida eterna.”</div>
 <?php
 	require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/predic.js?v=<?php echo(rand()); ?>"></script>
+<script type="text/javascript" src="scripts/quien_es_jesus.js?v=<?php echo(rand()); ?>"></script>
 </body>
 </html>
