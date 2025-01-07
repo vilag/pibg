@@ -38,6 +38,13 @@ const button = document.getElementById("boton_prueba_notif");
 // }, 10000);
 
 function prueba_notif(){
+	Notification.requestPermission()
+	.then(function(){
+		alert("Permiso concedido");
+	}).catch(function(err){
+		alert("Permiso denegado");
+	})
+	return;
 	Notification.requestPermission().then(perm => {
 		if (perm === "granted") {
 			const notification = new Notification("Example notification", {
