@@ -29,13 +29,13 @@ var versiculo2 = 0;
 
 const button = document.getElementById("boton_prueba_notif");
 
-setTimeout(() => {
-	prueba_notif();
-}, 5000);
+// setTimeout(() => {
+// 	prueba_notif();
+// }, 5000);
 
-setTimeout(() => {
-	prueba_notif();
-}, 10000);
+// setTimeout(() => {
+// 	prueba_notif();
+// }, 10000);
 
 function prueba_notif(){
 	Notification.requestPermission().then(perm => {
@@ -54,22 +54,22 @@ function prueba_notif(){
 	})
 }
 
-button.addEventListener("click", () => {
-	Notification.requestPermission().then(perm => {
-		if (perm === "granted") {
-			const notification = new Notification("Example notification", {
-				body: Math.random(),
-				data: { hello: "word" },
-				icon: "Logo Centered.png",
-				//tag: "Welcome Message",
-			})
+// button.addEventListener("click", () => {
+// 	Notification.requestPermission().then(perm => {
+// 		if (perm === "granted") {
+// 			const notification = new Notification("Example notification", {
+// 				body: Math.random(),
+// 				data: { hello: "word" },
+// 				icon: "Logo Centered.png",
+// 				//tag: "Welcome Message",
+// 			})
 
-			notification.addEventListener("error", e => {
-				alert("error")
-			})
-		}
-	})
-})
+// 			notification.addEventListener("error", e => {
+// 				alert("error")
+// 			})
+// 		}
+// 	})
+// })
 
 
 // let notification;

@@ -1642,7 +1642,7 @@ Y todo lo que hace, prosperará</p>
 	
 
 <!-- Footer -->
-<!-- <button id="boton_prueba_notif">Prueba notif</button> -->
+<button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button>
 <?php
 	require('footer.php');
 ?>
