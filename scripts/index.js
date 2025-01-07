@@ -27,6 +27,74 @@ var capitulo = 0;
 var versiculo1 = 0;
 var versiculo2 = 0;
 
+const button = document.getElementById("boton_prueba_notif");
+
+setTimeout(() => {
+	prueba_notif();
+}, 5000);
+
+setTimeout(() => {
+	prueba_notif();
+}, 10000);
+
+function prueba_notif(){
+	Notification.requestPermission().then(perm => {
+		if (perm === "granted") {
+			const notification = new Notification("Example notification", {
+				body: "Texto Biblico",
+				data: { hello: "word" },
+				icon: "Logo Centered.png",
+				//tag: "Welcome Message",
+			})
+
+			notification.addEventListener("error", e => {
+				alert("error")
+			})
+		}
+	})
+}
+
+button.addEventListener("click", () => {
+	Notification.requestPermission().then(perm => {
+		if (perm === "granted") {
+			const notification = new Notification("Example notification", {
+				body: Math.random(),
+				data: { hello: "word" },
+				icon: "Logo Centered.png",
+				//tag: "Welcome Message",
+			})
+
+			notification.addEventListener("error", e => {
+				alert("error")
+			})
+		}
+	})
+})
+
+
+// let notification;
+// let interval;
+// document.addEventListener("visibilitychange", () => {
+// 	if (document.visibilityState === "hidden") {
+// 		const leaveDate = new Date()
+// 		interval = setInterval(() => {
+// 			notification = new Notification("Come back please", {
+// 				body: `You have been gone for ${Math.round(
+// 					(new Date() - leaveDate)-1000
+// 				)} seconds`,
+// 				tag: "Come Back",
+// 			})
+// 		}, 100)
+// 	}else{
+// 		if (interval) {
+// 			clearInterval(interval)
+// 		}
+// 		if (notification) {
+// 			notification.close();
+// 		}
+// 	}
+// })
+
 
 
 function consul_dia()

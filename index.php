@@ -937,6 +937,7 @@ Y todo lo que hace, prosperará</p>
 									</div> -->
 									<div style="width: 100%; margin-top: 30px;">
 										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px;">Ver Transmisión</a>
+										
 									</div>
 									
 									<div class="featured_footer d-flex align-items-center justify-content-start">
@@ -1641,7 +1642,7 @@ Y todo lo que hace, prosperará</p>
 	
 
 <!-- Footer -->
-
+<!-- <button id="boton_prueba_notif">Prueba notif</button> -->
 <?php
 	require('footer.php');
 ?>
