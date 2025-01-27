@@ -43,7 +43,7 @@ switch ($_GET["op"]){
 										<input style="cursor: pointer;" id="input_text_regis'.$reg2->idlectura.'" type="hidden" value="0">
 									</div>
 									<div class="col-lg-2 estilo_btn_delete_text_reg">
-										<img src="images/iconos/basura.png" style="width: 20px;">
+										<img onclick="borrar_lectura('.$reg2->idlectura.');" src="images/iconos/basura.png" style="width: 20px;">
 									</div>
 								</div>
 								<div id="texto_regis'.$reg2->idlectura.'" class="col-lg-12" style="background-color: #fff; height: 0px; border-radius: 0px 0px 10px 10px; border-color: #ccc; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); overflow-y: scroll;">
@@ -109,6 +109,13 @@ switch ($_GET["op"]){
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
 
-	
+		case 'borrar_lectura':
+			
+			$idlectura = $_POST['idlectura'];
+										
+			$rspta=$lectura_diaria->borrar_lectura($idlectura);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
 }
 ?>

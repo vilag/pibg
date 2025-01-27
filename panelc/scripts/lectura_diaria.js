@@ -325,5 +325,37 @@ async function buscar_cita_resp_view(){
 	}
 }
 
+function borrar_lectura(idlectura){
+    bootbox.confirm({
+        message: "¿Confirmar eliminacion de lectura bíblica?",
+        buttons: {
+            confirm: {
+                label: 'Si',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            // console.log('This was logged in the callback: ' + result);
+            //alert(result);
+            if (result) {
+                // alert(idlectura);
+                // return;
+                $.post("ajax/lectura_diaria.php?op=borrar_lectura",{idlectura:idlectura},function(data, status)
+                {
+                    data = JSON.parse(data);
+
+                    listar_lecturas();
+                    bootbox.alert("Lectura borrada exitosamente");
+
+                });
+            }
+        }
+    });
+}
+
 
 init();

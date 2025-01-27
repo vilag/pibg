@@ -33,6 +33,12 @@ Class Lectura_diaria
     	$sql="INSERT INTO lectura_diaria (fecha,tipo,libro,capitulo,versiculo1,versiculo2) VALUES ('$fecha','$tipo_cita_biblica','$libro_cita_biblica','$capitulo_cita_biblica','$vers1_cita_biblica','$vers2_cita_biblica')"; 
     	return ejecutarConsulta($sql);  
     }
+
+	public function borrar_lectura($idlectura)
+    {
+    	$sql="DELETE FROM lectura_diaria WHERE idlectura='$idlectura'"; 
+    	return ejecutarConsulta($sql);  
+    }
 	
 
 }
