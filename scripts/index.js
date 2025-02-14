@@ -126,9 +126,9 @@ function consul_dia()
 		{
 			data = JSON.parse(data);
 
+			//console.log(data);
 
-
-			//if (data!=null) {
+			if (data!=null) {
 
 				//var idcal = data.idcal;
 
@@ -181,50 +181,122 @@ function consul_dia()
 
 
 				$("#hora_sp").text(hora+" hrs.");
+				$("#conector_nom_activ").text("de");
 
-			// }else{
+			}else{
+				
+				var dia=moment().format('dddd');
+				if (dia=="Monday") {dia=1;}
+				if (dia=="Tuesday") {dia=2;}
+				if (dia=="Wednesday") {dia=3;}
+				if (dia=="Thursday") {dia=4;}
+				if (dia=="Friday") {dia=5;}
+				if (dia=="Saturday") {dia=6;}
+				if (dia=="Sunday") {dia=7;}
 
-			// 	var dia=moment().format('dddd');
-			// 	if (dia=="Monday") {dia=1;}
-			// 	if (dia=="Tuesday") {dia=2;}
-			// 	if (dia=="Wednesday") {dia=3;}
-			// 	if (dia=="Thursday") {dia=4;}
-			// 	if (dia=="Friday") {dia=5;}
-			// 	if (dia=="Saturday") {dia=6;}
-			// 	if (dia=="Sunday") {dia=7;}
+				
+				var hora=moment().format('HH:mm:ss');
+				//console.log(hora);
 
-			// 	//alert(dia);
+				$("#dia_sp_num").text("");
+				$("#mes_sp").text("");
+				$("#conector_nom_activ").text("");
+				document.getElementById("tema_actividad").style.display="none";
+				$("#tema_actividad").text("");
 
-			// 	var hora=moment().format('HH:mm:ss');
-			// 	// var hora='10:30:00';
-			// 	// var dia=4;
+				if (dia==1 || dia==2) {
+					document.getElementById('nombre_actividad').innerHTML = 'Culto de oración';
+					$("#dia_sp").text("Miércoles");
+					$("#hora_sp").text("19:00 hrs.");	
+				}else{
+					if (dia==3) {
+						if (hora<="20:00:00") {
+							document.getElementById('nombre_actividad').innerHTML = 'Culto de oración';
+							$("#dia_sp").text("Miércoles");
+							$("#hora_sp").text("19:00 hrs.");
+						}
+						if (hora>"20:00:00") {
+							document.getElementById('nombre_actividad').innerHTML = 'Culto de estudio bíblico';
+							$("#dia_sp").text("Viernes");
+							$("#hora_sp").text("19:00 hrs.");
+						}
+					}else{
+						if (dia==4) {
+							document.getElementById('nombre_actividad').innerHTML = 'Culto de estudio bíblico';
+							$("#dia_sp").text("Viernes");
+							$("#hora_sp").text("19:00 hrs.");
+						}else{
+							if (dia==5) {
+								if (hora<="20:00:00") {
+									document.getElementById('nombre_actividad').innerHTML = 'Culto de estudio bíblico';
+									$("#dia_sp").text("Viernes");
+									$("#hora_sp").text("19:00 hrs.");
+								}
+								if (hora>"20:00:00") {
+									document.getElementById('nombre_actividad').innerHTML = 'Culto de adoración';
+									$("#dia_sp").text("Domingo");
+									$("#hora_sp").text("12:00 hrs.");
+								}
+							}else{
+								if (dia==6) {
+									document.getElementById('nombre_actividad').innerHTML = 'Culto de adoración';
+									$("#dia_sp").text("Domingo");
+									$("#hora_sp").text("12:00 hrs.");
+								}else{
+									if (dia==7) {
+										if (hora<="13:30:00") {
+											document.getElementById('nombre_actividad').innerHTML = 'Culto de adoración';
+											$("#dia_sp").text("Domingo");
+											$("#hora_sp").text("19:00 hrs.");
+										}
+										if (hora>"13:30:00" && hora<="19:30:00") {
+											document.getElementById('nombre_actividad').innerHTML = 'Culto de adoración vespertino';
+											$("#dia_sp").text("Domingo");
+											$("#hora_sp").text("18:00 hrs.");
+										}
+										if (hora>"19:30:00") {
+											document.getElementById('nombre_actividad').innerHTML = 'Culto de oración';
+											$("#dia_sp").text("Miércoles");
+											$("#hora_sp").text("19:00 hrs.");
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				
 
-			// 	$.post("ajax/index.php?op=buscar_activ_sem",{dia:dia,hora:hora},function(data, status)
-			// 	{
-			// 		data = JSON.parse(data);
 
-			// 		if (data==null) {
+				// var hora='10:30:00';
+				// var dia=4;
 
-			// 			$.post("ajax/index.php?op=buscar_primer_dia",function(data, status)
-			// 			{
-			// 				data = JSON.parse(data);
+				// $.post("ajax/index.php?op=buscar_activ_sem",{dia:dia,hora:hora},function(data, status)
+				// {
+				// 	data = JSON.parse(data);
 
-			// 				$("#nombre_actvidad").text(data.nombre);
-			// 				$("#dia_sp").text(data.dia);
-			// 				$("#hora_sp").text(data.hora+" hrs.");
+				// 	if (data==null) {
 
-			// 			});
+				// 		$.post("ajax/index.php?op=buscar_primer_dia",function(data, status)
+				// 		{
+				// 			data = JSON.parse(data);
 
-			// 		}else{
-			// 			$("#nombre_actvidad").text(data.nombre);
-			// 			$("#dia_sp").text(data.dia);
-			// 			$("#hora_sp").text(data.hora+" hrs.");
-			// 		}
+				// 			$("#nombre_actvidad").text(data.nombre);
+				// 			$("#dia_sp").text(data.dia);
+				// 			$("#hora_sp").text(data.hora+" hrs.");
 
-			// 	});
+				// 		});
+
+				// 	}else{
+				// 		$("#nombre_actvidad").text(data.nombre);
+				// 		$("#dia_sp").text(data.dia);
+				// 		$("#hora_sp").text(data.hora+" hrs.");
+				// 	}
+
+				// });
 
 
-			// }
+			}
 
 
 

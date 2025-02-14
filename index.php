@@ -110,7 +110,7 @@
 														<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
 														<label style="color: #ccc;" id="dia_sp"></label>
 														<label style="color: #ccc;" id="dia_sp_num"></label>
-														<label style="color: #ccc;" for="">de</label>
+														<label id="conector_nom_activ" style="color: #ccc;" for=""></label>
 														<label style="color: #ccc;" id="mes_sp"></label>
 														<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
 														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara5203/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
