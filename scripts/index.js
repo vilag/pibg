@@ -734,7 +734,7 @@ function count_activ_esp(){
 					'background-repeat: no-repeat;'+
 					'background-size: 400px 350px;'+
 					'background-position: center; z-index: 1;">'+
-					'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px;">'+
+					'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px; word-wrap: break-word;">'+
 						'<p class="yanone-kaffeesatz">'+data[index].nombre_corto+'</p>'+
 					'</div>'+
 				'</div>'+
@@ -805,7 +805,7 @@ function animar_contenedores(){
 				'background-repeat: no-repeat;'+
 				'background-size: 400px 350px;'+
 				'background-position: center; z-index: 1;">'+
-				'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px;">'+
+				'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px; word-wrap: break-word;">'+
 						'<p class="yanone-kaffeesatz">'+array_activ_des[cont2].nombre_corto+'</p>'+
 				'</div>'+
 			'</div>'+

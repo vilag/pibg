@@ -105,9 +105,10 @@ function guardar_dia_calendario()
 
 		alert("Registro guardado exitosamente");
 		$("#fecha_actividad").val("");
-		$("#hora_actividad").val("");
+		$("#hora_actividad").val("00:00:00");
 		$("#dia").val("");
 		$("#nom_actividad").val("");
+		$("#tema_actividad").val("");
 		listar_dias();
 
 	});

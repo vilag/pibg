@@ -53,10 +53,24 @@ if ($_SESSION['administrador']==1)
                             </div>
                             <div class="col-lg-12" style="float: left; height: 100px;">
                               <div class="form-group">
+                                <label>Nombre corto</label>
+                                <input type="text" class="form-control" id="nom_actividad_corto_sem" maxlength="40">
+                              </div>
+                            </div>
+                            <div class="col-lg-12" style="float: left; height: 100px;">
+                              <div class="form-group">
                                 <label>Detalle</label>
                                 <input type="text" class="form-control" id="detalle_actividad" >
                                 
                               </div>
+                            </div>
+                            <div class="col-lg-12" style="float: left;">
+                                <div class="form-group">
+                                    <label>Archivo de audio</label>
+                                    <button  type="button" id="btn-foto">Seleccionar</button>
+                                    <input type="text" class="form-control" id="archivo_audio" disabled>
+                                   
+                                </div>
                             </div>
                             
                             <div class="col-lg-12" style="float: left;">
@@ -111,8 +125,9 @@ if ($_SESSION['administrador']==1)
             
           </div>
           <!-- content-wrapper ends -->
-
+           <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
            <script type="text/javascript" src="scripts/semanas_esp.js?v=<?php echo(rand()); ?>"></script>
+           <script type="text/javascript" src="scripts/servicio-imagen.js?v=<?php echo(rand()); ?>"></script>
 <?php
   require "footer.php";
 ?>

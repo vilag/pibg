@@ -127,7 +127,7 @@ if ($_SESSION['administrador']==1)
                           <div class="col-lg-12">
                             <b>Textos guardados (Click en la cita bíblica para ver)</b>
                           </div>
-                          <div id="div_textos_guardados" class="col-lg-12" style="background-color:rgb(237, 239, 245); padding: 15px; margin-top: 15px; height: 500px; overflow-y: scroll;">5
+                          <div id="div_textos_guardados" class="col-lg-12" style="background-color:rgb(237, 239, 245); padding: 15px; margin-top: 15px; height: 500px; overflow-y: scroll;">
                           </div>
 
                         </div>

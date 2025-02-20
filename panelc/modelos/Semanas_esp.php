@@ -10,9 +10,9 @@ Class Semanas_esp
 
 	}
 
-	public function guardar_activ_sem($fecha1,$fecha2,$nombre,$detalle)
+	public function guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen)
     {
-    	$sql="INSERT INTO actividades_destacadas (fecha1, fecha2, nombre, detalle, imagen) VALUES ('$fecha1','$fecha2','$nombre','$detalle','')"; 
+    	$sql="INSERT INTO actividades_destacadas (fecha1, fecha2, nombre, nombre_corto, detalle, imagen) VALUES ('$fecha1','$fecha2','$nombre', '$nombre_corto','$detalle','$imagen')"; 
     	return ejecutarConsulta($sql);  
     }
 

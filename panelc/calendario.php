@@ -41,7 +41,7 @@ if ($_SESSION['administrador']==1)
                             <div class="col-lg-6" style="float: left; height: 100px;">
                                 <div class="form-group">
                                     <label>Hora (Formato 24 hrs)</label>
-                                    <input type="text" class="form-control" id="hora_actividad">
+                                    <input type="text" class="form-control" id="hora_actividad" value="00:00:00">
                                     <!-- <div id="horas_capt" style="display: none; width: 30%; height: 150px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
 
                                     </div> -->
