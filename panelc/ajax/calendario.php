@@ -32,11 +32,20 @@ switch ($_GET["op"]){
                                 <td>
                                     '.$reg->dia_nom.'
                                 </td>
+								<td>
+                                    '.$reg->tema.'
+                                </td>
                                 <td>
                                     '.$reg->nom_activ.'
                                 </td>
 								<td>
                                     '.$tipo.'
+                                </td>
+								<td>
+									<button style="background-color:rgb(129, 2, 2); padding: 10px; border-radius: 5px;">
+										<img onclick="borrar_dia('.$reg->idcal.');" src="images/iconos/basura.png" style="width: 20px; height: 20px">
+									</button>
+                                    
                                 </td>
                                
                             </tr>
@@ -109,6 +118,15 @@ switch ($_GET["op"]){
 			$tipo_act = $_POST['tipo_act'];
 										
 			$rspta=$calendario->guardar_dia_calendario($fecha_hora,$dia,$nom_actividad,$tema_actividad,$tipo_act);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
+		break;
+
+		case 'borrar_dia':
+			
+			$idcal = $_POST['idcal'];
+										
+			$rspta=$calendario->borrar_dia($idcal);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;

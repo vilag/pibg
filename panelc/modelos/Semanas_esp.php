@@ -22,6 +22,11 @@ Class Semanas_esp
     	return ejecutarConsulta($sql);  
     }
 	
+	public function borrar_activ($idactiv)
+    {
+    	$sql="DELETE FROM actividades_destacadas WHERE idactiv='$idactiv'"; 
+    	return ejecutarConsulta($sql);  
+    }
 
 }
 

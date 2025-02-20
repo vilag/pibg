@@ -31,20 +31,20 @@ if ($_SESSION['administrador']==1)
                             
                             <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Fecha 1</label>
+                                <label>Fecha 1 *</label>
                                 <input type="date" class="form-control" id="fecha_actividad1" >
                               </div>
                             </div>
                             <div class="col-lg-6" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Fecha 2</label>
+                                <label>Fecha 2 *</label>
                                 <input type="date" class="form-control" id="fecha_actividad2">
                               </div>
                             </div>
                             
                             <div class="col-lg-12" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Nombre de Actividad</label>
+                                <label>Nombre de Actividad *</label>
                                 <input type="text" class="form-control" id="nom_actividad_sem">
                                 <!-- <div id="nombre_act_capt" style="display: none; width: 50%; height: 250px; background-color: #fff; position: absolute; z-index: 9999; overflow-y: scroll; text-align: center; border: #ccc 1px solid;">
 
@@ -53,7 +53,7 @@ if ($_SESSION['administrador']==1)
                             </div>
                             <div class="col-lg-12" style="float: left; height: 100px;">
                               <div class="form-group">
-                                <label>Nombre corto</label>
+                                <label>Nombre corto *</label>
                                 <input type="text" class="form-control" id="nom_actividad_corto_sem" maxlength="40">
                               </div>
                             </div>
@@ -66,7 +66,7 @@ if ($_SESSION['administrador']==1)
                             </div>
                             <div class="col-lg-12" style="float: left;">
                                 <div class="form-group">
-                                    <label>Archivo de audio</label>
+                                    <label>Imagen *</label>
                                     <button  type="button" id="btn-foto">Seleccionar</button>
                                     <input type="text" class="form-control" id="archivo_audio" disabled>
                                    
@@ -105,7 +105,16 @@ if ($_SESSION['administrador']==1)
                                     Nombre
                                 </th>
                                 <th>
+                                    Nombre corto
+                                </th>
+                                <th>
                                     Detalle
+                                </th>
+                                <th>
+                                    Imagen
+                                </th>
+                                <th>
+                                    Eliminar
                                 </th>
                             
                             </tr>
@@ -119,7 +128,7 @@ if ($_SESSION['administrador']==1)
                     </div>
                 </div>
               </div>
-
+  
               
             </div>
             

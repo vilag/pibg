@@ -12,7 +12,7 @@ Class Calendario
 
 	public function listar_dias()
     {
-    	$sql="SELECT DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ, tipo FROM calendario WHERE DATE(fecha_hora)>=NOW() ORDER BY fecha_hora DESC"; 
+    	$sql="SELECT idcal, DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ, tipo, tema FROM calendario WHERE DATE(fecha_hora)>=NOW() ORDER BY fecha_hora DESC"; 
     	return ejecutarConsulta($sql);  
     }
 	public function listar_horas()
@@ -36,6 +36,12 @@ Class Calendario
 	public function guardar_dia_calendario($fecha_hora,$dia,$nom_actividad,$tema_actividad,$tipo_act)
     {
     	$sql="INSERT INTO calendario(fecha_hora, dia_nom, nom_activ, tema, tipo) VALUES('$fecha_hora','$dia','$nom_actividad', '$tema_actividad', '$tipo_act')"; 
+    	return ejecutarConsulta($sql);  
+    }
+
+	public function borrar_dia($idcal)
+    {
+    	$sql="DELETE FROM calendario WHERE idcal='$idcal'"; 
     	return ejecutarConsulta($sql);  
     }
 

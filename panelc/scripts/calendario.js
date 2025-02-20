@@ -97,20 +97,58 @@ function guardar_dia_calendario()
 
 	var fecha_hora = fecha_actividad+" "+hora_actividad;
 
-	//alert(fecha_hora);
+	// alert(fecha_actividad);
+	// return;
+	if (fecha_actividad!="" && hora_actividad!="00:00:00" && nom_actividad!="") {
+		$.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad,tema_actividad:tema_actividad,tipo_act:tipo_act},function(data, status)
+		{
+			data = JSON.parse(data);
 
-	$.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad,tema_actividad:tema_actividad,tipo_act:tipo_act},function(data, status)
-	{
-		data = JSON.parse(data);
+			alert("Registro guardado exitosamente");
+			$("#fecha_actividad").val("");
+			$("#hora_actividad").val("00:00:00");
+			$("#dia").val("");
+			$("#nom_actividad").val("");
+			$("#tema_actividad").val("");
+			listar_dias();
 
-		alert("Registro guardado exitosamente");
-		$("#fecha_actividad").val("");
-		$("#hora_actividad").val("00:00:00");
-		$("#dia").val("");
-		$("#nom_actividad").val("");
-		$("#tema_actividad").val("");
-		listar_dias();
+		});
+	}else{
+		bootbox.alert("Es necesario capturar los datos obligatorios: fecha, hora y nombre de actividad.");
+	}
 
-	});
 	
+	
+}
+
+function borrar_dia(idcal){
+    bootbox.confirm({
+        message: "¿Confirmar eliminacion de registro?",
+        buttons: {
+            confirm: {
+                label: 'Si',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            // console.log('This was logged in the callback: ' + result);
+            //alert(result);
+            if (result) {
+                // alert(idlectura);
+                // return;
+                $.post("ajax/calendario.php?op=borrar_dia",{idcal:idcal},function(data, status)
+                {
+                    data = JSON.parse(data);
+
+                    listar_dias();
+                    bootbox.alert("Registro eliminado exitosamente");
+
+                });
+            }
+        }
+    });
 }

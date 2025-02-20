@@ -41,8 +41,20 @@ switch ($_GET["op"]){
                                 <td>
                                     '.$reg->nombre.'
                                 </td>
+								<td>
+                                    '.$reg->nombre_corto.'
+                                </td>
                                 <td>
                                     '.$reg->detalle.'
+                                </td>
+								<td>
+                                    <img src="'.$reg->imagen.'" alt="" style="width: 50px; height: 50px; border-radius: 0px !important;">
+                                </td>
+								<td>
+									<button style="background-color:rgb(129, 2, 2); padding: 10px; border-radius: 5px;">
+										<img onclick="borrar_activ('.$reg->idactiv .');" src="images/iconos/basura.png" style="width: 20px; height: 20px">
+									</button>
+                                    
                                 </td>
                                
                             </tr>
@@ -51,6 +63,15 @@ switch ($_GET["op"]){
 						
 					}
 
+		break;
+
+		case 'borrar_activ':
+			
+			$idactiv = $_POST['idactiv'];
+										
+			$rspta=$semanas_esp->borrar_activ($idactiv);
+			echo json_encode($rspta);
+	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
 	
 }

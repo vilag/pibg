@@ -121,7 +121,13 @@ if ($_SESSION['administrador']==1)
                                     Nombre
                                 </th>
                                 <th>
+                                    Tema
+                                </th>
+                                <th>
                                     Transmisión
+                                </th>
+                                <th>
+                                    Eliminar
                                 </th>
                             
                             </tr>
