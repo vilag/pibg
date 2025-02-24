@@ -1135,7 +1135,7 @@ Y todo lo que hace, prosperará</p>
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="about_image"><img src="images/jovenes/Lumbrera.png" style="width: 100%; margin-bottom: 50px;"></div>
+					<div class="about_image"><img src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740410777/paginaWeb/Jovenes/Lumbrera_xkce37.png" style="width: 100%; margin-bottom: 50px;"></div>
 				</div>
 			</div>
 		</div>
