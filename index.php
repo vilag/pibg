@@ -1038,11 +1038,15 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div>
 
-	<div class="about">
+	<div class="about" style="
+	background-image: url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740445635/paginaWeb/Jovenes/img_jovenespibg2_erz9ti.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	">
 		<div class="container">
-		<div class="row about_row row-lg-eq-height" style="margin-top: 50px;">
+		<div class="row about_row row-lg-eq-height">
                 
-				<div class="col-lg-8" >
+				<div class="col-lg-8" style=" margin-top: 50px; margin-bottom: 50px;">
 					<div class="about_content" >
 						<!-- <div class="about_title" style="font-size: 35px;">BREVE RESEÑA HISTORICA DE LA PRIMERA IGLESIA  BAUTISTA DE GUADALAJARA, A.R (MEXICO).</div> -->
 						<div class="about_text" style="margin-top: 20px; padding: 20px;">
@@ -1051,16 +1055,16 @@ Y todo lo que hace, prosperará</p>
 								<!-- <div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
 							</div>
 							<div class="col-lg-12" style="margin-top: 50px;">
-								<h4 style="line-height: 35px;">Jóven, te invitamos a estudiar con nosotros la <strong style="font-size: 25px;">Palabra de Dios</strong>, te esperamos todos los <strong style="font-size: 25px;">domingos</strong> a las <strong style="font-size: 25px;">6 pm</strong>.</h4>
+								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);"><b>Jóven, te invitamos a estudiar con nosotros la <strong style="font-size: 25px;">Palabra de Dios</strong>, te esperamos todos los <strong style="font-size: 25px;">domingos</strong> a las <strong style="font-size: 25px;">6 pm</strong>.</b></h4>
 								
 							</div> 
 							<!-- <div class="col-lg-12" style=" margin-top: 30px;"> 
 								<b style="font-size: 30px; ">TE ESPERAMOS!</b>
 							</div> -->
-							<div class="col-lg-12" style="background-color:rgb(214, 232, 248); color: #000; padding: 20px; margin-top: 50px;  box-shadow: 10px 10px 20px rgba(0,0,0,0.1); border-bottom: #FF8A00 5px solid;">
+							<div class="col-lg-12" style="background-color:rgb(250, 250, 250); color: #000; padding: 20px; margin-top: 50px; border-bottom: #FF8A00 5px solid;">
 								<div class="col-lg-12">
 									<p style="font-size: 18px; line-height: 35px; color: #000;">
-										Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.
+										<i><b>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</b></i>
 									</p>
 								</div>
 								<div class="col-lg-12" style="margin-top: 30px; text-align: left;">
@@ -1073,7 +1077,7 @@ Y todo lo que hace, prosperará</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4">
+				<div class="col-lg-4" style="margin-top: 50px;">
 					<div class="about_image"><img src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740410777/paginaWeb/Jovenes/Lumbrera_xkce37.png" style="width: 100%; margin-bottom: 50px;"></div>
 				</div>
 			</div>
