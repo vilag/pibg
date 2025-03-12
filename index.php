@@ -1013,7 +1013,28 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div>
 
-	<div class="featured" style="background-color: #24344B; margin-top: -5px;">
+	<div class="featured" style="background-color: #fff; margin-top: -5px; background-image: url(images/estudio_b.jpg);
+	background-size: cover;
+	height: 700px;
+	">
+		<div >
+			<div >
+				
+				<div class="col-lg-8" style="float: left;">
+
+				</div>
+				<div class="col-lg-4" style="float: left; padding-top: 80px; padding-bottom: 50px; padding-left: 80px; padding-right: 30px; background-color: #fff; height: 800px;">
+					<h2 style="color: #000;">Grupos de Estudio Bíblico</h2><br>
+					<p style="line-height: 20px; color: #000; margin: 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
+					<p style="color: #000; margin: 0px;"><b>Salmos 25:5</b></p><br>
+					<!-- <p><a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a></p> -->
+					<p><a class="estilo_btn_reunion" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">Deseo reunirme</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
 		<div class="container">
 			<div class="row">
 				
@@ -1055,7 +1076,7 @@ Y todo lo que hace, prosperará</p>
 								<!-- <div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
 							</div>
 							<div class="col-lg-12" style="margin-top: 50px;">
-								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);"><b>Jóven, te invitamos a estudiar con nosotros la <strong style="font-size: 25px;">Palabra de Dios</strong>, te esperamos todos los <strong style="font-size: 25px;">domingos</strong> a las <strong style="font-size: 25px;">6 pm</strong>.</b></h4>
+								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);"><b>Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong style="font-size: 25px;">domingos</strong> a las <strong style="font-size: 25px;">4:30 pm</strong>.</b></h4>
 								
 							</div> 
 							<!-- <div class="col-lg-12" style=" margin-top: 30px;"> 
