@@ -1013,9 +1013,10 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div>
 
-	<div class="featured" style="background-color: #fff; margin-top: -5px; background-image: url(images/estudio_b.jpg);
+	<div class="featured" style=" margin-top: -5px; background-image: url(images/estudio_b.jpg);
 	background-size: cover;
 	height: 700px;
+	background-repeat: no-repeat;
 	">
 		<div >
 			<div >
@@ -1023,10 +1024,18 @@ Y todo lo que hace, prosperará</p>
 				<div class="col-lg-8" style="float: left;">
 
 				</div>
-				<div class="col-lg-4" style="float: left; padding-top: 80px; padding-bottom: 50px; padding-left: 80px; padding-right: 30px; background-color: #fff; height: 800px;">
-					<h2 style="color: #000;">Grupos de Estudio Bíblico</h2><br>
-					<p style="line-height: 20px; color: #000; margin: 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
-					<p style="color: #000; margin: 0px;"><b>Salmos 25:5</b></p><br>
+				<div class="col-lg-4" style="float: left; padding-top: 80px; padding-bottom: 50px; padding-left: 80px; padding-right: 30px; background-color: #24344B; height: 700px;">
+					<h2 style="color: #fff;">Grupos de Estudio Bíblico</h2><br>
+					<div class="col-lg-12" style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px 10px 10px 0px;">
+						<b>Estudio biblico en línea</b>
+						<p style="color: #ccc;">Martes 22:00 hrs., Miércoles 21:00 hrs.</p>
+					</div>
+					<div class="col-lg-12"  style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px 10px 10px 0px;">
+						<b>Estudio biblico en casas</b>
+						<p style="color: #ccc;">Viernes 21:00 hrs.</p>
+					</div>
+					<p style="line-height: 20px; color: #fff; margin: 20px 0px 0px 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
+					<p style="color: #fff; margin: 0px;"><b>Salmos 25:5</b></p><br>
 					<!-- <p><a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a></p> -->
 					<p><a class="estilo_btn_reunion" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">Deseo reunirme</a></p>
 				</div>
@@ -1034,7 +1043,7 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div>
 
-	<div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
+	<!-- <div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
 		<div class="container">
 			<div class="row">
 				
@@ -1052,12 +1061,12 @@ Y todo lo que hace, prosperará</p>
 					<h2 style="color: #fff;">Grupos de Estudio Bíblico</h2><br>
 					<p style="line-height: 20px; color: #ccc; margin: 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
 					<p style="color: #ccc; margin: 0px;"><b>Salmos 25:5</b></p><br>
-					<!-- <p><a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a></p> -->
+					
 					<p><a class="estilo_btn_reunion" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">Deseo reunirme</a></p>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="about" style="
 	background-image: url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740445635/paginaWeb/Jovenes/img_jovenespibg2_erz9ti.png);
@@ -1076,7 +1085,7 @@ Y todo lo que hace, prosperará</p>
 								<!-- <div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
 							</div>
 							<div class="col-lg-12" style="margin-top: 50px;">
-								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);"><b>Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong style="font-size: 25px;">domingos</strong> a las <strong style="font-size: 25px;">4:30 pm</strong>.</b></h4>
+								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);">Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.</h4>
 								
 							</div> 
 							<!-- <div class="col-lg-12" style=" margin-top: 30px;"> 
@@ -1085,7 +1094,7 @@ Y todo lo que hace, prosperará</p>
 							<div class="col-lg-12" style="background-color:rgb(250, 250, 250); color: #000; padding: 20px; margin-top: 50px; border-bottom: #FF8A00 5px solid;">
 								<div class="col-lg-12">
 									<p style="font-size: 18px; line-height: 35px; color: #000;">
-										<i><b>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</b></i>
+										<i>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</i>
 									</p>
 								</div>
 								<div class="col-lg-12" style="margin-top: 30px; text-align: left;">
