@@ -16,6 +16,8 @@
             <img id="img_anuncio4" src="images/anuncios/4.jpg" alt="" class="estilo_img4">
             <button class="estilo_btn_next slide-in-blurred-left" onclick="siguienteimg();"><img src="images/iconos/right_b.png" alt="" style="width: 30px; opacity: 0.5;"></button>
             <button class="estilo_btn_next2 slide-in-blurred-left" onclick="siguienteimg();"><img src="images/iconos/right.png" alt="" style="width: 30px; opacity: 0.5;"></button>
+            <a href="./" style="position: absolute; bottom: 10px; z-index: 15; padding:5px; background-color: #054d7e; color: #fff; border-radius: 5px;">Ver pagina principal</a>
+            
         <!-- </div> -->
     </div>
     
