@@ -1,0 +1,301 @@
+.estilo_izq_lumbrera{
+    float: left;
+    width: 50%;
+    background-color: rgb(255, 253, 253);
+    padding: 100px 100px 100px 100px;
+}
+.estilo_der_lumbrera{
+    float: left;  width: 50%;  background-color:rgb(255, 255, 255); overflow: hidden;
+}
+
+.estilo_space_lumbrera{
+    height: 600px; background-color: #fff; overflow: hidden;
+}
+
+.estilo_img_lumbrera{
+    top: -80px; left: -100px; position: relative; width: 120%;
+}
+.estilo_space_estudio_biblico{
+    margin-top: -5px;  height: 650px; ;
+    overflow: hidden;
+}
+
+.estilo_der_est_bib{
+    float: left; padding-top: 80px; padding-bottom: 50px; padding-left: 80px; padding-right: 30px; background-color: #24344B; height: 700px;
+}
+.estilo_img_est_bib{
+    width: 120%;
+}
+.space_orar{
+    height: 500px; background-color:rgb(235, 231, 231); background-image: url('https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png'); background-repeat: no-repeat; background-size: cover;
+}
+.estilo_izq_orar{
+    width: 50%; float: left; padding: 100px 150px;
+}
+.estilo_der_orar{
+    width: 50%; float: left; padding: 100px 150px;
+}
+.estilo_izq_est_bib{
+    float: left;
+}
+
+@media only screen and (min-width: 260px) and (max-width: 600px){
+
+    .estilo_space_lumbrera{
+        height: 890px; background-color: #fff; overflow: hidden;
+    }
+
+    .estilo_der_lumbrera{
+        float: left;  width: 100%;  background-color:rgb(255, 255, 255); overflow: hidden;
+    }
+
+    .estilo_izq_lumbrera{
+        float: left;
+        width: 100%;
+        background-color: rgb(255, 253, 253);
+        padding: 30px 10px 10px 10px;
+    }
+
+    .estilo_img_lumbrera{
+        top: 50px; left: 0px; position: relative; width: 100%;
+    }
+
+    .estilo_space_estudio_biblico{
+        margin-top: -5px;  height: 800px; 
+        overflow: hidden;
+    }
+
+    .estilo_der_est_bib{
+        float: left; padding-top: 30px; padding-bottom: 30px; padding-left: 20px; padding-right: 20px; background-color: #24344B; height: 600px;
+        width: 100% !important;
+        
+    }
+    .estilo_img_est_bib{
+        width: 120%;
+        margin-left: -10%;
+    }
+
+    .space_orar{
+        height: 650px; background-color:rgb(235, 231, 231); background-image: url('https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png'); background-repeat: no-repeat; background-size: cover;
+    }
+
+    .estilo_izq_orar{
+        width: 100%; float: left; padding: 30px 20px;
+    }
+    .estilo_der_orar{
+        width: 100%; float: left; padding: 30px 20px;
+    }
+
+}
+
+@media only screen and (min-width: 601px) and (max-width: 800px){
+
+    .estilo_space_lumbrera{
+        height: 890px; background-color: #fff; overflow: hidden;
+    }
+
+    .estilo_der_lumbrera{
+        float: left;  width: 100%;  background-color:rgb(255, 255, 255); overflow: hidden;
+    }
+
+    .estilo_izq_lumbrera{
+        float: left;
+        width: 100%;
+        background-color: rgb(255, 253, 253);
+        padding: 30px 50px 20px 50px;
+    }
+
+    .estilo_img_lumbrera{
+        top: 50px; left: 0px; position: relative; width: 100%;
+    }
+
+    .estilo_space_estudio_biblico{
+        margin-top: -5px;  height: 1020px; 
+        overflow: hidden;
+    }
+
+    .estilo_img_est_bib{
+        width: 120%;
+        margin-left: -10%;
+    }
+
+    .estilo_der_est_bib{
+        float: left; padding-top: 50px; padding-bottom: 30px; padding-left: 50px; padding-right: 50px; background-color: #24344B; height: 600px;
+        width: 100% !important;
+    }
+
+    .space_orar{
+        height: 650px; background-color:rgb(235, 231, 231); background-image: url('https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png'); background-repeat: no-repeat; background-size: cover;
+    }
+
+    .estilo_izq_orar{
+        width: 100%; float: left; padding: 30px 50px;
+    }
+    .estilo_der_orar{
+        width: 100%; float: left; padding: 30px 50px;
+    }
+
+}
+
+@media only screen and (min-width: 801px) and (max-width: 991px){
+    .estilo_space_lumbrera{
+        height: 500px; background-color: #fff; overflow: hidden;
+    }
+    .estilo_izq_lumbrera{
+        float: left;
+        width: 60%;
+        background-color: rgb(255, 253, 253);
+        padding: 20px 20px 20px 20px;
+    }
+    .estilo_der_lumbrera{
+        float: left;  width: 40%;  background-color:rgb(255, 255, 255); overflow: hidden;
+    }
+    .estilo_img_lumbrera{
+        top: 0px; left: 0px; position: relative; width: 100%;
+    }
+    .estilo_space_estudio_biblico{
+        margin-top: -5px;  height: 1150px; 
+        overflow: hidden;
+    }
+    .estilo_der_est_bib{
+        float: left; padding-top: 50px; padding-bottom: 30px; padding-left: 50px; padding-right: 60px; background-color: #24344B; height: 600px;
+        width: 100% !important;
+    }
+    .estilo_img_est_bib{
+        width: 120%;
+        margin-left: -10%;
+    }
+    .space_orar{
+        height: 400px; background-color:rgb(235, 231, 231); background-image: url('https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png'); background-repeat: no-repeat; background-size: cover;
+    }
+
+    .estilo_izq_orar{
+        width: 50%; float: left; padding: 30px 20px 30px 30px;
+    }
+    .estilo_der_orar{
+        width: 50%; float: left; padding: 30px 30px 30px 30px;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px){
+    .estilo_izq_lumbrera{
+        float: left;
+        width: 60%;
+        background-color: rgb(255, 253, 253);
+        padding: 20px 20px 20px 20px;
+    }
+    .estilo_der_lumbrera{
+        float: left;  width: 40%;  background-color:rgb(255, 255, 255); overflow: hidden;
+    }
+
+    .estilo_space_lumbrera{
+        height: 500px; background-color: #fff; overflow: hidden;
+    }
+
+    .estilo_img_lumbrera{
+        top: 0px; left: 0px; position: relative; width: 100%;
+    }
+    .estilo_space_estudio_biblico{
+        margin-top: -5px;  height: 650px; 
+        overflow: hidden;
+    }
+    .estilo_der_est_bib{
+        float: left; padding-top: 50px; padding-bottom: 30px; padding-left: 20px; padding-right: 20px; background-color: #24344B; height: 600px;
+        width: 100% !important;
+    }
+    .estilo_izq_est_bib{
+        float: left;
+        
+    }
+
+    .estilo_img_est_bib{
+        width: 180%;
+        margin-left: -10%;
+    }
+    .space_orar{
+        height: 400px; background-color:rgb(235, 231, 231); background-image: url('https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png'); background-repeat: no-repeat; background-size: cover;
+    }
+
+    .estilo_izq_orar{
+        width: 50%; float: left; padding: 50px 20px 30px 30px;
+    }
+    .estilo_der_orar{
+        width: 50%; float: left; padding: 50px 30px 30px 30px;
+    }
+}
+
+@media only screen and (min-width: 1201px) and (max-width: 1300px){
+    .estilo_izq_lumbrera{
+        float: left;
+        width: 50%;
+        background-color: rgb(255, 253, 253);
+        padding: 20px 20px 20px 20px;
+    }
+    .estilo_der_lumbrera{
+        float: left;  width: 50%;  background-color:rgb(255, 255, 255); overflow: hidden;
+    }
+    .estilo_space_lumbrera{
+        height: 460px; background-color: #fff; overflow: hidden;
+    }
+    .estilo_der_est_bib{
+        float: left; padding-top: 50px; padding-bottom: 30px; padding-left: 30px; padding-right: 30px; background-color: #24344B; height: 600px;
+        width: 100% !important;
+    }
+    .estilo_img_est_bib{
+        width: 165%;
+        margin-left: -10%;
+    }
+
+    .space_orar{
+        height: 400px; background-color:rgb(235, 231, 231); background-image: url('https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png'); background-repeat: no-repeat; background-size: cover;
+    }
+
+    .estilo_izq_orar{
+        width: 50%; float: left; padding: 70px 50px 30px 50px;
+    }
+    .estilo_der_orar{
+        width: 50%; float: left; padding: 70px 50px 30px 50px;
+    }
+}
+
+@media only screen and (min-width: 1301px) and (max-width: 1400px){
+    .estilo_izq_lumbrera{
+        float: left;
+        width: 50%;
+        background-color: rgb(255, 253, 253);
+        padding: 60px 100px 100px 100px;
+    }
+    .estilo_space_lumbrera{
+        height: 530px; background-color: #fff; overflow: hidden;
+    }
+
+    .estilo_der_est_bib{
+        float: left; padding-top: 40px; padding-bottom: 50px; padding-left: 50px; padding-right: 50px; background-color: #24344B; height: 550px;
+    }
+
+    .estilo_img_est_bib{
+        width: 160%;
+        margin-top: -175px;
+        margin-left: -30px;
+    }
+
+    .estilo_space_estudio_biblico{
+        margin-top: -5px;  height: 580px; ;
+        overflow: hidden;
+    }
+}
+
+@media only screen and (min-width: 1401px) and (max-width: 1500px){
+    .estilo_der_est_bib{
+        float: left; padding-top: 80px; padding-bottom: 50px; padding-left: 80px; padding-right: 30px; background-color: #24344B; height: 650px;
+    }
+    .estilo_space_estudio_biblico{
+        margin-top: -5px;  height: 600px; ;
+        overflow: hidden;
+    }
+
+    .estilo_img_est_bib{
+        width: 120%;
+        margin-left: -20px;
+    }
+}

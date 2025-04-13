@@ -15,6 +15,7 @@
 <link href="plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/respindex.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -746,40 +747,36 @@
 		</div>
 	</div>
 
-	<div class="milestones">
-		
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
-		<div class="container">
-			<div class="row milestones_container">
-				<div class="row">
-					<div class="col-lg-6" style="padding: 0px 30px;" >
-						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
-						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
-					</div>
-					<div class="col-lg-6" style="padding: 0px 30px;">
-						<form >
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
+	<div class="featured estilo_space_lumbrera">
+		<div class="estilo_izq_lumbrera">
+							<div class="col-lg-12">
+								<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #44425A;">Jóvenes Lumbrera</h2></div>
+								<!-- <div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
 							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
+							<div class="col-lg-12" style="margin-top: 50px;">
+								<p style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);">Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.</p>
+								
+							</div> 
+							<!-- <div class="col-lg-12" style=" margin-top: 30px;"> 
+								<b style="font-size: 30px; ">TE ESPERAMOS!</b>
+							</div> -->
+							<div class="col-lg-12" style="background-color:rgb(250, 250, 250); color: #000; padding: 20px; margin-top: 30px; border-bottom: #FF8A00 5px solid;">
+								<div class="col-lg-12">
+									<p style="font-size: 18px; line-height: 35px; color: #000;">
+										<i>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</i>
+									</p>
+								</div>
+								<div class="col-lg-12" style="margin-top: 30px; text-align: left;">
+									<b style="font-size: 20px;">1 Timoteo 4:12</b>
+								</div>
 							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
-								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
-								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
-							</div>
-
-						</form>
-					</div>
-				</div>
-				
-
-			</div>
+		</div>
+		<div class="estilo_der_lumbrera">
+			<img src="images/jovenes/lumbrera3.jpg" alt="" class="estilo_img_lumbrera">
 		</div>
 	</div>
+
+	
 
 	<!-- <div class="featured" style="display: block; background-image: url(images/Lectura_diaria/fondo2.png); background-repeat: no-repeat; background-size: cover;  height: 400px; background-position-y: 40%;">
 		<div style="height: 500px; height: 100%; background-color: rgba(255,255,255,0.8);">
@@ -1013,18 +1010,61 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div>
 
-	<div class="featured" style=" margin-top: -5px; background-image: url(images/estudio_b.jpg);
-	background-size: cover;
-	height: 700px;
+	<!-- <div class="about" style="
+	background-image: url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740445635/paginaWeb/Jovenes/img_jovenespibg2_erz9ti.png);
 	background-repeat: no-repeat;
+	background-size: cover;
 	">
+		<div class="container">
+		<div class="row about_row row-lg-eq-height">
+                
+				<div class="col-lg-8" style=" margin-top: 50px; margin-bottom: 50px;">
+					<div class="about_content" >
+						
+						<div class="about_text" style="margin-top: 20px; padding: 20px;">
+							<div class="col-lg-12">
+								<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #44425A;">JÓVENES LUMBRERA</h2></div>
+								
+							</div>
+							<div class="col-lg-12" style="margin-top: 50px;">
+								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);">Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.</h4>
+								
+							</div> 
+							
+							<div class="col-lg-12" style="background-color:rgb(250, 250, 250); color: #000; padding: 20px; margin-top: 50px; border-bottom: #FF8A00 5px solid;">
+								<div class="col-lg-12">
+									<p style="font-size: 18px; line-height: 35px; color: #000;">
+										<i>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</i>
+									</p>
+								</div>
+								<div class="col-lg-12" style="margin-top: 30px; text-align: left;">
+									<b style="font-size: 20px;">1 Timoteo 4:12</b>
+								</div>
+							</div> 
+							
+                             
+                            
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4" style="margin-top: 50px;">
+					<div class="about_image"><img src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740410777/paginaWeb/Jovenes/Lumbrera_xkce37.png" style="width: 100%; margin-bottom: 50px;"></div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	
+	
+
+	<div class="featured estilo_space_estudio_biblico">
 		<div >
 			<div >
 				
-				<div class="col-lg-8" style="float: left;">
-
+				<div class="col-lg-8 estilo_izq_est_bib">
+					<img src="images/estudio_b.jpg" alt="" class="estilo_img_est_bib">
 				</div>
-				<div class="col-lg-4" style="float: left; padding-top: 80px; padding-bottom: 50px; padding-left: 80px; padding-right: 30px; background-color: #24344B; height: 700px;">
+				<div class="col-lg-4 estilo_der_est_bib" >
 					<h2 style="color: #fff;">Grupos de Estudio Bíblico</h2><br>
 					<div class="col-lg-12" style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px 10px 10px 0px;">
 						<b>Estudio biblico en línea</b>
@@ -1068,51 +1108,7 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	<div class="about" style="
-	background-image: url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740445635/paginaWeb/Jovenes/img_jovenespibg2_erz9ti.png);
-	background-repeat: no-repeat;
-	background-size: cover;
-	">
-		<div class="container">
-		<div class="row about_row row-lg-eq-height">
-                
-				<div class="col-lg-8" style=" margin-top: 50px; margin-bottom: 50px;">
-					<div class="about_content" >
-						<!-- <div class="about_title" style="font-size: 35px;">BREVE RESEÑA HISTORICA DE LA PRIMERA IGLESIA  BAUTISTA DE GUADALAJARA, A.R (MEXICO).</div> -->
-						<div class="about_text" style="margin-top: 20px; padding: 20px;">
-							<div class="col-lg-12">
-								<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #44425A;">JÓVENES LUMBRERA</h2></div>
-								<!-- <div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
-							</div>
-							<div class="col-lg-12" style="margin-top: 50px;">
-								<h4 style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);">Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.</h4>
-								
-							</div> 
-							<!-- <div class="col-lg-12" style=" margin-top: 30px;"> 
-								<b style="font-size: 30px; ">TE ESPERAMOS!</b>
-							</div> -->
-							<div class="col-lg-12" style="background-color:rgb(250, 250, 250); color: #000; padding: 20px; margin-top: 50px; border-bottom: #FF8A00 5px solid;">
-								<div class="col-lg-12">
-									<p style="font-size: 18px; line-height: 35px; color: #000;">
-										<i>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</i>
-									</p>
-								</div>
-								<div class="col-lg-12" style="margin-top: 30px; text-align: left;">
-									<b style="font-size: 20px;">1 Timoteo 4:12</b>
-								</div>
-							</div> 
-							
-                             
-                            
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4" style="margin-top: 50px;">
-					<div class="about_image"><img src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740410777/paginaWeb/Jovenes/Lumbrera_xkce37.png" style="width: 100%; margin-bottom: 50px;"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
 	<div class="milestones" style="padding-bottom: 70px; padding-top: 120px;">
 		
@@ -1679,6 +1675,70 @@ Y todo lo que hace, prosperará</p>
 			</div>
 		</div>
 	</div>
+
+	<div class="featured space_orar">
+		<div class="estilo_izq_orar">
+					<!-- <div style="padding: 0px 30px;" > -->
+						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
+						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
+					<!-- </div> -->
+		</div>
+		<div class="estilo_der_orar">
+					<!-- <div style="padding: 0px 30px;"> -->
+						<form >
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
+								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
+								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
+							</div>
+
+						</form>
+					<!-- </div> -->
+		</div>
+	</div>
+
+	<!-- <div class="milestones">
+		
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row milestones_container">
+				<div class="row">
+					<div class="col-lg-6" style="padding: 0px 30px;" >
+						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
+						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
+					</div>
+					<div class="col-lg-6" style="padding: 0px 30px;">
+						<form >
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px;">
+								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
+							</div>
+							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
+								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
+								
+							</div>
+
+						</form>
+					</div>
+				</div>
+				
+
+			</div>
+		</div>
+	</div> -->
 
 	
 
