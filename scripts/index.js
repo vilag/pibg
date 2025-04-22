@@ -719,6 +719,9 @@ function count_activ_esp(){
 		data = JSON.parse(data);
 		//console.log(data);
 		array_activ_des = data;
+
+		
+
 		//cant_activ_des = data.length;
 		var cont=0;
 		var desfase = 3;
@@ -765,6 +768,7 @@ function count_activ_esp(){
 
 
 function animar_contenedores(){
+	
 	var cant_next = array_activ_des.length+cont_consec;
 	setTimeout(() => {
 		$("#mini"+cont_consec).removeClass("fade-in_"+cont_consec);
@@ -825,7 +829,7 @@ function animar_contenedores(){
 			setTimeout(() => {
 
 				var ult_ext1 = array_activ_des.length;
-				var ult_ext2 = array_activ_des.length+3;
+				var ult_ext2 = array_activ_des.length+array_activ_des.length;
 				
 				for (var index = ult_ext1; index <= ult_ext2; index++) {					
 					$("#mini"+index).removeClass("fade-in_"+index);
@@ -856,17 +860,6 @@ function animar_contenedores(){
 					array_activ_des = [];
 				}, 5000);
 				
-				// return;
-				// cont2=0;
-				// var cont_ult = array_activ_des.length-1;	
-				// $("#mini"+cont_ult+"_2").removeClass("fade-in");
-				// $("#mini"+cont_ult+"_2").addClass("fade-out");
-				// $("#nom_activ_sem_esp").text("Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.");
-				// $("#det_activ_sem_esp").text("Juan 17:3");
-				
-				// cant_next++;
-				// cont_consec++;
-				// animar_contenedores();
 			}, 8000);			
 		}else{
 			$("#nom_activ_sem_esp").removeClass("fade-in");
