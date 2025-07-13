@@ -233,7 +233,8 @@ function subir_doc_voz(){
             var idvoz = $("#idvoz_upload").val();
             $.post("ajax/bach.php?op=lista_partituras&idvoz="+idvoz+"&nombre_obra="+nombre,function(r){
                 $("#lista_partituras").html(r);
-
+                back_list_part();
+                $("#archivo_part").val("");
             }); 
 			//listar_documentos_cargados_lic();													
 		}
