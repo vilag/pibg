@@ -32,7 +32,7 @@ function listar_obras(){
 
 
 function listar_voces(idobra, nombre){
-	$.post("ajax/index.php?op=listar_voces&idobra="+idobra,function(r){
+	$.post("ajax/index.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre,function(r){
 		$("#box_voces").html(r);
 		document.getElementById("div_busquedas").style.display = "none";
 		document.getElementById("div_voces").style.display = "block";

@@ -21,6 +21,24 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
+    <style>
+        .barra_partituras::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+
+        .barra_partituras::-webkit-scrollbar-track {
+            background: rgba(155, 168, 175, 0.5);
+        }
+
+        .barra_partituras::-webkit-scrollbar-thumb {
+            background-color: rgba(20, 92, 187, 1);
+            border-radius: 20px;
+            border: 1px solid rgba(155, 168, 175, 0.5);
+            ;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <div style="width: 100%;">
         <div style="width: 100%; padding-left: 10px; padding-right: 10px; margin-top: 50px;">
             <div style="width: 100%; text-align: center;">

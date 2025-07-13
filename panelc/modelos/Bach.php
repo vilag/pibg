@@ -69,6 +69,30 @@ Class Bach
 
 	}
 
+	public function subir_doc_voz($nom,$idvoz_upload,$fecha_reg_part)
+	{
+		$sql_1="INSERT INTO partituras (idvoz,nombre,fecha) VALUES('$idvoz_upload','$nom','$fecha_reg_part')";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql_1);
+
+	}
+
+	public function lista_partituras($idvoz)
+	{
+		$sql_1="SELECT * FROM partituras WHERE idvoz='$idvoz' ORDER BY nombre DESC";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql_1);
+
+	}
+
+	public function eliminar_partitura($idpartitura)
+	{
+		$sql_1="DELETE FROM partituras WHERE idpartitura='$idpartitura'";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql_1);
+
+	}
+
 }
 
 ?>

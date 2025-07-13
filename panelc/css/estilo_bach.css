@@ -1,0 +1,6 @@
+.estilo_lista_obras{
+    padding: 15px; width: 100%; height: 80px; margin-top: 15px; background-color: #1F4168; color: #fff; line-height: 25px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2); border-radius: 10px;
+}
+.estilo_lista_obras:hover{
+    padding: 15px; width: 100%; height: 80px; margin-top: 15px; background-color: #278cff; color: #fff; line-height: 25px; box-shadow: 5px 5px 10px rgba(0,0,0,0.2); border-radius: 10px;
+}

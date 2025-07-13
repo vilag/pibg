@@ -18,7 +18,7 @@ if ($_SESSION['administrador']==1)
 <!-- partial -->
 <div class="main-panel">
           <div class="content-wrapper">
-            
+            <link rel="stylesheet" href="css/estilo_bach.css">
             
             
             <div class="row">
@@ -70,73 +70,48 @@ if ($_SESSION['administrador']==1)
                             <a href="https://primeraiglesiabautistagdl.org/voces.php" target="_blank">Ver Página</a>
                         </div>
                     <button id="btn_back_obras" style="margin-bottom: 20px; display: none;" onclick="regresar_a_obras();">Regresar</button>
-                    <h4 >Registro de obras y voces</h4><br>
+                    
                     <!-- <p class="card-description">
                         Add class <code>.table-striped</code>
                     </p> -->
-                    <div>
-                    <ul>
-                        <li id="li_obra" style="list-style:none;"><a style="padding: 10px; background-color: #000; color: #fff; margin-left: -15px; border-radius: 5px;" href="#modal1" onclick="abrir_modal_nuevo();">Nueva obra</a></li>
-                        <li id="li_voz" style="display: none; list-style:none;"><a style="padding: 10px; background-color: #000; color: #fff; margin-left: -15px; border-radius: 5px;" href="#modal2" onclick="abrir_modal_nuevo2();">Nueva voz</a></li>
-                    </ul>
+                    <div style="width: 100%;">
+                        <div id="li_obra" style="width: 100%; float: left; display: flex; justify-content: right;">
+                            <a style="padding: 10px; background-color: #000; color: #fff; margin-left: -15px; border-radius: 5px;" href="#modal1" onclick="abrir_modal_nuevo();">Nueva obra</a>
+                        </div>
+                        <div id="li_voz" style="width: 100%; float: left; display: none; justify-content: right;">
+                            <a style="padding: 10px; background-color: #000; color: #fff; margin-left: -15px; border-radius: 5px;" href="#modal2" onclick="abrir_modal_nuevo2();">Nueva voz</a>
+                        </div>
+                        <!-- <ul>
+                            <li  style="list-style:none;"></li>
+                            <li  style="display: none; list-style:none;"></li>
+                        </ul> -->
                     </div>
 
-                    <div>
-
-                    </div>
                     
                     
-                    <div class="table-responsive" style="height: 400px; overflow: scroll;">
+                    
+                    <div class="table-responsive">
                         <div id="tbl_obras">
-                            <div id="div_obras">
+                            <div style="padding: 10px;">
+                                <b style="font-size: 20px;">Lista de obras</b>
+                            </div>
+                            <div id="div_obras" style="height: 400px; overflow: scroll;">
 
                             </div>
 
                         </div>
 
                         <div id="tbl_voces">
-                            <div id="div_voces">
-
+                            <div style="padding: 10px;">
+                                <b style="font-size: 20px;" id="nom_obra_voces"></b>
+                                <input type="hidden" id="idobra_refresh">
                             </div>
+                            <div id="div_voces" style="height: 400px; overflow: scroll;">
+
+                            </div> 
 
                         </div>
-                        <!-- <table id="tbl_obras" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Nombre
-                                </th>
-                                <th>
-                                    Autor
-                                </th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody id="div_obras">
-                            
-                            
-                        </tbody>
-                        </table> -->
-
-                        <!-- <table id="tbl_voces" class="table table-striped" style="display: none;">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Voz
-                                </th>
-                                <th>
-                                    Audio
-                                </th>
-                                <th>
-                                    Opciones
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="div_voces">
-                            
-                            
-                        </tbody>
-                        </table> -->
+                        
                     </div>
                     </div>
                 </div>
@@ -182,6 +157,25 @@ if ($_SESSION['administrador']==1)
     </div>
 </div>
 
+<style>
+  .barra_partituras::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  .barra_partituras::-webkit-scrollbar-track {
+    background: rgba(155, 168, 175, 0.5);
+  }
+
+  .barra_partituras::-webkit-scrollbar-thumb {
+    background-color: rgb(40, 57, 87);
+    border-radius: 20px;
+    border: 1px solid rgba(155, 168, 175, 0.5);
+    ;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
 <div id="modal2" class="modalmask">
     <div class="modalbox movedown" style="height: 380px;">
         <a href="#close" title="Close" class="close">X</a>
@@ -215,6 +209,52 @@ if ($_SESSION['administrador']==1)
                             </div>
                             
                     </form>
+    </div>
+</div>
+
+<div id="modal_archivo_voz" class="modalmask">
+    <div class="modalbox movedown" style="height: 380px;">
+        <a href="#close" title="Close" class="close">X</a>
+        <div style="width: 100%; padding: 20px;">
+            <form name="formulario_partituras" id="formulario_partituras" enctype="multipart/form-data" method="post">
+ 
+                <div class="form-group col-md-12 col-sm-12">
+                    <div class="form-group col-md-12 col-sm-12">
+                        <span onclick="back_list_part();" id="span_back" style="cursor: pointer; padding: 5px; background-color: rgb(7, 47, 123); color: #fff; border-radius: 5px; display: none;">Regresar</span>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12" style="text-align: center;">
+                        <b style="text-transform: uppercase;" id="nombre_obre_modal_partituras"></b><br>
+                        <span id="nombre_voz_modal_part"></span>
+                    </div>
+                    <div id="content_list_partituras" class="form-group col-md-12 col-sm-12" style="display: block; padding: 10px;">
+                        <div class="form-group col-md-12 col-sm-12" id="lista_partituras" style="height: 150px; overflow: scroll;">
+                        
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12" align="center" style="margin-top: 10px;">
+                            <button type="button" class="btn btn-dark"  onclick="subir_doc_voz_content();" id="" style="border-radius: 10px;">Nuevo</button>
+                        </div>
+                    </div>                               
+                    <div id="content_reg_part" class="form-group col-md-12 col-sm-12" style="display: none;">
+                        <label>CARGAR NUEVA PARTITURA</label><br>
+                        <input type="file" name="archivo_part" id="archivo_part">
+                        <input type="hidden" name="idvoz_upload" id="idvoz_upload">
+                        <input type="hidden" name="nom_voz_upload" id="nom_voz_upload">
+                        <input type="hidden" name="fecha_reg_part" id="fecha_reg_part">
+                        <div class="form-group col-md-12 col-sm-12" align="center" style="margin-top: 20px;">
+                            <button type="button" class="btn btn-dark"  onclick="subir_doc_voz();" id="" style="border-radius: 10px;">Cargar archivo</button>
+                        </div>
+                    </div>
+                                                  
+                </div>
+ 
+                
+              
+                <div class="form-group col-md-7 col-sm-7" id="box_documentos_cargados_lic">
+
+                </div>
+                                                                                        
+            </form>
+        </div>
     </div>
 </div>
 <!-- <div id="modal2" class="modalmask">

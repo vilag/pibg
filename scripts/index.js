@@ -666,21 +666,21 @@ function consul_sem_esp(){
 		data = JSON.parse(data);
 		$("#nom_activ_sem_esp").text(data.nombre);
 		$("#det_activ_sem_esp").text(data.detalle);
-		//alert(data.enlace);
-		// if (data.enlace!="") {
-		// 	document.getElementById("enlace_redirect").style.display="block";
-		// 	$("#enlace_redirect").attr("href",data.enlace);
-		// }else{
-		// 	document.getElementById("enlace_redirect").style.display="none";
-		// }
-
-		//console.log(data.nombre);
+		
 
 	});
 }
 
 function mostrar_texto_principal()
 {
+	//return;
+	// var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
+	// $("#nom_activ_sem_esp").text(texto_principal);
+	// console.log(texto_principal.length);
+
+	// return;
+
+
 	$("#nom_activ_sem_esp").text("");
 	var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
 	var cita = "Juan 17:3";
@@ -701,7 +701,7 @@ function mostrar_texto_principal()
 		}, 100);
 	}, 2000);
 	setTimeout(() => {
-		count_activ_esp();
+		//count_activ_esp();
 	}, 3000);
 	
 }

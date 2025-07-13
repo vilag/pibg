@@ -118,6 +118,14 @@ Class Index
 		return ejecutarConsulta($sql);
 		//return ejecutarConsultaSimpleFila($sql);			
 	}
+
+	public function lista_partituras($idvoz)
+	{
+		$sql_1="SELECT * FROM partituras WHERE idvoz='$idvoz' ORDER BY nombre DESC";
+		//return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql_1);
+
+	}
    
 }
 
