@@ -68,7 +68,7 @@ switch ($_GET["op"]){
 
 								$idvoz=$reg->idvoz;
 
-								$rspta2 = $index->lista_partituras($idvoz);
+								$rspta2 = $voces_lumbrera->lista_partituras($idvoz);
 								while ($reg2 = $rspta2->fetch_object()){
 
 									echo '
@@ -79,8 +79,8 @@ switch ($_GET["op"]){
 												<div style="width: 100%; float: left; line-height: 15px; text-align: center;">
 													<b style="font-size: 11px;">'.$reg2->nombre.'</b>
 													<hr style="margin: 7px !important;">
-													<a href="panelc/files/bach/'.$nombre_obra.'/'.$reg2->nombre.'" target="_blank" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="panelc/images/iconos/share2.png" alt="" style="width: 20px;"></a>
-		 											<a href="panelc/files/bach/'.$nombre_obra.'/'.$reg2->nombre.'" download="'.$reg2->nombre.'" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="panelc/images/iconos/download2.png" alt="" style="width: 20px;"></a>
+													<a href="panelc/files/lumbrera/'.$nombre_obra.'/'.$reg2->nombre.'" target="_blank" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="panelc/images/iconos/share2.png" alt="" style="width: 20px;"></a>
+		 											<a href="panelc/files/lumbrera/'.$nombre_obra.'/'.$reg2->nombre.'" download="'.$reg2->nombre.'" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="panelc/images/iconos/download2.png" alt="" style="width: 20px;"></a>
 													
 												</div>
 												
