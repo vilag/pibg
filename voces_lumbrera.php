@@ -70,6 +70,6 @@
 
 </body>
 <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-<script type="text/javascript" src="scripts/voces.js?v=<?php echo(rand()); ?>"></script>
+<script type="text/javascript" src="scripts/voces_lumbrera.js?v=<?php echo(rand()); ?>"></script>
 <script type="text/javascript" src="scripts/servicio-imagen.js?v=<?php echo(rand()); ?>"></script>
 </html>
