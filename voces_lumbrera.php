@@ -42,7 +42,7 @@
     <div style="width: 100%;">
         <div style="width: 100%; padding-left: 10px; padding-right: 10px; margin-top: 50px;">
             <div style="width: 100%; text-align: center;">
-                <b style="font-size: 20px;">Coro Johann Sebastian Bach</b><br>
+                <b style="font-size: 20px;">Coro Lumbrera</b><br>
                 <label for="">Voces</label>
             </div>
             <div style="width: 100%;">

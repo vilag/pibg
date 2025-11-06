@@ -13,21 +13,21 @@ Class Voces_lumbrera
 
     public function listar_obras($nombre)
 	{
-		$sql="SELECT * FROM bach_obras WHERE nombre LIKE '%".$nombre."%'";
+		$sql="SELECT * FROM lumbrera_obras WHERE nombre LIKE '%".$nombre."%'";
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
 
     public function listar_voces($idobra)
 	{
-		$sql="SELECT * FROM bach_voces WHERE idobra='$idobra'";
+		$sql="SELECT * FROM lumbrera_voces WHERE idobra='$idobra'";
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
 
     public function listar_obras_1()
 	{
-		$sql="SELECT * FROM bach_obras ORDER BY nombre ASC";
+		$sql="SELECT * FROM lumbrera_obras ORDER BY nombre ASC";
 		//return ejecutarConsultaSimpleFila($sql);
 		return ejecutarConsulta($sql);			
 	}
