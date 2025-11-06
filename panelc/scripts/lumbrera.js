@@ -1,6 +1,6 @@
 listar_obras();
 function listar_obras(){
-    $.post("ajax/bach.php?op=listar_obras",function(r){
+    $.post("ajax/lumbrera.php?op=listar_obras",function(r){
 		$("#div_obras").html(r);					
 	});
 }
@@ -20,7 +20,7 @@ function guardar_obra()
     var autor = $("#autor").val();
 
     if (nombre!="" && autor!="") {
-        $.post("ajax/bach.php?op=guardar_obra",{nombre:nombre,autor:autor},function(data, status)
+        $.post("ajax/lumbrera.php?op=guardar_obra",{nombre:nombre,autor:autor},function(data, status)
         {
             data = JSON.parse(data);
 
@@ -55,7 +55,7 @@ function actualizar_obra(){
     var autor = $("#autor").val();
     var idobra = $("#idobra_update").val();
 
-        $.post("ajax/bach.php?op=actualizar_obra",{nombre:nombre,autor:autor,idobra:idobra},function(data, status)
+        $.post("ajax/lumbrera.php?op=actualizar_obra",{nombre:nombre,autor:autor,idobra:idobra},function(data, status)
         {
             data = JSON.parse(data);
 
@@ -72,7 +72,7 @@ function eliminar_obra(idobra){
     var confirmar =  confirm("¿Desea eliminar esta obra?");
     //alert(confirmar);
     if (confirmar==true) {
-        $.post("ajax/bach.php?op=eliminar_obra",{idobra:idobra},function(data, status)
+        $.post("ajax/lumbrera.php?op=eliminar_obra",{idobra:idobra},function(data, status)
         {
             data = JSON.parse(data);
 
@@ -91,7 +91,7 @@ function listar_voces(idobra, nombre){
     // console.log("Listar voces");
     // console.log(idobra);
     // console.log(nombre);
-	$.post("ajax/bach.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre,function(r){
+	$.post("ajax/lumbrera.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre,function(r){
 		$("#div_voces").html(r);
 		 document.getElementById("tbl_obras").style.display = "none";
 		 document.getElementById("tbl_voces").style.display = "block";
@@ -126,7 +126,7 @@ function guardar_voz()
     var nombre_obra = $("#nom_obra_voces").text();
 
     if (voz!="" && archivo_audio!="") {
-        $.post("ajax/bach.php?op=guardar_voz",{idobra:idobra,voz:voz,archivo_audio:archivo_audio},function(data, status)
+        $.post("ajax/lumbrera.php?op=guardar_voz",{idobra:idobra,voz:voz,archivo_audio:archivo_audio},function(data, status)
         {
             data = JSON.parse(data);
 
@@ -134,7 +134,7 @@ function guardar_voz()
             $("#voz").val("");
             $("#archivo_audio").val("");
 
-            $.post("ajax/bach.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre_obra,function(r){
+            $.post("ajax/lumbrera.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre_obra,function(r){
                 $("#div_voces").html(r);
 
             });
@@ -164,13 +164,13 @@ function actualizar_voz(){
     var idobra = $("#idobra").val();
     var nombre_obra = $("#nom_obra_voces").text();
 
-        $.post("ajax/bach.php?op=actualizar_voz",{idvoz:idvoz,voz:voz,archivo_audio:archivo_audio},function(data, status)
+        $.post("ajax/lumbrera.php?op=actualizar_voz",{idvoz:idvoz,voz:voz,archivo_audio:archivo_audio},function(data, status)
         {
             data = JSON.parse(data);
 
             alert("Voz actualizada exitosamente");
 
-            $.post("ajax/bach.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre_obra,function(r){
+            $.post("ajax/lumbrera.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre_obra,function(r){
                 $("#div_voces").html(r);
 
             });        
@@ -187,12 +187,12 @@ function eliminar_voz(idvoz){
     var confirmar =  confirm("¿Desea eliminar esta voz?");
     //alert(confirmar);
     if (confirmar==true) {
-        $.post("ajax/bach.php?op=eliminar_voz",{idvoz:idvoz},function(data, status)
+        $.post("ajax/lumbrera.php?op=eliminar_voz",{idvoz:idvoz},function(data, status)
         {
             data = JSON.parse(data);
 
             alert("Voz eliminada exitosamente");
-            $.post("ajax/bach.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre_obra,function(r){
+            $.post("ajax/lumbrera.php?op=listar_voces&idobra="+idobra+"&nombre="+nombre_obra,function(r){
                 $("#div_voces").html(r);
 
             }); 
@@ -222,11 +222,10 @@ function subir_doc_voz(){
         alert("Es necesario seleccionar un archivo");
         return;
     }
-    // console.log(parametros);
+    
 	$.ajax({
-
 		data: parametros,
-		url: "../panelc/ajax/bach.php?op=subir_doc_voz",
+		url: "../panelc/ajax/lumbrera.php?op=subir_doc_voz",
 		type: "POST",
 		contentType: false,
 		processData: false,
@@ -240,7 +239,7 @@ function subir_doc_voz(){
 
             listar_voces(idobra, nombre);
             var idvoz = $("#idvoz_upload").val();
-            $.post("ajax/bach.php?op=lista_partituras&idvoz="+idvoz+"&nombre_obra="+nombre,function(r){
+            $.post("ajax/lumbrera.php?op=lista_partituras&idvoz="+idvoz+"&nombre_obra="+nombre,function(r){
                 $("#lista_partituras").html(r);
                 back_list_part();
                 $("#archivo_part").val("");
@@ -265,7 +264,7 @@ function subir_doc_voz_modal(idvoz,voz){
     $("#fecha_reg_part").val(fecha);
     var nombre_obra = $("#nombre_obre_modal_partituras").text();
 
-    $.post("ajax/bach.php?op=lista_partituras&idvoz="+idvoz+"&nombre_obra="+nombre_obra,function(r){
+    $.post("ajax/lumbrera.php?op=lista_partituras&idvoz="+idvoz+"&nombre_obra="+nombre_obra,function(r){
         $("#lista_partituras").html(r);
 
     }); 
@@ -293,7 +292,7 @@ function eliminar_partitura(idpartitura, nombre_obra, nombre_archivo){
     var confirmar =  confirm("¿Desea eliminar esta partitura?");
     //alert(confirmar);
     if (confirmar==true) {
-        $.post("ajax/bach.php?op=eliminar_partitura",{idpartitura:idpartitura,nombre_obra:nombre_obra,nombre_archivo:nombre_archivo},function(data, status)
+        $.post("ajax/lumbrera.php?op=eliminar_partitura",{idpartitura:idpartitura,nombre_obra:nombre_obra,nombre_archivo:nombre_archivo},function(data, status)
         {
             data = JSON.parse(data);
 

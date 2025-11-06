@@ -213,7 +213,7 @@ switch ($_GET["op"]){
 							<div style="width: 100%; padding: 10px;">
 								<div style="width: 100%; float: left;">
 									<div style="width: 100%; padding: 10px; text-align: left;">
-										<b style="font-size: 18px; margin-left: 7px; color: #1D4268;">'.$reg->voz.'</b>   
+										<b style="font-size: 18px; margin-left: 7px; color: #1D4268;">'.$reg->nombre.'</b>   
 									</div>
 									<!--<button id="btn_play'.$reg->idvoz.'" onclick="PlaySound('.$reg->idvoz.');" style="display: none; background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/play.png" style="width: 40px;" alt=""></button>
 									<button id="btn_pause'.$reg->idvoz.'" onclick="PlaySound2('.$reg->idvoz.');" style="display: none; background-color: rgba(0,0,0,0); border: none; margin: 7px;"><img src="images/iconos/pausa.png" style="width: 40px;" alt=""></button>

@@ -1,8 +1,8 @@
 <?php
 session_start(); 
-require_once "../modelos/Bach.php";
+require_once "../modelos/Lumbrera.php";
 
-$bach=new Bach();
+$lumbrera=new Lumbrera();
 
 
 switch ($_GET["op"]){
@@ -10,7 +10,7 @@ switch ($_GET["op"]){
 		case 'listar_obras':
 		
 
-			$rspta = $bach->listar_obras();
+			$rspta = $lumbrera->listar_obras();
 			while ($reg = $rspta->fetch_object())
 					{
 						
@@ -43,7 +43,7 @@ switch ($_GET["op"]){
 			$nombre = $_POST['nombre'];
 			$autor = $_POST['autor'];
 										
-			$rspta=$bach->guardar_obra($nombre,$autor);
+			$rspta=$lumbrera->guardar_obra($nombre,$autor);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -53,7 +53,7 @@ switch ($_GET["op"]){
 			$autor = $_POST['autor'];
             $idobra = $_POST['idobra'];
 										
-			$rspta=$bach->actualizar_obra($nombre,$autor,$idobra);
+			$rspta=$lumbrera->actualizar_obra($nombre,$autor,$idobra);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -63,7 +63,7 @@ switch ($_GET["op"]){
 			$idobra = $_GET['idobra'];
 			$nombre_obra = $_GET['nombre'];
 
-			$rspta = $bach->listar_voces($idobra);
+			$rspta = $lumbrera->listar_voces($idobra);
 				
 			while ($reg = $rspta->fetch_object())
 					{
@@ -92,7 +92,7 @@ switch ($_GET["op"]){
 
 								$idvoz=$reg->idvoz;
 
-								$rspta2 = $bach->lista_partituras($idvoz);
+								$rspta2 = $lumbrera->lista_partituras($idvoz);
 								while ($reg2 = $rspta2->fetch_object()){
 
 									echo '
@@ -103,8 +103,8 @@ switch ($_GET["op"]){
 												<div style="width: 100%; float: left; line-height: 15px; text-align: center;">
 													<b style="font-size: 11px;">'.$reg2->nombre.'</b>
 													<hr style="margin: 7px !important;">
-													<a href="files/bach/'.$nombre_obra.'/'.$reg2->nombre.'" target="_blank" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="images/iconos/share2.png" alt="" style="width: 20px;"></a>
-		 											<a href="files/bach/'.$nombre_obra.'/'.$reg2->nombre.'" download="'.$reg2->nombre.'" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="images/iconos/download2.png" alt="" style="width: 20px;"></a>
+													<a href="files/lumbrera/'.$nombre_obra.'/'.$reg2->nombre.'" target="_blank" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="images/iconos/share2.png" alt="" style="width: 20px;"></a>
+		 											<a href="files/lumbrera/'.$nombre_obra.'/'.$reg2->nombre.'" download="'.$reg2->nombre.'" class="estilo_btn_plan_anual" style="color: #000000 !important; margin: 5px 10px; font-size: 12px; color: #fff;"><img src="images/iconos/download2.png" alt="" style="width: 20px;"></a>
 													<button style="background-color: transparent; border: none; color: #000000;" onclick="eliminar_partitura('.$reg2->idpartitura.',\''.$nombre_obra.'\',\''.$reg2->nombre.'\');"><img src="images/iconos/trash.png" alt="" style="width: 20px;"></button>
 												</div>
 												
@@ -158,7 +158,7 @@ switch ($_GET["op"]){
 			$voz = $_POST['voz'];
 			$archivo_audio = $_POST['archivo_audio'];
 										
-			$rspta=$bach->guardar_voz($idobra,$voz,$archivo_audio);
+			$rspta=$lumbrera->guardar_voz($idobra,$voz,$archivo_audio);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -167,7 +167,7 @@ switch ($_GET["op"]){
 			
             $idobra = $_POST['idobra'];
 										
-			$rspta=$bach->eliminar_obra($idobra);
+			$rspta=$lumbrera->eliminar_obra($idobra);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -178,7 +178,7 @@ switch ($_GET["op"]){
 			$voz = $_POST['voz'];
             $archivo_audio = $_POST['archivo_audio'];
 										
-			$rspta=$bach->actualizar_voz($idvoz,$voz,$archivo_audio);
+			$rspta=$lumbrera->actualizar_voz($idvoz,$voz,$archivo_audio);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -187,7 +187,7 @@ switch ($_GET["op"]){
 			
             $idvoz = $_POST['idvoz'];
 										
-			$rspta=$bach->eliminar_voz($idvoz);
+			$rspta=$lumbrera->eliminar_voz($idvoz);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -201,16 +201,16 @@ switch ($_GET["op"]){
 			$ar_coment = $_FILES["archivo_part"];			
 			$nom=$_FILES['archivo_part']['name'];
 			$ruta_anterior=$_FILES['archivo_part']['tmp_name'];
-			$ruta_idvoz="../files/bach/".$nom_voz_upload;
+			$ruta_idvoz="../files/lumbrera/".$nom_voz_upload;
 			if (!file_exists($ruta_idvoz)) {
 			    mkdir($ruta_idvoz, 0755, true);
 			}
-			$ruta="../files/bach/".$nom_voz_upload."/".$nom;
+			$ruta="../files/lumbrera/".$nom_voz_upload."/".$nom;
 			move_uploaded_file($ruta_anterior, $ruta);
 
 			date_default_timezone_set("America/Mexico_City");
 
-			$rspta=$bach->subir_doc_voz($nom,$idvoz_upload,$fecha_reg_part);
+			$rspta=$lumbrera->subir_doc_voz($nom,$idvoz_upload,$fecha_reg_part);
 	 		echo json_encode($rspta);
 		break;
 
@@ -219,7 +219,7 @@ switch ($_GET["op"]){
 			$idvoz = $_GET['idvoz'];
 			$nombre_obra = $_GET['nombre_obra'];
 
-			$rspta = $bach->lista_partituras($idvoz);
+			$rspta = $lumbrera->lista_partituras($idvoz);
 				
 			while ($reg = $rspta->fetch_object())
 					{
@@ -229,8 +229,8 @@ switch ($_GET["op"]){
 
 						<div style="padding: 15px; width: 100%; margin-top: 5px; box-shadow: 5px 5px 10px rgba(4, 47, 128, 0.1); border-radius: 10px;">
 							<b>'.$reg->nombre.'</b><br><br>
-							<a style="margin: 2px 10px;" href="files/bach/'.$nombre_obra.'/'.$reg->nombre.'" download="'.$reg->nombre.'" class="estilo_btn_plan_anual">Descargar</a>
-							<a style="margin: 2px 10px;" href="files/bach/'.$nombre_obra.'/'.$reg->nombre.'" target="_blank" class="estilo_btn_plan_anual">Ver</a>
+							<a style="margin: 2px 10px;" href="files/lumbrera/'.$nombre_obra.'/'.$reg->nombre.'" download="'.$reg->nombre.'" class="estilo_btn_plan_anual">Descargar</a>
+							<a style="margin: 2px 10px;" href="files/lumbrera/'.$nombre_obra.'/'.$reg->nombre.'" target="_blank" class="estilo_btn_plan_anual">Ver</a>
 							
 						</div>
 
@@ -244,12 +244,13 @@ switch ($_GET["op"]){
 			$nombre_obra = $_POST['nombre_obra'];
 			$nombre_archivo = $_POST['nombre_archivo'];
 
-			$ruta = "../files/bach/".$nombre_obra."/".$nombre_archivo."";
+			$ruta = "../files/lumbrera/".$nombre_obra."/".$nombre_archivo."";
 			unlink($ruta);
 										
-			$rspta=$bach->eliminar_partitura($idpartitura);
+			$rspta=$lumbrera->eliminar_partitura($idpartitura);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
+
 }
 ?>
