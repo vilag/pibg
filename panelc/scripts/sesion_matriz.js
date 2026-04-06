@@ -156,19 +156,23 @@ function renderizar_matriz(registros) {
         return;
     }
 
-    registros.forEach(function (reg) {
+    var anio = String(new Date().getFullYear()).slice(-2);
+
+    registros.forEach(function (reg, idx) {
         var fila = '<tr>';
         fila += '<td title="' + reg.nombre + '">' + reg.nombre + '</td>';
 
         for (var i = 1; i <= 52; i++) {
-            var col  = 'col_' + (i < 10 ? '0' + i : '' + i);
-            var val  = parseInt(reg[col]) || 0;
-            var cls  = val === 1 ? 'celda-check activa' : 'celda-check';
+            var col    = 'col_' + (i < 10 ? '0' + i : '' + i);
+            var val    = parseInt(reg[col]) || 0;
+            var cls    = val === 1 ? 'celda-check activa' : 'celda-check';
+            var semana = (i < 10 ? '0' : '') + i;
+            var codigo = val === 1 ? (anio + semana + (idx + 1)) : '';
             fila += '<td class="' + cls + '" ' +
                     'data-idregistro="' + reg.idregistro + '" ' +
                     'data-col="' + i + '" ' +
                     'data-val="' + val + '" ' +
-                    'onclick="toggle_celda(this);"></td>';
+                    'onclick="toggle_celda(this);">' + codigo + '</td>';
         }
 
         fila += '</tr>';
@@ -180,11 +184,17 @@ function renderizar_matriz(registros) {
    TOGGLE CELDA
 ============================================================ */
 function toggle_celda(celda) {
-    var $c        = $(celda);
+    var $c         = $(celda);
     var idregistro = $c.data("idregistro");
-    var col        = $c.data("col");
+    var col        = parseInt($c.data("col"));
     var val_actual = parseInt($c.data("val")) || 0;
     var nuevo_val  = val_actual === 1 ? 0 : 1;
+
+    // Calcular código de la celda
+    var anio   = String(new Date().getFullYear()).slice(-2);
+    var semana = (col < 10 ? '0' : '') + col;
+    var fila   = $c.closest('tr').index() + 1;
+    var codigo = nuevo_val === 1 ? (anio + semana + fila) : '';
 
     // Actualiza UI inmediatamente
     if (nuevo_val === 1) {
@@ -192,6 +202,7 @@ function toggle_celda(celda) {
     } else {
         $c.removeClass("activa");
     }
+    $c.text(codigo);
     $c.data("val", nuevo_val);
 
     // Persiste en servidor
