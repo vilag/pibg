@@ -138,6 +138,16 @@ if ($_SESSION['administrador'] == 1):
 
               <div id="aviso_excel" style="color:#c00; font-size:13px; margin-bottom:8px; display:none;"></div>
 
+              <!-- Escáner / búsqueda de código -->
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+                <label style="margin:0; font-size:13px; font-weight:600;">Código escaneado:</label>
+                <input type="text" id="input_scanner" placeholder="Ej: 260101"
+                       style="font-size:14px; padding:6px 10px; border:1px solid #ccc; border-radius:6px; width:160px; letter-spacing:2px;"
+                       onkeydown="if(event.key==='Enter'){buscar_celda();}">
+                <button class="btn btn-dark btn-sm" onclick="buscar_celda();">Seleccionar</button>
+                <span id="aviso_scanner" style="font-size:13px; display:none;"></span>
+              </div>
+
               <div id="tbl_matriz_wrap">
                 <table id="tbl_matriz">
                   <thead>

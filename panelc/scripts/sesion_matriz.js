@@ -231,6 +231,45 @@ function toggle_celda(celda) {
 }
 
 /* ============================================================
+   ESCÁNER – buscar y activar celda por código
+============================================================ */
+function buscar_celda() {
+    var codigo  = $.trim($("#input_scanner").val());
+    var $aviso  = $("#aviso_scanner");
+
+    if (codigo === '') {
+        $aviso.text('Ingresa un código.').css('color', '#c00').show();
+        return;
+    }
+
+    // Buscar celda cuyo texto coincida exactamente con el código
+    var $celda = $("#tbody_matriz td.celda-check").filter(function () {
+        return $.trim($(this).text()) === codigo;
+    });
+
+    if ($celda.length === 0) {
+        $aviso.text('Código "' + codigo + '" no encontrado.').css('color', '#c00').show();
+        return;
+    }
+
+    $aviso.hide();
+
+    // Si no está activa, activarla
+    if (!$celda.hasClass('activa')) {
+        toggle_celda($celda[0]);
+    }
+
+    // Scroll hacia la celda y resaltado temporal
+    var wrap = document.getElementById('tbl_matriz_wrap');
+    var cell = $celda[0];
+    wrap.scrollTo({ left: cell.offsetLeft - 200, top: cell.offsetParent.offsetTop - 100, behavior: 'smooth' });
+    $celda.css('outline', '3px solid #ff9800');
+    setTimeout(function () { $celda.css('outline', ''); }, 1500);
+
+    $("#input_scanner").val('').focus();
+}
+
+/* ============================================================
    LEER EXCEL CON SheetJS
 ============================================================ */
 function leer_excel(input) {
