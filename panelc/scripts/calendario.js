@@ -1,5 +1,7 @@
-listar_dias();
-listar_activ_sem();
+document.addEventListener("DOMContentLoaded", function() {
+    listar_dias();
+    listar_activ_sem();
+});
 
 function listar_dias()
 {

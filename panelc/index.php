@@ -130,6 +130,7 @@ if ($_SESSION['administrador']==1)
           <!-- content-wrapper ends -->
 
            <script type="text/javascript" src="scripts/calendario.js?v=<?php echo(rand()); ?>"></script>
+           <script src="js/dashboard.js"></script>
 <?php
   require "footer.php";
 ?>

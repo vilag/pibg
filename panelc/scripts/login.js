@@ -44,4 +44,4 @@ function login()
 
 
 
-init();
+document.addEventListener("DOMContentLoaded", function() { init(); });

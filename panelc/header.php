@@ -17,9 +17,42 @@
     
     <!-- endinject -->
     <link rel="shortcut icon" href="images/logos/icono.png" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
+    <!-- font-display: swap para Roboto y Typicons -->
+    <style>
+      @font-face {
+        font-family: 'Roboto'; font-display: swap;
+        src: url("fonts/Roboto/Roboto-Regular.woff2") format("woff2"),
+             url("fonts/Roboto/Roboto-Regular.woff") format("woff");
+        font-weight: normal; font-style: normal;
+      }
+      @font-face {
+        font-family: 'Roboto'; font-display: swap;
+        src: url("fonts/Roboto/Roboto-Bold.woff2") format("woff2"),
+             url("fonts/Roboto/Roboto-Bold.woff") format("woff");
+        font-weight: bold; font-style: normal;
+      }
+      @font-face {
+        font-family: 'Roboto'; font-display: swap;
+        src: url("fonts/Roboto/Roboto-Light.woff2") format("woff2"),
+             url("fonts/Roboto/Roboto-Light.woff") format("woff");
+        font-weight: 300; font-style: normal;
+      }
+      @font-face {
+        font-family: 'Roboto'; font-display: swap;
+        src: url("fonts/Roboto/Roboto-Medium.woff2") format("woff2"),
+             url("fonts/Roboto/Roboto-Medium.woff") format("woff");
+        font-weight: 500; font-style: normal;
+      }
+      @font-face {
+        font-family: 'typicons'; font-display: swap;
+        src: url("vendors/typicons.font/font/typicons.woff") format("woff");
+        font-weight: normal; font-style: normal;
+      }
+    </style>
+
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image" href="images/logos/logo_manage.png">
   </head>
   <body>
     
@@ -27,8 +60,8 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href="index.html"><img src="images/logos/logo_manage.png" style="width: 150px; height: 45px;" alt=""></a>
-          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logos/logo_manage.png" style="width: 150px; height: 45px;" alt=""></a>
+          <a class="navbar-brand brand-logo" href="index.html"><img src="images/logos/logo_manage.png" width="150" height="45" style="width: 150px; height: 45px;" alt="PIBG Manage" fetchpriority="high"></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logos/logo_manage.png" width="150" height="45" style="width: 150px; height: 45px;" alt="PIBG Manage"></a>
           <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
             <span class="typcn typcn-th-menu"></span>
           </button>
@@ -247,6 +280,12 @@
             <a class="nav-link" href="lectura_diaria.php">
               <img src="images/iconos/libro.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Plan de lectura</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sesion_matriz.php">
+              <img src="images/iconos/calendar.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Sesión Matriz</span>
             </a>
           </li>
           <!-- <li class="nav-item">

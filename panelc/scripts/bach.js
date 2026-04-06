@@ -1,4 +1,4 @@
-listar_obras();
+document.addEventListener("DOMContentLoaded", function() { listar_obras(); });
 function listar_obras(){
     $.post("ajax/bach.php?op=listar_obras",function(r){
 		$("#div_obras").html(r);					

@@ -13,6 +13,8 @@
     </div>
     <!-- container-scroller -->
     <!-- base:js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page-->
@@ -22,14 +24,10 @@
     <script src="js/hoverable-collapse.js"></script>
     <script src="js/template.js"></script>
     <script src="js/settings.js"></script>
-    <script src="js/todolist.js"></script>
     <!-- endinject -->
-    <!-- plugin js for this page -->
-    <script src="vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="vendors/chart.js/Chart.min.js"></script>
+    <!-- plugin js for this page - solo cargar en dashboard si se necesita -->
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
-    <script src="js/dashboard.js"></script>
     <!-- End custom js for this page-->
     <script src="../js/bootbox.js"></script>
   </body>

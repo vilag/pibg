@@ -49,4 +49,4 @@ function mostrar_list_act()
 	
 }	
 
-init();
+document.addEventListener("DOMContentLoaded", function() { init(); });

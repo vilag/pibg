@@ -79,4 +79,4 @@ function borrar_activ(idactiv){
     });
 }
 
-init();
+document.addEventListener("DOMContentLoaded", function() { init(); });

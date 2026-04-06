@@ -358,4 +358,4 @@ function borrar_lectura(idlectura){
 }
 
 
-init();
+document.addEventListener("DOMContentLoaded", function() { init(); });
