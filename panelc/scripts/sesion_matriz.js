@@ -167,7 +167,7 @@ function renderizar_matriz(registros) {
             var val    = parseInt(reg[col]) || 0;
             var cls    = val === 1 ? 'celda-check activa' : 'celda-check';
             var semana = (i < 10 ? '0' : '') + i;
-            var codigo = val === 1 ? (anio + semana + (idx + 1)) : '';
+            var codigo = anio + semana + (idx + 1);
             fila += '<td class="' + cls + '" ' +
                     'data-idregistro="' + reg.idregistro + '" ' +
                     'data-col="' + i + '" ' +
@@ -194,7 +194,7 @@ function toggle_celda(celda) {
     var anio   = String(new Date().getFullYear()).slice(-2);
     var semana = (col < 10 ? '0' : '') + col;
     var fila   = $c.closest('tr').index() + 1;
-    var codigo = nuevo_val === 1 ? (anio + semana + fila) : '';
+    var codigo = anio + semana + fila;
 
     // Actualiza UI inmediatamente
     if (nuevo_val === 1) {
