@@ -167,7 +167,9 @@ function renderizar_matriz(registros) {
             var val    = parseInt(reg[col]) || 0;
             var cls    = val === 1 ? 'celda-check activa' : 'celda-check';
             var semana = (i < 10 ? '0' : '') + i;
-            var codigo = anio + semana + (idx + 1);
+            var numfila = idx + 1;
+            var filaPad = (numfila < 10 ? '00' : (numfila < 100 ? '0' : '')) + numfila;
+            var codigo = anio + semana + filaPad;
             fila += '<td class="' + cls + '" ' +
                     'data-idregistro="' + reg.idregistro + '" ' +
                     'data-col="' + i + '" ' +
@@ -192,9 +194,10 @@ function toggle_celda(celda) {
 
     // Calcular código de la celda
     var anio   = String(new Date().getFullYear()).slice(-2);
-    var semana = (col < 10 ? '0' : '') + col;
-    var fila   = $c.closest('tr').index() + 1;
-    var codigo = anio + semana + fila;
+    var semana  = (col < 10 ? '0' : '') + col;
+    var numfila = $c.closest('tr').index() + 1;
+    var filaPad = (numfila < 10 ? '00' : (numfila < 100 ? '0' : '')) + numfila;
+    var codigo  = anio + semana + filaPad;
 
     // Actualiza UI inmediatamente
     if (nuevo_val === 1) {
@@ -291,14 +294,14 @@ function leer_excel(input) {
             var sheet   = wb.Sheets[wb.SheetNames[0]];
             var rows    = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
 
-            if (rows.length < 2) {
-                mostrar_aviso_excel("El archivo no contiene datos suficientes (se necesita al menos un encabezado y una fila de datos).");
+            if (rows.length < 1) {
+                mostrar_aviso_excel("El archivo no contiene datos.");
                 return;
             }
 
-            // Fila 0 = encabezado (se omite). Tomamos primera celda de cada fila
+            // Tomamos primera celda de cada fila (sin omitir ninguna)
             var nombres = [];
-            for (var i = 1; i < rows.length; i++) {
+            for (var i = 0; i < rows.length; i++) {
                 var val = String(rows[i][0] || "").trim();
                 if (val !== "") nombres.push(val);
             }
