@@ -57,7 +57,7 @@ function listar_sesiones() {
 }
 
 function abrir_modal_nueva_sesion() {
-    $("#titulo_modal_sesion").text("Nueva Sesión");
+    $("#titulo_modal_sesion").text("Nueva Lista");
     $("#idsesion_edit").val("0");
     $("#nombre_sesion").val("");
     $("#desc_sesion").val("");
@@ -65,7 +65,7 @@ function abrir_modal_nueva_sesion() {
 
 function editar_sesion(e, idsesion, nombre, descripcion) {
     e.stopPropagation();
-    $("#titulo_modal_sesion").text("Editar Sesión");
+    $("#titulo_modal_sesion").text("Editar Lista");
     $("#idsesion_edit").val(idsesion);
     $("#nombre_sesion").val(nombre);
     $("#desc_sesion").val(descripcion);
@@ -77,7 +77,7 @@ function guardar_sesion() {
     var desc   = $.trim($("#desc_sesion").val());
     var id     = $("#idsesion_edit").val();
 
-    if (nombre === "") { alert("El nombre de la sesión es obligatorio."); return; }
+    if (nombre === "") { alert("El nombre de la lista es obligatorio."); return; }
 
     var op   = id == "0" ? "crear_sesion" : "actualizar_sesion";
     var data = { nombre: nombre, descripcion: desc };
@@ -108,7 +108,7 @@ function confirmar_eliminar_sesion() {
             window.location.hash = "close";
             listar_sesiones();
         } else {
-            alert("No se pudo eliminar la sesión.");
+            alert("No se pudo eliminar la lista.");
         }
     });
 }
@@ -322,7 +322,7 @@ function leer_excel(input) {
 }
 
 function enviar_registros(nombres) {
-    if (!confirm("Se cargarán " + nombres.length + " registro(s). Esto reemplazará el listado actual de esta sesión. ¿Continuar?")) {
+    if (!confirm("Se cargarán " + nombres.length + " registro(s). Esto reemplazará el listado actual de esta lista. ¿Continuar?")) {
         return;
     }
 

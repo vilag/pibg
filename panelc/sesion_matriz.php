@@ -17,6 +17,14 @@ if ($_SESSION['administrador'] == 1):
     <link rel="stylesheet" href="css/estilo_bach.css">
 
     <style>
+      /* El panel ocupa todo el ancho restante después del sidebar */
+      .main-panel {
+        flex: 1 1 0 !important;
+        width: auto !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+      }
+
       /* ---- Tabla matriz ---- */
       #tbl_matriz_wrap {
         overflow-x: auto;
@@ -107,9 +115,9 @@ if ($_SESSION['administrador'] == 1):
             <!-- === VISTA LISTA DE SESIONES === -->
             <div id="vista_sesiones">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
-                <h4 class="card-title mb-0">Sesiones – Matriz de Asistencia</h4>
+                <h4 class="card-title mb-0">Registro de sobres</h4>
                 <a href="#modal_nueva_sesion" class="btn btn-dark btn-sm" onclick="abrir_modal_nueva_sesion();">
-                  + Nueva Sesión
+                  + Nueva Lista
                 </a>
               </div>
 
@@ -133,7 +141,7 @@ if ($_SESSION['administrador'] == 1):
                 <label style="margin:0; font-size:13px; font-weight:600;">Cargar listado (Excel):</label>
                 <input type="file" id="input_excel" accept=".xlsx,.xls,.csv"
                        style="font-size:13px;" onchange="leer_excel(this)">
-                <small style="color:#888;">Primera columna = nombres. Fila 1 = encabezado (se omite).</small>
+                <!-- <small style="color:#888;">Primera columna = nombres. Fila 1 = encabezado (se omite).</small> -->
               </div>
 
               <div id="aviso_excel" style="color:#c00; font-size:13px; margin-bottom:8px; display:none;"></div>
@@ -141,7 +149,7 @@ if ($_SESSION['administrador'] == 1):
               <!-- Escáner / búsqueda de código -->
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
                 <label style="margin:0; font-size:13px; font-weight:600;">Código escaneado:</label>
-                <input type="text" id="input_scanner" placeholder="Ej: 260101"
+                <input type="text" id="input_scanner" placeholder=""
                        style="font-size:14px; padding:6px 10px; border:1px solid #ccc; border-radius:6px; width:160px; letter-spacing:2px;"
                        onkeydown="if(event.key==='Enter'){buscar_celda();}">
                 <button class="btn btn-dark btn-sm" onclick="buscar_celda();">Seleccionar</button>
@@ -171,7 +179,6 @@ if ($_SESSION['administrador'] == 1):
     </div>
 
   </div><!-- content-wrapper -->
-</div><!-- main-panel -->
 
 
 <!-- ============================================================
@@ -182,15 +189,15 @@ if ($_SESSION['administrador'] == 1):
     <a href="#close" title="Cerrar" class="close">X</a>
     <form id="form_sesion" class="forms-sample" style="padding-top: 40px;">
       <div style="text-align:center; margin-bottom:14px;">
-        <b id="titulo_modal_sesion">Nueva Sesión</b>
+        <b id="titulo_modal_sesion">Nueva Lista</b>
       </div>
       <input type="hidden" id="idsesion_edit" value="0">
 
       <div class="col-lg-12" style="float:left;">
         <div class="form-group">
-          <label>Nombre de la Sesión</label>
+          <label>Nombre de lista</label>
           <input type="text" class="form-control" id="nombre_sesion"
-                 style="background-color:#dde4f7ff;" placeholder="Ej: Asistencia 2026">
+                 style="background-color:#dde4f7ff;" placeholder="Ej: Sobres 2026">
         </div>
       </div>
 
@@ -198,7 +205,7 @@ if ($_SESSION['administrador'] == 1):
         <div class="form-group">
           <label>Descripción <small>(opcional)</small></label>
           <input type="text" class="form-control" id="desc_sesion"
-                 style="background-color:#dde4f7ff;" placeholder="Ej: Grupo de jóvenes">
+                 style="background-color:#dde4f7ff;" placeholder="">
         </div>
       </div>
 
@@ -223,7 +230,7 @@ if ($_SESSION['administrador'] == 1):
   <div class="modalbox movedown" style="height: 220px;">
     <a href="#close" title="Cerrar" class="close">X</a>
     <div style="padding:40px; text-align:center;">
-      <p style="font-size:15px;">¿Eliminar esta sesión y todos sus registros?</p>
+      <p style="font-size:15px;">¿Eliminar esta lista y todos sus registros?</p>
       <input type="hidden" id="idsesion_eliminar" value="0">
       <button type="button"
               style="padding:12px 22px; background:#c0392b; color:#fff; border-radius:8px; margin-right:10px;"
@@ -233,7 +240,6 @@ if ($_SESSION['administrador'] == 1):
     </div>
   </div>
 </div>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>

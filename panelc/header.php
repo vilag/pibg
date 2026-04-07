@@ -282,12 +282,26 @@
               <span class="menu-title">Plan de lectura</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li id="li_registros_iglesia" class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+               <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Registros</span>
+              <i class="typcn typcn-chevron-right menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="sesion_matriz.php">Sobres</a></li>
+                <!-- <li class="nav-item"> <a class="nav-link" href="lumbrera.php">LUMBRERA</a></li> -->
+                <!-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <!-- <li class="nav-item">
             <a class="nav-link" href="sesion_matriz.php">
               <img src="images/iconos/calendar.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
-              <span class="menu-title">Sesión Matriz</span>
+              <span class="menu-title">Registros</span>
             </a>
-          </li>
+          </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="bach.php">
               <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
