@@ -129,9 +129,11 @@ function abrir_sesion(idsesion, nombre, descripcion) {
 function regresar_sesiones() {
     idsesion_actual = 0;
     registros_actuales = [];
+    // Destruir gráficas para que no interfieran con la próxima sesión
+    if (_chart_general)  { _chart_general.destroy();  _chart_general  = null; }
+    if (_chart_personas) { _chart_personas.destroy(); _chart_personas = null; }
     $("#vista_matriz").hide();
     $("#vista_sesiones").show();
-    // limpiar input archivo
     $("#input_excel").val("");
     $("#aviso_excel").hide();
 }
@@ -452,10 +454,13 @@ function actualizar_graficas() {
     var pct_general   = total_posible > 0 ? Math.round((total_marcadas / total_posible) * 100) : 0;
 
     // ---- Gráfica general (doughnut) ----
+    // Reemplazar canvas para garantizar estado limpio entre sesiones
+    var $wrap_g = $('#grafica_general').parent();
+    if (_chart_general) { _chart_general.destroy(); _chart_general = null; }
+    $('#grafica_general').remove();
+    $wrap_g.append('<canvas id="grafica_general"></canvas>');
     var ctx_g = document.getElementById('grafica_general');
     if (!ctx_g) return;
-
-    if (_chart_general) _chart_general.destroy();
     _chart_general = new Chart(ctx_g, {
         type: 'doughnut',
         data: {
@@ -504,10 +509,12 @@ function actualizar_graficas() {
     );
 
     // ---- Gráfica por persona (barras horizontales) ----
+    var $wrap_p = $('#grafica_personas').parent();
+    if (_chart_personas) { _chart_personas.destroy(); _chart_personas = null; }
+    $('#grafica_personas').remove();
+    $wrap_p.append('<canvas id="grafica_personas" style="min-width:400px;"></canvas>');
     var ctx_p = document.getElementById('grafica_personas');
     if (!ctx_p) return;
-
-    // Limitar a 60 personas para legibilidad; ordenar de mayor a menor
     var datos_ord = nombres.map(function(n, i) { return { nombre: n, avance: avances[i] }; });
     datos_ord.sort(function(a, b) { return b.avance - a.avance; });
     var MAX_PERSONAS = 60;
