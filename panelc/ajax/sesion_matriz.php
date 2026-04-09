@@ -26,7 +26,6 @@ switch ($_GET['op'] ?? '') {
             exit;
         }
         if (hash_equals(SESION_MATRIZ_PASS, $clave)) {
-            $_SESSION['sesion_matriz_auth'] = true;
             echo json_encode(['ok' => true]);
         } else {
             echo json_encode(['ok' => false, 'msg' => 'Contraseña incorrecta.']);

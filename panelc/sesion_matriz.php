@@ -16,7 +16,6 @@ if ($_SESSION['administrador'] == 1):
   <div class="content-wrapper">
     <link rel="stylesheet" href="css/estilo_bach.css">
 
-    <?php if (empty($_SESSION['sesion_matriz_auth'])): ?>
     <!-- ====== OVERLAY DE ACCESO ====== -->
     <div id="sm_overlay" style="
         position:fixed; inset:0; z-index:9999;
@@ -74,7 +73,6 @@ if ($_SESSION['administrador'] == 1):
         });
     }
     </script>
-    <?php endif; ?>
 
     <style>
       /* El panel ocupa todo el ancho restante después del sidebar */
