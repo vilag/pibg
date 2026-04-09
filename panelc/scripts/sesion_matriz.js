@@ -317,10 +317,16 @@ function leer_excel(input) {
             }
 
             // Tomamos primera celda de cada fila (sin omitir ninguna)
+            // Si el valor es puramente numérico, lo formateamos a 3 dígitos con ceros a la izquierda
             var nombres = [];
             for (var i = 0; i < rows.length; i++) {
                 var val = String(rows[i][0] || "").trim();
-                if (val !== "") nombres.push(val);
+                if (val !== "") {
+                    if (/^\d+$/.test(val)) {
+                        val = val.padStart(3, '0');
+                    }
+                    nombres.push(val);
+                }
             }
 
             if (nombres.length === 0) {
