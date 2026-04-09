@@ -207,8 +207,7 @@ if ($_SESSION['administrador'] == 1):
               <div style="display:flex; align-items:center; margin-bottom: 16px; gap: 10px; flex-wrap:wrap;">
                 <button class="btn btn-sm btn-secondary" onclick="regresar_sesiones();">← Regresar</button>
                 <h5 id="titulo_matriz" class="mb-0" style="font-weight:700;"></h5>
-                <span id="desc_matriz" style="color:#888; font-size:13px;"></span>
-              </div>
+                <span id="desc_matriz" style="color:#888; font-size:13px;"></span>                <button class="btn btn-sm btn-success" style="margin-left:auto;" onclick="exportar_matriz();">&#8595; Exportar Excel</button>              </div>
 
               <!-- Cargar / reemplazar listado -->
               <div style="display:flex; align-items:center; gap:10px; margin-bottom: 14px; flex-wrap:wrap;">

@@ -201,8 +201,8 @@ function toggle_modo_edicion() {
 /* ============================================================
    TOGGLE CELDA
 ============================================================ */
-function toggle_celda(celda) {
-    if (!modo_edicion) return;
+function toggle_celda(celda, forzar) {
+    if (!modo_edicion && !forzar) return;
     var $c         = $(celda);
     var idregistro = $c.data("idregistro");
     var col        = parseInt($c.data("col"));
@@ -274,9 +274,9 @@ function buscar_celda() {
 
     $aviso.hide();
 
-    // Si no está activa, activarla
+    // Si no está activa, activarla; si ya está activa, no hacer nada
     if (!$celda.hasClass('activa')) {
-        toggle_celda($celda[0]);
+        toggle_celda($celda[0], true);
     }
 
     // Scroll hacia la celda y resaltado temporal
@@ -377,4 +377,40 @@ function mostrar_aviso_excel(msg) {
 
 function ocultar_aviso_excel() {
     $("#aviso_excel").hide().text("");
+}
+
+/* ============================================================
+   EXPORTAR TABLA A EXCEL
+============================================================ */
+function exportar_matriz() {
+    var filas = [];
+
+    // Encabezado
+    var enc = ['Nombre'];
+    $('#thead_row th').each(function (i) {
+        if (i > 0) enc.push($(this).text());
+    });
+    filas.push(enc);
+
+    // Filas de datos
+    $('#tbody_matriz tr').each(function () {
+        var fila = [];
+        $(this).find('td').each(function (i) {
+            if (i === 0) {
+                fila.push($(this).text());
+            } else {
+                // Celda activa = 1, inactiva = 0
+                fila.push($(this).hasClass('activa') ? 1 : 0);
+            }
+        });
+        if (fila.length) filas.push(fila);
+    });
+
+    var ws   = XLSX.utils.aoa_to_sheet(filas);
+    var wb   = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Matriz');
+
+    // Nombre de archivo: titulo de la sesion
+    var nombre = ($('#titulo_matriz').text().trim() || 'matriz').replace(/[^a-z0-9_\-]/gi, '_');
+    XLSX.writeFile(wb, nombre + '.xlsx');
 }
