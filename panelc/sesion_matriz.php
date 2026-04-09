@@ -16,6 +16,55 @@ if ($_SESSION['administrador'] == 1):
   <div class="content-wrapper">
     <link rel="stylesheet" href="css/estilo_bach.css">
 
+    <?php if (empty($_SESSION['sesion_matriz_auth'])): ?>
+    <!-- ====== OVERLAY DE ACCESO ====== -->
+    <div id="sm_overlay" style="
+        position:fixed; inset:0; z-index:9999;
+        background:rgba(15,23,42,.72);
+        display:flex; align-items:center; justify-content:center;">
+      <div style="
+          background:#fff; border-radius:16px;
+          padding:40px 36px; width:100%; max-width:360px;
+          box-shadow:0 20px 60px rgba(0,0,0,.35); text-align:center;">
+        <div style="font-size:2.4rem; margin-bottom:12px;">🔒</div>
+        <div style="font-size:1.05rem; font-weight:700; color:#1a2744; margin-bottom:6px;">
+          Vista protegida
+        </div>
+        <div style="font-size:.83rem; color:#64748b; margin-bottom:24px;">
+          Ingresa la contraseña para continuar.
+        </div>
+        <input id="sm_pass_input" type="password" placeholder="Contraseña"
+          style="width:100%; height:44px; border:1.5px solid #d4dbe8; border-radius:10px;
+                 padding:0 14px; font-size:.95rem; outline:none; text-align:center;
+                 letter-spacing:3px; margin-bottom:14px;"
+          onkeydown="if(event.key==='Enter') sm_verificar();">
+        <div id="sm_pass_error" style="
+            display:none; color:#b91c1c; font-size:.82rem; margin-bottom:10px;"></div>
+        <button onclick="sm_verificar()" style="
+            width:100%; height:44px; background:#1D4268; color:#fff;
+            border:none; border-radius:10px; font-size:.92rem; font-weight:700;
+            cursor:pointer;">Acceder</button>
+      </div>
+    </div>
+    <script>
+    function sm_verificar() {
+        var clave = document.getElementById('sm_pass_input').value;
+        document.getElementById('sm_pass_error').style.display = 'none';
+        $.post('ajax/sesion_matriz.php?op=verificar_acceso', { clave: clave }, function(r) {
+            if (r.ok) {
+                $('#sm_overlay').fadeOut(250);
+            } else {
+                var el = document.getElementById('sm_pass_error');
+                el.textContent = r.msg || 'Contraseña incorrecta.';
+                el.style.display = 'block';
+                document.getElementById('sm_pass_input').value = '';
+                document.getElementById('sm_pass_input').focus();
+            }
+        });
+    }
+    </script>
+    <?php endif; ?>
+
     <style>
       /* El panel ocupa todo el ancho restante después del sidebar */
       .main-panel {

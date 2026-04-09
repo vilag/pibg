@@ -289,12 +289,12 @@
             </a>
           </li>
           <li id="li_registros_iglesia" class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic_reg" aria-expanded="false" aria-controls="ui-basic">
                <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Registros</span>
               <i class="typcn typcn-chevron-right menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-basic_reg">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="sesion_matriz.php">Sobres</a></li>
                 <!-- <li class="nav-item"> <a class="nav-link" href="lumbrera.php">LUMBRERA</a></li> -->

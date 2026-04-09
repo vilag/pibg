@@ -3,10 +3,32 @@
 error_reporting(0);
 session_start();
 require_once "../modelos/Sesion_matriz.php";
+require_once "../config/global.php";
 
 $sm = new Sesion_matriz();
 
 switch ($_GET['op'] ?? '') {
+
+    /* ============================================================
+       ACCESO EXTRA: verificar contraseña de la vista
+    ============================================================ */
+    case 'verificar_acceso':
+        if (!isset($_SESSION['nombre'])) {
+            echo json_encode(['ok' => false, 'msg' => 'Sin sesión.']);
+            exit;
+        }
+        $clave = $_POST['clave'] ?? '';
+        if (!defined('SESION_MATRIZ_PASS') || $clave === '') {
+            echo json_encode(['ok' => false, 'msg' => 'Sin configuración de acceso.']);
+            exit;
+        }
+        if (hash_equals(SESION_MATRIZ_PASS, $clave)) {
+            $_SESSION['sesion_matriz_auth'] = true;
+            echo json_encode(['ok' => true]);
+        } else {
+            echo json_encode(['ok' => false, 'msg' => 'Contraseña incorrecta.']);
+        }
+        exit;
 
     /* ============================================================
        SESIONES
