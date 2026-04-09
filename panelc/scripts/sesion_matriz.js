@@ -350,7 +350,7 @@ function leer_excel(input) {
 }
 
 function enviar_registros(nombres) {
-    if (!confirm("Se cargarán " + nombres.length + " registro(s). Esto reemplazará el listado actual de esta lista. ¿Continuar?")) {
+    if (!confirm('Se cargarán ' + nombres.length + ' registro(s). Esto reemplazará el listado actual de esta lista. ¿Continuar?')) {
         return;
     }
 
@@ -382,6 +382,40 @@ function mostrar_aviso_excel(msg) {
 
 function ocultar_aviso_excel() {
     $("#aviso_excel").hide().text("");
+}
+
+/* ============================================================
+   CREAR TABLA MANUAL (por número de filas)
+============================================================ */
+function crear_tabla_manual() {
+    var n = parseInt($('#input_num_filas').val(), 10);
+    var $aviso = $('#aviso_manual');
+    $aviso.hide();
+
+    if (isNaN(n) || n < 1 || n > 999) {
+        $aviso.text('Ingresa un número entre 1 y 999.').css('color', '#c00').show();
+        return;
+    }
+
+    var nombres = [];
+    for (var i = 1; i <= n; i++) {
+        nombres.push(String(i).padStart(3, '0'));
+    }
+
+    if (!confirm('Se crearán ' + n + ' filas numeradas (001–' + String(n).padStart(3,'0') + '). Esto reemplazará el listado actual. ¿Continuar?')) return;
+
+    $.post('ajax/sesion_matriz.php?op=cargar_registros',
+        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres) },
+        function (r) {
+            var res = JSON.parse(r);
+            if (res.ok) {
+                $('#input_num_filas').val('');
+                cargar_matriz(idsesion_actual);
+            } else {
+                $aviso.text('Error: ' + (res.msg || '')).css('color', '#c00').show();
+            }
+        }
+    );
 }
 
 /* ============================================================

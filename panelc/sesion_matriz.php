@@ -210,11 +210,20 @@ if ($_SESSION['administrador'] == 1):
                 <span id="desc_matriz" style="color:#888; font-size:13px;"></span>                <button class="btn btn-sm btn-success" style="margin-left:auto;" onclick="exportar_matriz();">&#8595; Exportar Excel</button>              </div>
 
               <!-- Cargar / reemplazar listado -->
-              <div style="display:flex; align-items:center; gap:10px; margin-bottom: 14px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom: 8px; flex-wrap:wrap;">
                 <label style="margin:0; font-size:13px; font-weight:600;">Cargar listado (Excel):</label>
                 <input type="file" id="input_excel" accept=".xlsx,.xls,.csv"
                        style="font-size:13px;" onchange="leer_excel(this)">
-                <!-- <small style="color:#888;">Primera columna = nombres. Fila 1 = encabezado (se omite).</small> -->
+              </div>
+
+              <!-- Crear tabla por número de filas -->
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+                <label style="margin:0; font-size:13px; font-weight:600;">O crear tabla con:</label>
+                <input type="number" id="input_num_filas" min="1" max="999" placeholder="Ej: 120"
+                       style="width:90px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                <label style="margin:0; font-size:13px;">filas</label>
+                <button class="btn btn-dark btn-sm" onclick="crear_tabla_manual();">Crear tabla</button>
+                <span id="aviso_manual" style="font-size:13px; display:none;"></span>
               </div>
 
               <div id="aviso_excel" style="color:#c00; font-size:13px; margin-bottom:8px; display:none;"></div>
