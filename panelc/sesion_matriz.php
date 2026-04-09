@@ -315,7 +315,7 @@ if ($_SESSION['administrador'] == 1):
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
 
 <?php

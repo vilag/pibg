@@ -393,21 +393,52 @@ function exportar_matriz() {
     filas.push(enc);
 
     // Filas de datos
+    var data_rows = [];   // solo datos (para aplicar estilos por índice)
     $('#tbody_matriz tr').each(function () {
-        var fila = [];
+        var fila        = [];
+        var fila_activa = [];  // true/false por columna
         $(this).find('td').each(function (i) {
             if (i === 0) {
                 fila.push($(this).text());
+                fila_activa.push(false);
             } else {
-                // Celda activa = 1, inactiva = 0
-                fila.push($(this).hasClass('activa') ? 1 : 0);
+                var activa = $(this).hasClass('activa');
+                // Celda activa → código compuesto; inactiva → vacío
+                fila.push(activa ? $(this).text() : '');
+                fila_activa.push(activa);
             }
         });
-        if (fila.length) filas.push(fila);
+        if (fila.length) {
+            filas.push(fila);
+            data_rows.push(fila_activa);
+        }
     });
 
-    var ws   = XLSX.utils.aoa_to_sheet(filas);
-    var wb   = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet(filas);
+
+    // Aplicar fondo verde a celdas activas (requiere objeto de celda con estilo)
+    var col_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    function col_name(idx) {
+        // idx 0-based: 0=A, 25=Z, 26=AA …
+        if (idx < 26) return col_letters[idx];
+        return col_letters[Math.floor(idx / 26) - 1] + col_letters[idx % 26];
+    }
+
+    data_rows.forEach(function (fila_activa, ri) {
+        var row_xlsx = ri + 2;  // +1 encabezado, +1 base-1
+        fila_activa.forEach(function (activa, ci) {
+            if (!activa || ci === 0) return;
+            var ref = col_name(ci) + row_xlsx;
+            if (!ws[ref]) ws[ref] = { t: 's', v: '' };
+            ws[ref].s = {
+                fill:  { fgColor: { rgb: '28A745' } },
+                font:  { color: { rgb: 'FFFFFF' }, bold: true },
+                alignment: { horizontal: 'center' }
+            };
+        });
+    });
+
+    var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Matriz');
 
     // Nombre de archivo: titulo de la sesion
