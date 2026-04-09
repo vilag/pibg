@@ -42,7 +42,11 @@ if ($_SESSION['administrador'] == 1):
         <button onclick="sm_verificar()" style="
             width:100%; height:44px; background:#1D4268; color:#fff;
             border:none; border-radius:10px; font-size:.92rem; font-weight:700;
-            cursor:pointer;">Acceder</button>
+            cursor:pointer; margin-bottom:10px;">Acceder</button>
+        <button onclick="window.location.href='index.php'" style="
+            width:100%; height:40px; background:#fff; color:#64748b;
+            border:1.5px solid #d4dbe8; border-radius:10px; font-size:.88rem; font-weight:600;
+            cursor:pointer;">Cancelar</button>
       </div>
     </div>
     <script>
