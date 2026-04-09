@@ -245,6 +245,30 @@ if ($_SESSION['administrador'] == 1):
               <div style="margin-top:10px; font-size:12px; color:#888;" id="hint_matriz">
                 Activa el modo edición para marcar / desmarcar celdas con clic.
               </div>
+
+              <!-- ===== GRÁFICAS ===== -->
+              <div id="seccion_graficas" style="margin-top:28px;">
+
+                <!-- Avance general -->
+                <div style="background:#f8fafd; border:1px solid #e2e8f4; border-radius:12px; padding:20px 22px; margin-bottom:20px;">
+                  <div style="font-size:.72rem; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:#94a3b8; margin-bottom:14px;">Avance general</div>
+                  <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
+                    <div style="width:180px; height:180px; flex-shrink:0;">
+                      <canvas id="grafica_general"></canvas>
+                    </div>
+                    <div id="stats_general" style="font-size:.88rem; color:#334155; line-height:2;"></div>
+                  </div>
+                </div>
+
+                <!-- Avance por persona -->
+                <div style="background:#f8fafd; border:1px solid #e2e8f4; border-radius:12px; padding:20px 22px;">
+                  <div style="font-size:.72rem; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:#94a3b8; margin-bottom:14px;">Avance por persona</div>
+                  <div style="overflow-x:auto;">
+                    <canvas id="grafica_personas" style="min-width:400px;"></canvas>
+                  </div>
+                </div>
+
+              </div><!-- /seccion_graficas -->
             </div>
 
           </div>
@@ -316,6 +340,7 @@ if ($_SESSION['administrador'] == 1):
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
 
 <?php

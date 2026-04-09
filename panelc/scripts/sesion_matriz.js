@@ -154,6 +154,7 @@ function renderizar_matriz(registros) {
 
     if (registros.length === 0) {
         tbody.html('<tr><td colspan="53" style="text-align:center; color:#888; padding:20px;">Sin registros. Carga un archivo Excel.</td></tr>');
+        actualizar_graficas();
         return;
     }
 
@@ -181,6 +182,8 @@ function renderizar_matriz(registros) {
         fila += '</tr>';
         tbody.append(fila);
     });
+
+    actualizar_graficas();
 }
 
 /* ============================================================
@@ -239,6 +242,8 @@ function toggle_celda(celda, forzar) {
                 if (nuevo_val === 1) { $c.removeClass("activa"); } else { $c.addClass("activa"); }
                 $c.data("val", val_actual);
                 console.warn("Error al guardar celda", res);
+            } else {
+                actualizar_graficas();
             }
         },
         error: function (xhr, status) {
@@ -380,6 +385,156 @@ function ocultar_aviso_excel() {
 }
 
 /* ============================================================
+   GRÁFICAS DE AVANCE
+============================================================ */
+var _chart_general   = null;
+var _chart_personas  = null;
+
+function actualizar_graficas() {
+    var nombres  = [];
+    var avances  = [];   // marcadas por persona
+    var total_marcadas = 0;
+    var total_celdas   = 0;
+
+    $('#tbody_matriz tr').each(function () {
+        var tds = $(this).find('td');
+        if (!tds.length) return;
+        var nombre   = tds.eq(0).text();
+        var marcadas = 0;
+        tds.each(function (i) {
+            if (i === 0) return;
+            if ($(this).hasClass('activa')) marcadas++;
+        });
+        var total_cols = tds.length - 1;   // sin la columna de nombre
+        nombres.push(nombre);
+        avances.push(marcadas);
+        total_marcadas += marcadas;
+        total_celdas   += total_cols;
+    });
+
+    if (!nombres.length) return;
+
+    var total_posible = nombres.length * 52;
+    var pct_general   = total_posible > 0 ? Math.round((total_marcadas / total_posible) * 100) : 0;
+
+    // ---- Gráfica general (doughnut) ----
+    var ctx_g = document.getElementById('grafica_general');
+    if (!ctx_g) return;
+
+    if (_chart_general) _chart_general.destroy();
+    _chart_general = new Chart(ctx_g, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completado', 'Pendiente'],
+            datasets: [{
+                data: [total_marcadas, total_posible - total_marcadas],
+                backgroundColor: ['#28a745', '#e2e8f4'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            cutout: '72%',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(c) {
+                            return ' ' + c.label + ': ' + c.raw;
+                        }
+                    }
+                }
+            }
+        },
+        plugins: [{
+            id: 'texto_centro',
+            afterDraw: function(chart) {
+                var ctx = chart.ctx;
+                var cx  = chart.chartArea.left + (chart.chartArea.right  - chart.chartArea.left) / 2;
+                var cy  = chart.chartArea.top  + (chart.chartArea.bottom - chart.chartArea.top)  / 2;
+                ctx.save();
+                ctx.font = 'bold 22px sans-serif';
+                ctx.fillStyle = '#1D4268';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(pct_general + '%', cx, cy);
+                ctx.restore();
+            }
+        }]
+    });
+
+    $('#stats_general').html(
+        '<b>' + total_marcadas + '</b> celdas marcadas<br>' +
+        '<b>' + (total_posible - total_marcadas) + '</b> pendientes<br>' +
+        '<b>' + total_posible + '</b> total posible (' + nombres.length + ' personas × 52)<br>' +
+        '<b>' + pct_general + '%</b> avance global'
+    );
+
+    // ---- Gráfica por persona (barras horizontales) ----
+    var ctx_p = document.getElementById('grafica_personas');
+    if (!ctx_p) return;
+
+    // Limitar a 60 personas para legibilidad; ordenar de mayor a menor
+    var datos_ord = nombres.map(function(n, i) { return { nombre: n, avance: avances[i] }; });
+    datos_ord.sort(function(a, b) { return b.avance - a.avance; });
+    var MAX_PERSONAS = 60;
+    if (datos_ord.length > MAX_PERSONAS) datos_ord = datos_ord.slice(0, MAX_PERSONAS);
+
+    var labels_p  = datos_ord.map(function(d) { return d.nombre; });
+    var values_p  = datos_ord.map(function(d) { return d.avance; });
+    var colores_p = values_p.map(function(v) {
+        var pct = v / 52;
+        if (pct >= 0.8) return '#28a745';
+        if (pct >= 0.4) return '#f0ad4e';
+        return '#dc3545';
+    });
+
+    // Alto dinámico: ~22px por barra
+    ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
+    ctx_p.style.height = ctx_p.parentElement.style.height;
+
+    if (_chart_personas) _chart_personas.destroy();
+    _chart_personas = new Chart(ctx_p, {
+        type: 'bar',
+        data: {
+            labels: labels_p,
+            datasets: [{
+                label: 'Semanas marcadas',
+                data: values_p,
+                backgroundColor: colores_p,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(c) {
+                            var pct = Math.round((c.raw / 52) * 100);
+                            return ' ' + c.raw + ' / 52  (' + pct + '%)';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    min: 0,
+                    max: 52,
+                    ticks: { stepSize: 4, font: { size: 11 } },
+                    grid: { color: '#e2e8f4' }
+                },
+                y: {
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    });
+}
+
+/* ============================================================
    EXPORTAR TABLA A EXCEL
 ============================================================ */
 function exportar_matriz() {
@@ -403,8 +558,8 @@ function exportar_matriz() {
                 fila_activa.push(false);
             } else {
                 var activa = $(this).hasClass('activa');
-                // Celda activa → código compuesto; inactiva → vacío
-                fila.push(activa ? $(this).text() : '');
+                // Celda activa → código con estilo verde; inactiva → código sin estilo
+                fila.push($(this).text());
                 fila_activa.push(activa);
             }
         });
