@@ -340,6 +340,7 @@ if ($_SESSION['administrador'] == 1):
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
 

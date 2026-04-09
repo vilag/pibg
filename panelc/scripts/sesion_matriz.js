@@ -535,68 +535,95 @@ function actualizar_graficas() {
 }
 
 /* ============================================================
-   EXPORTAR TABLA A EXCEL
+   EXPORTAR TABLA A EXCEL (con gráficas incrustadas — ExcelJS)
 ============================================================ */
-function exportar_matriz() {
-    var filas = [];
+async function exportar_matriz() {
+
+    var wb = new ExcelJS.Workbook();
+    wb.creator = 'PIBG';
+
+    /* ---- Hoja 1: Matriz ---- */
+    var ws = wb.addWorksheet('Matriz');
+
+    // Anchos de columna
+    ws.getColumn(1).width = 28;
+    for (var c = 2; c <= 53; c++) ws.getColumn(c).width = 9;
 
     // Encabezado
-    var enc = ['Nombre'];
-    $('#thead_row th').each(function (i) {
-        if (i > 0) enc.push($(this).text());
+    var headers = ['Nombre'];
+    $('#thead_row th').each(function (i) { if (i > 0) headers.push($(this).text()); });
+    var hRow = ws.addRow(headers);
+    hRow.height = 20;
+    hRow.eachCell(function (cell) {
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1F4168' } };
+        cell.font = { color: { argb: 'FFFFFFFF' }, bold: true, size: 10 };
+        cell.alignment = { horizontal: 'center', vertical: 'middle' };
     });
-    filas.push(enc);
 
     // Filas de datos
-    var data_rows = [];   // solo datos (para aplicar estilos por índice)
     $('#tbody_matriz tr').each(function () {
-        var fila        = [];
-        var fila_activa = [];  // true/false por columna
+        var rowData = [];
+        var activas = [];
         $(this).find('td').each(function (i) {
-            if (i === 0) {
-                fila.push($(this).text());
-                fila_activa.push(false);
-            } else {
-                var activa = $(this).hasClass('activa');
-                // Celda activa → código con estilo verde; inactiva → código sin estilo
-                fila.push($(this).text());
-                fila_activa.push(activa);
+            rowData.push($(this).text());
+            activas.push(i > 0 && $(this).hasClass('activa'));
+        });
+        if (!rowData.length) return;
+
+        var row = ws.addRow(rowData);
+        row.eachCell(function (cell, colNumber) {
+            cell.alignment = { horizontal: 'center', vertical: 'middle' };
+            if (activas[colNumber - 1]) {
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF28A745' } };
+                cell.font = { color: { argb: 'FFFFFFFF' }, bold: true, size: 10 };
+            } else if (colNumber > 1) {
+                cell.font = { color: { argb: 'FF94A3B8' }, size: 9 };
             }
         });
-        if (fila.length) {
-            filas.push(fila);
-            data_rows.push(fila_activa);
-        }
     });
 
-    var ws = XLSX.utils.aoa_to_sheet(filas);
+    /* ---- Hoja 2: Gráficas ---- */
+    var wsG = wb.addWorksheet('Gráficas');
+    wsG.getColumn(1).width = 2;   // margen izquierdo
 
-    // Aplicar fondo verde a celdas activas (requiere objeto de celda con estilo)
-    var col_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    function col_name(idx) {
-        // idx 0-based: 0=A, 25=Z, 26=AA …
-        if (idx < 26) return col_letters[idx];
-        return col_letters[Math.floor(idx / 26) - 1] + col_letters[idx % 26];
+    var canvasGen = document.getElementById('grafica_general');
+    var canvasPer = document.getElementById('grafica_personas');
+
+    var rowOffset = 1;   // fila actual en la hoja (base-1)
+
+    if (canvasGen && canvasGen.width > 0) {
+        var idGen = wb.addImage({
+            base64: canvasGen.toDataURL('image/png').split(',')[1],
+            extension: 'png'
+        });
+        var wGen = 260, hGen = 260;
+        wsG.addImage(idGen, {
+            tl: { col: 1, row: rowOffset - 1 },
+            ext: { width: wGen, height: hGen }
+        });
+        // ~1 fila ≈ 18px; reservar espacio + separación
+        rowOffset += Math.ceil(hGen / 18) + 2;
     }
 
-    data_rows.forEach(function (fila_activa, ri) {
-        var row_xlsx = ri + 2;  // +1 encabezado, +1 base-1
-        fila_activa.forEach(function (activa, ci) {
-            if (!activa || ci === 0) return;
-            var ref = col_name(ci) + row_xlsx;
-            if (!ws[ref]) ws[ref] = { t: 's', v: '' };
-            ws[ref].s = {
-                fill:  { fgColor: { rgb: '28A745' } },
-                font:  { color: { rgb: 'FFFFFF' }, bold: true },
-                alignment: { horizontal: 'center' }
-            };
+    if (canvasPer && canvasPer.width > 0) {
+        var idPer = wb.addImage({
+            base64: canvasPer.toDataURL('image/png').split(',')[1],
+            extension: 'png'
         });
-    });
+        var wPer = Math.min(canvasPer.offsetWidth  || 700, 760);
+        var hPer = Math.min(canvasPer.offsetHeight || 400, 1200);
+        wsG.addImage(idPer, {
+            tl: { col: 1, row: rowOffset - 1 },
+            ext: { width: wPer, height: hPer }
+        });
+    }
 
-    var wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Matriz');
-
-    // Nombre de archivo: titulo de la sesion
+    /* ---- Descargar ---- */
     var nombre = ($('#titulo_matriz').text().trim() || 'matriz').replace(/[^a-z0-9_\-]/gi, '_');
-    XLSX.writeFile(wb, nombre + '.xlsx');
+    var buffer = await wb.xlsx.writeBuffer();
+    var blob   = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    var a      = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = nombre + '.xlsx';
+    a.click();
 }
