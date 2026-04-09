@@ -454,52 +454,60 @@ function actualizar_graficas() {
     var pct_general   = total_posible > 0 ? Math.round((total_marcadas / total_posible) * 100) : 0;
 
     // ---- Gráfica general (doughnut) ----
-    // Reemplazar canvas para garantizar estado limpio entre sesiones
-    var $wrap_g = $('#grafica_general').parent();
-    if (_chart_general) { _chart_general.destroy(); _chart_general = null; }
-    $('#grafica_general').remove();
-    $wrap_g.append('<canvas id="grafica_general"></canvas>');
-    var ctx_g = document.getElementById('grafica_general');
-    if (!ctx_g) return;
-    _chart_general = new Chart(ctx_g, {
-        type: 'doughnut',
-        data: {
-            labels: ['Completado', 'Pendiente'],
-            datasets: [{
-                data: [total_marcadas, total_posible - total_marcadas],
-                backgroundColor: ['#28a745', '#e2e8f4'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            cutout: '72%',
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: function(c) {
-                            return ' ' + c.label + ': ' + c.raw;
+    // Primera vez en la sesión: reemplazar canvas y crear chart.
+    // Llamadas siguientes (toggles de celda): actualizar datos del chart existente.
+    if (!_chart_general) {
+        var $wrap_g = $('#grafica_general').parent();
+        $('#grafica_general').remove();
+        $wrap_g.append('<canvas id="grafica_general"></canvas>');
+        var ctx_g = document.getElementById('grafica_general');
+        if (!ctx_g) return;
+        _chart_general = new Chart(ctx_g, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completado', 'Pendiente'],
+                datasets: [{
+                    data: [total_marcadas, total_posible - total_marcadas],
+                    backgroundColor: ['#28a745', '#e2e8f4'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '72%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(c) {
+                                return ' ' + c.label + ': ' + c.raw;
+                            }
                         }
                     }
                 }
-            }
-        },
-        plugins: [{
-            id: 'texto_centro',
-            afterDraw: function(chart) {
-                var ctx = chart.ctx;
-                var cx  = chart.chartArea.left + (chart.chartArea.right  - chart.chartArea.left) / 2;
-                var cy  = chart.chartArea.top  + (chart.chartArea.bottom - chart.chartArea.top)  / 2;
-                ctx.save();
-                ctx.font = 'bold 22px sans-serif';
-                ctx.fillStyle = '#1D4268';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(pct_general + '%', cx, cy);
-                ctx.restore();
-            }
-        }]
-    });
+            },
+            plugins: [{
+                id: 'texto_centro',
+                afterDraw: function(chart) {
+                    var ctx = chart.ctx;
+                    var cx  = chart.chartArea.left + (chart.chartArea.right  - chart.chartArea.left) / 2;
+                    var cy  = chart.chartArea.top  + (chart.chartArea.bottom - chart.chartArea.top)  / 2;
+                    var pct = chart.data.datasets[0].data[0];
+                    var tot = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1];
+                    var p   = tot > 0 ? Math.round((pct / tot) * 100) : 0;
+                    ctx.save();
+                    ctx.font = 'bold 22px sans-serif';
+                    ctx.fillStyle = '#1D4268';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(p + '%', cx, cy);
+                    ctx.restore();
+                }
+            }]
+        });
+    } else {
+        _chart_general.data.datasets[0].data = [total_marcadas, total_posible - total_marcadas];
+        _chart_general.update();
+    }
 
     $('#stats_general').html(
         '<b>' + total_marcadas + '</b> celdas marcadas<br>' +
@@ -509,12 +517,6 @@ function actualizar_graficas() {
     );
 
     // ---- Gráfica por persona (barras horizontales) ----
-    var $wrap_p = $('#grafica_personas').parent();
-    if (_chart_personas) { _chart_personas.destroy(); _chart_personas = null; }
-    $('#grafica_personas').remove();
-    $wrap_p.append('<canvas id="grafica_personas" style="min-width:400px;"></canvas>');
-    var ctx_p = document.getElementById('grafica_personas');
-    if (!ctx_p) return;
     var datos_ord = nombres.map(function(n, i) { return { nombre: n, avance: avances[i] }; });
     datos_ord.sort(function(a, b) { return b.avance - a.avance; });
     var MAX_PERSONAS = 60;
@@ -529,20 +531,26 @@ function actualizar_graficas() {
         return '#dc3545';
     });
 
-    // Alto dinámico: ~22px por barra
-    ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
-    ctx_p.style.height = ctx_p.parentElement.style.height;
+    if (!_chart_personas) {
+        var $wrap_p = $('#grafica_personas').parent();
+        $('#grafica_personas').remove();
+        $wrap_p.append('<canvas id="grafica_personas" style="min-width:400px;"></canvas>');
+        var ctx_p = document.getElementById('grafica_personas');
+        if (!ctx_p) return;
 
-    if (_chart_personas) _chart_personas.destroy();
-    _chart_personas = new Chart(ctx_p, {
-        type: 'bar',
-        data: {
-            labels: labels_p,
-            datasets: [{
-                label: 'Semanas marcadas',
-                data: values_p,
-                backgroundColor: colores_p,
-                borderRadius: 4
+        // Alto dinámico: ~22px por barra
+        ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
+        ctx_p.style.height = ctx_p.parentElement.style.height;
+
+        _chart_personas = new Chart(ctx_p, {
+            type: 'bar',
+            data: {
+                labels: labels_p,
+                datasets: [{
+                    label: 'Semanas marcadas',
+                    data: values_p,
+                    backgroundColor: colores_p,
+                    borderRadius: 4
             }]
         },
         options: {
@@ -573,6 +581,13 @@ function actualizar_graficas() {
             }
         }
     });
+    } else {
+        // Actualizar datos del chart existente
+        _chart_personas.data.labels = labels_p;
+        _chart_personas.data.datasets[0].data = values_p;
+        _chart_personas.data.datasets[0].backgroundColor = colores_p;
+        _chart_personas.update();
+    }
 }
 
 /* ============================================================
