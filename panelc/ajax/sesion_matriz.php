@@ -1,6 +1,7 @@
 <?php
 @ini_set('display_errors', 0);
 error_reporting(0);
+ob_start();
 session_start();
 require_once "../modelos/Sesion_matriz.php";
 require_once "../config/global.php";
@@ -13,6 +14,8 @@ switch ($_GET['op'] ?? '') {
        ACCESO EXTRA: verificar contraseña de la vista
     ============================================================ */
     case 'verificar_acceso':
+        ob_clean();
+        header('Content-Type: application/json; charset=utf-8');
         if (!isset($_SESSION['nombre'])) {
             echo json_encode(['ok' => false, 'msg' => 'Sin sesión.']);
             exit;

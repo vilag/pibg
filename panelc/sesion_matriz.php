@@ -50,15 +50,26 @@ if ($_SESSION['administrador'] == 1):
     function sm_verificar() {
         var clave = document.getElementById('sm_pass_input').value;
         document.getElementById('sm_pass_error').style.display = 'none';
-        $.post('ajax/sesion_matriz.php?op=verificar_acceso', { clave: clave }, function(r) {
-            if (r.ok) {
-                $('#sm_overlay').fadeOut(250);
-            } else {
+        $.ajax({
+            url: 'ajax/sesion_matriz.php?op=verificar_acceso',
+            method: 'POST',
+            data: { clave: clave },
+            dataType: 'json',
+            success: function(r) {
+                if (r.ok) {
+                    $('#sm_overlay').fadeOut(250);
+                } else {
+                    var el = document.getElementById('sm_pass_error');
+                    el.textContent = r.msg || 'Contraseña incorrecta.';
+                    el.style.display = 'block';
+                    document.getElementById('sm_pass_input').value = '';
+                    document.getElementById('sm_pass_input').focus();
+                }
+            },
+            error: function() {
                 var el = document.getElementById('sm_pass_error');
-                el.textContent = r.msg || 'Contraseña incorrecta.';
+                el.textContent = 'Error al verificar. Intenta de nuevo.';
                 el.style.display = 'block';
-                document.getElementById('sm_pass_input').value = '';
-                document.getElementById('sm_pass_input').focus();
             }
         });
     }
