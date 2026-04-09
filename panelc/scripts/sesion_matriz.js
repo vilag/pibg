@@ -5,6 +5,7 @@
 
 var idsesion_actual = 0;
 var registros_actuales = [];
+var modo_edicion = false;
 
 /* ---- Inicialización ---- */
 document.addEventListener("DOMContentLoaded", function () {
@@ -183,9 +184,25 @@ function renderizar_matriz(registros) {
 }
 
 /* ============================================================
+   MODO EDICIÓN
+============================================================ */
+function toggle_modo_edicion() {
+    modo_edicion = !modo_edicion;
+    var $btn = $('#btn_modo_edicion');
+    if (modo_edicion) {
+        $btn.text('Desactivar edición').removeClass('btn-secondary').addClass('btn-warning');
+        $('#tbl_matriz_wrap').addClass('modo-edicion-activo');
+    } else {
+        $btn.text('Activar edición').removeClass('btn-warning').addClass('btn-secondary');
+        $('#tbl_matriz_wrap').removeClass('modo-edicion-activo');
+    }
+}
+
+/* ============================================================
    TOGGLE CELDA
 ============================================================ */
 function toggle_celda(celda) {
+    if (!modo_edicion) return;
     var $c         = $(celda);
     var idregistro = $c.data("idregistro");
     var col        = parseInt($c.data("col"));

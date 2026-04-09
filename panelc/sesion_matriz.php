@@ -87,6 +87,18 @@ if ($_SESSION['administrador'] == 1):
         margin-left: 0 !important;
       }
 
+      /* Modo edición activo: resaltar tabla */
+      #tbl_matriz_wrap.modo-edicion-activo {
+        outline: 2px solid #f0ad4e;
+        border-radius: 6px;
+      }
+      #tbl_matriz_wrap.modo-edicion-activo .celda-check {
+        cursor: pointer;
+      }
+      #tbl_matriz_wrap:not(.modo-edicion-activo) .celda-check {
+        cursor: default;
+      }
+
       /* ---- Tabla matriz ---- */
       #tbl_matriz_wrap {
         overflow-x: auto;
@@ -215,6 +227,7 @@ if ($_SESSION['administrador'] == 1):
                        style="font-size:14px; padding:6px 10px; border:1px solid #ccc; border-radius:6px; width:160px; letter-spacing:2px;"
                        onkeydown="if(event.key==='Enter'){buscar_celda();}">
                 <button class="btn btn-dark btn-sm" onclick="buscar_celda();">Seleccionar</button>
+                <button id="btn_modo_edicion" class="btn btn-secondary btn-sm" onclick="toggle_modo_edicion();">Activar edición</button>
                 <span id="aviso_scanner" style="font-size:13px; display:none;"></span>
               </div>
 
@@ -230,8 +243,8 @@ if ($_SESSION['administrador'] == 1):
                 </table>
               </div>
 
-              <div style="margin-top:10px; font-size:12px; color:#888;">
-                Haz clic en una celda para marcar / desmarcar. Los cambios se guardan automáticamente.
+              <div style="margin-top:10px; font-size:12px; color:#888;" id="hint_matriz">
+                Activa el modo edición para marcar / desmarcar celdas con clic.
               </div>
             </div>
 
