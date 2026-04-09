@@ -22,4 +22,10 @@ define("DB_ENCODE","utf8");
 
 //Definimos una constante como nombre del proyecto
 define("PRO_NOMBRE","Pibg");
+
+// Groq API key — cargada desde secrets.php (no versionado)
+$_secrets_file = __DIR__ . '/secrets.php';
+if (file_exists($_secrets_file)) {
+    require_once $_secrets_file;
+}
 ?>

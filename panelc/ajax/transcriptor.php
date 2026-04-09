@@ -7,11 +7,26 @@ if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
     exit;
 }
 
+require_once '../config/global.php';
+require_once '../config/Conexion.php';
+
 $op = $_GET['op'] ?? '';
 
 switch ($op) {
     case 'transcribir':
         transcribir();
+        break;
+    case 'guardar':
+        guardar_transcripcion_db();
+        break;
+    case 'listar':
+        listar_transcripciones_db();
+        break;
+    case 'ver':
+        ver_transcripcion_db();
+        break;
+    case 'eliminar':
+        eliminar_transcripcion_db();
         break;
     default:
         echo json_encode(['ok' => false, 'msg' => 'Operación no válida.']);
@@ -19,317 +34,224 @@ switch ($op) {
 
 /* ============================================================
    TRANSCRIBIR
-   1. Valida entradas
-   2. Descarga la página del video de YouTube
-   3. Extrae las pistas de subtítulos del ytInitialPlayerResponse
-   4. Descarga la pista seleccionada (JSON3)
-   5. Filtra por rango de tiempo y devuelve el texto
+   Recibe el archivo subido y lo envía a Groq Whisper (gratis)
 ============================================================ */
 function transcribir() {
-    $url    = trim($_POST['url']    ?? '');
-    $inicio = trim($_POST['inicio'] ?? '0');
-    $fin    = trim($_POST['fin']    ?? '');
-    $lang   = trim($_POST['lang']   ?? 'es');
 
-    if (empty($url)) {
-        echo json_encode(['ok' => false, 'msg' => 'La URL de YouTube es obligatoria.']);
+    // Validar API key
+    if (!defined('GROQ_API_KEY') || strpos(GROQ_API_KEY, 'gsk_XXXX') !== false) {
+        echo json_encode(['ok' => false, 'msg' => 'Configura tu API key de Groq en panelc/config/global.php — Obtén una gratis en https://console.groq.com/keys']);
         exit;
     }
 
-    // Solo aceptar URLs de YouTube
-    if (!preg_match('/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//i', $url)) {
-        echo json_encode(['ok' => false, 'msg' => 'La URL debe ser de YouTube.']);
-        exit;
-    }
-
-    $video_id = extraer_video_id($url);
-    if (!$video_id) {
-        echo json_encode(['ok' => false, 'msg' => 'No se pudo extraer el ID del video. Verifica la URL.']);
-        exit;
-    }
-
-    $seg_inicio = tiempo_a_segundos($inicio);
-    $seg_fin    = ($fin !== '' && $fin !== null) ? tiempo_a_segundos($fin) : null;
-
-    if ($seg_fin !== null && $seg_fin <= $seg_inicio) {
-        echo json_encode(['ok' => false, 'msg' => 'El tiempo de fin debe ser mayor que el de inicio.']);
-        exit;
-    }
-
-    // Obtener pistas de subtítulos
-    $resultado = obtener_caption_tracks($video_id);
-
-    if (!$resultado['ok']) {
-        echo json_encode(['ok' => false, 'msg' => $resultado['msg']]);
-        exit;
-    }
-
-    $tracks = $resultado['tracks'];
-
-    if (empty($tracks)) {
-        echo json_encode([
-            'ok'  => false,
-            'msg' => 'Este video no tiene subtítulos disponibles. YouTube debe tener activados los subtítulos automáticos o manuales en el video.'
-        ]);
-        exit;
-    }
-
-    // Escoger la mejor pista
-    $track_url = seleccionar_track($tracks, $lang);
-
-    if (!$track_url) {
-        $disponibles = [];
-        foreach ($tracks as $t) {
-            $nombre = $t['name']['simpleText'] ?? $t['languageCode'];
-            $tipo   = ($t['kind'] ?? '') === 'asr' ? ' (auto)' : '';
-            $disponibles[] = $nombre . $tipo;
-        }
-        echo json_encode([
-            'ok'  => false,
-            'msg' => 'No hay subtítulos en el idioma seleccionado. Idiomas disponibles: ' . implode(', ', $disponibles)
-        ]);
-        exit;
-    }
-
-    // Obtener y parsear segmentos
-    $segmentos = obtener_segmentos($track_url);
-
-    if (empty($segmentos)) {
-        echo json_encode(['ok' => false, 'msg' => 'No se pudo leer la transcripción del video.']);
-        exit;
-    }
-
-    // Filtrar por rango de tiempo
-    $filtrados = filtrar_segmentos($segmentos, $seg_inicio, $seg_fin);
-
-    if (empty($filtrados)) {
-        echo json_encode(['ok' => false, 'msg' => 'No hay texto en el rango de tiempo indicado.']);
-        exit;
-    }
-
-    // Texto completo
-    $texto = implode(' ', array_column($filtrados, 'text'));
-    $texto = trim(preg_replace('/\s+/', ' ', $texto));
-
-    // Lista de idiomas disponibles para el selector
-    $idiomas = [];
-    foreach ($tracks as $t) {
-        $idiomas[] = [
-            'code' => $t['languageCode'],
-            'name' => $t['name']['simpleText'] ?? $t['languageCode'],
-            'auto' => ($t['kind'] ?? '') === 'asr',
+    // Validar que llegó el archivo
+    if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+        $errores = [
+            UPLOAD_ERR_INI_SIZE   => 'El archivo supera el límite del servidor (upload_max_filesize).',
+            UPLOAD_ERR_FORM_SIZE  => 'El archivo supera el límite del formulario.',
+            UPLOAD_ERR_PARTIAL    => 'El archivo se subió parcialmente. Intenta de nuevo.',
+            UPLOAD_ERR_NO_FILE    => 'No se seleccionó ningún archivo.',
+            UPLOAD_ERR_NO_TMP_DIR => 'Error interno: no hay directorio temporal.',
+            UPLOAD_ERR_CANT_WRITE => 'Error interno: no se pudo escribir en disco.',
         ];
+        $code = $_FILES['archivo']['error'] ?? UPLOAD_ERR_NO_FILE;
+        $msg  = $errores[$code] ?? 'Error al recibir el archivo.';
+        echo json_encode(['ok' => false, 'msg' => $msg]);
+        exit;
     }
 
-    echo json_encode([
-        'ok'        => true,
-        'texto'     => $texto,
-        'segmentos' => $filtrados,
-        'idiomas'   => $idiomas,
-    ]);
+    $tmp      = $_FILES['archivo']['tmp_name'];
+    $nombre   = $_FILES['archivo']['name'];
+    $tamano   = $_FILES['archivo']['size'];
+    $mime     = mime_content_type($tmp);
+
+    // Extensión del archivo original
+    $ext = strtolower(pathinfo($nombre, PATHINFO_EXTENSION));
+
+    // Formatos aceptados por Whisper
+    $formatos_ok = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'ogg', 'opus', 'wav', 'webm', 'mov', 'avi', 'mkv'];
+
+    if (!in_array($ext, $formatos_ok)) {
+        echo json_encode(['ok' => false, 'msg' => 'Formato no soportado. Usa: ' . implode(', ', $formatos_ok)]);
+        exit;
+    }
+
+    // Límite de 25 MB (la compresión se hace en el navegador antes de subir)
+    if ($tamano > 25 * 1024 * 1024) {
+        echo json_encode(['ok' => false, 'msg' => 'El archivo supera 25 MB. Algo falló en la compresión del navegador. Intenta con un archivo de audio más corto.']);
+        exit;
+    }
+
+    $lang      = trim($_POST['lang'] ?? 'es');
+    $timestamps = ($_POST['timestamps'] ?? '0') === '1';
+
+    // Llamar a Whisper
+    $resultado = llamar_whisper($tmp, $nombre, $lang, $timestamps);
+    echo json_encode($resultado);
 }
 
 /* ============================================================
-   Extraer ID del video de YouTube
+   Llamada a la API de Groq Whisper (gratuita)
+   Endpoint compatible con OpenAI — mismo formato de respuesta
 ============================================================ */
-function extraer_video_id($url) {
-    if (preg_match('/[?&]v=([A-Za-z0-9_\-]{11})/', $url, $m)) return $m[1];
-    if (preg_match('/youtu\.be\/([A-Za-z0-9_\-]{11})/', $url, $m)) return $m[1];
-    if (preg_match('/youtube\.com\/embed\/([A-Za-z0-9_\-]{11})/', $url, $m)) return $m[1];
-    return null;
-}
+function llamar_whisper($tmp_path, $nombre_original, $lang, $timestamps) {
+    $api_key = GROQ_API_KEY;
 
-/* ============================================================
-   Descargar página de YouTube y extraer pistas de subtítulos
-   del objeto ytInitialPlayerResponse
-============================================================ */
-function obtener_caption_tracks($video_id) {
-    $page_url = 'https://www.youtube.com/watch?v=' . urlencode($video_id);
+    $response_format = $timestamps ? 'verbose_json' : 'json';
 
-    $ch = curl_init($page_url);
+    $post = [
+        'file'            => new CURLFile($tmp_path, mime_content_type($tmp_path), $nombre_original),
+        'model'           => 'whisper-large-v3-turbo',
+        'response_format' => $response_format,
+    ];
+
+    if (!empty($lang)) {
+        $post['language'] = $lang;
+    }
+
+    $ch = curl_init('https://api.groq.com/openai/v1/audio/transcriptions');
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $post,
         CURLOPT_HTTPHEADER     => [
-            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-            'Accept-Language: es-MX,es;q=0.9,en;q=0.8',
-            'Cookie: CONSENT=YES+cb; SOCS=CAE=',
+            'Authorization: Bearer ' . $api_key,
         ],
+        CURLOPT_TIMEOUT        => 300,
     ]);
-    $html = curl_exec($ch);
-    $error = curl_error($ch);
+
+    $response  = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curl_err  = curl_error($ch);
     curl_close($ch);
 
-    if (!$html) {
-        return ['ok' => false, 'msg' => 'No se pudo conectar con YouTube. ' . $error];
+    if ($curl_err) {
+        return ['ok' => false, 'msg' => 'Error de conexión con Groq: ' . $curl_err];
     }
 
-    $needle = 'ytInitialPlayerResponse=';
-    $pos = strpos($html, $needle);
-    if ($pos === false) {
-        return ['ok' => false, 'msg' => 'No se encontró la información del video. El video puede ser privado o no estar disponible.'];
+    $data = json_decode($response, true);
+
+    if ($http_code !== 200) {
+        $msg = $data['error']['message'] ?? $response;
+        return ['ok' => false, 'msg' => 'Error de Groq (' . $http_code . '): ' . $msg];
     }
 
-    $json_str = extraer_json_objeto($html, $pos + strlen($needle));
-    if (!$json_str) {
-        return ['ok' => false, 'msg' => 'No se pudo parsear la respuesta de YouTube.'];
+    $resultado = [
+        'ok'    => true,
+        'texto' => $data['text'] ?? '',
+    ];
+
+    if ($timestamps && isset($data['segments'])) {
+        $resultado['segmentos'] = array_map(function ($s) {
+            return [
+                'start' => round($s['start'], 2),
+                'end'   => round($s['end'], 2),
+                'text'  => trim($s['text']),
+            ];
+        }, $data['segments']);
+        $resultado['idioma'] = $data['language'] ?? $lang;
     }
 
-    $data = json_decode($json_str, true);
-    if (!$data) {
-        return ['ok' => false, 'msg' => 'Error al decodificar datos de YouTube.'];
-    }
-
-    $tracks = $data['captions']['playerCaptionsTracklistRenderer']['captionTracks'] ?? [];
-    return ['ok' => true, 'tracks' => $tracks];
+    return $resultado;
 }
 
 /* ============================================================
-   Extraer un objeto JSON completo a partir de una posición
-   usando conteo de llaves (más robusto que regex)
+   GUARDAR TRANSCRIPCIÓN EN BASE DE DATOS
 ============================================================ */
-function extraer_json_objeto($str, $start) {
-    $depth     = 0;
-    $in_string = false;
-    $escape    = false;
-    $i         = $start;
-    $len       = strlen($str);
+function guardar_transcripcion_db() {
+    global $conexion;
 
-    while ($i < $len) {
-        $c = $str[$i];
+    $nombre = trim($_POST['nombre_archivo'] ?? '');
+    $idioma = trim($_POST['idioma'] ?? 'es');
+    $texto  = trim($_POST['texto'] ?? '');
 
-        if ($escape) {
-            $escape = false;
-            $i++;
-            continue;
-        }
-        if ($c === '\\' && $in_string) {
-            $escape = true;
-            $i++;
-            continue;
-        }
-        if ($c === '"') {
-            $in_string = !$in_string;
-            $i++;
-            continue;
-        }
-        if (!$in_string) {
-            if ($c === '{') {
-                $depth++;
-            } elseif ($c === '}') {
-                $depth--;
-                if ($depth === 0) {
-                    $i++;
-                    break;
-                }
-            }
-        }
-        $i++;
+    if (!$nombre || !$texto) {
+        echo json_encode(['ok' => false, 'msg' => 'Datos incompletos.']);
+        exit;
     }
 
-    if ($depth !== 0) return null;
-    return substr($str, $start, $i - $start);
+    // Contar palabras (compatible con UTF-8 / español)
+    $num_palabras = preg_match_all('/\S+/u', strip_tags($texto), $m);
+    if ($num_palabras === false) $num_palabras = 0;
+
+    $stmt = $conexion->prepare(
+        'INSERT INTO transcripcion (nombre_archivo, idioma, texto, num_palabras) VALUES (?, ?, ?, ?)'
+    );
+    $stmt->bind_param('sssi', $nombre, $idioma, $texto, $num_palabras);
+
+    if ($stmt->execute()) {
+        echo json_encode(['ok' => true, 'id' => $conexion->insert_id]);
+    } else {
+        echo json_encode(['ok' => false, 'msg' => 'Error al guardar: ' . $stmt->error]);
+    }
+    $stmt->close();
 }
 
 /* ============================================================
-   Seleccionar la mejor pista disponible
+   LISTAR TRANSCRIPCIONES
 ============================================================ */
-function seleccionar_track($tracks, $lang) {
-    // 1. Idioma exacto, manual
-    foreach ($tracks as $t) {
-        if ($t['languageCode'] === $lang && ($t['kind'] ?? '') !== 'asr') {
-            return $t['baseUrl'] . '&fmt=json3';
+function listar_transcripciones_db() {
+    global $conexion;
+
+    $rows   = [];
+    $result = $conexion->query(
+        'SELECT id_transcripcion, nombre_archivo, idioma, num_palabras, fecha_creacion
+         FROM transcripcion ORDER BY fecha_creacion DESC LIMIT 100'
+    );
+
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
         }
     }
-    // 2. Idioma exacto, auto-generado
-    foreach ($tracks as $t) {
-        if ($t['languageCode'] === $lang) {
-            return $t['baseUrl'] . '&fmt=json3';
-        }
-    }
-    // 3. Mismo prefijo de idioma (ej: es-MX para lang=es)
-    foreach ($tracks as $t) {
-        if (str_starts_with($t['languageCode'], $lang)) {
-            return $t['baseUrl'] . '&fmt=json3';
-        }
-    }
-    // 4. Primer disponible como fallback
-    if (!empty($tracks)) {
-        return $tracks[0]['baseUrl'] . '&fmt=json3';
-    }
-    return null;
+
+    echo json_encode(['ok' => true, 'datos' => $rows]);
 }
 
 /* ============================================================
-   Descargar y parsear pista de subtítulos (formato JSON3)
+   VER TEXTO COMPLETO DE UNA TRANSCRIPCIÓN
 ============================================================ */
-function obtener_segmentos($track_url) {
-    $ch = curl_init($track_url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 20,
-        CURLOPT_HTTPHEADER     => [
-            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        ],
-    ]);
-    $json = curl_exec($ch);
-    curl_close($ch);
+function ver_transcripcion_db() {
+    global $conexion;
 
-    if (!$json) return [];
-
-    $data = json_decode($json, true);
-    if (!$data || !isset($data['events'])) return [];
-
-    $segmentos = [];
-    foreach ($data['events'] as $event) {
-        if (!isset($event['segs'])) continue;
-
-        $start = ($event['tStartMs'] ?? 0) / 1000;
-        $dur   = ($event['dDurationMs'] ?? 0) / 1000;
-
-        $text = '';
-        foreach ($event['segs'] as $seg) {
-            $text .= $seg['utf8'] ?? '';
-        }
-
-        $text = trim(str_replace(["\n", "\r"], ' ', $text));
-        if ($text === '' || $text === "\xc2\xa0") continue; // ignorar solo-espacio
-
-        $segmentos[] = [
-            'start' => round($start, 2),
-            'dur'   => round($dur, 2),
-            'text'  => html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-        ];
+    $id = intval($_GET['id'] ?? 0);
+    if (!$id) {
+        echo json_encode(['ok' => false, 'msg' => 'ID inválido.']);
+        exit;
     }
 
-    return $segmentos;
+    $stmt = $conexion->prepare('SELECT texto, nombre_archivo FROM transcripcion WHERE id_transcripcion = ?');
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->bind_result($texto, $nombre);
+
+    if ($stmt->fetch()) {
+        echo json_encode(['ok' => true, 'texto' => $texto, 'nombre' => $nombre]);
+    } else {
+        echo json_encode(['ok' => false, 'msg' => 'Transcripción no encontrada.']);
+    }
+    $stmt->close();
 }
 
 /* ============================================================
-   Filtrar segmentos por rango de tiempo
+   ELIMINAR TRANSCRIPCIÓN
 ============================================================ */
-function filtrar_segmentos($segmentos, $inicio, $fin) {
-    return array_values(array_filter($segmentos, function ($s) use ($inicio, $fin) {
-        $s_end = $s['start'] + $s['dur'];
-        if ($s_end < $inicio) return false;
-        if ($fin !== null && $s['start'] > $fin) return false;
-        return true;
-    }));
-}
+function eliminar_transcripcion_db() {
+    global $conexion;
 
-/* ============================================================
-   Convertir h:mm:ss / mm:ss / segundos a float segundos
-============================================================ */
-function tiempo_a_segundos($tiempo) {
-    $tiempo = trim((string)$tiempo);
-    if ($tiempo === '') return 0.0;
-    if (is_numeric($tiempo)) return (float)$tiempo;
-
-    $partes = array_reverse(explode(':', $tiempo));
-    $seg = 0.0;
-    foreach ($partes as $i => $p) {
-        $seg += (float)$p * pow(60, $i);
+    $id = intval($_POST['id'] ?? 0);
+    if (!$id) {
+        echo json_encode(['ok' => false, 'msg' => 'ID inválido.']);
+        exit;
     }
-    return $seg;
+
+    $stmt = $conexion->prepare('DELETE FROM transcripcion WHERE id_transcripcion = ?');
+    $stmt->bind_param('i', $id);
+
+    if ($stmt->execute()) {
+        echo json_encode(['ok' => true]);
+    } else {
+        echo json_encode(['ok' => false, 'msg' => 'Error: ' . $stmt->error]);
+    }
+    $stmt->close();
 }
