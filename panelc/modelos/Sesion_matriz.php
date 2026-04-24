@@ -2,6 +2,17 @@
 require "../config/Conexion.php";
 
 class Sesion_matriz
+
+    // Guardar el número de columnas para la sesión
+    public function actualizar_columnas_sesion($idsesion, $columnas)
+    {
+        global $conexion;
+        $idsesion = (int)$idsesion;
+        $columnas = (int)$columnas;
+        if ($columnas < 1 || $columnas > 52) return false;
+        $sql = "UPDATE sesion_lista SET columnas=$columnas WHERE idsesion=$idsesion";
+        return ejecutarConsulta($sql);
+    }
 {
     public function __construct() {}
 

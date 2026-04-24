@@ -1,3 +1,9 @@
+    case 'obtener_columnas':
+        $idsesion = (int)($_GET['idsesion'] ?? 0);
+        $row = $sm->obtener_sesion($idsesion);
+        $columnas = isset($row['columnas']) ? (int)$row['columnas'] : 52;
+        echo json_encode(['columnas' => $columnas]);
+        break;
 <?php
 @ini_set('display_errors', 0);
 error_reporting(0);
@@ -71,11 +77,16 @@ switch ($_GET['op'] ?? '') {
     ============================================================ */
     case 'cargar_registros':
         $idsesion = (int)($_POST['idsesion'] ?? 0);
-        $nombres_raw = $_POST['nombres'] ?? '';          // JSON array
+        $nombres_raw = $_POST['nombres'] ?? '';
         $nombres = json_decode($nombres_raw, true);
+        $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : null;
         if (!is_array($nombres) || $idsesion === 0) {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
+        }
+        // Si se especifica columnas, guardar en la sesión
+        if ($columnas !== null && $columnas >= 1 && $columnas <= 52) {
+            $sm->actualizar_columnas_sesion($idsesion, $columnas);
         }
         $r = $sm->insertar_registros($idsesion, $nombres);
         echo json_encode(['ok' => (bool)$r]);

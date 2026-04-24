@@ -3,9 +3,11 @@
    Gestión de sesiones + matriz de asistencia (52 columnas)
 ============================================================ */
 
+
 var idsesion_actual = 0;
 var registros_actuales = [];
 var modo_edicion = false;
+var columnas_actuales = 52; // Por defecto
 
 /* ---- Inicialización ---- */
 document.addEventListener("DOMContentLoaded", function () {
@@ -18,7 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 ============================================================ */
 function construir_encabezado_matriz() {
     var row = $("#thead_row");
-    for (var i = 1; i <= 52; i++) {
+    row.empty();
+    row.append('<th>Nombre</th>');
+    for (var i = 1; i <= columnas_actuales; i++) {
         row.append('<th style="min-width:32px;">' + i + '</th>');
     }
 }
@@ -123,7 +127,13 @@ function abrir_sesion(idsesion, nombre, descripcion) {
     $("#desc_matriz").text(descripcion || "");
     $("#vista_sesiones").hide();
     $("#vista_matriz").show();
-    cargar_matriz(idsesion);
+    // Obtener columnas de la sesión antes de cargar la matriz
+    $.get("ajax/sesion_matriz.php?op=obtener_columnas&idsesion=" + idsesion, function (r) {
+        var res = JSON.parse(r);
+        columnas_actuales = res.columnas ? parseInt(res.columnas) : 52;
+        construir_encabezado_matriz();
+        cargar_matriz(idsesion);
+    });
 }
 
 function regresar_sesiones() {
@@ -142,7 +152,7 @@ function regresar_sesiones() {
    MATRIZ – carga desde servidor
 ============================================================ */
 function cargar_matriz(idsesion) {
-    $("#tbody_matriz").html('<tr><td colspan="53" style="text-align:center; padding:16px;">Cargando...</td></tr>');
+    $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
 
     $.get("ajax/sesion_matriz.php?op=listar_registros&idsesion=" + idsesion, function (r) {
         registros_actuales = JSON.parse(r);
@@ -155,7 +165,7 @@ function renderizar_matriz(registros) {
     tbody.empty();
 
     if (registros.length === 0) {
-        tbody.html('<tr><td colspan="53" style="text-align:center; color:#888; padding:20px;">Sin registros. Carga un archivo Excel.</td></tr>');
+        tbody.html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; color:#888; padding:20px;">Sin registros. Carga un archivo Excel.</td></tr>');
         actualizar_graficas();
         return;
     }
@@ -166,7 +176,7 @@ function renderizar_matriz(registros) {
         var fila = '<tr>';
         fila += '<td title="' + reg.nombre + '">' + reg.nombre + '</td>';
 
-        for (var i = 1; i <= 52; i++) {
+        for (var i = 1; i <= columnas_actuales; i++) {
             var col    = 'col_' + (i < 10 ? '0' + i : '' + i);
             var val    = parseInt(reg[col]) || 0;
             var cls    = val === 1 ? 'celda-check activa' : 'celda-check';
@@ -391,11 +401,16 @@ function ocultar_aviso_excel() {
 ============================================================ */
 function crear_tabla_manual() {
     var n = parseInt($('#input_num_filas').val(), 10);
+    var m = parseInt($('#input_num_columnas').val(), 10);
     var $aviso = $('#aviso_manual');
     $aviso.hide();
 
     if (isNaN(n) || n < 1 || n > 999) {
-        $aviso.text('Ingresa un número entre 1 y 999.').css('color', '#c00').show();
+        $aviso.text('Ingresa un número de filas entre 1 y 999.').css('color', '#c00').show();
+        return;
+    }
+    if (isNaN(m) || m < 1 || m > 52) {
+        $aviso.text('Ingresa un número de columnas entre 1 y 52.').css('color', '#c00').show();
         return;
     }
 
@@ -404,14 +419,15 @@ function crear_tabla_manual() {
         nombres.push(String(i).padStart(3, '0'));
     }
 
-    if (!confirm('Se crearán ' + n + ' filas numeradas (001–' + String(n).padStart(3,'0') + '). Esto reemplazará el listado actual. ¿Continuar?')) return;
+    if (!confirm('Se crearán ' + n + ' filas numeradas (001–' + String(n).padStart(3,'0') + ') y ' + m + ' columnas. Esto reemplazará el listado actual. ¿Continuar?')) return;
 
     $.post('ajax/sesion_matriz.php?op=cargar_registros',
-        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres) },
+        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: m },
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {
                 $('#input_num_filas').val('');
+                $('#input_num_columnas').val('');
                 cargar_matriz(idsesion_actual);
             } else {
                 $aviso.text('Error: ' + (res.msg || '')).css('color', '#c00').show();
