@@ -34,12 +34,14 @@ class Sesion_matriz
         return ejecutarConsultaSimpleFila($sql);
     }
 
-    public function crear_sesion($nombre, $descripcion)
+    public function crear_sesion($nombre, $descripcion, $columnas = 52)
     {
         global $conexion;
         $nombre      = $conexion->real_escape_string(trim($nombre));
         $descripcion = $conexion->real_escape_string(trim($descripcion));
-        $sql = "INSERT INTO sesion_lista (nombre, descripcion) VALUES ('$nombre', '$descripcion')";
+        $columnas    = (int)$columnas;
+        if ($columnas < 1 || $columnas > 52) $columnas = 52;
+        $sql = "INSERT INTO sesion_lista (nombre, descripcion, columnas) VALUES ('$nombre', '$descripcion', $columnas)";
         ejecutarConsulta($sql);
         return $conexion->insert_id;
     }

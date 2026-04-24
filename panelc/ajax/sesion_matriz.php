@@ -47,8 +47,9 @@ switch ($_GET['op'] ?? '') {
     case 'crear_sesion':
         $nombre      = $_POST['nombre']      ?? '';
         $descripcion = $_POST['descripcion'] ?? '';
+        $columnas    = isset($_POST['columnas']) ? (int)$_POST['columnas'] : 52;
         if ($nombre === '') { echo json_encode(['ok' => false, 'msg' => 'Nombre requerido']); break; }
-        $id = $sm->crear_sesion($nombre, $descripcion);
+        $id = $sm->crear_sesion($nombre, $descripcion, $columnas);
         echo json_encode(['ok' => true, 'idsesion' => $id]);
         break;
 

@@ -421,8 +421,27 @@ function crear_tabla_manual() {
 
     if (!confirm('Se crearán ' + n + ' filas numeradas (001–' + String(n).padStart(3,'0') + ') y ' + m + ' columnas. Esto reemplazará el listado actual. ¿Continuar?')) return;
 
+    // Si la sesión aún no existe, crearla primero con el número de columnas correcto
+    if (!idsesion_actual || idsesion_actual === 0) {
+        var nombre = prompt('Nombre de la nueva lista:');
+        if (!nombre) return;
+        $.post('ajax/sesion_matriz.php?op=crear_sesion', { nombre: nombre, descripcion: '', columnas: m }, function (r) {
+            var res = JSON.parse(r);
+            if (res.ok && res.idsesion) {
+                idsesion_actual = res.idsesion;
+                enviar_registros_manual(nombres, m);
+            } else {
+                $aviso.text('Error al crear la sesión.').css('color', '#c00').show();
+            }
+        });
+    } else {
+        enviar_registros_manual(nombres, m);
+    }
+}
+
+function enviar_registros_manual(nombres, columnas) {
     $.post('ajax/sesion_matriz.php?op=cargar_registros',
-        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: m },
+        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas },
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {
@@ -430,7 +449,7 @@ function crear_tabla_manual() {
                 $('#input_num_columnas').val('');
                 cargar_matriz(idsesion_actual);
             } else {
-                $aviso.text('Error: ' + (res.msg || '')).css('color', '#c00').show();
+                $('#aviso_manual').text('Error: ' + (res.msg || '')).css('color', '#c00').show();
             }
         }
     );
