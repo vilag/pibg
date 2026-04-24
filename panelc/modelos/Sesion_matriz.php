@@ -2,7 +2,7 @@
 require "../config/Conexion.php";
 
 class Sesion_matriz
-
+{
     // Guardar el número de columnas para la sesión
     public function actualizar_columnas_sesion($idsesion, $columnas)
     {
@@ -13,7 +13,6 @@ class Sesion_matriz
         $sql = "UPDATE sesion_lista SET columnas=$columnas WHERE idsesion=$idsesion";
         return ejecutarConsulta($sql);
     }
-{
     public function __construct() {}
 
     /* ---- SESIONES ---- */
