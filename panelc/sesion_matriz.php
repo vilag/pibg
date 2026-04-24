@@ -219,12 +219,28 @@ if ($_SESSION['administrador'] == 1):
               <!-- Crear tabla por número de filas -->
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
                   <label style="margin:0; font-size:13px; font-weight:600;">O crear tabla con:</label>
-                  <input type="number" id="input_num_filas" min="1" max="999" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                  <input type="number" id="input_num_filas" min="1" max="999" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
                   <label style="margin:0; font-size:13px;">filas</label>
-                  <input type="number" id="input_num_columnas" min="1" max="52" placeholder="Columnas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                  <input type="number" id="input_num_columnas" min="1" max="52" placeholder="Columnas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
                   <label style="margin:0; font-size:13px;">columnas</label>
-                  <button class="btn btn-dark btn-sm" onclick="crear_tabla_manual();">Crear tabla</button>
+                  <button class="btn btn-dark btn-sm" onclick="crear_tabla_manual();" id="btn_crear_tabla" disabled>Crear tabla</button>
+                  <button class="btn btn-outline-primary btn-sm" type="button" id="btn_toggle_inputs" onclick="toggleInputsManual();">Activar edición</button>
                   <span id="aviso_manual" style="font-size:13px; display:none;"></span>
+                  <script>
+                  function toggleInputsManual() {
+                    var $filas = document.getElementById('input_num_filas');
+                    var $cols = document.getElementById('input_num_columnas');
+                    var $crear = document.getElementById('btn_crear_tabla');
+                    var $btn = document.getElementById('btn_toggle_inputs');
+                    var disabled = $filas.disabled;
+                    $filas.disabled = $cols.disabled = $crear.disabled = !disabled;
+                    $btn.textContent = disabled ? 'Desactivar edición' : 'Activar edición';
+                    if (!disabled) {
+                      $filas.value = '';
+                      $cols.value = '';
+                    }
+                  }
+                  </script>
               </div>
 
               <div id="aviso_excel" style="color:#c00; font-size:13px; margin-bottom:8px; display:none;"></div>
