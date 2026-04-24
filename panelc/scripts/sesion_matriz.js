@@ -152,11 +152,16 @@ function regresar_sesiones() {
    MATRIZ – carga desde servidor
 ============================================================ */
 function cargar_matriz(idsesion) {
-    $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
-
-    $.get("ajax/sesion_matriz.php?op=listar_registros&idsesion=" + idsesion, function (r) {
-        registros_actuales = JSON.parse(r);
-        renderizar_matriz(registros_actuales);
+    // Antes de cargar la matriz, volver a consultar el número de columnas por si cambió
+    $.get("ajax/sesion_matriz.php?op=obtener_columnas&idsesion=" + idsesion, function (r) {
+        var res = JSON.parse(r);
+        columnas_actuales = res.columnas ? parseInt(res.columnas) : 52;
+        $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
+        $.get("ajax/sesion_matriz.php?op=listar_registros&idsesion=" + idsesion, function (r2) {
+            registros_actuales = JSON.parse(r2);
+            construir_encabezado_matriz();
+            renderizar_matriz(registros_actuales);
+        });
     });
 }
 
