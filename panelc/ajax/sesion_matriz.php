@@ -10,6 +10,13 @@ $sm = new Sesion_matriz();
 
 switch ($_GET['op'] ?? '') {
 
+    case 'obtener_columnas':
+        $idsesion = (int)($_GET['idsesion'] ?? 0);
+        $row = $sm->obtener_sesion($idsesion);
+        $columnas = isset($row['columnas']) ? (int)$row['columnas'] : 52;
+        echo json_encode(['columnas' => $columnas]);
+        break;
+
     /* ============================================================
        ACCESO EXTRA: verificar contraseña de la vista
     ============================================================ */
