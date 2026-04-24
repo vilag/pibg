@@ -1,9 +1,3 @@
-    case 'obtener_columnas':
-        $idsesion = (int)($_GET['idsesion'] ?? 0);
-        $row = $sm->obtener_sesion($idsesion);
-        $columnas = isset($row['columnas']) ? (int)$row['columnas'] : 52;
-        echo json_encode(['columnas' => $columnas]);
-        break;
 <?php
 @ini_set('display_errors', 0);
 error_reporting(0);
