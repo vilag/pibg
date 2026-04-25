@@ -25,7 +25,8 @@ function construir_encabezado_matriz() {
     row.empty();
     row.append('<th>Nombre</th>');
     for (var i = 1; i <= columnas_actuales; i++) {
-        row.append('<th style="min-width:32px;">' + i + '</th>');
+        var colLabel = String(i).padStart(digitos_col_actual, '0');
+        row.append('<th style="min-width:32px;">' + colLabel + '</th>');
     }
 }
 
