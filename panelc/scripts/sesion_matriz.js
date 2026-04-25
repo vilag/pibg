@@ -166,8 +166,13 @@ function cargar_matriz(idsesion) {
         // Leer los dígitos usados en los inputs (si existen)
         var digFila = parseInt($('#input_digitos_fila').val(), 10);
         var digCol = parseInt($('#input_digitos_col').val(), 10);
-        digitos_fila_actual = (!isNaN(digFila) && digFila >= 1 && digFila <= 6) ? digFila : 3;
-        digitos_col_actual = (!isNaN(digCol) && digCol >= 1 && digCol <= 6) ? digCol : 2;
+        // Si los inputs están vacíos, mantener los valores actuales
+        if (!isNaN(digFila) && digFila >= 1 && digFila <= 6) {
+            digitos_fila_actual = digFila;
+        }
+        if (!isNaN(digCol) && digCol >= 1 && digCol <= 6) {
+            digitos_col_actual = digCol;
+        }
         $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
         $.get("ajax/sesion_matriz.php?op=listar_registros&idsesion=" + idsesion, function (r2) {
             registros_actuales = JSON.parse(r2);
@@ -466,10 +471,11 @@ function enviar_registros_manual(nombres, columnas, digFila, digCol) {
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {
+                // No restablecer los valores de dígitos, mantener los que el usuario eligió
                 $('#input_num_filas').val('');
                 $('#input_num_columnas').val('');
-                $('#input_digitos_fila').val('3');
-                $('#input_digitos_col').val('2');
+                // $('#input_digitos_fila').val('3');
+                // $('#input_digitos_col').val('2');
                 cargar_matriz(idsesion_actual);
             } else {
                 $('#aviso_manual').text('Error: ' + (res.msg || '')).css('color', '#c00').show();
