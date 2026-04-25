@@ -213,9 +213,7 @@ if ($_SESSION['administrador'] == 1):
 
               <!-- Configuración de tabla y carga de Excel -->
               <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:18px; background:#f8fafd; border:1px solid #e2e8f4; border-radius:10px; padding:14px 18px;">
-                                <label style="font-size:13px; margin:0; display:flex; align-items:center; gap:4px;">
-                                  <input type="checkbox" id="chk_omitir_base" style="margin:0;"> Omitir valor base
-                                </label>
+                                
                 <label style="font-size:13px; margin:0;">Cargar listado (Excel):
                   <input type="file" id="input_excel" accept=".xlsx,.xls,.csv" style="font-size:13px; margin-left:6px;" onchange="leer_excel(this)">
                 </label>
@@ -233,6 +231,9 @@ if ($_SESSION['administrador'] == 1):
                 </label>
                 <label style="font-size:13px; margin:0;">Valor base:
                   <input type="number" id="input_valor_base" min="0" max="9999" value="0" placeholder="Valor base" style="width:80px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
+                </label>
+                <label style="font-size:13px; margin:0; display:flex; align-items:center; gap:4px;">
+                  <input type="checkbox" id="chk_omitir_base" style="margin:0;"> Omitir valor base
                 </label>
                 <label style="font-size:13px; margin:0;">Orden código:
                   <select id="input_orden_concat" style="width:240px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
