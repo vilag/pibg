@@ -194,6 +194,20 @@ function renderizar_matriz(registros) {
     }
 
     var anio = String(new Date().getFullYear()).slice(-2);
+    var valorBase = parseInt($('#input_valor_base').val(), 10) || 0;
+    var ordenConcat = $('#input_orden_concat').val() || 'col-fila-base';
+
+    function generarCodigo(semana, filaPad, base) {
+        switch (ordenConcat) {
+            case 'col-fila-base': return semana + filaPad + base;
+            case 'fila-col-base': return filaPad + semana + base;
+            case 'base-col-fila': return base + semana + filaPad;
+            case 'base-fila-col': return base + filaPad + semana;
+            case 'col-base-fila': return semana + base + filaPad;
+            case 'fila-base-col': return filaPad + base + semana;
+            default: return semana + filaPad + base;
+        }
+    }
 
     registros.forEach(function (reg, idx) {
         var fila = '<tr>';
@@ -206,7 +220,7 @@ function renderizar_matriz(registros) {
             var semana = String(i).padStart(digitos_col_actual, '0');
             var numfila = idx + 1;
             var filaPad = String(numfila).padStart(digitos_fila_actual, '0');
-            var codigo = anio + semana + filaPad;
+            var codigo = generarCodigo(semana, filaPad, valorBase);
             fila += '<td class="' + cls + '" ' +
                     'data-idregistro="' + reg.idregistro + '" ' +
                     'data-col="' + i + '" ' +
@@ -252,7 +266,20 @@ function toggle_celda(celda, forzar) {
     var semana  = String(col).padStart(digitos_col_actual, '0');
     var numfila = $c.closest('tr').index() + 1;
     var filaPad = String(numfila).padStart(digitos_fila_actual, '0');
-    var codigo  = anio + semana + filaPad;
+    var valorBase = parseInt($('#input_valor_base').val(), 10) || 0;
+    var ordenConcat = $('#input_orden_concat').val() || 'col-fila-base';
+    function generarCodigo(semana, filaPad, base) {
+        switch (ordenConcat) {
+            case 'col-fila-base': return semana + filaPad + base;
+            case 'fila-col-base': return filaPad + semana + base;
+            case 'base-col-fila': return base + semana + filaPad;
+            case 'base-fila-col': return base + filaPad + semana;
+            case 'col-base-fila': return semana + base + filaPad;
+            case 'fila-base-col': return filaPad + base + semana;
+            default: return semana + filaPad + base;
+        }
+    }
+    var codigo  = generarCodigo(semana, filaPad, valorBase);
 
     // Actualiza UI inmediatamente
     if (nuevo_val === 1) {
