@@ -209,59 +209,10 @@ if ($_SESSION['administrador'] == 1):
                 <h5 id="titulo_matriz" class="mb-0" style="font-weight:700;"></h5>
                 <span id="desc_matriz" style="color:#888; font-size:13px;"></span>                <button class="btn btn-sm btn-success" style="margin-left:auto;" onclick="exportar_matriz();">&#8595; Exportar Excel</button>              </div>
 
-              <!-- Cargar / reemplazar listado -->
-              <div style="display:flex; align-items:center; gap:10px; margin-bottom: 8px; flex-wrap:wrap;">
-                <label style="margin:0; font-size:13px; font-weight:600;">Cargar listado (Excel):</label>
-                <input type="file" id="input_excel" accept=".xlsx,.xls,.csv"
-                       style="font-size:13px;" onchange="leer_excel(this)">
-              </div>
 
-              <!-- Crear tabla por número de filas -->
+              <!-- Botón para abrir modal de configuración -->
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
-                  <label style="margin:0; font-size:13px; font-weight:600;">O crear tabla con:</label>
-                  <input type="number" id="input_num_filas" min="1" max="999" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
-                  <label style="margin:0; font-size:13px;">filas</label>
-                  <input type="number" id="input_digitos_fila" min="1" max="6" value="3" placeholder="Dígitos fila" style="width:60px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
-                  <label style="margin:0; font-size:13px;">dígitos fila</label>
-                  <input type="number" id="input_num_columnas" min="1" max="52" placeholder="Columnas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
-                  <label style="margin:0; font-size:13px;">columnas</label>
-                  <input type="number" id="input_digitos_col" min="1" max="6" value="2" placeholder="Dígitos col" style="width:60px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
-                  <label style="margin:0; font-size:13px;">dígitos col</label>
-                  <input type="number" id="input_valor_base" min="0" max="9999" value="0" placeholder="Valor base" style="width:80px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
-                  <label style="margin:0; font-size:13px;">valor base</label>
-                  <select id="input_orden_concat" style="padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
-                    <option value="col-fila-base">Columna + Fila + Base</option>
-                    <option value="fila-col-base">Fila + Columna + Base</option>
-                    <option value="base-col-fila">Base + Columna + Fila</option>
-                    <option value="base-fila-col">Base + Fila + Columna</option>
-                    <option value="col-base-fila">Columna + Base + Fila</option>
-                    <option value="fila-base-col">Fila + Base + Columna</option>
-                  </select>
-                  <label style="margin:0; font-size:13px;">orden código</label>
-                  <button class="btn btn-dark btn-sm" onclick="crear_tabla_manual();" id="btn_crear_tabla" disabled>Crear tabla</button>
-                  <button class="btn btn-outline-primary btn-sm" type="button" id="btn_toggle_inputs" onclick="toggleInputsManual();">Activar edición</button>
-                  <span id="aviso_manual" style="font-size:13px; display:none;"></span>
-                  <script>
-                  function toggleInputsManual() {
-                    var $filas = document.getElementById('input_num_filas');
-                    var $cols = document.getElementById('input_num_columnas');
-                    var $digFila = document.getElementById('input_digitos_fila');
-                    var $digCol = document.getElementById('input_digitos_col');
-                    var $valorBase = document.getElementById('input_valor_base');
-                    var $ordenConcat = document.getElementById('input_orden_concat');
-                    var $crear = document.getElementById('btn_crear_tabla');
-                    var $btn = document.getElementById('btn_toggle_inputs');
-                    var disabled = $filas.disabled;
-                    $filas.disabled = $cols.disabled = $digFila.disabled = $digCol.disabled = $valorBase.disabled = $ordenConcat.disabled = $crear.disabled = !disabled;
-                    $btn.textContent = disabled ? 'Desactivar edición' : 'Activar edición';
-                    if (!disabled) {
-                      $filas.value = '';
-                      $cols.value = '';
-                      $valorBase.value = '0';
-                      $ordenConcat.selectedIndex = 0;
-                    }
-                  }
-                  </script>
+                <button class="btn btn-outline-primary btn-sm" type="button" id="btn_modal_config" onclick="$('#modal_config_matriz').show();">Configurar tabla</button>
               </div>
 
               <div id="aviso_excel" style="color:#c00; font-size:13px; margin-bottom:8px; display:none;"></div>
@@ -275,6 +226,51 @@ if ($_SESSION['administrador'] == 1):
                 <button class="btn btn-dark btn-sm" onclick="buscar_celda();">Seleccionar</button>
                 <button id="btn_modo_edicion" class="btn btn-secondary btn-sm" onclick="toggle_modo_edicion();">Activar edición</button>
                 <span id="aviso_scanner" style="font-size:13px; display:none;"></span>
+              </div>
+
+              <!-- Modal de configuración de matriz -->
+              <div id="modal_config_matriz" class="modalmask" style="display:none;">
+                <div class="modalbox movedown" style="min-width:340px; max-width:98vw;">
+                  <a href="#close" title="Cerrar" class="close" onclick="$('#modal_config_matriz').hide();">X</a>
+                  <form id="form_config_matriz" style="padding:20px 10px 0 10px;">
+                    <div style="font-weight:700; font-size:1.1em; margin-bottom:10px; text-align:center;">Configurar tabla</div>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                      <label style="font-size:13px;">Cargar listado (Excel):
+                        <input type="file" id="input_excel" accept=".xlsx,.xls,.csv" style="font-size:13px;" onchange="leer_excel(this)">
+                      </label>
+                      <label style="font-size:13px;">Filas:
+                        <input type="number" id="input_num_filas" min="1" max="999" placeholder="Filas" style="width:100%; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                      </label>
+                      <label style="font-size:13px;">Dígitos fila:
+                        <input type="number" id="input_digitos_fila" min="1" max="6" value="3" placeholder="Dígitos fila" style="width:100%; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                      </label>
+                      <label style="font-size:13px;">Columnas:
+                        <input type="number" id="input_num_columnas" min="1" max="52" placeholder="Columnas" style="width:100%; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                      </label>
+                      <label style="font-size:13px;">Dígitos col:
+                        <input type="number" id="input_digitos_col" min="1" max="6" value="2" placeholder="Dígitos col" style="width:100%; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                      </label>
+                      <label style="font-size:13px;">Valor base:
+                        <input type="number" id="input_valor_base" min="0" max="9999" value="0" placeholder="Valor base" style="width:100%; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                      </label>
+                      <label style="font-size:13px;">Orden código:
+                        <select id="input_orden_concat" style="width:100%; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;">
+                          <option value="col-fila-base">Columna + Fila + Base</option>
+                          <option value="fila-col-base">Fila + Columna + Base</option>
+                          <option value="base-col-fila">Base + Columna + Fila</option>
+                          <option value="base-fila-col">Base + Fila + Columna</option>
+                          <option value="col-base-fila">Columna + Base + Fila</option>
+                          <option value="fila-base-col">Fila + Base + Columna</option>
+                        </select>
+                      </label>
+                      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+                        <button class="btn btn-dark btn-sm" type="button" onclick="crear_tabla_manual();">Crear tabla</button>
+                        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="$('#modal_config_matriz').hide();">Cerrar</button>
+                      </div>
+                      <span id="aviso_manual" style="font-size:13px; display:none;"></span>
+                    </div>
+                  </form>
+                </div>
               </div>
 
               <div id="tbl_matriz_wrap">
