@@ -380,15 +380,42 @@ if ($_SESSION['administrador'] == 1):
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
 <script>
-// Lógica para omitir el valor base en la concatenación
+// Lógica para omitir el valor base en la concatenación y actualizar el selector de orden
 document.addEventListener('DOMContentLoaded', function() {
   var chkOmitir = document.getElementById('chk_omitir_base');
+  var inputBase = document.getElementById('input_valor_base');
+  var ordenSelect = document.getElementById('input_orden_concat');
+  // Opciones completas y reducidas
+  var opcionesCompleto = [
+    {v:'col-fila-base', t:'Columna + Fila + Base'},
+    {v:'fila-col-base', t:'Fila + Columna + Base'},
+    {v:'base-col-fila', t:'Base + Columna + Fila'},
+    {v:'base-fila-col', t:'Base + Fila + Columna'},
+    {v:'col-base-fila', t:'Columna + Base + Fila'},
+    {v:'fila-base-col', t:'Fila + Base + Columna'}
+  ];
+  var opcionesSinBase = [
+    {v:'col-fila', t:'Columna + Fila'},
+    {v:'fila-col', t:'Fila + Columna'}
+  ];
+  function setOpcionesOrden(soloFilaCol) {
+    if (!ordenSelect) return;
+    ordenSelect.innerHTML = '';
+    var opts = soloFilaCol ? opcionesSinBase : opcionesCompleto;
+    opts.forEach(function(opt) {
+      var o = document.createElement('option');
+      o.value = opt.v;
+      o.textContent = opt.t;
+      ordenSelect.appendChild(o);
+    });
+  }
   if (chkOmitir) {
     chkOmitir.addEventListener('change', function() {
-      // Si se omite, deshabilitar el input de valor base
-      var inputBase = document.getElementById('input_valor_base');
       if (inputBase) inputBase.disabled = chkOmitir.checked;
+      setOpcionesOrden(chkOmitir.checked);
     });
+    // Inicializar según el estado actual
+    setOpcionesOrden(chkOmitir.checked);
   }
 });
 </script>

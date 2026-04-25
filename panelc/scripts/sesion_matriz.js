@@ -206,6 +206,8 @@ function renderizar_matriz(registros) {
             case 'base-fila-col': return (omitirBase ? '' : base) + filaPad + semana;
             case 'col-base-fila': return semana + (omitirBase ? '' : base) + filaPad;
             case 'fila-base-col': return filaPad + (omitirBase ? '' : base) + semana;
+            case 'col-fila': return semana + filaPad;
+            case 'fila-col': return filaPad + semana;
             default: return semana + filaPad + (omitirBase ? '' : base);
         }
     }
@@ -278,6 +280,8 @@ function toggle_celda(celda, forzar) {
             case 'base-fila-col': return (omitirBase ? '' : base) + filaPad + semana;
             case 'col-base-fila': return semana + (omitirBase ? '' : base) + filaPad;
             case 'fila-base-col': return filaPad + (omitirBase ? '' : base) + semana;
+            case 'col-fila': return semana + filaPad;
+            case 'fila-col': return filaPad + semana;
             default: return semana + filaPad + (omitirBase ? '' : base);
         }
     }
