@@ -212,7 +212,7 @@ if ($_SESSION['administrador'] == 1):
 
               <!-- Botón para abrir modal de configuración -->
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
-                <button class="btn btn-outline-primary btn-sm" type="button" id="btn_modal_config" onclick="$('#modal_config_matriz').show();">Configurar tabla</button>
+                <button class="btn btn-outline-primary btn-sm" type="button" id="btn_modal_config">Configurar tabla</button>
               </div>
 
               <div id="aviso_excel" style="color:#c00; font-size:13px; margin-bottom:8px; display:none;"></div>
