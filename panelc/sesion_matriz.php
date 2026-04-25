@@ -230,7 +230,7 @@ if ($_SESSION['administrador'] == 1):
 
               <!-- Modal de configuración de matriz -->
               <div id="modal_config_matriz" class="modalmask" style="display:none;">
-                <div class="modalbox movedown" style="min-width:340px; max-width:98vw;">
+                <div class="modalbox movedown" style="min-width:340px; max-width:98vw; z-index:10001;">
                   <a href="#close" title="Cerrar" class="close" onclick="$('#modal_config_matriz').hide();">X</a>
                   <form id="form_config_matriz" style="padding:20px 10px 0 10px;">
                     <div style="font-weight:700; font-size:1.1em; margin-bottom:10px; text-align:center;">Configurar tabla</div>
@@ -395,6 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (btnConfig && modalConfig) {
     btnConfig.addEventListener('click', function() {
       modalConfig.style.display = 'block';
+      modalConfig.style.zIndex = 10000;
     });
   }
   // Cerrar modal al hacer clic en la X
