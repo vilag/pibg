@@ -463,12 +463,12 @@ function crear_tabla_manual() {
     var $aviso = $('#aviso_manual');
     $aviso.hide();
 
-    if (isNaN(n) || n < 1 || n > 999) {
-        $aviso.text('Ingresa un número de filas entre 1 y 999.').css('color', '#c00').show();
+    if (isNaN(n) || n < 1 || n > 1000) {
+        $aviso.text('Ingresa un número de filas entre 1 y 1000.').css('color', '#c00').show();
         return;
     }
-    if (isNaN(m) || m < 1 || m > 52) {
-        $aviso.text('Ingresa un número de columnas entre 1 y 52.').css('color', '#c00').show();
+    if (isNaN(m) || m < 1 || m > 1000) {
+        $aviso.text('Ingresa un número de columnas entre 1 y 1000.').css('color', '#c00').show();
         return;
     }
     if (isNaN(digFila) || digFila < 1 || digFila > 6) digFila = 3;

@@ -218,13 +218,13 @@ if ($_SESSION['administrador'] == 1):
                   <input type="file" id="input_excel" accept=".xlsx,.xls,.csv" style="font-size:13px; margin-left:6px;" onchange="leer_excel(this)">
                 </label>
                 <label style="font-size:13px; margin:0;">Filas:
-                  <input type="number" id="input_num_filas" min="1" max="999" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
+                  <input type="number" id="input_num_filas" min="1" max="1000" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
                 </label>
                 <label style="font-size:13px; margin:0;">Dígitos fila:
                   <input type="number" id="input_digitos_fila" min="1" max="6" value="3" placeholder="Dígitos fila" style="width:60px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
                 </label>
                 <label style="font-size:13px; margin:0;">Columnas:
-                  <input type="number" id="input_num_columnas" min="1" max="52" placeholder="Columnas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
+                  <input type="number" id="input_num_columnas" min="1" max="1000" placeholder="Columnas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
                 </label>
                 <label style="font-size:13px; margin:0;">Dígitos col:
                   <input type="number" id="input_digitos_col" min="1" max="6" value="2" placeholder="Dígitos col" style="width:60px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
