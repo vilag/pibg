@@ -221,8 +221,12 @@ if ($_SESSION['administrador'] == 1):
                   <label style="margin:0; font-size:13px; font-weight:600;">O crear tabla con:</label>
                   <input type="number" id="input_num_filas" min="1" max="999" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
                   <label style="margin:0; font-size:13px;">filas</label>
+                  <input type="number" id="input_digitos_fila" min="1" max="6" value="3" placeholder="Dígitos fila" style="width:60px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
+                  <label style="margin:0; font-size:13px;">dígitos fila</label>
                   <input type="number" id="input_num_columnas" min="1" max="52" placeholder="Columnas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
                   <label style="margin:0; font-size:13px;">columnas</label>
+                  <input type="number" id="input_digitos_col" min="1" max="6" value="2" placeholder="Dígitos col" style="width:60px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px;" disabled>
+                  <label style="margin:0; font-size:13px;">dígitos col</label>
                   <button class="btn btn-dark btn-sm" onclick="crear_tabla_manual();" id="btn_crear_tabla" disabled>Crear tabla</button>
                   <button class="btn btn-outline-primary btn-sm" type="button" id="btn_toggle_inputs" onclick="toggleInputsManual();">Activar edición</button>
                   <span id="aviso_manual" style="font-size:13px; display:none;"></span>
@@ -230,10 +234,12 @@ if ($_SESSION['administrador'] == 1):
                   function toggleInputsManual() {
                     var $filas = document.getElementById('input_num_filas');
                     var $cols = document.getElementById('input_num_columnas');
+                    var $digFila = document.getElementById('input_digitos_fila');
+                    var $digCol = document.getElementById('input_digitos_col');
                     var $crear = document.getElementById('btn_crear_tabla');
                     var $btn = document.getElementById('btn_toggle_inputs');
                     var disabled = $filas.disabled;
-                    $filas.disabled = $cols.disabled = $crear.disabled = !disabled;
+                    $filas.disabled = $cols.disabled = $digFila.disabled = $digCol.disabled = $crear.disabled = !disabled;
                     $btn.textContent = disabled ? 'Desactivar edición' : 'Activar edición';
                     if (!disabled) {
                       $filas.value = '';

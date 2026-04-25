@@ -8,6 +8,8 @@ var idsesion_actual = 0;
 var registros_actuales = [];
 var modo_edicion = false;
 var columnas_actuales = 52; // Por defecto
+var digitos_fila_actual = 3;
+var digitos_col_actual = 2;
 
 /* ---- Inicialización ---- */
 document.addEventListener("DOMContentLoaded", function () {
@@ -131,6 +133,11 @@ function abrir_sesion(idsesion, nombre, descripcion) {
     $.get("ajax/sesion_matriz.php?op=obtener_columnas&idsesion=" + idsesion, function (r) {
         var res = JSON.parse(r);
         columnas_actuales = res.columnas ? parseInt(res.columnas) : 52;
+        // Leer los dígitos usados en los inputs (si existen)
+        var digFila = parseInt($('#input_digitos_fila').val(), 10);
+        var digCol = parseInt($('#input_digitos_col').val(), 10);
+        digitos_fila_actual = (!isNaN(digFila) && digFila >= 1 && digFila <= 6) ? digFila : 3;
+        digitos_col_actual = (!isNaN(digCol) && digCol >= 1 && digCol <= 6) ? digCol : 2;
         construir_encabezado_matriz();
         cargar_matriz(idsesion);
     });
@@ -156,6 +163,11 @@ function cargar_matriz(idsesion) {
     $.get("ajax/sesion_matriz.php?op=obtener_columnas&idsesion=" + idsesion, function (r) {
         var res = JSON.parse(r);
         columnas_actuales = res.columnas ? parseInt(res.columnas) : 52;
+        // Leer los dígitos usados en los inputs (si existen)
+        var digFila = parseInt($('#input_digitos_fila').val(), 10);
+        var digCol = parseInt($('#input_digitos_col').val(), 10);
+        digitos_fila_actual = (!isNaN(digFila) && digFila >= 1 && digFila <= 6) ? digFila : 3;
+        digitos_col_actual = (!isNaN(digCol) && digCol >= 1 && digCol <= 6) ? digCol : 2;
         $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
         $.get("ajax/sesion_matriz.php?op=listar_registros&idsesion=" + idsesion, function (r2) {
             registros_actuales = JSON.parse(r2);
@@ -185,9 +197,9 @@ function renderizar_matriz(registros) {
             var col    = 'col_' + (i < 10 ? '0' + i : '' + i);
             var val    = parseInt(reg[col]) || 0;
             var cls    = val === 1 ? 'celda-check activa' : 'celda-check';
-            var semana = (i < 10 ? '0' : '') + i;
+            var semana = String(i).padStart(digitos_col_actual, '0');
             var numfila = idx + 1;
-            var filaPad = (numfila < 10 ? '00' : (numfila < 100 ? '0' : '')) + numfila;
+            var filaPad = String(numfila).padStart(digitos_fila_actual, '0');
             var codigo = anio + semana + filaPad;
             fila += '<td class="' + cls + '" ' +
                     'data-idregistro="' + reg.idregistro + '" ' +
@@ -407,6 +419,8 @@ function ocultar_aviso_excel() {
 function crear_tabla_manual() {
     var n = parseInt($('#input_num_filas').val(), 10);
     var m = parseInt($('#input_num_columnas').val(), 10);
+    var digFila = parseInt($('#input_digitos_fila').val(), 10) || 3;
+    var digCol = parseInt($('#input_digitos_col').val(), 10) || 2;
     var $aviso = $('#aviso_manual');
     $aviso.hide();
 
@@ -418,13 +432,15 @@ function crear_tabla_manual() {
         $aviso.text('Ingresa un número de columnas entre 1 y 52.').css('color', '#c00').show();
         return;
     }
+    if (isNaN(digFila) || digFila < 1 || digFila > 6) digFila = 3;
+    if (isNaN(digCol) || digCol < 1 || digCol > 6) digCol = 2;
 
     var nombres = [];
     for (var i = 1; i <= n; i++) {
-        nombres.push(String(i).padStart(3, '0'));
+        nombres.push(String(i).padStart(digFila, '0'));
     }
 
-    if (!confirm('Se crearán ' + n + ' filas numeradas (001–' + String(n).padStart(3,'0') + ') y ' + m + ' columnas. Esto reemplazará el listado actual. ¿Continuar?')) return;
+    if (!confirm('Se crearán ' + n + ' filas numeradas (' + String(1).padStart(digFila,'0') + '–' + String(n).padStart(digFila,'0') + ') y ' + m + ' columnas. Esto reemplazará el listado actual. ¿Continuar?')) return;
 
     // Si la sesión aún no existe, crearla primero con el número de columnas correcto
     if (!idsesion_actual || idsesion_actual === 0) {
@@ -434,24 +450,26 @@ function crear_tabla_manual() {
             var res = JSON.parse(r);
             if (res.ok && res.idsesion) {
                 idsesion_actual = res.idsesion;
-                enviar_registros_manual(nombres, m);
+                enviar_registros_manual(nombres, m, digFila, digCol);
             } else {
                 $aviso.text('Error al crear la sesión.').css('color', '#c00').show();
             }
         });
     } else {
-        enviar_registros_manual(nombres, m);
+        enviar_registros_manual(nombres, m, digFila, digCol);
     }
 }
 
-function enviar_registros_manual(nombres, columnas) {
+function enviar_registros_manual(nombres, columnas, digFila, digCol) {
     $.post('ajax/sesion_matriz.php?op=cargar_registros',
-        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas },
+        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas, digitos_fila: digFila, digitos_col: digCol },
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {
                 $('#input_num_filas').val('');
                 $('#input_num_columnas').val('');
+                $('#input_digitos_fila').val('3');
+                $('#input_digitos_col').val('2');
                 cargar_matriz(idsesion_actual);
             } else {
                 $('#aviso_manual').text('Error: ' + (res.msg || '')).css('color', '#c00').show();
