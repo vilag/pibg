@@ -243,9 +243,9 @@ function toggle_celda(celda, forzar) {
 
     // Calcular código de la celda
     var anio   = String(new Date().getFullYear()).slice(-2);
-    var semana  = (col < 10 ? '0' : '') + col;
+    var semana  = String(col).padStart(digitos_col_actual, '0');
     var numfila = $c.closest('tr').index() + 1;
-    var filaPad = (numfila < 10 ? '00' : (numfila < 100 ? '0' : '')) + numfila;
+    var filaPad = String(numfila).padStart(digitos_fila_actual, '0');
     var codigo  = anio + semana + filaPad;
 
     // Actualiza UI inmediatamente
