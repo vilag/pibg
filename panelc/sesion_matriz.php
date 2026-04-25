@@ -387,6 +387,27 @@ if ($_SESSION['administrador'] == 1):
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
 
+<script>
+// Mostrar el modal de configuración de matriz al hacer clic en el botón
+document.addEventListener('DOMContentLoaded', function() {
+  var btnConfig = document.getElementById('btn_modal_config');
+  var modalConfig = document.getElementById('modal_config_matriz');
+  if (btnConfig && modalConfig) {
+    btnConfig.addEventListener('click', function() {
+      modalConfig.style.display = 'block';
+    });
+  }
+  // Cerrar modal al hacer clic en la X
+  var closeBtn = modalConfig ? modalConfig.querySelector('.close') : null;
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modalConfig.style.display = 'none';
+    });
+  }
+});
+</script>
+
 <?php
   require "footer.php";
 ?>
