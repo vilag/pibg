@@ -232,7 +232,7 @@ if ($_SESSION['administrador'] == 1):
                   <input type="number" id="input_valor_base" min="0" max="9999" value="0" placeholder="Valor base" style="width:80px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
                 </label>
                 <label style="font-size:13px; margin:0;">Orden código:
-                  <select id="input_orden_concat" style="width:140px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
+                  <select id="input_orden_concat" style="width:240px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
                     <option value="col-fila-base">Columna + Fila + Base</option>
                     <option value="fila-col-base">Fila + Columna + Base</option>
                     <option value="base-col-fila">Base + Columna + Fila</option>
