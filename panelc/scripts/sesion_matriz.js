@@ -194,18 +194,19 @@ function renderizar_matriz(registros) {
     }
 
     var anio = String(new Date().getFullYear()).slice(-2);
-    var valorBase = parseInt($('#input_valor_base').val(), 10) || 0;
+    var omitirBase = $('#chk_omitir_base').is(':checked');
+    var valorBase = omitirBase ? '' : (parseInt($('#input_valor_base').val(), 10) || 0);
     var ordenConcat = $('#input_orden_concat').val() || 'col-fila-base';
 
     function generarCodigo(semana, filaPad, base) {
         switch (ordenConcat) {
-            case 'col-fila-base': return semana + filaPad + base;
-            case 'fila-col-base': return filaPad + semana + base;
-            case 'base-col-fila': return base + semana + filaPad;
-            case 'base-fila-col': return base + filaPad + semana;
-            case 'col-base-fila': return semana + base + filaPad;
-            case 'fila-base-col': return filaPad + base + semana;
-            default: return semana + filaPad + base;
+            case 'col-fila-base': return semana + filaPad + (omitirBase ? '' : base);
+            case 'fila-col-base': return filaPad + semana + (omitirBase ? '' : base);
+            case 'base-col-fila': return (omitirBase ? '' : base) + semana + filaPad;
+            case 'base-fila-col': return (omitirBase ? '' : base) + filaPad + semana;
+            case 'col-base-fila': return semana + (omitirBase ? '' : base) + filaPad;
+            case 'fila-base-col': return filaPad + (omitirBase ? '' : base) + semana;
+            default: return semana + filaPad + (omitirBase ? '' : base);
         }
     }
 
@@ -263,20 +264,21 @@ function toggle_celda(celda, forzar) {
 
     // Calcular código de la celda
     var anio   = String(new Date().getFullYear()).slice(-2);
+    var omitirBase = $('#chk_omitir_base').is(':checked');
     var semana  = String(col).padStart(digitos_col_actual, '0');
     var numfila = $c.closest('tr').index() + 1;
     var filaPad = String(numfila).padStart(digitos_fila_actual, '0');
-    var valorBase = parseInt($('#input_valor_base').val(), 10) || 0;
+    var valorBase = omitirBase ? '' : (parseInt($('#input_valor_base').val(), 10) || 0);
     var ordenConcat = $('#input_orden_concat').val() || 'col-fila-base';
     function generarCodigo(semana, filaPad, base) {
         switch (ordenConcat) {
-            case 'col-fila-base': return semana + filaPad + base;
-            case 'fila-col-base': return filaPad + semana + base;
-            case 'base-col-fila': return base + semana + filaPad;
-            case 'base-fila-col': return base + filaPad + semana;
-            case 'col-base-fila': return semana + base + filaPad;
-            case 'fila-base-col': return filaPad + base + semana;
-            default: return semana + filaPad + base;
+            case 'col-fila-base': return semana + filaPad + (omitirBase ? '' : base);
+            case 'fila-col-base': return filaPad + semana + (omitirBase ? '' : base);
+            case 'base-col-fila': return (omitirBase ? '' : base) + semana + filaPad;
+            case 'base-fila-col': return (omitirBase ? '' : base) + filaPad + semana;
+            case 'col-base-fila': return semana + (omitirBase ? '' : base) + filaPad;
+            case 'fila-base-col': return filaPad + (omitirBase ? '' : base) + semana;
+            default: return semana + filaPad + (omitirBase ? '' : base);
         }
     }
     var codigo  = generarCodigo(semana, filaPad, valorBase);

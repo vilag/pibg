@@ -213,6 +213,9 @@ if ($_SESSION['administrador'] == 1):
 
               <!-- Configuración de tabla y carga de Excel -->
               <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:18px; background:#f8fafd; border:1px solid #e2e8f4; border-radius:10px; padding:14px 18px;">
+                                <label style="font-size:13px; margin:0; display:flex; align-items:center; gap:4px;">
+                                  <input type="checkbox" id="chk_omitir_base" style="margin:0;"> Omitir valor base
+                                </label>
                 <label style="font-size:13px; margin:0;">Cargar listado (Excel):
                   <input type="file" id="input_excel" accept=".xlsx,.xls,.csv" style="font-size:13px; margin-left:6px;" onchange="leer_excel(this)">
                 </label>
@@ -375,6 +378,19 @@ if ($_SESSION['administrador'] == 1):
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
+<script>
+// Lógica para omitir el valor base en la concatenación
+document.addEventListener('DOMContentLoaded', function() {
+  var chkOmitir = document.getElementById('chk_omitir_base');
+  if (chkOmitir) {
+    chkOmitir.addEventListener('change', function() {
+      // Si se omite, deshabilitar el input de valor base
+      var inputBase = document.getElementById('input_valor_base');
+      if (inputBase) inputBase.disabled = chkOmitir.checked;
+    });
+  }
+});
+</script>
 
 <script>
 // Mostrar el modal de configuración de matriz al hacer clic en el botón
