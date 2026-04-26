@@ -2,6 +2,12 @@
 require "../config/Conexion.php";
 
 class Sesion_matriz {
+        // Devuelve todas las sesiones de la tabla sesion_lista
+        public function listar_sesiones()
+        {
+            $sql = "SELECT * FROM sesion_lista ORDER BY idsesion DESC";
+            return ejecutarConsulta($sql);
+        }
     // Guarda la matriz como JSON en la columna matriz_json
     public function guardar_matriz_json($idsesion, $matriz_json)
     {
