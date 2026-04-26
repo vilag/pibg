@@ -210,27 +210,29 @@ if ($_SESSION['administrador'] == 1):
                 <span id="desc_matriz" style="color:#888; font-size:13px;"></span>                <button class="btn btn-sm btn-success" style="margin-left:auto;" onclick="exportar_matriz();">&#8595; Exportar Excel</button>              </div>
 
 
-
-              <!-- Configuración de tabla y carga de Excel -->
-              <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:18px; background:#f8fafd; border:1px solid #e2e8f4; border-radius:10px; padding:14px 18px;">
-                                                <div style="background:#eaf4ff; border:1px solid #b6d4fe; border-radius:8px; padding:10px 16px; margin-bottom:8px; font-size:13px; color:#1a2744; max-width:520px;">
-                                                  <b>Formato de Excel aceptado:</b><br>
-                                                  <ul style="margin:6px 0 0 18px; padding:0;">
-                                                    <li>La <b>primera columna</b> debe contener los nombres o identificadores únicos de cada persona.</li>
-                                                    <li>Las <b>siguientes columnas</b> representan las asistencias (o checks) de cada persona.<br>
-                                                      <span style="color:#2563eb;">Cualquier valor distinto de vacío o 0 se considera marcado.</span>
-                                                    </li>
-                                                    <li>Puedes tener hasta <b>1000 columnas</b> de asistencia.</li>
-                                                    <li>Ejemplo de encabezado: <span style="background:#fffbe6; border:1px solid #ffe58f; border-radius:4px; padding:2px 6px;">Nombre | 1 | 2 | 3 | ...</span></li>
-                                                  </ul>
-                                                  <div style="margin-top:6px; color:#64748b; font-size:12px;">
-                                                    Puedes copiar y pegar desde Excel, Google Sheets, etc. El sistema ignorará filas vacías.
+              <div style="width: 100%; display: none;">
+                  <!-- Configuración de tabla y carga de Excel -->
+                  <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:18px; background:#f8fafd; border:1px solid #e2e8f4; border-radius:10px; padding:14px 18px;">
+                                                  <div style="background:#eaf4ff; border:1px solid #b6d4fe; border-radius:8px; padding:10px 16px; margin-bottom:8px; font-size:13px; color:#1a2744; max-width:520px;">
+                                                    <b>Formato de Excel aceptado:</b><br>
+                                                    <ul style="margin:6px 0 0 18px; padding:0;">
+                                                      <li>La <b>primera columna</b> debe contener los nombres o identificadores únicos de cada persona.</li>
+                                                      <li>Las <b>siguientes columnas</b> representan las asistencias (o checks) de cada persona.<br>
+                                                        <span style="color:#2563eb;">Cualquier valor distinto de vacío o 0 se considera marcado.</span>
+                                                      </li>
+                                                      <li>Puedes tener hasta <b>1000 columnas</b> de asistencia.</li>
+                                                      <li>Ejemplo de encabezado: <span style="background:#fffbe6; border:1px solid #ffe58f; border-radius:4px; padding:2px 6px;">Nombre | 1 | 2 | 3 | ...</span></li>
+                                                    </ul>
+                                                    <div style="margin-top:6px; color:#64748b; font-size:12px;">
+                                                      Puedes copiar y pegar desde Excel, Google Sheets, etc. El sistema ignorará filas vacías.
+                                                    </div>
                                                   </div>
-                                                </div>
-                                
-                <label style="font-size:13px; margin:0;">Cargar listado (Excel):
-                  <input type="file" id="input_excel" accept=".xlsx,.xls,.csv" style="font-size:13px; margin-left:6px;" onchange="leer_excel(this)">
-                </label>
+                                  
+                  <label style="font-size:13px; margin:0;">Cargar listado (Excel):
+                    <input type="file" id="input_excel" accept=".xlsx,.xls,.csv" style="font-size:13px; margin-left:6px;" onchange="leer_excel(this)">
+                  </label>
+              </div>
+              
                 <label style="font-size:13px; margin:0;">Filas:
                   <input type="number" id="input_num_filas" min="1" max="1000" placeholder="Filas" style="width:70px; padding:5px 8px; border:1px solid #ccc; border-radius:6px; font-size:13px; margin-left:4px;">
                 </label>
