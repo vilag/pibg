@@ -422,101 +422,11 @@ function buscar_celda() {
     $("#input_scanner").val('').focus();
 }
 
-/* ============================================================
-   LEER EXCEL CON SheetJS
-============================================================ */
-function leer_excel(input) {
-    var file = input.files[0];
-    if (!file) return;
 
-    var ext = file.name.split('.').pop().toLowerCase();
-    if (ext !== 'xlsx' && ext !== 'xls' && ext !== 'csv') {
-        mostrar_aviso_excel("Solo se permiten archivos .xlsx, .xls o .csv");
-        input.value = "";
-        return;
-    }
-
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        try {
-            var data    = new Uint8Array(e.target.result);
-            var wb      = XLSX.read(data, { type: 'array' });
-            var sheet   = wb.Sheets[wb.SheetNames[0]];
-            var rows    = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
-
-            if (rows.length < 1) {
-                mostrar_aviso_excel("El archivo no contiene datos.");
-                return;
-            }
-
-            // Leer matriz completa: primera columna = nombre, resto = checks (0/1, vacío, etc)
-            var matriz = [];
-            var maxCols = 0;
-            for (var i = 0; i < rows.length; i++) {
-                var row = rows[i];
-                var nombre = String(row[0] || "").trim();
-                if (nombre !== "") {
-                    if (/^\d+$/.test(nombre)) {
-                        nombre = nombre.padStart(3, '0');
-                    }
-                    // Procesar checks: todo lo que no sea vacío, 0 o "0" se considera marcado
-                    var checks = [];
-                    for (var j = 1; j < row.length && j <= 1000; j++) {
-                        var v = row[j];
-                        checks.push((v !== '' && v !== 0 && v !== '0') ? 1 : 0);
-                    }
-                    if (checks.length > maxCols) maxCols = checks.length;
-                    matriz.push({ nombre: nombre, checks: checks });
-                }
-            }
-
-            if (matriz.length === 0) {
-                mostrar_aviso_excel("No se encontraron nombres en la primera columna.");
-                return;
-            }
-
-            ocultar_aviso_excel();
-            enviar_registros_excel(matriz, maxCols);
-
-        } catch (err) {
-            mostrar_aviso_excel("Error al leer el archivo: " + err.message);
-        }
-    };
-    reader.readAsArrayBuffer(file);
-}
-
-
-function enviar_registros_excel(matriz, numCols) {
-    if (!confirm('Se cargarán ' + matriz.length + ' registro(s) y ' + numCols + ' columnas. Esto reemplazará el listado actual de esta lista. ¿Continuar?')) {
-        return;
-    }
-    $.post("ajax/sesion_matriz.php?op=cargar_registros",
-        { idsesion: idsesion_actual, matriz: JSON.stringify(matriz), columnas: numCols },
-        function (r) {
-            var res = JSON.parse(r);
-            if (res.ok) {
-                cargar_matriz(idsesion_actual);
-            } else {
-                alert("Error al cargar registros: " + (res.msg || ""));
-            }
-        }
-    );
-}
-
-/* ============================================================
-   UTILIDADES
-============================================================ */
+// UTILIDAD: Escapar texto para HTML/atributos
 function escapar(str) {
     if (!str) return "";
     return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/"/g, "&quot;");
-}
-
-function mostrar_aviso_excel(msg) {
-    $("#aviso_excel").text(msg).show();
-}
-
-function ocultar_aviso_excel() {
-    $("#aviso_excel").hide().text("");
 }
 
 /* ============================================================
@@ -567,7 +477,7 @@ function crear_tabla_manual() {
 }
 
 function enviar_registros_manual(nombres, columnas, digFila, digCol) {
-    $.post('ajax/sesion_matriz.php?op=cargar_registros',
+    $.post('ajax/sesion_matriz.php?op=guardar_matriz_manual',
         { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas, digitos_fila: digFila, digitos_col: digCol },
         function (r) {
             var res = JSON.parse(r);
@@ -575,8 +485,6 @@ function enviar_registros_manual(nombres, columnas, digFila, digCol) {
                 // No restablecer los valores de dígitos, mantener los que el usuario eligió
                 $('#input_num_filas').val('');
                 $('#input_num_columnas').val('');
-                // $('#input_digitos_fila').val('3');
-                // $('#input_digitos_col').val('2');
                 cargar_matriz(idsesion_actual);
             } else {
                 $('#aviso_manual').text('Error: ' + (res.msg || '')).css('color', '#c00').show();

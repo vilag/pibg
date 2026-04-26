@@ -13,6 +13,33 @@ $sm = new Sesion_matriz();
 
 switch ($_GET['op'] ?? '') {
 
+    case 'guardar_matriz_manual':
+        $idsesion = (int)($_POST['idsesion'] ?? 0);
+        $nombres = isset($_POST['nombres']) ? json_decode($_POST['nombres'], true) : [];
+        $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : 0;
+        $digitos_fila = isset($_POST['digitos_fila']) ? (int)$_POST['digitos_fila'] : 3;
+        $digitos_col = isset($_POST['digitos_col']) ? (int)$_POST['digitos_col'] : 2;
+        if ($idsesion === 0 || !is_array($nombres) || $columnas < 1 || $columnas > 1000) {
+            echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
+            break;
+        }
+        // Generar estructura JSON: filas, columnas, checks
+        $matriz = [
+            'filas' => $nombres,
+            'columnas' => [],
+            'checks' => []
+        ];
+        for ($i = 1; $i <= $columnas; $i++) {
+            $matriz['columnas'][] = str_pad($i, $digitos_col, '0', STR_PAD_LEFT);
+        }
+        foreach ($nombres as $nombre) {
+            $matriz['checks'][] = array_fill(0, $columnas, 0);
+        }
+        $matriz_json = json_encode($matriz);
+        $ok = $sm->guardar_matriz_json($idsesion, $matriz_json);
+        echo json_encode(['ok' => (bool)$ok]);
+        break;
+
     case 'obtener_columnas':
         $idsesion = (int)($_GET['idsesion'] ?? 0);
         $row = $sm->obtener_sesion($idsesion);
@@ -83,23 +110,7 @@ switch ($_GET['op'] ?? '') {
     /* ============================================================
        REGISTROS (cargar desde Excel vía JS)
     ============================================================ */
-    case 'cargar_registros':
-        $idsesion = (int)($_POST['idsesion'] ?? 0);
-        $matriz_raw = $_POST['matriz'] ?? '';
-        $matriz = json_decode($matriz_raw, true);
-        $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : null;
-        if (!is_array($matriz) || $idsesion === 0) {
-            echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
-            break;
-        }
-        // Si se especifica columnas, guardar en la sesión
-        if ($columnas !== null && $columnas >= 1 && $columnas <= 1000) {
-            $sm->actualizar_columnas_sesion($idsesion, $columnas);
-        }
-        // Guardar la matriz como JSON
-        $r = $sm->guardar_matriz_json($idsesion, $matriz_raw);
-        echo json_encode(['ok' => (bool)$r]);
-        break;
+
     // Nuevo endpoint para obtener la matriz JSON de una sesión
     case 'obtener_matriz':
         $idsesion = (int)($_GET['idsesion'] ?? 0);
