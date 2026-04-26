@@ -298,6 +298,8 @@ if ($_SESSION['administrador'] == 1):
                 Activa el modo edición para marcar / desmarcar celdas con clic.
               </div>
 
+              <div id="info_matriz_config" style="margin-bottom:10px; font-size:14px; color:#1D4268; display:none;"></div>
+
               <!-- ===== GRÁFICAS ===== -->
               <div id="seccion_graficas" style="margin-top:28px;">
 

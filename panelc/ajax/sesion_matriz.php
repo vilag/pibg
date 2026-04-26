@@ -26,12 +26,19 @@ switch ($_GET['op'] ?? '') {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
         }
-        // Generar estructura JSON: filas, columnas, checks, codigos
+        // Generar estructura JSON: filas, columnas, checks, codigos, config
         $matriz = [
             'filas' => $nombres,
             'columnas' => [],
             'checks' => [],
-            'codigos' => []
+            'codigos' => [],
+            'config' => [
+                'digitos_fila' => $digitos_fila,
+                'digitos_col' => $digitos_col,
+                'orden_codigo' => $orden_codigo,
+                'valor_base' => $valor_base,
+                'omitir_base' => $omitir_base
+            ]
         ];
         for ($i = 1; $i <= $columnas; $i++) {
             $matriz['columnas'][] = str_pad($i, $digitos_col, '0', STR_PAD_LEFT);

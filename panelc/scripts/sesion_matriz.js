@@ -13,6 +13,9 @@ var digitos_col_actual = 2;
 
 /* ---- Inicialización ---- */
 document.addEventListener("DOMContentLoaded", function () {
+    // Valores por defecto para los campos de dígitos
+    $('#input_digitos_fila').val(2);
+    $('#input_digitos_col').val(2);
     construir_encabezado_matriz();
     listar_sesiones();
 });
@@ -173,13 +176,31 @@ function cargar_matriz(idsesion) {
         }
         if (!matriz_json_actual || !Array.isArray(matriz_json_actual.filas) || !Array.isArray(matriz_json_actual.columnas) || !Array.isArray(matriz_json_actual.checks)) {
             $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; color:#888; padding:20px;">Sin registros. Carga un archivo Excel.</td></tr>');
+            $('#info_matriz_config').hide();
             actualizar_graficas();
             return;
         }
         columnas_actuales = matriz_json_actual.columnas.length;
         construir_encabezado_matriz();
+        mostrar_configuracion_matriz();
         renderizar_matriz_json();
     });
+
+// Muestra la configuración de la matriz sobre la tabla
+function mostrar_configuracion_matriz() {
+    if (!matriz_json_actual) { $('#info_matriz_config').hide(); return; }
+    var filas = matriz_json_actual.filas ? matriz_json_actual.filas.length : 0;
+    var columnas = matriz_json_actual.columnas ? matriz_json_actual.columnas.length : 0;
+    var config = matriz_json_actual.config || {};
+    var digitosFila = config.digitos_fila || 2;
+    var digitosCol = config.digitos_col || 2;
+    var ordenCodigo = config.orden_codigo || '';
+    var valorBase = config.valor_base !== undefined ? config.valor_base : '';
+    var omitirBase = config.omitir_base ? 'Sí' : 'No';
+    var ejemplo = (matriz_json_actual.codigos && matriz_json_actual.codigos[0] && matriz_json_actual.codigos[0][0]) ? matriz_json_actual.codigos[0][0] : '';
+    var html = '<b>Configuración:</b> ' + filas + ' filas, ' + columnas + ' columnas, dígitos fila: ' + digitosFila + ', dígitos columna: ' + digitosCol + ', orden: ' + ordenCodigo + ', base: ' + valorBase + ', omitir base: ' + omitirBase + (ejemplo ? ', ejemplo: ' + ejemplo : '');
+    $('#info_matriz_config').html(html).show();
+}
 }
 
 function renderizar_matriz_json() {
@@ -434,7 +455,7 @@ function escapar(str) {
 function crear_tabla_manual() {
     var n = parseInt($('#input_num_filas').val(), 10);
     var m = parseInt($('#input_num_columnas').val(), 10);
-    var digFila = parseInt($('#input_digitos_fila').val(), 10) || 3;
+    var digFila = parseInt($('#input_digitos_fila').val(), 10) || 2;
     var digCol = parseInt($('#input_digitos_col').val(), 10) || 2;
     var $aviso = $('#aviso_manual');
     $aviso.hide();
