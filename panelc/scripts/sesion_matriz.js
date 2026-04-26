@@ -427,9 +427,17 @@ function buscar_celda() {
 
     $aviso.hide();
 
-    // Si no está activa, activarla; si ya está activa, no hacer nada
+    // Si no está activa, activarla visualmente y en memoria, pero NO modificar el texto
     if (!$celda.hasClass('activa')) {
-        toggle_celda($celda[0], true);
+        $celda.addClass('activa');
+        $celda.data('val', 1);
+        // Actualizar checks en memoria si es modo JSON
+        var filaIdx = $celda.data('fila');
+        var colIdx = $celda.data('col');
+        if (typeof filaIdx !== 'undefined' && typeof colIdx !== 'undefined' && matriz_json_actual && matriz_json_actual.checks && matriz_json_actual.checks[filaIdx]) {
+            matriz_json_actual.checks[filaIdx][colIdx] = 1;
+            guardar_matriz_json();
+        }
     }
 
     // Scroll hacia la celda y resaltado temporal
