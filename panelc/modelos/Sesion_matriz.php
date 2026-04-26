@@ -43,7 +43,6 @@ class Sesion_matriz {
         }
         return true;
     }
-{
     // Guardar el número de columnas para la sesión
     public function actualizar_columnas_sesion($idsesion, $columnas)
     {
