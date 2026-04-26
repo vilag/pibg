@@ -1,3 +1,21 @@
+    // Guarda la matriz como JSON en la columna matriz_json
+    public function guardar_matriz_json($idsesion, $matriz_json)
+    {
+        global $conexion;
+        $idsesion = (int)$idsesion;
+        $matriz_json_esc = $conexion->real_escape_string($matriz_json);
+        $sql = "UPDATE sesion_lista SET matriz_json='$matriz_json_esc' WHERE idsesion=$idsesion";
+        return ejecutarConsulta($sql);
+    }
+
+    // Obtiene la matriz JSON de la columna matriz_json
+    public function obtener_matriz_json($idsesion)
+    {
+        $idsesion = (int)$idsesion;
+        $sql = "SELECT matriz_json FROM sesion_lista WHERE idsesion = $idsesion";
+        $row = ejecutarConsultaSimpleFila($sql);
+        return $row ? $row['matriz_json'] : null;
+    }
 <?php
 require "../config/Conexion.php";
 

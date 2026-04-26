@@ -88,14 +88,6 @@ switch ($_GET['op'] ?? '') {
         $matriz_raw = $_POST['matriz'] ?? '';
         $matriz = json_decode($matriz_raw, true);
         $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : null;
-        // Log temporal para depuración
-        file_put_contents('/tmp/debug_matriz.log', print_r([
-            'idsesion' => $idsesion,
-            'matriz_raw_length' => strlen($matriz_raw),
-            'matriz_is_array' => is_array($matriz),
-            'columnas' => $columnas,
-            'matriz_count' => is_array($matriz) ? count($matriz) : 'N/A'
-        ], true), FILE_APPEND);
         if (!is_array($matriz) || $idsesion === 0) {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
@@ -104,8 +96,19 @@ switch ($_GET['op'] ?? '') {
         if ($columnas !== null && $columnas >= 1 && $columnas <= 1000) {
             $sm->actualizar_columnas_sesion($idsesion, $columnas);
         }
-        $r = $sm->insertar_matriz_excel($idsesion, $matriz, $columnas);
+        // Guardar la matriz como JSON
+        $r = $sm->guardar_matriz_json($idsesion, $matriz_raw);
         echo json_encode(['ok' => (bool)$r]);
+        break;
+    // Nuevo endpoint para obtener la matriz JSON de una sesión
+    case 'obtener_matriz':
+        $idsesion = (int)($_GET['idsesion'] ?? 0);
+        if ($idsesion === 0) {
+            echo json_encode(['ok' => false, 'msg' => 'ID inválido']);
+            break;
+        }
+        $matriz_json = $sm->obtener_matriz_json($idsesion);
+        echo $matriz_json ? $matriz_json : json_encode(['ok' => false, 'msg' => 'No hay matriz']);
         break;
 
     case 'listar_registros':

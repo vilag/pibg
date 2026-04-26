@@ -159,27 +159,87 @@ function regresar_sesiones() {
 /* ============================================================
    MATRIZ – carga desde servidor
 ============================================================ */
+
+// Nueva estructura: matriz_json = { filas: [...], columnas: [...], checks: [[...], ...] }
+var matriz_json_actual = null;
+
 function cargar_matriz(idsesion) {
-    // Antes de cargar la matriz, volver a consultar el número de columnas por si cambió
-    $.get("ajax/sesion_matriz.php?op=obtener_columnas&idsesion=" + idsesion, function (r) {
-        var res = JSON.parse(r);
-        columnas_actuales = res.columnas ? parseInt(res.columnas) : 52;
-        // Leer los dígitos usados en los inputs (si existen)
-        var digFila = parseInt($('#input_digitos_fila').val(), 10);
-        var digCol = parseInt($('#input_digitos_col').val(), 10);
-        // Si los inputs están vacíos, mantener los valores actuales
-        if (!isNaN(digFila) && digFila >= 1 && digFila <= 6) {
-            digitos_fila_actual = digFila;
+    $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
+    $.get("ajax/sesion_matriz.php?op=obtener_matriz&idsesion=" + idsesion, function (r) {
+        try {
+            matriz_json_actual = JSON.parse(r);
+        } catch (e) {
+            matriz_json_actual = null;
         }
-        if (!isNaN(digCol) && digCol >= 1 && digCol <= 6) {
-            digitos_col_actual = digCol;
+        if (!matriz_json_actual || !Array.isArray(matriz_json_actual.filas) || !Array.isArray(matriz_json_actual.columnas) || !Array.isArray(matriz_json_actual.checks)) {
+            $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; color:#888; padding:20px;">Sin registros. Carga un archivo Excel.</td></tr>');
+            actualizar_graficas();
+            return;
         }
-        $("#tbody_matriz").html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; padding:16px;">Cargando...</td></tr>');
-        $.get("ajax/sesion_matriz.php?op=listar_registros&idsesion=" + idsesion, function (r2) {
-            registros_actuales = JSON.parse(r2);
-            construir_encabezado_matriz();
-            renderizar_matriz(registros_actuales);
-        });
+        columnas_actuales = matriz_json_actual.columnas.length;
+        construir_encabezado_matriz();
+        renderizar_matriz_json();
+    });
+}
+
+function renderizar_matriz_json() {
+    var tbody = $("#tbody_matriz");
+    tbody.empty();
+    if (!matriz_json_actual || !Array.isArray(matriz_json_actual.filas) || !Array.isArray(matriz_json_actual.columnas)) {
+        tbody.html('<tr><td colspan="' + (columnas_actuales + 1) + '" style="text-align:center; color:#888; padding:20px;">Sin registros. Carga un archivo Excel.</td></tr>');
+        actualizar_graficas();
+        return;
+    }
+    var filas = matriz_json_actual.filas;
+    var columnas = matriz_json_actual.columnas;
+    var checks = matriz_json_actual.checks;
+    for (var i = 0; i < filas.length; i++) {
+        var fila = '<tr>';
+        fila += '<td title="' + filas[i] + '">' + filas[i] + '</td>';
+        for (var j = 0; j < columnas.length; j++) {
+            var val = (checks[i] && checks[i][j]) ? 1 : 0;
+            var cls = val === 1 ? 'celda-check activa' : 'celda-check';
+            fila += '<td class="' + cls + '" data-fila="' + i + '" data-col="' + j + '" data-val="' + val + '" onclick="toggle_celda_json(this);">';
+            // Puedes personalizar el código mostrado aquí si lo deseas
+            fila += '';
+            fila += '</td>';
+        }
+        fila += '</tr>';
+        tbody.append(fila);
+    }
+    actualizar_graficas();
+}
+
+function toggle_celda_json(celda) {
+    if (!modo_edicion) return;
+    var $c = $(celda);
+    var filaIdx = parseInt($c.data("fila"));
+    var colIdx = parseInt($c.data("col"));
+    var val_actual = parseInt($c.data("val")) || 0;
+    var nuevo_val = val_actual === 1 ? 0 : 1;
+    // Actualiza en memoria
+    if (matriz_json_actual && matriz_json_actual.checks && matriz_json_actual.checks[filaIdx]) {
+        matriz_json_actual.checks[filaIdx][colIdx] = nuevo_val;
+    }
+    // Actualiza UI
+    if (nuevo_val === 1) {
+        $c.addClass("activa");
+    } else {
+        $c.removeClass("activa");
+    }
+    $c.data("val", nuevo_val);
+    // Guarda toda la matriz
+    guardar_matriz_json();
+}
+
+function guardar_matriz_json() {
+    if (!idsesion_actual || !matriz_json_actual) return;
+    $.post("ajax/sesion_matriz.php?op=cargar_registros", {
+        idsesion: idsesion_actual,
+        matriz: JSON.stringify(matriz_json_actual),
+        columnas: matriz_json_actual.columnas.length
+    }, function (r) {
+        // Opcional: manejar respuesta
     });
 }
 
