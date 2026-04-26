@@ -647,27 +647,7 @@ function actualizar_graficas() {
         ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
         ctx_p.style.height = ctx_p.parentElement.style.height;
 
-        _chart_personas = new Chart(ctx_p, {
-            type: 'bar',
-            data: {
-                labels: labels_p,
-                datasets: [{
-                    label: 'Semanas marcadas',
-                    data: values_p,
-                    backgroundColor: colores_p,
-                    borderRadius: 4
-            }]
-        },
-        if (!_chart_personas) {
-            var $wrap_p = $('#grafica_personas').parent();
-            $('#grafica_personas').remove();
-            $wrap_p.append('<canvas id="grafica_personas" style="min-width:400px;"></canvas>');
-            var ctx_p = document.getElementById('grafica_personas');
-            if (!ctx_p) return;
-
-            // Alto dinámico: ~22px por barra
-            ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
-            ctx_p.style.height = ctx_p.parentElement.style.height;
+        // ...existing code...
 
             _chart_personas = new Chart(ctx_p, {
                 type: 'bar',
