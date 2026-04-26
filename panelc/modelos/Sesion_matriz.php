@@ -120,7 +120,7 @@ class Sesion_matriz {
         }
         return true;
     }
-
+     // Guardar el número de columnas para la sesión
     public function listar_registros($idsesion)
     {
         $idsesion = (int)$idsesion;
