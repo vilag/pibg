@@ -88,6 +88,14 @@ switch ($_GET['op'] ?? '') {
         $matriz_raw = $_POST['matriz'] ?? '';
         $matriz = json_decode($matriz_raw, true);
         $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : null;
+        // Log temporal para depuración
+        file_put_contents('/tmp/debug_matriz.log', print_r([
+            'idsesion' => $idsesion,
+            'matriz_raw_length' => strlen($matriz_raw),
+            'matriz_is_array' => is_array($matriz),
+            'columnas' => $columnas,
+            'matriz_count' => is_array($matriz) ? count($matriz) : 'N/A'
+        ], true), FILE_APPEND);
         if (!is_array($matriz) || $idsesion === 0) {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
