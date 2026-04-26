@@ -241,7 +241,7 @@ function toggle_celda_json(celda) {
     if (matriz_json_actual && matriz_json_actual.checks && matriz_json_actual.checks[filaIdx]) {
         matriz_json_actual.checks[filaIdx][colIdx] = nuevo_val;
     }
-    // Actualiza UI
+    // Actualiza UI (solo clase y valor, NO el texto/código)
     if (nuevo_val === 1) {
         $c.addClass("activa");
     } else {
