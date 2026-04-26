@@ -1,7 +1,7 @@
 <?php
 require "../config/Conexion.php";
 
-class Sesion_matriz
+class Sesion_matriz {
 
     // Inserta registros desde Excel: nombres y checks (hasta 1000 columnas)
     public function insertar_matriz_excel($idsesion, $matriz, $numCols = 52)
