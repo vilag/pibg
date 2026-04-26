@@ -79,10 +79,10 @@ switch ($_GET['op'] ?? '') {
     ============================================================ */
     case 'cargar_registros':
         $idsesion = (int)($_POST['idsesion'] ?? 0);
-        $nombres_raw = $_POST['nombres'] ?? '';
-        $nombres = json_decode($nombres_raw, true);
+        $matriz_raw = $_POST['matriz'] ?? '';
+        $matriz = json_decode($matriz_raw, true);
         $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : null;
-        if (!is_array($nombres) || $idsesion === 0) {
+        if (!is_array($matriz) || $idsesion === 0) {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
         }
@@ -90,7 +90,7 @@ switch ($_GET['op'] ?? '') {
         if ($columnas !== null && $columnas >= 1 && $columnas <= 1000) {
             $sm->actualizar_columnas_sesion($idsesion, $columnas);
         }
-        $r = $sm->insertar_registros($idsesion, $nombres);
+        $r = $sm->insertar_matriz_excel($idsesion, $matriz, $columnas);
         echo json_encode(['ok' => (bool)$r]);
         break;
 

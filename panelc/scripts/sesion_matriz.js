@@ -1,6 +1,6 @@
 /* ============================================================
-   sesion_matriz.js
-   Gestión de sesiones + matriz de asistencia (52 columnas)
+    sesion_matriz.js
+    Gestión de sesiones + matriz de asistencia (hasta 1000 columnas)
 ============================================================ */
 
 
@@ -389,26 +389,34 @@ function leer_excel(input) {
                 return;
             }
 
-            // Tomamos primera celda de cada fila (sin omitir ninguna)
-            // Si el valor es puramente numérico, lo formateamos a 3 dígitos con ceros a la izquierda
-            var nombres = [];
+            // Leer matriz completa: primera columna = nombre, resto = checks (0/1, vacío, etc)
+            var matriz = [];
+            var maxCols = 0;
             for (var i = 0; i < rows.length; i++) {
-                var val = String(rows[i][0] || "").trim();
-                if (val !== "") {
-                    if (/^\d+$/.test(val)) {
-                        val = val.padStart(3, '0');
+                var row = rows[i];
+                var nombre = String(row[0] || "").trim();
+                if (nombre !== "") {
+                    if (/^\d+$/.test(nombre)) {
+                        nombre = nombre.padStart(3, '0');
                     }
-                    nombres.push(val);
+                    // Procesar checks: todo lo que no sea vacío, 0 o "0" se considera marcado
+                    var checks = [];
+                    for (var j = 1; j < row.length && j <= 1000; j++) {
+                        var v = row[j];
+                        checks.push((v !== '' && v !== 0 && v !== '0') ? 1 : 0);
+                    }
+                    if (checks.length > maxCols) maxCols = checks.length;
+                    matriz.push({ nombre: nombre, checks: checks });
                 }
             }
 
-            if (nombres.length === 0) {
+            if (matriz.length === 0) {
                 mostrar_aviso_excel("No se encontraron nombres en la primera columna.");
                 return;
             }
 
             ocultar_aviso_excel();
-            enviar_registros(nombres);
+            enviar_registros_excel(matriz, maxCols);
 
         } catch (err) {
             mostrar_aviso_excel("Error al leer el archivo: " + err.message);
@@ -417,18 +425,17 @@ function leer_excel(input) {
     reader.readAsArrayBuffer(file);
 }
 
-function enviar_registros(nombres) {
-    if (!confirm('Se cargarán ' + nombres.length + ' registro(s). Esto reemplazará el listado actual de esta lista. ¿Continuar?')) {
+
+function enviar_registros_excel(matriz, numCols) {
+    if (!confirm('Se cargarán ' + matriz.length + ' registro(s) y ' + numCols + ' columnas. Esto reemplazará el listado actual de esta lista. ¿Continuar?')) {
         return;
     }
-
     $.post("ajax/sesion_matriz.php?op=cargar_registros",
-        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres) },
+        { idsesion: idsesion_actual, matriz: JSON.stringify(matriz), columnas: numCols },
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {
                 cargar_matriz(idsesion_actual);
-                // Refrescar conteo en lista
             } else {
                 alert("Error al cargar registros: " + (res.msg || ""));
             }
@@ -548,7 +555,7 @@ function actualizar_graficas() {
 
     if (!nombres.length) return;
 
-    var total_posible = nombres.length * 52;
+    var total_posible = nombres.length * columnas_actuales;
     var pct_general   = total_posible > 0 ? Math.round((total_marcadas / total_posible) * 100) : 0;
 
     // ---- Gráfica general (doughnut) ----
@@ -610,7 +617,7 @@ function actualizar_graficas() {
     $('#stats_general').html(
         '<b>' + total_marcadas + '</b> celdas marcadas<br>' +
         '<b>' + (total_posible - total_marcadas) + '</b> pendientes<br>' +
-        '<b>' + total_posible + '</b> total posible (' + nombres.length + ' personas × 52)<br>' +
+        '<b>' + total_posible + '</b> total posible (' + nombres.length + ' personas × ' + columnas_actuales + ')<br>' +
         '<b>' + pct_general + '%</b> avance global'
     );
 
@@ -623,7 +630,7 @@ function actualizar_graficas() {
     var labels_p  = datos_ord.map(function(d) { return d.nombre; });
     var values_p  = datos_ord.map(function(d) { return d.avance; });
     var colores_p = values_p.map(function(v) {
-        var pct = v / 52;
+        var pct = columnas_actuales > 0 ? v / columnas_actuales : 0;
         if (pct >= 0.8) return '#28a745';
         if (pct >= 0.4) return '#f0ad4e';
         return '#dc3545';
@@ -651,56 +658,56 @@ function actualizar_graficas() {
                     borderRadius: 4
             }]
         },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: function(c) {
-                            var pct = Math.round((c.raw / 52) * 100);
-                            return ' ' + c.raw + ' / 52  (' + pct + '%)';
+        if (!_chart_personas) {
+            var $wrap_p = $('#grafica_personas').parent();
+            $('#grafica_personas').remove();
+            $wrap_p.append('<canvas id="grafica_personas" style="min-width:400px;"></canvas>');
+            var ctx_p = document.getElementById('grafica_personas');
+            if (!ctx_p) return;
+
+            // Alto dinámico: ~22px por barra
+            ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
+            ctx_p.style.height = ctx_p.parentElement.style.height;
+
+            _chart_personas = new Chart(ctx_p, {
+                type: 'bar',
+                data: {
+                    labels: labels_p,
+                    datasets: [{
+                        label: 'Columnas marcadas',
+                        data: values_p,
+                        backgroundColor: colores_p,
+                        borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(c) {
+                                var pct = columnas_actuales > 0 ? Math.round((c.raw / columnas_actuales) * 100) : 0;
+                                return ' ' + c.raw + ' / ' + columnas_actuales + '  (' + pct + '%)';
+                            }
                         }
                     }
-                }
-            },
-            scales: {
-                x: {
-                    min: 0,
-                    max: 52,
-                    ticks: { stepSize: 4, font: { size: 11 } },
-                    grid: { color: '#e2e8f4' }
                 },
-                y: {
-                    ticks: { font: { size: 11 } }
+                scales: {
+                    x: {
+                        min: 0,
+                        max: columnas_actuales,
+                        ticks: { stepSize: 4, font: { size: 11 } },
+                    }
                 }
             }
+            });
+        } else {
+            _chart_personas.data.datasets[0].data = values_p;
+            _chart_personas.update();
         }
-    });
-    } else {
-        // Actualizar datos del chart existente
-        _chart_personas.data.labels = labels_p;
-        _chart_personas.data.datasets[0].data = values_p;
-        _chart_personas.data.datasets[0].backgroundColor = colores_p;
-        _chart_personas.update();
-    }
-}
-
-/* ============================================================
-   EXPORTAR TABLA A EXCEL (con gráficas incrustadas — ExcelJS)
-============================================================ */
-async function exportar_matriz() {
-
-    var wb = new ExcelJS.Workbook();
-    wb.creator = 'PIBG';
-
-    /* ---- Hoja 1: Matriz ---- */
-    var ws = wb.addWorksheet('Matriz');
-
-    // Anchos de columna
-    ws.getColumn(1).width = 28;
     for (var c = 2; c <= 53; c++) ws.getColumn(c).width = 9;
 
     // Encabezado
