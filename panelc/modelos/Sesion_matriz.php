@@ -9,7 +9,7 @@ class Sesion_matriz
         global $conexion;
         $idsesion = (int)$idsesion;
         $columnas = (int)$columnas;
-        if ($columnas < 1 || $columnas > 52) return false;
+        if ($columnas < 1 || $columnas > 1000) return false;
         $sql = "UPDATE sesion_lista SET columnas=$columnas WHERE idsesion=$idsesion";
         return ejecutarConsulta($sql);
     }
@@ -40,7 +40,7 @@ class Sesion_matriz
         $nombre      = $conexion->real_escape_string(trim($nombre));
         $descripcion = $conexion->real_escape_string(trim($descripcion));
         $columnas    = (int)$columnas;
-        if ($columnas < 1 || $columnas > 52) $columnas = 52;
+        if ($columnas < 1 || $columnas > 1000) $columnas = 52;
         $sql = "INSERT INTO sesion_lista (nombre, descripcion, columnas) VALUES ('$nombre', '$descripcion', $columnas)";
         ejecutarConsulta($sql);
         return $conexion->insert_id;

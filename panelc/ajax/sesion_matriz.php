@@ -87,7 +87,7 @@ switch ($_GET['op'] ?? '') {
             break;
         }
         // Si se especifica columnas, guardar en la sesión
-        if ($columnas !== null && $columnas >= 1 && $columnas <= 52) {
+        if ($columnas !== null && $columnas >= 1 && $columnas <= 1000) {
             $sm->actualizar_columnas_sesion($idsesion, $columnas);
         }
         $r = $sm->insertar_registros($idsesion, $nombres);
