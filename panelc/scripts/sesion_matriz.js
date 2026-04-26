@@ -688,7 +688,21 @@ function actualizar_graficas() {
             _chart_personas.data.datasets[0].data = values_p;
             _chart_personas.update();
         }
-    for (var c = 2; c <= 53; c++) ws.getColumn(c).width = 9;
+    }
+
+// ===========================================================
+// EXPORTAR MATRIZ A EXCEL (async)
+// ===========================================================
+async function exportar_matriz() {
+    // Crear workbook ExcelJS
+    if (typeof ExcelJS === 'undefined') {
+        alert('ExcelJS no está cargado.');
+        return;
+    }
+    var wb = new ExcelJS.Workbook();
+    var ws = wb.addWorksheet('Matriz');
+
+    for (var c = 2; c <= columnas_actuales + 1; c++) ws.getColumn(c).width = 9;
 
     // Encabezado
     var headers = ['Nombre'];
@@ -723,7 +737,7 @@ function actualizar_graficas() {
         });
     });
 
-    /* ---- Hoja 2: Gráficas ---- */
+    // ---- Hoja 2: Gráficas ----
     var wsG = wb.addWorksheet('Gráficas');
     wsG.getColumn(1).width = 2;   // margen izquierdo
 
@@ -759,12 +773,14 @@ function actualizar_graficas() {
         });
     }
 
-    /* ---- Descargar ---- */
+    // ---- Descargar ----
     var nombre = ($('#titulo_matriz').text().trim() || 'matriz').replace(/[^a-z0-9_\-]/gi, '_');
     var buffer = await wb.xlsx.writeBuffer();
     var blob   = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     var a      = document.createElement('a');
+
     a.href     = URL.createObjectURL(blob);
     a.download = nombre + '.xlsx';
     a.click();
 }
+
