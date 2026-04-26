@@ -19,21 +19,44 @@ switch ($_GET['op'] ?? '') {
         $columnas = isset($_POST['columnas']) ? (int)$_POST['columnas'] : 0;
         $digitos_fila = isset($_POST['digitos_fila']) ? (int)$_POST['digitos_fila'] : 3;
         $digitos_col = isset($_POST['digitos_col']) ? (int)$_POST['digitos_col'] : 2;
+        $orden_codigo = $_POST['orden_codigo'] ?? 'col-fila-base';
+        $valor_base = $_POST['valor_base'] ?? '0';
+        $omitir_base = isset($_POST['omitir_base']) ? (int)$_POST['omitir_base'] : 0;
         if ($idsesion === 0 || !is_array($nombres) || $columnas < 1 || $columnas > 1000) {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
         }
-        // Generar estructura JSON: filas, columnas, checks
+        // Generar estructura JSON: filas, columnas, checks, codigos
         $matriz = [
             'filas' => $nombres,
             'columnas' => [],
-            'checks' => []
+            'checks' => [],
+            'codigos' => []
         ];
         for ($i = 1; $i <= $columnas; $i++) {
             $matriz['columnas'][] = str_pad($i, $digitos_col, '0', STR_PAD_LEFT);
         }
-        foreach ($nombres as $nombre) {
+        foreach ($nombres as $idx_fila => $nombre) {
             $matriz['checks'][] = array_fill(0, $columnas, 0);
+            $codigos_fila = [];
+            $filaPad = str_pad($idx_fila + 1, $digitos_fila, '0', STR_PAD_LEFT);
+            for ($j = 1; $j <= $columnas; $j++) {
+                $colPad = str_pad($j, $digitos_col, '0', STR_PAD_LEFT);
+                $base = $omitir_base ? '' : $valor_base;
+                switch ($orden_codigo) {
+                    case 'col-fila-base': $codigo = $colPad . $filaPad . $base; break;
+                    case 'fila-col-base': $codigo = $filaPad . $colPad . $base; break;
+                    case 'base-col-fila': $codigo = $base . $colPad . $filaPad; break;
+                    case 'base-fila-col': $codigo = $base . $filaPad . $colPad; break;
+                    case 'col-base-fila': $codigo = $colPad . $base . $filaPad; break;
+                    case 'fila-base-col': $codigo = $filaPad . $base . $colPad; break;
+                    case 'col-fila': $codigo = $colPad . $filaPad; break;
+                    case 'fila-col': $codigo = $filaPad . $colPad; break;
+                    default: $codigo = $colPad . $filaPad . $base; break;
+                }
+                $codigos_fila[] = $codigo;
+            }
+            $matriz['codigos'][] = $codigos_fila;
         }
         $matriz_json = json_encode($matriz);
         $ok = $sm->guardar_matriz_json($idsesion, $matriz_json);

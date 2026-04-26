@@ -193,16 +193,15 @@ function renderizar_matriz_json() {
     var filas = matriz_json_actual.filas;
     var columnas = matriz_json_actual.columnas;
     var checks = matriz_json_actual.checks;
+    var codigos = matriz_json_actual.codigos || null;
     for (var i = 0; i < filas.length; i++) {
         var fila = '<tr>';
         fila += '<td title="' + filas[i] + '">' + filas[i] + '</td>';
         for (var j = 0; j < columnas.length; j++) {
             var val = (checks[i] && checks[i][j]) ? 1 : 0;
             var cls = val === 1 ? 'celda-check activa' : 'celda-check';
-            fila += '<td class="' + cls + '" data-fila="' + i + '" data-col="' + j + '" data-val="' + val + '" onclick="toggle_celda_json(this);">';
-            // Puedes personalizar el código mostrado aquí si lo deseas
-            fila += '';
-            fila += '</td>';
+            var codigo = codigos && codigos[i] && codigos[i][j] ? codigos[i][j] : '';
+            fila += '<td class="' + cls + '" data-fila="' + i + '" data-col="' + j + '" data-val="' + val + '" onclick="toggle_celda_json(this);">' + codigo + '</td>';
         }
         fila += '</tr>';
         tbody.append(fila);
@@ -451,10 +450,15 @@ function crear_tabla_manual() {
     if (isNaN(digFila) || digFila < 1 || digFila > 6) digFila = 3;
     if (isNaN(digCol) || digCol < 1 || digCol > 6) digCol = 2;
 
+
     var nombres = [];
     for (var i = 1; i <= n; i++) {
         nombres.push(String(i).padStart(digFila, '0'));
     }
+
+    var ordenCodigo = $('#input_orden_concat').val() || 'col-fila-base';
+    var valorBase = $('#chk_omitir_base').is(':checked') ? '' : ($('#input_valor_base').val() || '0');
+    var omitirBase = $('#chk_omitir_base').is(':checked') ? 1 : 0;
 
     if (!confirm('Se crearán ' + n + ' filas numeradas (' + String(1).padStart(digFila,'0') + '–' + String(n).padStart(digFila,'0') + ') y ' + m + ' columnas. Esto reemplazará el listado actual. ¿Continuar?')) return;
 
@@ -477,12 +481,14 @@ function crear_tabla_manual() {
 }
 
 function enviar_registros_manual(nombres, columnas, digFila, digCol) {
+    var ordenCodigo = $('#input_orden_concat').val() || 'col-fila-base';
+    var valorBase = $('#chk_omitir_base').is(':checked') ? '' : ($('#input_valor_base').val() || '0');
+    var omitirBase = $('#chk_omitir_base').is(':checked') ? 1 : 0;
     $.post('ajax/sesion_matriz.php?op=guardar_matriz_manual',
-        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas, digitos_fila: digFila, digitos_col: digCol },
+        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas, digitos_fila: digFila, digitos_col: digCol, orden_codigo: ordenCodigo, valor_base: valorBase, omitir_base: omitirBase },
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {
-                // No restablecer los valores de dígitos, mantener los que el usuario eligió
                 $('#input_num_filas').val('');
                 $('#input_num_columnas').val('');
                 cargar_matriz(idsesion_actual);
