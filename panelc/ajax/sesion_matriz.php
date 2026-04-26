@@ -44,6 +44,9 @@ switch ($_GET['op'] ?? '') {
     ============================================================ */
     case 'listar_sesiones':
         $rs = $sm->listar_sesiones();
+        if ($rs === false) {
+            die(json_encode(['ok'=>false, 'msg'=>'Error SQL: ' . ($sm->listar_sesiones()->error ?? 'desconocido')]));
+        }
         $lista = [];
         while ($row = $rs->fetch_assoc()) {
             $lista[] = $row;
