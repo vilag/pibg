@@ -16,8 +16,6 @@
         $row = ejecutarConsultaSimpleFila($sql);
         return $row ? $row['matriz_json'] : null;
     }
-<?php
-require "../config/Conexion.php";
 
 class Sesion_matriz {
 
