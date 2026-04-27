@@ -410,6 +410,12 @@ function buscar_celda() {
     var codigo  = $.trim($("#input_scanner").val());
     var $aviso  = $("#aviso_scanner");
 
+    if (!modo_edicion) {
+        $aviso.text('Activa el modo edición antes de seleccionar celdas.').css('color', '#c00').show();
+        $("#input_scanner").val('').focus();
+        return;
+    }
+
     if (codigo === '') {
         $aviso.text('Ingresa un código.').css('color', '#c00').show();
         return;
