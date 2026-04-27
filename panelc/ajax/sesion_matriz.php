@@ -152,6 +152,26 @@ switch ($_GET['op'] ?? '') {
         echo $matriz_json ? $matriz_json : json_encode(['ok' => false, 'msg' => 'No hay matriz']);
         break;
 
+    case 'cargar_registros':
+        $idsesion    = (int)($_POST['idsesion'] ?? 0);
+        $matriz_json = $_POST['matriz'] ?? '';
+        $columnas    = isset($_POST['columnas']) ? (int)$_POST['columnas'] : 0;
+        if ($idsesion === 0 || $matriz_json === '') {
+            echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
+            break;
+        }
+        $decoded = json_decode($matriz_json, true);
+        if (!is_array($decoded)) {
+            echo json_encode(['ok' => false, 'msg' => 'JSON inválido']);
+            break;
+        }
+        $ok = $sm->guardar_matriz_json($idsesion, $matriz_json);
+        if ($columnas > 0) {
+            $sm->actualizar_columnas_sesion($idsesion, $columnas);
+        }
+        echo json_encode(['ok' => (bool)$ok]);
+        break;
+
     case 'listar_registros':
         $idsesion = (int)($_GET['idsesion'] ?? 0);
         $rs = $sm->listar_registros($idsesion);
