@@ -1,0 +1,466 @@
+/* ============================================================
+   index_custom.css
+   Estilos extraídos de index.php
+============================================================ */
+
+
+/* ---- Layout base hero ---- */
+
+.estilo_caja_texto_ini {
+	float: left;
+	margin-top: 0px;
+	z-index: 1;
+}
+
+.estilo_home {
+	height: 700px;
+}
+
+.yanone-kaffeesatz {
+	font-family: "Yanone Kaffeesatz", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 300;
+	font-style: normal;
+	font-size: 20px;
+	color: #fff;
+	line-height: 22px;
+	margin-top: 160px;
+}
+
+@media only screen and (max-width: 574px) {
+	.estilo_home {
+		height: 800px;
+	}
+}
+
+
+/* ---- Miniaturas de actividades ---- */
+
+.estilo_mini_princ1 {
+	height: 250px;
+	width: 150px;
+	float: left;
+	margin-left: 20px;
+	margin-right: 0px;
+	border-radius: 10px;
+	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+	opacity: 1;
+	margin-top: 100px;
+	transition: all 0.5s;
+}
+
+.estilo_mini_princ1:hover {
+	height: 250px;
+	width: 150px;
+	float: left;
+	margin-left: 20px;
+	margin-right: 0px;
+	border-radius: 10px;
+	box-shadow: 5px 5px 7px rgba(255, 255, 255, 0.2);
+	opacity: 1;
+	margin-top: 100px;
+	transition: all 0.5s;
+}
+
+.estilo_mini_princ1_active {
+	height: 250px;
+	width: 150px;
+	float: left;
+	margin-left: 20px;
+	margin-right: 0px;
+	border-radius: 10px;
+	box-shadow: 5px 5px 7px rgba(255, 255, 255, 0.3);
+	opacity: 1;
+	margin-top: 100px;
+	transition: all 0.5s;
+}
+
+.estilo_mini_princ1-in {
+	height: 1000px;
+	width: 150vw;
+	float: left;
+	margin-left: -100%;
+	margin-right: 10px;
+	border-radius: 10px;
+	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+	opacity: 1;
+	position: absolute;
+	display: none;
+	margin-top: -50%;
+}
+
+.estilo_back_ae {
+	background-color: transparent;
+}
+
+
+/* ---- Animaciones globales ---- */
+
+.fade-out {
+	-webkit-animation: fade-out 1s ease-out both;
+	animation: fade-out 1s ease-out both;
+}
+@-webkit-keyframes fade-out { 0% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes fade-out         { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+.fade-in {
+	-webkit-animation: fade-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
+	animation: fade-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
+}
+@-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes fade-in         { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+.slide-left {
+	-webkit-animation: slide-left .5s cubic-bezier(.25, .46, .45, .94) both;
+	animation: slide-left .5s cubic-bezier(.25, .46, .45, .94) both;
+}
+@-webkit-keyframes slide-left {
+	0%   { -webkit-transform: translateX(0);      transform: translateX(0); }
+	100% { -webkit-transform: translateX(-170px); transform: translateX(-170px); }
+}
+@keyframes slide-left {
+	0%   { -webkit-transform: translateX(0);      transform: translateX(0); }
+	100% { -webkit-transform: translateX(-170px); transform: translateX(-170px); }
+}
+
+.swing-in-left-fwd {
+	-webkit-animation: swing-in-left-fwd 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) both 3s;
+	animation: swing-in-left-fwd 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) both 3s;
+}
+@-webkit-keyframes swing-in-left-fwd {
+	0%   { -webkit-transform: rotateY(100deg); transform: rotateY(100deg); -webkit-transform-origin: left; transform-origin: left; opacity: 0; }
+	100% { -webkit-transform: rotateY(0);      transform: rotateY(0);      -webkit-transform-origin: left; transform-origin: left; opacity: 1; }
+}
+@keyframes swing-in-left-fwd {
+	0%   { -webkit-transform: rotateY(100deg); transform: rotateY(100deg); -webkit-transform-origin: left; transform-origin: left; opacity: 0; }
+	100% { -webkit-transform: rotateY(0);      transform: rotateY(0);      -webkit-transform-origin: left; transform-origin: left; opacity: 1; }
+}
+
+
+/* ---- Animación CSS palabra por palabra (verso bíblico) ---- */
+
+@keyframes verse-word-in {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.verse-word {
+	display: inline;
+	opacity: 0;
+	animation: verse-word-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
+}
+
+.verse-cite-anim {
+	display: block;
+	opacity: 0;
+	animation: verse-word-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
+}
+
+
+/* ---- Texto principal del hero ---- */
+
+.estilo_texto_activ_esp {
+	font-size: 28px;
+	color: #FFF;
+	line-height: 1.4;
+	margin: 0;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	white-space: normal;
+}
+
+.content_texto_princ {
+	height: auto;
+	min-height: 120px;
+	overflow: visible;
+}
+
+.text_secundario_estilo {
+	font-size: 20px;
+	color: #fff;
+	margin-top: 8px;
+	display: block;
+}
+
+
+/* ---- Secciones de actividades y transmisión ---- */
+
+.estilo_content_activ_dest {
+	float: left;
+	padding-top: 100px;
+	width: 1000px !important;
+	position: absolute;
+	margin-left: 50%;
+}
+
+.content_proxima_transmision {
+	width: 50%;
+	display: block;
+}
+
+.estilo_caja_about {
+	width: 33.3%;
+	height: 200px;
+	float: left;
+	border-right: #ccc 2px solid;
+	text-align: center;
+	padding: 10px 10px;
+}
+
+.estilo_caja_min {
+	width: 33.3%;
+	height: 200px;
+	float: left;
+	border-right: #ccc 2px solid;
+	text-align: center;
+	padding: 10px 10px;
+}
+
+.estilo_caja_transm {
+	width: 33.3%;
+	height: 200px;
+	float: left;
+	text-align: center;
+	padding: 10px 10px;
+}
+
+.estilo_subtitulo_about {
+	height: 130px;
+}
+
+.estilo_act_sem {
+	padding: 20px 5px;
+	text-align: center;
+	margin: 5px;
+}
+
+
+/* ---- Botones de reunión / plan anual ---- */
+
+.estilo_btn_reunion {
+	color: #ccc;
+	background-color: #24344B;
+}
+.estilo_btn_reunion:hover {
+	padding: 5px;
+	color: #ccc;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 5px;
+}
+
+.estilo_btn_plan_anual {
+	color: #ccc;
+}
+.estilo_btn_plan_anual:hover {
+	padding: 5px;
+	color: #ccc;
+	background-color: #24344B;
+	border-radius: 5px;
+}
+
+
+/* ---- Scrollbar lecturas ---- */
+
+.barra_lecturas::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+.barra_lecturas::-webkit-scrollbar-track {
+	background: rgba(212, 221, 226, 0.1);
+}
+.barra_lecturas::-webkit-scrollbar-thumb {
+	background-color: rgb(40, 57, 87);
+	border-radius: 20px;
+	border: 1px solid rgba(155, 168, 175, 0.5);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.box_lecturas_dia {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+	background-color: rgba(255, 255, 255, 0.1);
+	padding: 15px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
+	border-radius: 0px;
+}
+.box_lecturas_dia:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+/* Móvil pequeño: 260px – 574px */
+@media only screen and (min-width: 260px) and (max-width: 574px) {
+
+	.estilo_caja_texto_ini {
+		float: left;
+		margin-top: -60px;
+		z-index: 1;
+		width: 100%;
+		padding: 0 12px;
+		box-sizing: border-box;
+	}
+
+	.estilo_texto_activ_esp {
+		font-size: 16px;
+		color: #FFF;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.content_texto_princ {
+		height: auto;
+		min-height: 80px;
+		overflow: visible;
+	}
+
+	.text_secundario_estilo {
+		font-size: 14px;
+		color: #fff;
+		margin-top: 6px;
+	}
+
+	.content_proxima_transmision {
+		width: 100%;
+		display: block;
+	}
+
+	.estilo_content_activ_dest {
+		float: left;
+		padding-top: 100px;
+		width: 1000px !important;
+		position: absolute;
+		margin-left: 50%;
+		display: none;
+	}
+
+	.estilo_subtitulo_about {
+		height: 170px;
+	}
+
+	.estilo_caja_about {
+		width: 100%;
+		height: 250px;
+		float: left;
+		border-right: transparent 2px solid;
+		text-align: center;
+		padding: 10px 10px;
+	}
+
+	.estilo_caja_min {
+		width: 100%;
+		height: 250px;
+		float: left;
+		border-right: transparent 2px solid;
+		text-align: center;
+		padding: 10px 10px;
+	}
+
+	.estilo_caja_transm {
+		width: 100%;
+		height: 250px;
+		float: left;
+		text-align: center;
+		padding: 10px 10px;
+	}
+}
+
+
+/* Tablet: 575px – 1000px */
+@media only screen and (min-width: 575px) and (max-width: 1000px) {
+
+	.estilo_texto_activ_esp {
+		font-size: 18px;
+		color: #FFF;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.content_texto_princ {
+		height: auto;
+		min-height: 100px;
+		overflow: visible;
+	}
+
+	.estilo_caja_texto_ini {
+		width: 100%;
+		padding: 0 10px;
+		box-sizing: border-box;
+	}
+
+	.estilo_subtitulo_about {
+		height: 170px;
+	}
+
+	.estilo_caja_about {
+		width: 33.3%;
+		height: 200px;
+		float: left;
+		border-right: #ccc 2px solid;
+		text-align: center;
+		padding: 10px 10px;
+	}
+
+	.estilo_caja_min {
+		width: 33.3%;
+		height: 200px;
+		float: left;
+		border-right: #ccc 2px solid;
+		text-align: center;
+		padding: 10px 10px;
+	}
+
+	.estilo_caja_transm {
+		width: 33.3%;
+		height: 200px;
+		float: left;
+		text-align: center;
+		padding: 10px 10px;
+	}
+
+	.estilo_mini_princ1-in {
+		height: 1000px;
+		width: 140vw;
+		float: left;
+		margin-left: -50%;
+		margin-right: 10px;
+		border-radius: 10px;
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+		opacity: 1;
+		position: absolute;
+		display: none;
+		margin-top: -50%;
+	}
+}
+
+
+/* Desktop mediano: 1001px – 1500px */
+@media only screen and (min-width: 1001px) and (max-width: 1500px) {
+
+	.estilo_texto_activ_esp {
+		font-size: 22px;
+		color: #FFF;
+		line-height: 1.4;
+		margin: 0;
+	}
+
+	.estilo_mini_princ1-in {
+		height: 1000px;
+		width: 140vw;
+		float: left;
+		margin-left: -75%;
+		margin-right: 10px;
+		border-radius: 10px;
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+		opacity: 1;
+		position: absolute;
+		display: none;
+		margin-top: -50%;
+	}
+}
