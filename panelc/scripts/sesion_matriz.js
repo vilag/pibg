@@ -248,8 +248,9 @@ function toggle_celda_json(celda) {
         $c.removeClass("activa");
     }
     $c.data("val", nuevo_val);
-    // Guarda toda la matriz
+    // Guarda toda la matriz y actualiza gráficas
     guardar_matriz_json();
+    actualizar_graficas();
 }
 
 function guardar_matriz_json() {
@@ -444,6 +445,7 @@ function buscar_celda() {
             matriz_json_actual.checks[filaIdx][colIdx] = 1;
             guardar_matriz_json();
         }
+        actualizar_graficas();
     }
 
     // Scroll hacia la celda y resaltado temporal
