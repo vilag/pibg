@@ -437,10 +437,25 @@
 }
 
 .estilo_texto_activ_esp{
-	font-size: 28px; 
-	color: #FFF; 
-	line-height: 35px; 
+	font-size: 28px;
+	color: #FFF;
+	line-height: 35px;
 	margin: 0px 0px 0px 0px;
+}
+
+/* Animación CSS palabra por palabra (reemplaza setInterval en mostrar_texto_principal) */
+@keyframes verse-word-in {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+.verse-word {
+	display: inline;
+	opacity: 0;
+	animation: verse-word-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;
+}
+.verse-cite-anim {
+	opacity: 0;
+	animation: verse-word-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;
 }
 
 .content_texto_princ{

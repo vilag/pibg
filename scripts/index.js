@@ -673,37 +673,24 @@ function consul_sem_esp(){
 
 function mostrar_texto_principal()
 {
-	//return;
-	// var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
-	// $("#nom_activ_sem_esp").text(texto_principal);
-	// console.log(texto_principal.length);
-
-	// return;
-
-
-	$("#nom_activ_sem_esp").text("");
 	var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
 	var cita = "Juan 17:3";
-	var arr_texto_principal = texto_principal.split(' ');
-	var num_char_tp = arr_texto_principal.length;
-	var contador = 0;
-	setTimeout(() => {
-		setInterval(() => {
-			if (contador<num_char_tp) {
-				var fila = '<label class="fade-in">'+arr_texto_principal[contador]+'&nbsp;</label>';
-				$('#nom_activ_sem_esp').append(fila);
-			}
-			if (contador==(num_char_tp-1)) {
-				$("#det_activ_sem_esp").text(cita);
-				$("#det_activ_sem_esp").addClass("fade-in");
-			}
-			contador++;
-		}, 100);
-	}, 2000);
-	setTimeout(() => {
-		//count_activ_esp();
-	}, 3000);
-	
+	var palabras = texto_principal.split(' ');
+	var retardoBase = 2; // 2s de espera inicial, igual que antes
+
+	// Inyecta todas las palabras de una vez; CSS maneja el stagger con animation-delay
+	var html = palabras.map(function(p, i) {
+		var delay = (retardoBase + i * 0.1).toFixed(1);
+		return '<span class="verse-word" style="animation-delay:' + delay + 's">' + p + ' </span>';
+	}).join('');
+	$('#nom_activ_sem_esp').html(html);
+
+	// Cita bíblica: aparece justo después de la última palabra
+	var delayCita = (retardoBase + palabras.length * 0.1).toFixed(1);
+	var $cita = $('#det_activ_sem_esp');
+	$cita.removeClass('verse-cite-anim fade-in').text(cita);
+	void $cita[0].offsetWidth; // fuerza reflow para reiniciar animación
+	$cita.css('animation-delay', delayCita + 's').addClass('verse-cite-anim');
 }
 
 //var cant_activ_des = 0;
