@@ -699,45 +699,6 @@ if ($_SESSION['administrador'] == 1):
           text-align: center;
         }
 
-        /* Gráficas */
-        .sm-charts-grid {
-          display: grid;
-          grid-template-columns: 200px 1fr;
-          gap: 16px;
-          margin-top: 24px;
-          align-items: start;
-          min-width: 0;
-        }
-
-        @media (max-width: 700px) {
-          .sm-charts-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .sm-chart-card {
-          background: #f8fafd;
-          border: 1px solid #e2e8f4;
-          border-radius: 12px;
-          padding: 18px 20px;
-          min-width: 0;
-          overflow: hidden;
-        }
-
-        #wrap_grafica_personas {
-          width: 100%;
-          overflow: hidden;
-        }
-
-        .sm-chart-title {
-          font-size: .7rem;
-          font-weight: 700;
-          letter-spacing: 1.4px;
-          text-transform: uppercase;
-          color: #94a3b8;
-          margin-bottom: 14px;
-        }
-
         /* Spinner */
         #spinner_carga {
           display: none;
@@ -886,26 +847,6 @@ if ($_SESSION['administrador'] == 1):
                   Activa el modo edición para marcar / desmarcar celdas con clic.
                 </div>
 
-                <!-- Gráficas -->
-                <div id="seccion_graficas" class="sm-charts-grid" style="margin-top:24px;">
-
-                  <div class="sm-chart-card">
-                    <div class="sm-chart-title">Avance general</div>
-                    <div style="width:100%; max-width:180px; margin:0 auto;">
-                      <canvas id="grafica_general"></canvas>
-                    </div>
-                    <div id="stats_general" style="font-size:.82rem; color:#334155; line-height:1.9; margin-top:12px;">
-                    </div>
-                  </div>
-
-                  <div class="sm-chart-card">
-                    <div class="sm-chart-title">Avance por persona</div>
-                    <div id="wrap_grafica_personas" style="position:relative; width:100%;">
-                      <canvas id="grafica_personas"></canvas>
-                    </div>
-                  </div>
-
-                </div>
 
               </div><!-- /vista_matriz -->
 
@@ -973,8 +914,7 @@ if ($_SESSION['administrador'] == 1):
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
+        <script type="text/javascript" src="scripts/sesion_matriz.js?v=<?php echo rand(); ?>"></script>
 
     <script>
       /* ---- Orden de código: opciones según "omitir base" ---- */
