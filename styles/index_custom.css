@@ -147,6 +147,7 @@
 .verse-word {
 	display: inline;
 	opacity: 0;
+	white-space: nowrap;
 	animation: verse-word-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
 }
 
