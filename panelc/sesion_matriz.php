@@ -702,10 +702,11 @@ if ($_SESSION['administrador'] == 1):
         /* Gráficas */
         .sm-charts-grid {
           display: grid;
-          grid-template-columns: 220px 1fr;
+          grid-template-columns: 200px 1fr;
           gap: 16px;
           margin-top: 24px;
           align-items: start;
+          min-width: 0;
         }
 
         @media (max-width: 700px) {
@@ -719,6 +720,13 @@ if ($_SESSION['administrador'] == 1):
           border: 1px solid #e2e8f4;
           border-radius: 12px;
           padding: 18px 20px;
+          min-width: 0;
+          overflow: hidden;
+        }
+
+        #wrap_grafica_personas {
+          width: 100%;
+          overflow: hidden;
         }
 
         .sm-chart-title {
@@ -892,8 +900,8 @@ if ($_SESSION['administrador'] == 1):
 
                   <div class="sm-chart-card">
                     <div class="sm-chart-title">Avance por persona</div>
-                    <div style="overflow-x:auto;">
-                      <canvas id="grafica_personas" style="min-width:400px;"></canvas>
+                    <div id="wrap_grafica_personas" style="position:relative; width:100%;">
+                      <canvas id="grafica_personas"></canvas>
                     </div>
                   </div>
 

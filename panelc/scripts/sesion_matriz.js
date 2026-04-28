@@ -647,32 +647,31 @@ function actualizar_graficas() {
         return '#dc3545';
     });
 
+    var chartH = Math.max(200, Math.min(labels_p.length * 28, 700));
+    var stepX   = Math.max(1, Math.floor(columnas_actuales / 10));
+
     if (!_chart_personas) {
         var $wrap_p = $('#grafica_personas').parent();
         $('#grafica_personas').remove();
-        $wrap_p.append('<canvas id="grafica_personas" style="min-width:400px;"></canvas>');
+        $wrap_p.append('<canvas id="grafica_personas"></canvas>');
         var ctx_p = document.getElementById('grafica_personas');
         if (!ctx_p) return;
 
-        // Alto dinámico: ~22px por barra
-        ctx_p.parentElement.style.height = Math.max(200, labels_p.length * 24) + 'px';
-        ctx_p.style.height = ctx_p.parentElement.style.height;
+        $wrap_p.css('height', chartH + 'px');
 
-        // ...existing code...
-
-            _chart_personas = new Chart(ctx_p, {
-                type: 'bar',
-                data: {
-                    labels: labels_p,
-                    datasets: [{
-                        label: 'Columnas marcadas',
-                        data: values_p,
-                        backgroundColor: colores_p,
-                        borderRadius: 4
+        _chart_personas = new Chart(ctx_p, {
+            type: 'bar',
+            data: {
+                labels: labels_p,
+                datasets: [{
+                    label: 'Columnas marcadas',
+                    data: values_p,
+                    backgroundColor: colores_p,
+                    borderRadius: 4
                 }]
             },
             options: {
-                indexAxis: 'y',
+                indexAxis: 'y',          // Y = filas (personas),  X = columnas seleccionadas
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -687,19 +686,30 @@ function actualizar_graficas() {
                     }
                 },
                 scales: {
+                    y: {
+                        title: { display: true, text: 'Filas', font: { size: 11 }, color: '#94a3b8' },
+                        ticks: { font: { size: 10 }, maxRotation: 0 }
+                    },
                     x: {
+                        title: { display: true, text: 'Columnas seleccionadas', font: { size: 11 }, color: '#94a3b8' },
                         min: 0,
                         max: columnas_actuales,
-                        ticks: { stepSize: 4, font: { size: 11 } },
+                        ticks: { stepSize: stepX, font: { size: 10 } }
                     }
                 }
             }
-            });
-        } else {
-            _chart_personas.data.datasets[0].data = values_p;
-            _chart_personas.update();
-        }
+        });
+    } else {
+        _chart_personas.data.labels = labels_p;
+        _chart_personas.data.datasets[0].data = values_p;
+        _chart_personas.data.datasets[0].backgroundColor = colores_p;
+        _chart_personas.options.scales.x.max = columnas_actuales;
+        _chart_personas.options.scales.x.ticks.stepSize = stepX;
+        $('#wrap_grafica_personas').css('height', chartH + 'px');
+        _chart_personas.resize();
+        _chart_personas.update();
     }
+}
 
 // ===========================================================
 // EXPORTAR MATRIZ A EXCEL (async)
