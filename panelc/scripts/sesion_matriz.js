@@ -150,9 +150,6 @@ function abrir_sesion(idsesion, nombre, descripcion) {
 function regresar_sesiones() {
     idsesion_actual = 0;
     registros_actuales = [];
-    // Destruir gráficas para que no interfieran con la próxima sesión
-    if (_chart_general)  { _chart_general.destroy();  _chart_general  = null; }
-    if (_chart_personas) { _chart_personas.destroy(); _chart_personas = null; }
     $("#vista_matriz").hide();
     $("#vista_sesiones").show();
     $("#input_excel").val("");
@@ -451,7 +448,11 @@ function buscar_celda() {
     // Scroll hacia la celda y resaltado temporal
     var wrap = document.getElementById('tbl_matriz_wrap');
     var cell = $celda[0];
-    wrap.scrollTo({ left: cell.offsetLeft - 200, top: cell.offsetParent.offsetTop - 100, behavior: 'smooth' });
+    var wrapRect = wrap.getBoundingClientRect();
+    var cellRect = cell.getBoundingClientRect();
+    var scrollLeft = wrap.scrollLeft + (cellRect.left - wrapRect.left) - (wrap.clientWidth  / 2 - cellRect.width  / 2);
+    var scrollTop  = wrap.scrollTop  + (cellRect.top  - wrapRect.top)  - (wrap.clientHeight / 2 - cellRect.height / 2);
+    wrap.scrollTo({ left: Math.max(0, scrollLeft), top: Math.max(0, scrollTop), behavior: 'smooth' });
     $celda.css('outline', '3px solid #ff9800');
     setTimeout(function () { $celda.css('outline', ''); }, 1500);
 
