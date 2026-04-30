@@ -283,6 +283,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="biografias.php">
+              <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Biografías</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="transcriptor.php">
               <img src="images/iconos/voz.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Transcriptor</span>
