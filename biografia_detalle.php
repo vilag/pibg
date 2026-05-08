@@ -124,11 +124,13 @@
             color: #24344B !important;
             text-shadow: none !important;
         }
+
         .breadcrumbs ul li,
         .breadcrumbs ul li a {
             color: #24344B !important;
             text-shadow: none !important;
         }
+
         .breadcrumbs ul li:not(:last-child)::after {
             color: #24344B !important;
         }
@@ -176,7 +178,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="home_content text-center">
-                                <div class="home_title" style=" color: #3e5992 !important;">
+                                <div class="home_title" style=" color: #24344B !important;">
                                     <?php echo $nombre ?: 'Biografía'; ?>
                                 </div>
                                 <div class="breadcrumbs" style="color: #3e5992 !important;">
