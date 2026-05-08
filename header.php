@@ -85,6 +85,52 @@
 			#barra_menu.estilo_nav {
 				background-color: rgba(36,52,75,1);
 			}
+
+			/* Buscador en vivo */
+			.search_wrap { position: relative; }
+			.search_live_results {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 0; right: 0;
+				background: #fff;
+				border-radius: 0 0 10px 10px;
+				box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+				z-index: 99999;
+				max-height: 440px;
+				overflow-y: auto;
+				border-top: 3px solid #F85E0C;
+			}
+			.slr_item {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding: 11px 16px;
+				border-bottom: 1px solid #f0f0f0;
+				text-decoration: none;
+				color: #333;
+				transition: background 0.15s;
+			}
+			.slr_item:hover { background: #f5f7fa; text-decoration: none; }
+			.slr_icon {
+				width: 34px; height: 34px;
+				border-radius: 50%;
+				background: linear-gradient(135deg,#042C49,#24344B);
+				display: flex; align-items: center; justify-content: center;
+				flex-shrink: 0; color: #fff; font-size: 13px;
+			}
+			.slr_tipo  { font-size: 10px; color: #F85E0C; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+			.slr_titulo{ font-size: 13px; font-weight: 600; color: #24344B; line-height: 1.3; }
+			.slr_sub   { font-size: 11px; color: #888; }
+			.slr_ver_todos {
+				display: block; text-align: center;
+				padding: 11px; background: #24344B;
+				color: #fff !important; font-size: 13px; font-weight: 600;
+				text-decoration: none !important;
+			}
+			.slr_ver_todos:hover { background: #F85E0C; }
+			.slr_sin_res { padding: 20px; text-align: center; color: #888; font-size: 13px; }
+			.slr_cargando{ padding: 16px; text-align: center; color: #aaa; font-size: 13px; }
 		</style>
 
 		<!-- Header Content -->
@@ -113,7 +159,7 @@
 									<!-- <li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes Lumbrera</a></li> -->
 									
 								</ul>
-								<!-- <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div> -->
+								<div class="search_button" style="margin-left:16px; cursor:pointer;"><i class="fa fa-search" aria-hidden="true" style="color:#fff; font-size:16px;"></i></div>
 
 								<!-- Hamburger -->
 
@@ -134,17 +180,69 @@
 				<div class="row">
 					<div class="col">
 						<div class="header_search_content d-flex flex-row align-items-center justify-content-end">
-							<form action="#" class="header_search_form">
-								<input type="search" class="search_input" placeholder="Search" required="required">
-								<button class="header_search_button d-flex flex-column align-items-center justify-content-center">
-									<i class="fa fa-search" aria-hidden="true"></i>
-								</button>
-							</form>
+							<div class="search_wrap" style="width:100%; max-width:520px;">
+								<form action="buscar.php" method="get" class="header_search_form" autocomplete="off">
+									<input type="search" name="q" id="search_input_live" class="search_input" placeholder="Buscar predicaciones, biografías..." required="required">
+									<button class="header_search_button d-flex flex-column align-items-center justify-content-center" type="submit">
+										<i class="fa fa-search" aria-hidden="true"></i>
+									</button>
+								</form>
+								<div class="search_live_results" id="search_live_results"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<script>
+		(function () {
+			var timer;
+			var input    = document.getElementById('search_input_live');
+			var dropdown = document.getElementById('search_live_results');
+			if (!input || !dropdown) return;
+
+			input.addEventListener('input', function () {
+				clearTimeout(timer);
+				var q = this.value.trim();
+				if (q.length < 2) { dropdown.style.display = 'none'; return; }
+				dropdown.innerHTML = '<div class="slr_cargando"><i class="fa fa-spinner fa-spin"></i> Buscando...</div>';
+				dropdown.style.display = 'block';
+				timer = setTimeout(function () { buscarLive(q); }, 350);
+			});
+
+			document.addEventListener('click', function (e) {
+				if (!e.target.closest('.search_wrap')) dropdown.style.display = 'none';
+			});
+
+			function buscarLive(q) {
+				fetch('buscar_ajax.php?q=' + encodeURIComponent(q))
+					.then(function (r) { return r.json(); })
+					.then(function (data) {
+						if (!data.length) {
+							dropdown.innerHTML = '<div class="slr_sin_res">Sin resultados para "<b>' + q + '</b>"</div>';
+						} else {
+							var html = data.map(function (r) {
+								return '<a href="' + r.url + '" class="slr_item">' +
+									'<div class="slr_icon"><i class="fa ' + r.icono + '"></i></div>' +
+									'<div>' +
+										'<div class="slr_tipo">' + r.tipo + '</div>' +
+										'<div class="slr_titulo">' + r.titulo + '</div>' +
+										(r.sub ? '<div class="slr_sub">' + r.sub + '</div>' : '') +
+									'</div>' +
+								'</a>';
+							}).join('');
+							html += '<a href="buscar.php?q=' + encodeURIComponent(q) + '" class="slr_ver_todos">' +
+								'<i class="fa fa-list" style="margin-right:6px;"></i>Ver todos los resultados' +
+							'</a>';
+							dropdown.innerHTML = html;
+						}
+						dropdown.style.display = 'block';
+					})
+					.catch(function () { dropdown.style.display = 'none'; });
+			}
+		})();
+		</script>
 	</header>
 
 	<!-- Menu -->
