@@ -73,10 +73,16 @@
 			</div>
 		</div>
 		<style>
-			.estilo_nav_index{
+			/* Default: fondo azul oscuro para que logo y letras blancas sean visibles */
+			#barra_menu {
+				background-color: #24344B;
+			}
+			/* Index page - transparente al inicio (index.js aplica esta clase) */
+			#barra_menu.estilo_nav_index {
 				background-color: rgba(255,255,255,0);
 			}
-			.estilo_nav{
+			/* Al hacer scroll (index.js aplica esta clase) */
+			#barra_menu.estilo_nav {
 				background-color: rgba(36,52,75,1);
 			}
 		</style>
