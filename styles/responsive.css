@@ -558,5 +558,150 @@
 
 @media only screen and (max-width: 400px)
 {
-	
+
+}
+
+/************
+15. Responsive móvil — correcciones generales
+************/
+
+/* Evitar que cualquier elemento rompa el ancho del viewport */
+body, .super_container {
+	overflow-x: hidden;
+	max-width: 100vw;
+}
+
+/* Footer: logo y texto */
+.footer_about_text p {
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+.copyright {
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
+/* Header: logo principal no se desborda */
+.logo_principal {
+	display: block;
+}
+
+/* Bio_grid: en pantallas muy pequeñas, una columna */
+.bio_grid {
+	grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+}
+
+@media only screen and (max-width: 575px) {
+
+	/* Footer logo más pequeño en móvil */
+	.footer .logo_img {
+		max-width: 200px !important;
+	}
+	.footer_about_text {
+		padding-top: 20px;
+	}
+
+	/* Header logo más pequeño en móvil */
+	.logo_principal {
+		max-width: 200px !important;
+	}
+
+	/* Buscador: formulario en columna en móvil */
+	.buscar_form_wrap {
+		border-radius: 10px;
+	}
+	.buscar_form_wrap input {
+		padding: 12px 16px;
+		font-size: 14px;
+	}
+	.buscar_form_wrap button {
+		padding: 12px 18px;
+	}
+
+	/* Banner de búsqueda */
+	.buscar_banner {
+		padding: 40px 0 30px;
+	}
+	.buscar_banner h1 {
+		font-size: 26px;
+	}
+
+	/* Resultados de búsqueda */
+	.buscar_item {
+		gap: 10px;
+		padding: 12px 0;
+	}
+	.bi_icon {
+		width: 38px;
+		height: 38px;
+		font-size: 15px;
+	}
+	.bi_titulo {
+		font-size: 14px;
+	}
+	.bi_sub {
+		font-size: 12px;
+	}
+
+	/* Top bar: ocultar en móvil (ya definido en 767px, refuerzo) */
+	.top_bar_contact_list li:nth-child(3) {
+		display: none;
+	}
+
+	/* Bio grid: forzar columna única en pantallas muy pequeñas */
+	.bio_grid {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+
+	/* Detalle de biografía: imagen a ancho completo */
+	.news_post_image img {
+		width: 100%;
+		height: auto;
+		max-height: 280px;
+		object-fit: cover;
+	}
+
+	/* Sidebar: aparece debajo del artículo en móvil (ya hace Bootstrap) */
+	.bio_header_wrap {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.bio_foto_autor {
+		margin-right: 0;
+		margin-bottom: 12px;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+
+	/* Logo aún más pequeño en pantallas muy chicas */
+	.footer .logo_img {
+		max-width: 160px !important;
+	}
+	.logo_principal {
+		max-width: 170px !important;
+	}
+
+	/* Reducir padding del banner de búsqueda */
+	.buscar_banner {
+		padding: 30px 0 20px;
+	}
+	.buscar_banner h1 {
+		font-size: 22px;
+	}
+
+	/* Bio grid: columna única garantizada */
+	.bio_grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+
+	/* Footer texto principal de la iglesia */
+	.footer_about_text {
+		padding-top: 14px;
+	}
+	.footer_about_text p {
+		font-size: 12px;
+	}
 }

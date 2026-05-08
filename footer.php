@@ -9,7 +9,7 @@
 						<div class="logo_container">
 							<a href="#">
 								<div class="logo_content d-flex flex-row align-items-end justify-content-start">
-									<div class="logo_img" style="width: 300px !important;"><img src="images/logos/logo_sf.png" alt="" style="width: 100%;"></div>
+									<div class="logo_img" style="max-width: 260px; width: 100%;"><img src="images/logos/logo_sf.png" alt="" style="width: 100%; height: auto;"></div>
 									<!-- <div class="logo_text">learn</div>-->
 								</div>
 							</a>

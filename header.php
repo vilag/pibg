@@ -142,7 +142,7 @@
 							<div class="logo_container">
 								<a href="#">
 									<div class="logo_content d-flex flex-row align-items-end justify-content-start">
-										<div class="logo_img"><a href="./"><img src="images/logos/logo_b.png" alt="" style="width: 350px !important;"></a></div>
+										<div class="logo_img"><a href="./"><img src="images/logos/logo_b.png" alt="" class="logo_principal" style="max-width: 340px; width: 100%; height: auto;"></a></div>
 										<!-- <div class="logo_text">learn</div> -->
 									</div>
 								</a>

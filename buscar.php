@@ -97,6 +97,23 @@
     }
     .buscar_vacio i { font-size: 56px; display: block; margin-bottom: 20px; color: #ddd; }
     .buscar_vacio h3 { color: #666; font-size: 20px; margin-bottom: 8px; }
+
+    @media only screen and (max-width: 575px) {
+        .buscar_banner { padding: 36px 0 28px; }
+        .buscar_banner h1 { font-size: 26px; }
+        .buscar_banner p { font-size: 13px; margin-bottom: 20px; }
+        .buscar_form_wrap { border-radius: 8px; max-width: 100%; }
+        .buscar_form_wrap input { padding: 12px 16px; font-size: 14px; }
+        .buscar_form_wrap button { padding: 12px 16px; font-size: 15px; }
+        .buscar_seccion { padding: 28px 0 0; }
+        .buscar_item { gap: 10px; padding: 12px 0; }
+        .bi_icon { width: 38px; height: 38px; font-size: 15px; flex-shrink: 0; }
+        .bi_titulo { font-size: 14px; }
+        .bi_sub { font-size: 11px; }
+        .buscar_vacio { padding: 50px 16px; }
+        .buscar_vacio i { font-size: 40px; }
+        .buscar_vacio h3 { font-size: 17px; }
+    }
 </style>
 </head>
 <body>

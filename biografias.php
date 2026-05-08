@@ -24,9 +24,13 @@
 
     .bio_grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
         gap: 30px;
         padding: 40px 0;
+    }
+    @media only screen and (max-width: 575px) {
+        .bio_grid { grid-template-columns: 1fr; gap: 20px; padding: 20px 0; }
+        .bio_section_title h2 { font-size: 26px; }
     }
     .bio_card {
         background: #fff;

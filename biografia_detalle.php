@@ -134,6 +134,15 @@
         .breadcrumbs ul li:not(:last-child)::after {
             color: #24344B !important;
         }
+
+        @media only screen and (max-width: 575px) {
+            .bio_header_wrap { flex-direction: column; align-items: flex-start; }
+            .bio_foto_autor, .bio_foto_placeholder { margin-right: 0; margin-bottom: 14px; }
+            .bio_header_info h2 { font-size: 20px; }
+            .bio_texto_completo { font-size: 14px; line-height: 1.8; }
+            .news_post_image img { height: auto; max-height: 260px; object-fit: cover; width: 100%; }
+            .bio_cargo_badge { font-size: 11px; }
+        }
     </style>
 </head>
 
