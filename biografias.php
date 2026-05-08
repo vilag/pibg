@@ -8,6 +8,20 @@
 <link rel="stylesheet" type="text/css" href="styles/about.css">
 <link rel="stylesheet" type="text/css" href="styles/about_responsive.css">
 <style>
+    /* Banner: títulos visibles sobre fondo claro */
+    .home_title {
+        color: #24344B !important;
+        text-shadow: none !important;
+    }
+    .breadcrumbs ul li,
+    .breadcrumbs ul li a {
+        color: #24344B !important;
+        text-shadow: none !important;
+    }
+    .breadcrumbs ul li:not(:last-child)::after {
+        color: #24344B !important;
+    }
+
     .bio_grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -168,11 +182,11 @@
                 <div class="row">
                     <div class="col">
                         <div class="home_content text-center">
-                            <div class="home_title" style="text-shadow:5px 5px 10px rgba(0,0,0,0.5);">Biografías</div>
+                            <div class="home_title">Biografías</div>
                             <div class="breadcrumbs">
                                 <ul>
-                                    <li><a href="./" style="text-shadow:5px 5px 10px rgba(0,0,0,0.5);">Inicio</a></li>
-                                    <li style="text-shadow:5px 5px 10px rgba(0,0,0,0.5);">Biografías</li>
+                                    <li><a href="./">Inicio</a></li>
+                                    <li>Biografías</li>
                                 </ul>
                             </div>
                         </div>

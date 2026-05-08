@@ -118,6 +118,20 @@
             color: #F85E0C;
             text-decoration: none;
         }
+
+        /* Banner: título y breadcrumbs visibles sobre fondo claro */
+        .home_title {
+            color: #24344B !important;
+            text-shadow: none !important;
+        }
+        .breadcrumbs ul li,
+        .breadcrumbs ul li a {
+            color: #24344B !important;
+            text-shadow: none !important;
+        }
+        .breadcrumbs ul li:not(:last-child)::after {
+            color: #24344B !important;
+        }
     </style>
 </head>
 
