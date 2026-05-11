@@ -124,15 +124,17 @@
 
     <?php
         require_once 'config/Conexion.php';
+        global $conexion;
 
-        $q  = isset($_GET['q']) ? limpiarCadena($_GET['q']) : '';
-        $q_display = htmlspecialchars($_GET['q'] ?? '');
+        $q_raw      = isset($_GET['q']) ? trim($_GET['q']) : '';
+        $q_display  = htmlspecialchars($q_raw);
+        $q          = $q_raw !== '' ? mysqli_real_escape_string($conexion, $q_raw) : '';
 
         $sermones   = [];
         $biografias = [];
         $actividades= [];
 
-        if (mb_strlen($q) >= 2) {
+        if (mb_strlen($q_raw, 'UTF-8') >= 2) {
             // Sermones
             $r = ejecutarConsulta("SELECT idsermones, nom_sermon, predicador, fecha_eti, imagen
                 FROM sermones

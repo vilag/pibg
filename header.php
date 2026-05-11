@@ -131,6 +131,8 @@
 			.slr_ver_todos:hover { background: #F85E0C; }
 			.slr_sin_res { padding: 20px; text-align: center; color: #888; font-size: 13px; }
 			.slr_cargando{ padding: 16px; text-align: center; color: #aaa; font-size: 13px; }
+			/* Fix: override template z-index:-1 so dropdown appears above page content */
+			.header_search_container.active { z-index: 999 !important; }
 		</style>
 
 		<!-- Header Content -->
@@ -263,6 +265,7 @@
 				<li class="menu_mm"><a href="about-us.php">Conócenos</a></li>
 				<li class="menu_mm"><a href="blog.php">Predicaciones</a></li>
 				<li class="menu_mm"><a href="biografias.php">Biografías</a></li>
+				<li class="menu_mm"><a href="buscar.php">Buscar</a></li>
 				<!-- <li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li> -->
 				<!-- <li class="menu_mm"><a href="lumbrera.php">Jóvenes Lumbrera</a></li> -->
 				<li>
