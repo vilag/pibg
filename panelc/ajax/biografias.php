@@ -10,7 +10,7 @@ switch ($_GET["op"]) {
         $rspta = $biografias->listar_biografias();
         while ($reg = $rspta->fetch_object()) {
             $imagen_html = $reg->imagen
-                ? "<img src='" . htmlspecialchars($reg->imagen) . "' style='width:50px; height:50px; object-fit:cover; border-radius:50%;'>"
+                ? "<img src='../" . htmlspecialchars($reg->imagen) . "' onerror=\"this.style.display='none'\" style='width:50px; height:50px; object-fit:cover; border-radius:50%;'>"
                 : "<span style='color:#aaa;'>Sin imagen</span>";
 
             echo '
@@ -21,7 +21,7 @@ switch ($_GET["op"]) {
                 <td>' . htmlspecialchars($reg->cargo) . '</td>
                 <td>' . date('d/m/Y', strtotime($reg->fecha_registro)) . '</td>
                 <td>
-                    <button onclick="editar_biografia(' . $reg->idbiografia . ',\'' . addslashes($reg->nombre) . '\',\'' . addslashes($reg->cargo) . '\',\'' . addslashes($reg->imagen) . '\',\'' . addslashes($reg->biografia) . '\');" style="background-color:#042C49; padding:8px 12px; border-radius:5px; border:none; color:#fff; cursor:pointer; margin-right:5px;">
+                    <button onclick="editar_biografia(' . $reg->idbiografia . ');" style="background-color:#042C49; padding:8px 12px; border-radius:5px; border:none; color:#fff; cursor:pointer; margin-right:5px;">
                         Editar
                     </button>
                     <button onclick="borrar_biografia(' . $reg->idbiografia . ');" style="background-color:rgb(129,2,2); padding:8px 12px; border-radius:5px; border:none; color:#fff; cursor:pointer;">
@@ -34,9 +34,10 @@ switch ($_GET["op"]) {
     break;
 
     case 'get_one':
+        header('Content-Type: application/json; charset=utf-8');
         $idbiografia = (int)$_GET['id'];
         $reg = $biografias->get_biografia($idbiografia);
-        echo json_encode($reg);
+        echo json_encode($reg, JSON_UNESCAPED_UNICODE);
     break;
 
     case 'guardar':
@@ -45,23 +46,23 @@ switch ($_GET["op"]) {
         $biografia = $_POST['biografia'];
         $imagen    = $_POST['imagen'];
         $rspta = $biografias->guardar_biografia($nombre, $cargo, $biografia, $imagen);
-        echo json_encode($rspta);
+        echo json_encode(['ok' => (bool)$rspta]);
     break;
 
     case 'actualizar':
-        $idbiografia = $_POST['idbiografia'];
+        $idbiografia = (int)$_POST['idbiografia'];
         $nombre      = $_POST['nombre'];
         $cargo       = $_POST['cargo'];
         $biografia   = $_POST['biografia'];
         $imagen      = $_POST['imagen'];
         $rspta = $biografias->actualizar_biografia($idbiografia, $nombre, $cargo, $biografia, $imagen);
-        echo json_encode($rspta);
+        echo json_encode(['ok' => (bool)$rspta]);
     break;
 
     case 'borrar':
-        $idbiografia = $_POST['idbiografia'];
+        $idbiografia = (int)$_POST['idbiografia'];
         $rspta = $biografias->borrar_biografia($idbiografia);
-        echo json_encode($rspta);
+        echo json_encode(['ok' => (bool)$rspta]);
     break;
 
     case 'subir_imagen':

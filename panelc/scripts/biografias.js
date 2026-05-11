@@ -61,27 +61,37 @@ function limpiar_form() {
     $("#btn_cancelar_edicion").hide();
 }
 
-function editar_biografia(id, nombre, cargo, imagen, biografia) {
-    modo_edicion = true;
-    idbiografia_editar = id;
-    $("#idbiografia_edit").val(id);
-    $("#nombre").val(nombre);
-    $("#cargo").val(cargo);
-    $("#biografia").val(biografia);
-    $("#ruta_imagen").val(imagen);
+function editar_biografia(id) {
+    $.getJSON("ajax/biografias.php?op=get_one&id=" + id, function (data) {
+        if (!data) {
+            bootbox.alert("No se pudo cargar la biografía.");
+            return;
+        }
 
-    if (imagen) {
-        $("#img_preview").attr("src", "../" + imagen).show();
-        $("#upload_estado").text("Imagen actual cargada");
-    } else {
-        $("#img_preview").hide();
-        $("#upload_estado").text("Sin imagen");
-    }
+        modo_edicion = true;
+        idbiografia_editar = id;
 
-    $("#btn_guardar").text("Actualizar");
-    $("#titulo_form").text("Editar Biografía");
-    $("#btn_cancelar_edicion").show();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+        $("#idbiografia_edit").val(id);
+        $("#nombre").val(data.nombre);
+        $("#cargo").val(data.cargo);
+        $("#biografia").val(data.biografia);
+        $("#ruta_imagen").val(data.imagen);
+
+        if (data.imagen) {
+            $("#img_preview").attr("src", "../" + data.imagen).show();
+            $("#upload_estado").text("Imagen actual cargada");
+        } else {
+            $("#img_preview").hide();
+            $("#upload_estado").text("Sin imagen");
+        }
+
+        $("#btn_guardar").text("Actualizar");
+        $("#titulo_form").text("Editar Biografía");
+        $("#btn_cancelar_edicion").show();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }).fail(function () {
+        bootbox.alert("Error al cargar los datos de la biografía.");
+    });
 }
 
 function guardar_biografia() {
@@ -102,10 +112,16 @@ function guardar_biografia() {
             cargo:     cargo,
             biografia: biografia,
             imagen:    imagen
-        }, function () {
-            bootbox.alert("Biografía actualizada correctamente.");
-            limpiar_form();
-            listar_biografias();
+        }, function (r) {
+            var resp = typeof r === "string" ? JSON.parse(r) : r;
+            if (resp.ok) {
+                bootbox.alert("Biografía actualizada correctamente.", function () {
+                    limpiar_form();
+                    listar_biografias();
+                });
+            } else {
+                bootbox.alert("Ocurrió un error al actualizar.");
+            }
         });
     } else {
         $.post("ajax/biografias.php?op=guardar", {
@@ -113,10 +129,16 @@ function guardar_biografia() {
             cargo:     cargo,
             biografia: biografia,
             imagen:    imagen
-        }, function () {
-            bootbox.alert("Biografía guardada correctamente.");
-            limpiar_form();
-            listar_biografias();
+        }, function (r) {
+            var resp = typeof r === "string" ? JSON.parse(r) : r;
+            if (resp.ok) {
+                bootbox.alert("Biografía guardada correctamente.", function () {
+                    limpiar_form();
+                    listar_biografias();
+                });
+            } else {
+                bootbox.alert("Ocurrió un error al guardar.");
+            }
         });
     }
 }
