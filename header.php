@@ -92,7 +92,7 @@
 				-webkit-hyphens: none !important;
 				-ms-hyphens: none !important;
 				word-break: normal !important;
-				overflow-wrap: normal !important;
+				overflow-wrap: break-word;
 			}
 
 			/* Default: fondo azul oscuro para que logo y letras blancas sean visibles */
