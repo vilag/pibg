@@ -432,8 +432,8 @@
             <div class="act-card__icon">
               <i class="fa fa-music"></i>
             </div>
-            <div class="act-card__title">Alabanza</div>
-            <p class="act-card__text">Adoramos a Dios a través de la música y el canto. La alabanza es parte central de nuestra reunión semanal y nuestros eventos especiales.</p>
+            <div class="act-card__title">Música</div>
+            <p class="act-card__text">Adoramos a Dios por medio de cantos e himnos que le den la Honra y Gloria a nuestro Dios y nos ayuden a conocerlo cada vez más.</p>
             <span class="act-card__badge"><i class="fa fa-calendar" style="margin-right:5px;"></i>Cada semana</span>
           </div>
         </div>
@@ -443,7 +443,7 @@
               <i class="fa fa-users"></i>
             </div>
             <div class="act-card__title">Compañerismo</div>
-            <p class="act-card__text">Construimos amistades genuinas basadas en el amor de Cristo. Convivencias, juegos y momentos compartidos que fortalecen la comunidad.</p>
+            <p class="act-card__text">Construimos amistades genuinas basadas en lo que el Señor nos enseña en Su Palabra, que nos ayuden a crecer como familia en la fe.</p>
             <span class="act-card__badge"><i class="fa fa-calendar" style="margin-right:5px;"></i>Frecuente</span>
           </div>
         </div>
@@ -473,7 +473,7 @@
               <i class="fa fa-star"></i>
             </div>
             <div class="act-card__title">Semana de la Juventud</div>
-            <p class="act-card__text">Una semana especial de predicaciones, actividades y celebración dedicada completamente a los jóvenes de la iglesia. ¡Un evento que no te puedes perder!</p>
+            <p class="act-card__text">Una semana especial de conferencias y actividades dedicadas completamente a los jóvenes de la iglesia. ¡Un evento que no te puedes perder!</p>
             <span class="act-card__badge"><i class="fa fa-calendar" style="margin-right:5px;"></i>Anual</span>
           </div>
         </div>
@@ -499,7 +499,7 @@
           <div class="sec__tag">Encuéntranos</div>
           <h2 class="sec__title">Horarios de reunión</h2>
           <p class="sec__text">
-            Todos son bienvenidos. Si eres joven o conoces a algún joven que quiera conocer a Cristo y crecer en comunidad, estas son nuestras reuniones semanales.
+            Todos son bienvenidos. Si eres joven o conoces a algún joven que quiera conocer a Cristo, estas son nuestras reuniones semanales.
           </p>
           <img src="images/jovenes/lumbrera3.jpg" alt="Retiro Juventud PIBG" class="quienes-img" style="margin-top:28px;">
         </div>
@@ -517,15 +517,15 @@
             <div>
               <div class="horario-card__day">Domingo</div>
               <div class="horario-card__name">Culto General</div>
-              <p class="horario-card__desc">Participamos juntos en el culto de adoración de toda la iglesia. La comunidad intergeneracional es parte importante de nuestra fe.</p>
+              <p class="horario-card__desc">Participamos juntos en el culto de adoración de toda la iglesia.</p>
             </div>
           </div>
           <div class="horario-card">
             <div class="horario-card__dot"><i class="fa fa-music"></i></div>
             <div>
               <div class="horario-card__day">Entre semana</div>
-              <div class="horario-card__name">Reunión de Jóvenes</div>
-              <p class="horario-card__desc">Nuestra reunión semanal especial para jóvenes: alabanza, estudio bíblico y compañerismo. Síguenos en Instagram para conocer el horario actualizado.</p>
+              <div class="horario-card__name">Reuniónes virtuales y presenciales</div>
+              <p class="horario-card__desc">Organizamos actividades entre semana: estudio bíblico y compañerismo. Síguenos en Instagram para conocer las próximas actividades.</p>
             </div>
           </div>
           <p style="font-size:13px; color:var(--gris-texto); margin-top:10px;">
@@ -544,7 +544,7 @@
       <div class="insta-sec__title">Síguenos en Instagram</div>
       <div class="insta-sec__handle">@pibg.joven</div>
       <p style="color:rgba(255,255,255,0.8); max-width:480px; margin:0 auto 28px; font-size:15px; line-height:1.6;">
-        Mantente al día con nuestras actividades, eventos y devocionales diarios. ¡Únete a la comunidad!
+        Mantente al día con nuestras actividades, eventos y devocionales diarios. 
       </p>
       <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="insta-sec__btn">
         <i class="fa fa-instagram" style="margin-right:8px;"></i>Ver perfil
