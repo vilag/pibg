@@ -467,7 +467,7 @@
           <div class="inf-sec__tag text-center">Quiénes somos</div>
           <h2 class="inf-sec__title text-center">Sembrando la Palabra<br>en corazones pequeños</h2>
           <p class="inf-sec__text">
-            El <strong>Departamento Infantil de la PIBG</strong> es el ministerio dedicado a los niños de nuestra iglesia. Creemos firmemente que la fe se forma desde la niñez y que cada niño tiene un lugar especial en el corazón de Dios y en nuestra comunidad.
+            El <strong>Departamento Infantil de la PIBG</strong> es el ministerio dedicado a los niños de nuestra iglesia. Creemos firmemente que la fe se forma desde la niñez y que cada niño tiene un lugar especial en el corazón de Dios y en nuestra iglesia.
           </p>
           <p class="inf-sec__text">
             Contamos con maestros comprometidos que semana a semana enseñan la Biblia de manera dinámica, creativa y accesible para cada edad. Aquí los niños aprenden quién es Jesús, estudian la Palabra y crecen en fe junto a otros niños.
@@ -479,7 +479,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <img src="images/infantil/quienes.jpg" onerror="this.src='images/about.jpg'" alt="Niños PIBG" class="inf-sec__img">
+          <img src="images/infantil/quienes.jpg" onerror="this.src='images/infantil/niños_clase2.jpg'" alt="Niños PIBG" class="inf-sec__img">
         </div>
       </div>
     </div>
@@ -518,7 +518,7 @@
           <div class="inf-card">
             <div class="inf-card__icon"><i class="fa fa-paint-brush"></i></div>
             <div class="inf-card__title">Manualidades</div>
-            <p class="inf-card__text">A través de la creatividad y el arte los niños refuerzan las enseñanzas bíblicas de una manera divertida y memorable.</p>
+            <p class="inf-card__text">A través de la creatividad los niños refuerzan las enseñanzas bíblicas de una manera divertida y memorable.</p>
             <span class="inf-card__badge"><i class="fa fa-calendar" style="margin-right:5px;"></i>Frecuente</span>
           </div>
         </div>
@@ -544,7 +544,7 @@
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="inf-card">
             <div class="inf-card__icon"><i class="fa fa-users"></i></div>
-            <div class="inf-card__title">Comunidad y Compañerismo</div>
+            <div class="inf-card__title">Compañerismo</div>
             <p class="inf-card__text">Los niños forman amistades dentro de la iglesia, aprendiendo a compartir, respetar y amarse los unos a los otros tal como Dios nos enseña.</p>
             <span class="inf-card__badge"><i class="fa fa-calendar" style="margin-right:5px;"></i>Cada semana</span>
           </div>
@@ -577,7 +577,7 @@
           <p class="inf-sec__text">
             Los maestros y maestras del Departamento Infantil están capacitados y comprometidos con el cuidado y la enseñanza de cada niño.
           </p>
-          <img src="images/infantil/grupo.jpg" onerror="this.src='images/about_1.jpg'" alt="Departamento Infantil PIBG" class="inf-sec__img" style="margin-top:20px;">
+          <img src="images/infantil/grupo.jpg" onerror="this.src='images/infantil/niños_clase.jpg'" alt="Departamento Infantil PIBG" class="inf-sec__img" style="margin-top:20px;">
         </div>
         <div class="col-lg-7">
 
