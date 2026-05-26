@@ -337,6 +337,59 @@
 }
 .btn-pibg--outline:hover { background: var(--naranja); color: #fff; }
 
+/* ── Galería Instagram ── */
+.ig-gallery {
+  padding: 72px 0 80px;
+  background: #fff;
+}
+.ig-gallery__header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.ig-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.ig-gallery__item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #eee;
+  border-radius: 4px;
+}
+.ig-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 380ms ease;
+}
+.ig-gallery__item:hover img {
+  transform: scale(1.06);
+}
+.ig-gallery__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(131,58,180,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+.ig-gallery__item:hover .ig-gallery__overlay {
+  opacity: 1;
+}
+.ig-gallery__overlay i {
+  font-size: 32px;
+  color: #fff;
+}
+.ig-gallery__footer {
+  text-align: center;
+  margin-top: 28px;
+}
+
 /* ── Responsive ── */
 @media (max-width: 991px) {
   .sec { padding: 60px 0; }
@@ -351,7 +404,11 @@
   .versiculo-sec { padding: 60px 0; }
   .insta-sec { padding: 54px 0; }
 }
+@media (max-width: 767px) {
+  .ig-gallery__grid { gap: 4px; }
+}
 @media (max-width: 480px) {
+  .ig-gallery__grid { grid-template-columns: repeat(2, 1fr); }
   .juventud-hero__title { font-size: 32px; }
   .act-card__icon { width: 52px; height: 52px; }
   .act-card__icon i { font-size: 20px; }
@@ -542,6 +599,60 @@
             C. Independencia 657, Zona Centro, Guadalajara, Jal.
           </p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Galería Instagram -->
+  <div class="ig-gallery">
+    <div class="container">
+      <div class="ig-gallery__header">
+        <div class="sec__tag">@pibg.joven</div>
+        <h2 class="sec__title" style="margin-bottom:0;">Momentos de la Unión</h2>
+      </div>
+      <div class="ig-gallery__grid">
+
+        <!-- Foto 1 -->
+        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
+          <img src="images/jovenes/lumbrera3.jpg" alt="Juventud PIBG">
+          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
+        </a>
+
+        <!-- Foto 2 -->
+        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
+          <img src="images/jovenes/lumbrera2.jpg" alt="Juventud PIBG">
+          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
+        </a>
+
+        <!-- Foto 3 -->
+        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
+          <img src="images/jovenes/Lumbrera.PNG" alt="Juventud PIBG">
+          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
+        </a>
+
+        <!-- Foto 4 — agrega más imágenes descargadas de Instagram en images/jovenes/ -->
+        <!-- <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
+          <img src="images/jovenes/foto4.jpg" alt="Juventud PIBG">
+          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
+        </a> -->
+
+        <!-- Foto 5 -->
+        <!-- <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
+          <img src="images/jovenes/foto5.jpg" alt="Juventud PIBG">
+          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
+        </a> -->
+
+        <!-- Foto 6 -->
+        <!-- <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
+          <img src="images/jovenes/foto6.jpg" alt="Juventud PIBG">
+          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
+        </a> -->
+
+      </div>
+      <div class="ig-gallery__footer">
+        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="btn-pibg">
+          <i class="fa fa-instagram" style="margin-right:8px;"></i>Ver más en Instagram
+        </a>
       </div>
     </div>
   </div>
