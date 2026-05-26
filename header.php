@@ -75,13 +75,15 @@
 		<style>
 			/* ── Tipografía global ── */
 			body, p, li, a, span, label, input, button,
-			textarea, select, td, th, div {
+			textarea, select, td, th {
 				font-family: 'Montserrat', sans-serif;
 			}
 			h1, h2, h3, h4, h5, h6,
 			.home_title, .section_title h2, .footer_title,
 			.course_title h3 a, .news_post_title a,
-			.about_title, .sidebar_title, .featured_title h3 a {
+			.about_title, .sidebar_title, .featured_title h3 a,
+			.juventud-hero__title, .sec__title, .act-card__title,
+			.insta-sec__title, .cta-sec__title {
 				font-family: 'Libre Baskerville', serif !important;
 			}
 			/* Evitar corte de palabras en todos los tamaños */

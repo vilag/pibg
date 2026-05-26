@@ -63,7 +63,7 @@
   margin-bottom: 18px;
 }
 .juventud-hero__title {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', serif !important;
   font-size: clamp(38px, 7vw, 72px);
   color: #fff;
   font-weight: 700;
@@ -104,7 +104,7 @@
   margin-bottom: 10px;
 }
 .sec__title {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', serif !important;
   font-size: clamp(24px, 4vw, 36px);
   color: var(--azul);
   font-weight: 700;
@@ -153,7 +153,7 @@
 }
 .act-card__icon i { font-size: 24px; color: #fff; }
 .act-card__title {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', serif !important;
   font-size: 18px;
   color: var(--azul);
   font-weight: 700;
@@ -198,7 +198,7 @@
   pointer-events: none;
 }
 .versiculo-sec__text {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', serif !important;
   font-size: clamp(20px, 3.5vw, 30px);
   color: #fff;
   line-height: 1.6;
@@ -267,7 +267,7 @@
 }
 .insta-sec__icon { font-size: 52px; color: #fff; margin-bottom: 18px; }
 .insta-sec__title {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', serif !important;
   font-size: clamp(22px, 4vw, 34px);
   font-weight: 700;
   margin-bottom: 10px;
@@ -303,7 +303,7 @@
   text-align: center;
 }
 .cta-sec__title {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Libre Baskerville', serif !important;
   font-size: clamp(22px, 4vw, 34px);
   color: var(--azul);
   font-weight: 700;
