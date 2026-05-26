@@ -181,7 +181,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">
-						<div class="header_search_content d-flex flex-row align-items-center justify-content-end">
+						<div class="header_search_content d-flex flex-row align-items-center justify-content-end" style="gap:16px;">
 							<div class="search_wrap" style="width:100%; max-width:520px;">
 								<form action="buscar.php" method="get" class="header_search_form" autocomplete="off">
 									<input type="search" name="q" id="search_input_live" class="search_input" placeholder="Buscar predicaciones, biografías..." required="required">
@@ -191,6 +191,9 @@
 								</form>
 								<div class="search_live_results" id="search_live_results"></div>
 							</div>
+							<button id="search_close_btn" type="button" title="Cerrar" style="background:none;border:none;cursor:pointer;padding:6px;flex-shrink:0;line-height:1;">
+								<i class="fa fa-times" style="color:#fff;font-size:20px;opacity:0.7;transition:opacity 200ms;"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -216,6 +219,16 @@
 			document.addEventListener('click', function (e) {
 				if (!e.target.closest('.search_wrap')) dropdown.style.display = 'none';
 			});
+
+			var closeBtn = document.getElementById('search_close_btn');
+			if (closeBtn) {
+				closeBtn.addEventListener('click', function () {
+					var container = document.querySelector('.header_search_container');
+					if (container) container.classList.remove('active');
+					input.value = '';
+					dropdown.style.display = 'none';
+				});
+			}
 
 			function buscarLive(q) {
 				fetch('buscar_ajax.php?q=' + encodeURIComponent(q))
