@@ -561,7 +561,7 @@ section
 {
 	display: block;
 	position: relative;
-	width: 40%;
+	width: 100%;
 }
 .header_search_container
 {
@@ -595,6 +595,7 @@ section
 	border: none;
 	outline: none;
 	padding-left: 20px;
+	padding-right: 50px;
 	background: transparent;
 	border-bottom: solid 2px #ff8a00;
 	color: #FFFFFF;
