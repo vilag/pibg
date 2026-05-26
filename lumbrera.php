@@ -528,6 +528,14 @@
               <p class="horario-card__desc">Organizamos actividades entre semana: estudio bíblico y compañerismo. Síguenos en Instagram para conocer las próximas actividades.</p>
             </div>
           </div>
+          <div class="horario-card">
+            <div class="horario-card__dot"><i class="fa fa-heart"></i></div>
+            <div>
+              <div class="horario-card__day">Domingo · 5:00 pm</div>
+              <div class="horario-card__name">Unión de Jóvenes</div>
+              <p class="horario-card__desc">Reunión semanal de jóvenes: adoración, estudio de la Palabra y compañerismo. Un espacio pensado para crecer juntos en la fe.</p>
+            </div>
+          </div>
           <p style="font-size:13px; color:var(--gris-texto); margin-top:10px;">
             <i class="fa fa-map-marker" style="color:var(--naranja); margin-right:6px;"></i>
             C. Independencia 657, Zona Centro, Guadalajara, Jal.
