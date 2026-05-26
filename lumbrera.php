@@ -38,7 +38,7 @@
 .juventud-hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('images/jovenes/lumbrera2.jpg');
+  background-image: url('images/fondos/jovenes.jpeg');
   background-size: cover;
   background-position: center 30%;
   filter: brightness(0.38);
@@ -401,7 +401,7 @@
           </a>
         </div>
         <div class="col-lg-6">
-          <img src="images/jovenes/lumbrera2.jpg" alt="Juventud PIBG" class="quienes-img">
+          <img src="images/fondos/jovenes.jpeg" alt="Juventud PIBG" class="quienes-img">
         </div>
       </div>
     </div>
