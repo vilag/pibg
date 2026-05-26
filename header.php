@@ -73,6 +73,23 @@
 			</div>
 		</div>
 		<style>
+			/* ── Tipografía global ── */
+			body, p, li, a, span, label, input, button,
+			textarea, select, td, th, div {
+				font-family: 'Montserrat', sans-serif;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				font-family: 'Libre Baskerville', serif;
+			}
+			/* Evitar corte de palabras en todos los tamaños */
+			* {
+				hyphens: none;
+				-webkit-hyphens: none;
+				-ms-hyphens: none;
+				word-break: normal;
+				overflow-wrap: break-word;
+			}
+
 			/* Default: fondo azul oscuro para que logo y letras blancas sean visibles */
 			#barra_menu {
 				background-color: #24344B;

@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Primera Iglesia Bautista de Guadalajara – Coro Bach">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="js/jquery-3.2.1.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
@@ -14,7 +15,7 @@
   body {
     margin: 0;
     background: #f2f4f8;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #1a1a2e;
     -webkit-font-smoothing: antialiased;
   }

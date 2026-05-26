@@ -29,9 +29,10 @@ $mysqli->close();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Lista de preguntas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+      font-family: 'Montserrat', sans-serif;
       margin: 2rem;
       background: #f7f7fb;
     }
