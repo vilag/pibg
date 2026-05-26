@@ -69,6 +69,39 @@ if (mb_strlen($q_raw, 'UTF-8') >= 2) {
             ];
         }
     }
+
+    // Páginas estáticas
+    $paginas_estaticas = [
+        [
+            'titulo'   => 'Jóvenes Lumbrera',
+            'sub'      => 'Ministerio de jóvenes · Estudio bíblico, música y compañerismo',
+            'url'      => 'lumbrera.php',
+            'icono'    => 'fa-users',
+            'keywords' => ['jóvenes', 'jovenes', 'joven', 'lumbrera', 'juventud'],
+        ],
+        [
+            'titulo'   => 'Departamento Infantil',
+            'sub'      => 'Ministerio para niños · Clases bíblicas, manualidades y EBV',
+            'url'      => 'infantil.php',
+            'icono'    => 'fa-child',
+            'keywords' => ['niños', 'ninos', 'niño', 'nino', 'infantil', 'niñez', 'ninez', 'ebv', 'escuela dominical'],
+        ],
+    ];
+    $q_lower = mb_strtolower($q_raw, 'UTF-8');
+    foreach ($paginas_estaticas as $pag) {
+        foreach ($pag['keywords'] as $kw) {
+            if (mb_strpos($q_lower, $kw) !== false || mb_strpos($kw, $q_lower) !== false) {
+                $resultados[] = [
+                    'tipo'  => 'Página',
+                    'titulo'=> $pag['titulo'],
+                    'sub'   => $pag['sub'],
+                    'url'   => $pag['url'],
+                    'icono' => $pag['icono'],
+                ];
+                break;
+            }
+        }
+    }
 }
 
 echo json_encode($resultados, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);

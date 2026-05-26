@@ -133,6 +133,7 @@
         $sermones   = [];
         $biografias = [];
         $actividades= [];
+        $paginas    = [];
 
         if (mb_strlen($q_raw, 'UTF-8') >= 2) {
             // Sermones
@@ -155,9 +156,36 @@
                 WHERE (nom_activ LIKE '%$q%' OR tema LIKE '%$q%') AND DATE(fecha_hora) >= CURDATE()
                 ORDER BY fecha_hora ASC LIMIT 10");
             if ($r) while ($row = $r->fetch_assoc()) $actividades[] = $row;
+
+            // Páginas estáticas
+            $paginas_catalogo = [
+                [
+                    'titulo'   => 'Jóvenes Lumbrera',
+                    'desc'     => 'Ministerio de jóvenes de la PIBG. Estudio bíblico, música, compañerismo, retiros y evangelismo.',
+                    'url'      => 'lumbrera.php',
+                    'icono'    => 'fa-users',
+                    'keywords' => ['jóvenes', 'jovenes', 'joven', 'lumbrera', 'juventud'],
+                ],
+                [
+                    'titulo'   => 'Departamento Infantil',
+                    'desc'     => 'Ministerio para niños de la PIBG. Clases bíblicas, manualidades, Escuela Bíblica de Vacaciones y eventos especiales.',
+                    'url'      => 'infantil.php',
+                    'icono'    => 'fa-child',
+                    'keywords' => ['niños', 'ninos', 'niño', 'nino', 'infantil', 'niñez', 'ninez', 'ebv', 'escuela dominical'],
+                ],
+            ];
+            $q_lower = mb_strtolower($q_raw, 'UTF-8');
+            foreach ($paginas_catalogo as $pag) {
+                foreach ($pag['keywords'] as $kw) {
+                    if (mb_strpos($q_lower, $kw) !== false || mb_strpos($kw, $q_lower) !== false) {
+                        $paginas[] = $pag;
+                        break;
+                    }
+                }
+            }
         }
 
-        $total = count($sermones) + count($biografias) + count($actividades);
+        $total = count($sermones) + count($biografias) + count($actividades) + count($paginas);
     ?>
 
     <!-- Banner de búsqueda -->
@@ -171,7 +199,7 @@
             <?php endif; ?>
             <form method="get" action="buscar.php">
                 <div class="buscar_form_wrap">
-                    <input type="text" name="q" value="<?php echo $q_display; ?>" placeholder="¿Qué deseas buscar?" autofocus>
+                    <input type="text" name="q" value="<?php echo $q_display; ?>" placeholder="Predicaciones, biografías, jóvenes, niños..." autofocus>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
             </form>
@@ -232,6 +260,21 @@
                                 <?php if ($b['cargo']): ?>
                                     <div class="bi_sub"><?php echo htmlspecialchars($b['cargo']); ?></div>
                                 <?php endif; ?>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
+                <?php if ($paginas): ?>
+                <div class="buscar_seccion">
+                    <div class="buscar_seccion_titulo"><i class="fa fa-file-text-o"></i> &nbsp;Páginas</div>
+                    <?php foreach ($paginas as $pg): ?>
+                        <a href="<?php echo htmlspecialchars($pg['url']); ?>" class="buscar_item">
+                            <div class="bi_icon"><i class="fa <?php echo $pg['icono']; ?>"></i></div>
+                            <div>
+                                <div class="bi_titulo"><?php echo htmlspecialchars($pg['titulo']); ?></div>
+                                <div class="bi_sub"><?php echo htmlspecialchars($pg['desc']); ?></div>
                             </div>
                         </a>
                     <?php endforeach; ?>

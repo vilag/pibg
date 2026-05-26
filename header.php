@@ -254,7 +254,7 @@
 						<div class="header_search_content d-flex flex-row align-items-center justify-content-end" style="gap:16px;">
 							<div class="search_wrap" style="width:100%; max-width:520px;">
 								<form action="buscar.php" method="get" class="header_search_form" autocomplete="off">
-									<input type="search" name="q" id="search_input_live" class="search_input" placeholder="Buscar predicaciones, biografías..." required="required">
+									<input type="search" name="q" id="search_input_live" class="search_input" placeholder="Buscar predicaciones, jóvenes, niños..." required="required">
 									<button class="header_search_button d-flex flex-column align-items-center justify-content-center" type="submit">
 										<i class="fa fa-search" aria-hidden="true"></i>
 									</button>
