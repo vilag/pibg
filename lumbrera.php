@@ -369,13 +369,13 @@
     <div class="juventud-hero__bg"></div>
     <div class="juventud-hero__content">
       <span class="juventud-hero__tag">PIBG &bull; Jóvenes</span>
-      <div class="juventud-hero__title">Juventud PIBG</div>
+      <div class="juventud-hero__title">Jóvenes Lumbrera</div>
       <p class="juventud-hero__subtitle">
         Jóvenes que crecen juntos en la fe, la Palabra de Dios y la comunidad.
       </p>
       <ul class="juventud-hero__breadcrumb">
         <li><a href="./">Inicio</a></li>
-        <li>Juventud</li>
+        <li>Jóvenes Lumbrera</li>
       </ul>
     </div>
   </div>
