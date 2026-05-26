@@ -558,7 +558,7 @@
       <div class="sec__tag" style="text-align:center;">¿Listo para unirte?</div>
       <div class="cta-sec__title">Ven y conoce a la Juventud PIBG</div>
       <p class="cta-sec__text">
-        No importa dónde estés en tu fe. Aquí encontrarás un lugar de bienvenida, amistades genuinas y la Palabra de Dios que transforma vidas.
+        Aquí encontrarás un lugar de bienvenida, amistades genuinas y la Palabra de Dios que transforma vidas.
       </p>
       <a href="./" class="btn-pibg">Ir al inicio</a>
       <a href="quien_es_jesus.php" class="btn-pibg btn-pibg--outline">¿Quién es Jesús?</a>
