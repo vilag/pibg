@@ -262,4 +262,3 @@
 </div>
 
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
-<script src="js/about.js"></script>
