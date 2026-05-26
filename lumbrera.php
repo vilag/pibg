@@ -348,7 +348,7 @@
 }
 .ig-gallery__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
 }
 .ig-gallery__item {
@@ -357,6 +357,7 @@
   overflow: hidden;
   background: #eee;
   border-radius: 4px;
+  cursor: pointer;
 }
 .ig-gallery__item img {
   width: 100%;
@@ -365,9 +366,7 @@
   display: block;
   transition: transform 380ms ease;
 }
-.ig-gallery__item:hover img {
-  transform: scale(1.06);
-}
+.ig-gallery__item:hover img { transform: scale(1.06); }
 .ig-gallery__overlay {
   position: absolute;
   inset: 0;
@@ -378,16 +377,146 @@
   opacity: 0;
   transition: opacity 280ms ease;
 }
-.ig-gallery__item:hover .ig-gallery__overlay {
-  opacity: 1;
+.ig-gallery__item:hover .ig-gallery__overlay { opacity: 1; }
+.ig-gallery__overlay i { font-size: 28px; color: #fff; }
+.ig-gallery__footer { text-align: center; margin-top: 28px; }
+
+/* Skeletons de carga */
+.ig-skeleton {
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+  background: linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);
+  background-size: 200% 100%;
+  animation: igSkel 1.4s infinite;
 }
-.ig-gallery__overlay i {
-  font-size: 32px;
-  color: #fff;
+@keyframes igSkel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ── Modal todas las fotos ── */
+.ig-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  align-items: center;
+  justify-content: center;
 }
-.ig-gallery__footer {
-  text-align: center;
-  margin-top: 28px;
+.ig-modal.active { display: flex; }
+.ig-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  cursor: pointer;
+}
+.ig-modal__box {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 14px;
+  width: 92vw;
+  max-width: 920px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+}
+.ig-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+.ig-modal__title { font-weight: 700; font-size: 14px; color: #24344B; }
+.ig-modal__close {
+  background: none; border: none;
+  font-size: 20px; color: #999;
+  cursor: pointer; line-height: 1; padding: 4px 8px;
+}
+.ig-modal__close:hover { color: #F85E0C; }
+.ig-modal__grid {
+  overflow-y: auto;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+/* ── Lightbox ── */
+.ig-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 199999;
+  align-items: center;
+  justify-content: center;
+}
+.ig-lightbox.active { display: flex; }
+.ig-lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.94);
+}
+.ig-lightbox__img-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 88vw;
+  max-height: 86vh;
+}
+.ig-lightbox__img-wrap img {
+  max-width: 100%;
+  max-height: 86vh;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+  transition: opacity 180ms ease;
+}
+.ig-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(255,255,255,0.14);
+  border: none; color: #fff;
+  font-size: 18px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 180ms;
+  display: flex; align-items: center; justify-content: center;
+}
+.ig-lightbox__nav:hover { background: rgba(255,255,255,0.28); }
+.ig-lightbox__nav--prev { left: 14px; }
+.ig-lightbox__nav--next { right: 14px; }
+.ig-lightbox__close {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 2;
+  background: rgba(255,255,255,0.14);
+  border: none; color: #fff;
+  font-size: 18px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 180ms;
+  display: flex; align-items: center; justify-content: center;
+}
+.ig-lightbox__close:hover { background: rgba(255,255,255,0.28); }
+.ig-lightbox__counter {
+  position: absolute;
+  bottom: 16px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+  background: rgba(0,0,0,0.45);
+  padding: 3px 14px;
+  border-radius: 20px;
+  pointer-events: none;
 }
 
 /* ── Responsive ── */
@@ -405,10 +534,14 @@
   .insta-sec { padding: 54px 0; }
 }
 @media (max-width: 767px) {
-  .ig-gallery__grid { gap: 4px; }
+  .ig-gallery__grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .ig-modal__grid   { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 480px) {
   .ig-gallery__grid { grid-template-columns: repeat(2, 1fr); }
+  .ig-modal__grid   { grid-template-columns: repeat(2, 1fr); }
+  .ig-lightbox__nav--prev { left: 6px; }
+  .ig-lightbox__nav--next { right: 6px; }
   .juventud-hero__title { font-size: 32px; }
   .act-card__icon { width: 52px; height: 52px; }
   .act-card__icon i { font-size: 20px; }
@@ -610,51 +743,50 @@
         <div class="sec__tag">@pibg.joven</div>
         <h2 class="sec__title" style="margin-bottom:0;">Momentos de la Unión</h2>
       </div>
-      <div class="ig-gallery__grid">
-
-        <!-- Foto 1 -->
-        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
-          <img src="images/jovenes/lumbrera3.jpg" alt="Juventud PIBG">
-          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
-        </a>
-
-        <!-- Foto 2 -->
-        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
-          <img src="images/jovenes/lumbrera2.jpg" alt="Juventud PIBG">
-          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
-        </a>
-
-        <!-- Foto 3 -->
-        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
-          <img src="images/jovenes/Lumbrera.PNG" alt="Juventud PIBG">
-          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
-        </a>
-
-        <!-- Foto 4 — agrega más imágenes descargadas de Instagram en images/jovenes/ -->
-        <!-- <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
-          <img src="images/jovenes/foto4.jpg" alt="Juventud PIBG">
-          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
-        </a> -->
-
-        <!-- Foto 5 -->
-        <!-- <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
-          <img src="images/jovenes/foto5.jpg" alt="Juventud PIBG">
-          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
-        </a> -->
-
-        <!-- Foto 6 -->
-        <!-- <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="ig-gallery__item">
-          <img src="images/jovenes/foto6.jpg" alt="Juventud PIBG">
-          <div class="ig-gallery__overlay"><i class="fa fa-instagram"></i></div>
-        </a> -->
-
+      <div class="ig-gallery__grid" id="ig_preview_grid">
+        <!-- 12 skeletons mientras cargan las fotos -->
+        <div class="ig-skeleton"></div><div class="ig-skeleton"></div>
+        <div class="ig-skeleton"></div><div class="ig-skeleton"></div>
+        <div class="ig-skeleton"></div><div class="ig-skeleton"></div>
+        <div class="ig-skeleton"></div><div class="ig-skeleton"></div>
+        <div class="ig-skeleton"></div><div class="ig-skeleton"></div>
+        <div class="ig-skeleton"></div><div class="ig-skeleton"></div>
       </div>
       <div class="ig-gallery__footer">
-        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="btn-pibg">
-          <i class="fa fa-instagram" style="margin-right:8px;"></i>Ver más en Instagram
+        <button id="ig_ver_mas_btn" class="btn-pibg" style="display:none;" onclick="openIgModal()">
+          <i class="fa fa-th" style="margin-right:8px;"></i>Ver todas las fotos
+        </button>
+        <a href="https://www.instagram.com/pibg.joven/" target="_blank" class="btn-pibg btn-pibg--outline">
+          <i class="fa fa-instagram" style="margin-right:8px;"></i>Ver en Instagram
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- Modal: todas las fotos -->
+  <div id="ig_modal" class="ig-modal">
+    <div class="ig-modal__backdrop" onclick="closeIgModal()"></div>
+    <div class="ig-modal__box">
+      <div class="ig-modal__header">
+        <div class="ig-modal__title">
+          <i class="fa fa-instagram" style="margin-right:7px;color:#833ab4;"></i>@pibg.joven &mdash; Todas las fotos
+        </div>
+        <button class="ig-modal__close" onclick="closeIgModal()"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="ig-modal__grid" id="ig_modal_grid"></div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="ig_lightbox" class="ig-lightbox">
+    <div class="ig-lightbox__backdrop" onclick="closeLightbox()"></div>
+    <button class="ig-lightbox__nav ig-lightbox__nav--prev" onclick="lbNav(-1)"><i class="fa fa-chevron-left"></i></button>
+    <div class="ig-lightbox__img-wrap">
+      <img id="lb_img" src="" alt="Juventud PIBG">
+    </div>
+    <button class="ig-lightbox__nav ig-lightbox__nav--next" onclick="lbNav(1)"><i class="fa fa-chevron-right"></i></button>
+    <button class="ig-lightbox__close" onclick="closeLightbox()"><i class="fa fa-times"></i></button>
+    <div class="ig-lightbox__counter" id="lb_counter"></div>
   </div>
 
   <!-- Instagram -->
@@ -688,6 +820,118 @@
   <?php require 'footer.php'; ?>
 
 </div><!-- /super_container -->
+
+<script>
+(function () {
+  var allPhotos = [];
+  var lbIndex   = 0;
+  var PREVIEW   = 12;
+
+  var LOCAL = [
+    { url: 'images/jovenes/lumbrera3.jpg', link: 'https://www.instagram.com/pibg.joven/' },
+    { url: 'images/jovenes/lumbrera2.jpg', link: 'https://www.instagram.com/pibg.joven/' },
+    { url: 'images/jovenes/Lumbrera.PNG',  link: 'https://www.instagram.com/pibg.joven/' },
+  ];
+
+  // Cargar fotos desde el endpoint (con caché de 1 h en el servidor)
+  fetch('ajax/instagram_lumbrera.php')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      allPhotos = (data && data.length) ? data : LOCAL;
+      renderAll();
+    })
+    .catch(function () {
+      allPhotos = LOCAL;
+      renderAll();
+    });
+
+  function renderAll() {
+    renderPreview();
+    if (allPhotos.length > PREVIEW) {
+      document.getElementById('ig_ver_mas_btn').style.display = 'inline-block';
+    }
+  }
+
+  function itemHtml(photo, index, fromModal) {
+    var url  = photo.url || photo;
+    var fn   = fromModal ? 'openLightboxFromModal' : 'openLightbox';
+    return '<div class="ig-gallery__item" onclick="' + fn + '(' + index + ')">'
+         + '<img src="' + escHtml(url) + '" alt="Juventud PIBG" loading="lazy">'
+         + '<div class="ig-gallery__overlay"><i class="fa fa-search-plus"></i></div>'
+         + '</div>';
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+  }
+
+  function renderPreview() {
+    document.getElementById('ig_preview_grid').innerHTML =
+      allPhotos.slice(0, PREVIEW).map(function (p, i) { return itemHtml(p, i, false); }).join('');
+  }
+
+  /* ── Modal ── */
+  window.openIgModal = function () {
+    document.getElementById('ig_modal_grid').innerHTML =
+      allPhotos.map(function (p, i) { return itemHtml(p, i, true); }).join('');
+    document.getElementById('ig_modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeIgModal = function () {
+    document.getElementById('ig_modal').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  /* ── Lightbox ── */
+  window.openLightbox = function (index) {
+    lbIndex = index;
+    setLbPhoto();
+    document.getElementById('ig_lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.openLightboxFromModal = function (index) {
+    closeIgModal();
+    setTimeout(function () { openLightbox(index); }, 100);
+  };
+
+  window.closeLightbox = function () {
+    document.getElementById('ig_lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.lbNav = function (dir) {
+    lbIndex = (lbIndex + dir + allPhotos.length) % allPhotos.length;
+    var img = document.getElementById('lb_img');
+    img.style.opacity = '0';
+    setTimeout(function () {
+      setLbPhoto();
+      img.style.opacity = '1';
+    }, 80);
+  };
+
+  function setLbPhoto() {
+    var p = allPhotos[lbIndex];
+    document.getElementById('lb_img').src = p.url || p;
+    document.getElementById('lb_counter').textContent =
+      (lbIndex + 1) + ' / ' + allPhotos.length;
+  }
+
+  /* ── Teclado ── */
+  document.addEventListener('keydown', function (e) {
+    var lb    = document.getElementById('ig_lightbox');
+    var modal = document.getElementById('ig_modal');
+    if (lb.classList.contains('active')) {
+      if (e.key === 'ArrowLeft')  lbNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+      if (e.key === 'Escape')     closeLightbox();
+    } else if (modal.classList.contains('active') && e.key === 'Escape') {
+      closeIgModal();
+    }
+  });
+})();
+</script>
 
 </body>
 </html>

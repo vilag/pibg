@@ -88,11 +88,11 @@
 			}
 			/* Evitar corte de palabras en todos los tamaños */
 			* {
-				hyphens: none;
-				-webkit-hyphens: none;
-				-ms-hyphens: none;
-				word-break: normal;
-				overflow-wrap: break-word;
+				hyphens: none !important;
+				-webkit-hyphens: none !important;
+				-ms-hyphens: none !important;
+				word-break: normal !important;
+				overflow-wrap: normal !important;
 			}
 
 			/* Default: fondo azul oscuro para que logo y letras blancas sean visibles */

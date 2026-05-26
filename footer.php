@@ -15,7 +15,7 @@
 							</a>
 						</div>
 						<div class="footer_about_text">
-							<p>Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</p>
+							<p>Y esta es la vida eterna: que te conozcan a ti, el único Dios <span style="white-space:nowrap">verdadero,</span> y a Jesucristo, a quien has enviado.</p>
 							<p>Juan 17.3</p>
 						</div>
 						<div class="footer_social">
