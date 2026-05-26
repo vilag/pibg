@@ -78,8 +78,11 @@
 			textarea, select, td, th, div {
 				font-family: 'Montserrat', sans-serif;
 			}
-			h1, h2, h3, h4, h5, h6 {
-				font-family: 'Libre Baskerville', serif;
+			h1, h2, h3, h4, h5, h6,
+			.home_title, .section_title h2, .footer_title,
+			.course_title h3 a, .news_post_title a,
+			.about_title, .sidebar_title, .featured_title h3 a {
+				font-family: 'Libre Baskerville', serif !important;
 			}
 			/* Evitar corte de palabras en todos los tamaños */
 			* {
