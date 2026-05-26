@@ -204,6 +204,7 @@
 									<li><a href="predicaciones.php" style="background-color: rgba(0,0,0,0); color: #fff;">Predicaciones</a></li>
 										<li><a href="biografias.php" style="background-color: rgba(0,0,0,0); color: #fff;">Biografías</a></li>
                                     <!-- <li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #fff;">Coro J.S. Bach</a></li> -->
+									<li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes</a></li>
 									<!-- <li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes Lumbrera</a></li> -->
 									
 								</ul>
@@ -324,6 +325,7 @@
 				<li class="menu_mm"><a href="about-us.php">Conócenos</a></li>
 				<li class="menu_mm"><a href="blog.php">Predicaciones</a></li>
 				<li class="menu_mm"><a href="biografias.php">Biografías</a></li>
+				<li class="menu_mm"><a href="lumbrera.php">Jóvenes</a></li>
 				<li class="menu_mm"><a href="buscar.php">Buscar</a></li>
 				<!-- <li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li> -->
 				<!-- <li class="menu_mm"><a href="lumbrera.php">Jóvenes Lumbrera</a></li> -->
