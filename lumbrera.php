@@ -570,6 +570,16 @@
     </div>
   </div>
 
+  <!-- Visión 2026 -->
+  <div style="background: linear-gradient(135deg, var(--azul) 0%, #1a2840 100%); padding: 48px 0; text-align: center;">
+    <div class="container">
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--naranja); margin-bottom: 14px;">Visión 2026</div>
+      <div style="font-family: 'Libre Baskerville', serif; font-size: clamp(18px, 3.5vw, 28px); color: #fff; line-height: 1.6; max-width: 720px; margin: 0 auto; font-style: italic;">
+        "Que Cristo sea conocido y dado a conocer en nuestra casa, comunidad y ciudad"
+      </div>
+    </div>
+  </div>
+
   <!-- Quiénes somos -->
   <div class="sec">
     <div class="container">
