@@ -277,6 +277,19 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-predicaciones" aria-expanded="false" aria-controls="ui-predicaciones">
+              <img src="images/iconos/voz.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Predicaciones</span>
+              <i class="typcn typcn-chevron-right menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-predicaciones">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="predicaciones.php">Registrar Predicación</a></li>
+                <li class="nav-item"><a class="nav-link" href="series_pred.php">Series Especiales</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="lectura_diaria.php">
               <img src="images/iconos/libro.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Plan de lectura</span>
