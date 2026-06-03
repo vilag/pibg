@@ -1,3 +1,13 @@
+<?php
+require('config/global.php');
+$_mbv_cfg = null;
+$_mbv_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+if ($_mbv_conn) {
+    $r = mysqli_query($_mbv_conn, "SELECT * FROM modal_bienvenida LIMIT 1");
+    if ($r) $_mbv_cfg = mysqli_fetch_assoc($r);
+    mysqli_close($_mbv_conn);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1303,6 +1313,287 @@ Y todo lo que hace, prosperará</p>
 ?>
 
 </div>
+<?php if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1): ?>
+<!-- ===================== MODAL BIENVENIDA ===================== -->
+<style>
+#mbv_overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.78);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+#mbv_overlay.mbv_active { display: flex; }
+#mbv_box {
+    background: #fff;
+    border-radius: 18px;
+    max-width: 620px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+    animation: mbv_fadein 0.35s ease;
+}
+@keyframes mbv_fadein {
+    from { opacity: 0; transform: scale(0.93) translateY(20px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+#mbv_header {
+    background: linear-gradient(135deg, #042C49 0%, #044BA1 100%);
+    padding: 30px 30px 22px;
+    text-align: center;
+    position: relative;
+}
+#mbv_header h3 {
+    color: #fff;
+    margin: 0;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 24px;
+    font-weight: 700;
+}
+#mbv_close_btn {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: rgba(255,255,255,0.18);
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    line-height: 34px;
+    padding: 0;
+    transition: background 0.2s;
+}
+#mbv_close_btn:hover { background: rgba(255,255,255,0.35); }
+#mbv_step1 { padding: 26px 30px 30px; }
+#mbv_step1 p { text-align: center; color: #555; margin-bottom: 22px; font-size: 15px; }
+.mbv_lang_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.mbv_lang_btn {
+    background: #f5f8ff;
+    border: 2px solid #dde6f5;
+    color: #042C49;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.mbv_lang_btn:hover {
+    background: #042C49;
+    color: #fff;
+    border-color: #042C49;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(4,44,73,0.25);
+}
+#mbv_step2 { display: none; }
+#mbv_step2_topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-bottom: 1px solid #eee;
+}
+#mbv_back_btn {
+    background: #f0f4f8;
+    border: none;
+    color: #042C49;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#mbv_back_btn:hover { background: #dde6f5; }
+#mbv_lang_label { color: #666; font-size: 14px; }
+#mbv_video_wrap {
+    position: relative;
+    padding-top: 56.25%;
+    background: #000;
+}
+#mbv_iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+}
+#mbv_no_video {
+    padding: 50px 30px;
+    text-align: center;
+    color: #888;
+    display: none;
+    font-size: 15px;
+}
+/* Botón flotante */
+#mbv_float_btn {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    z-index: 9998;
+}
+#mbv_float_btn button {
+    background: linear-gradient(135deg, #042C49 0%, #044BA1 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(4,44,73,0.45);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'Libre Baskerville', serif;
+}
+#mbv_float_btn button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(4,44,73,0.5);
+}
+@media (max-width: 480px) {
+    .mbv_lang_grid { grid-template-columns: 1fr; }
+    #mbv_step1 { padding: 20px 16px 24px; }
+    #mbv_header { padding: 22px 20px 16px; }
+}
+</style>
+
+<!-- Overlay Modal -->
+<div id="mbv_overlay">
+    <div id="mbv_box">
+        <div id="mbv_header">
+            <button id="mbv_close_btn" title="Cerrar">&times;</button>
+            <h3><?php echo htmlspecialchars($_mbv_cfg['titulo']); ?></h3>
+        </div>
+
+        <!-- Paso 1: Selección de idioma -->
+        <div id="mbv_step1">
+            <p><?php echo htmlspecialchars($_mbv_cfg['mensaje']); ?></p>
+            <div class="mbv_lang_grid">
+                <button class="mbv_lang_btn"
+                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_espanol']); ?>"
+                    data-label="Español">
+                    <span>🇲🇽</span> Español
+                </button>
+                <button class="mbv_lang_btn"
+                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_ingles']); ?>"
+                    data-label="English">
+                    <span>🇺🇸</span> English
+                </button>
+                <button class="mbv_lang_btn"
+                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_koreano']); ?>"
+                    data-label="한국어">
+                    <span>🇰🇷</span> 한국어
+                </button>
+                <button class="mbv_lang_btn"
+                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_frances']); ?>"
+                    data-label="Français">
+                    <span>🇫🇷</span> Français
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 2: Video -->
+        <div id="mbv_step2">
+            <div id="mbv_step2_topbar">
+                <button id="mbv_back_btn">&#8592; Volver</button>
+                <span id="mbv_lang_label"></span>
+            </div>
+            <div id="mbv_video_wrap">
+                <iframe id="mbv_iframe" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            </div>
+            <div id="mbv_no_video">
+                <p style="margin:0;">Video próximamente disponible.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botón flotante para reabrir -->
+<div id="mbv_float_btn">
+    <button onclick="mbv_open();">
+        <i class="fa fa-globe"></i> Bienvenida
+    </button>
+</div>
+
+<script>
+(function () {
+    var overlay   = document.getElementById('mbv_overlay');
+    var step1     = document.getElementById('mbv_step1');
+    var step2     = document.getElementById('mbv_step2');
+    var iframe    = document.getElementById('mbv_iframe');
+    var videoWrap = document.getElementById('mbv_video_wrap');
+    var noVideo   = document.getElementById('mbv_no_video');
+    var langLabel = document.getElementById('mbv_lang_label');
+
+    function mbv_open() {
+        step1.style.display = 'block';
+        step2.style.display = 'none';
+        if (iframe) iframe.src = '';
+        overlay.classList.add('mbv_active');
+    }
+    window.mbv_open = mbv_open;
+
+    function mbv_close() {
+        overlay.classList.remove('mbv_active');
+        if (iframe) iframe.src = '';
+    }
+
+    document.getElementById('mbv_close_btn').addEventListener('click', mbv_close);
+
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) mbv_close();
+    });
+
+    document.querySelectorAll('.mbv_lang_btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var url   = this.getAttribute('data-url') || '';
+            var label = this.getAttribute('data-label') || '';
+            langLabel.textContent = label;
+            step1.style.display = 'none';
+            step2.style.display = 'block';
+            if (url) {
+                videoWrap.style.display = 'block';
+                noVideo.style.display  = 'none';
+                iframe.src = url;
+            } else {
+                videoWrap.style.display = 'none';
+                noVideo.style.display  = 'block';
+            }
+        });
+    });
+
+    document.getElementById('mbv_back_btn').addEventListener('click', function () {
+        step2.style.display = 'none';
+        step1.style.display = 'block';
+        if (iframe) iframe.src = '';
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') mbv_close();
+    });
+
+    window.addEventListener('load', function () {
+        mbv_open();
+    });
+}());
+</script>
+<!-- =================== FIN MODAL BIENVENIDA =================== -->
+<?php endif; ?>
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
 <script src="js/bootbox.js"></script>
