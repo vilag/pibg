@@ -1,5 +1,5 @@
 <?php
-require('config/global.php');
+require_once('config/global.php');
 $_mbv_cfg = null;
 $_mbv_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if ($_mbv_conn) {
@@ -1119,7 +1119,7 @@ Y todo lo que hace, prosperará</p>
 						<!-- Mostrar las últimas dos predicacines -->
 						<?php
 							//info del servidor
-							require('config/global.php');
+							require_once('config/global.php');
 							$connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
 							//verificamos la conexion
