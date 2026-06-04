@@ -3,6 +3,25 @@
    Estilos extraídos de index.php
 ============================================================ */
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+body, body * {
+    font-family: 'Roboto', sans-serif;
+}
+
+.home_slider_container,
+.home_slider,
+.owl-carousel,
+.owl-stage-outer,
+.owl-stage,
+.owl-item {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 
 /* ---- Layout base hero ---- */
 
@@ -10,10 +29,20 @@
 	float: left;
 	margin-top: 0px;
 	z-index: 1;
+	width: 100%;
 	max-width: 100%;
 	box-sizing: border-box;
 	overflow-wrap: break-word;
 	word-break: break-word;
+	overflow: hidden;
+}
+
+.home_text,
+#content_nom_activ_des,
+#div_content_texto_princ {
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .estilo_home {

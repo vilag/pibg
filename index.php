@@ -29,7 +29,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/index_custom.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
 <!-- <link rel="stylesheet" type="text/css" href="./styles/personal.css"> -->
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -1410,21 +1410,31 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
     letter-spacing:0.08em; text-transform:capitalize;
     background:transparent; padding:4px 10px;
     text-shadow:0 1px 4px rgba(0,0,0,0.4);
-    animation: mbv_hint_float 2s ease-in-out infinite;
+    animation:mbv_hint_float 2s ease-in-out infinite;
     pointer-events:none; white-space:nowrap;
 }
 @keyframes mbv_hint_float {
-    0%,100% { transform:translateY(0);   opacity:1;    }
+    0%,100% { transform:translateY(0);    opacity:1;   }
     50%      { transform:translateY(-6px); opacity:0.7; }
+}
+@keyframes mbv_btn_invite {
+    0%,100% { transform:scale(1);    box-shadow:0 6px 20px rgba(27,20,100,0.5); }
+    50%      { transform:scale(1.05); box-shadow:0 8px 32px rgba(0,180,164,0.65), 0 0 0 6px rgba(0,180,164,0.15); }
 }
 #mbv_float_btn button {
     background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
-    color:#fff; border:none; border-radius:50px; padding:16px 32px;
+    color:#fff; border:none; border-radius:50px; padding:12px 22px;
     cursor:pointer; box-shadow:0 6px 20px rgba(27,20,100,0.5);
-    font-size:17px; font-weight:700; display:flex; align-items:center; gap:10px;
-    transition:transform 0.2s, box-shadow 0.2s; font-family:'Libre Baskerville',serif;
+    font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px;
+    font-family:'Roboto',sans-serif;
+    animation:mbv_btn_invite 2.8s ease-in-out infinite;
+    transition:transform 0.2s, box-shadow 0.2s;
 }
-#mbv_float_btn button:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,180,164,0.55); }
+#mbv_float_btn button:hover {
+    animation:none;
+    transform:translateY(-3px);
+    box-shadow:0 10px 28px rgba(0,180,164,0.55);
+}
 @media (max-width:480px) {
     .mbv_lang_grid { grid-template-columns:1fr; }
     #mbv_selector { padding:14px 16px 20px; }
