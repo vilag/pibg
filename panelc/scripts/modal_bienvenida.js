@@ -1,6 +1,6 @@
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
     listar_mbv();
-    $('#habilitado').on('change', function () {
+    document.getElementById('habilitado').addEventListener('change', function () {
         if (this.checked) {
             $('#lbl_habilitado').text('Activo').css({ background: '#28a745', color: '#fff' });
         } else {

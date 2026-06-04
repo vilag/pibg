@@ -10,6 +10,10 @@
 	float: left;
 	margin-top: 0px;
 	z-index: 1;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 .estilo_home {
@@ -163,19 +167,23 @@
 /* ---- Texto principal del hero ---- */
 
 .estilo_texto_activ_esp {
-	font-size: 28px;
+	font-size: clamp(15px, 2.4vw, 28px);
 	color: #FFF;
-	line-height: 1.4;
+	line-height: 1.45;
 	margin: 0;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
+	word-break: break-word;
 	white-space: normal;
+	max-width: 100%;
 }
 
 .content_texto_princ {
 	height: auto;
 	min-height: 120px;
 	overflow: visible;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 .text_secundario_estilo {
@@ -302,19 +310,21 @@
 @media only screen and (min-width: 260px) and (max-width: 574px) {
 
 	.estilo_caja_texto_ini {
-		float: left;
+		float: none;
 		margin-top: -60px;
 		z-index: 1;
 		width: 100%;
 		padding: 0 12px;
 		box-sizing: border-box;
+		max-width: 100%;
 	}
 
 	.estilo_texto_activ_esp {
-		font-size: 16px;
+		font-size: clamp(14px, 4vw, 17px);
 		color: #FFF;
 		line-height: 1.5;
 		margin: 0;
+		max-width: 100%;
 	}
 
 	.content_texto_princ {
@@ -379,22 +389,29 @@
 @media only screen and (min-width: 575px) and (max-width: 1000px) {
 
 	.estilo_texto_activ_esp {
-		font-size: 18px;
+		font-size: clamp(15px, 2.2vw, 20px);
 		color: #FFF;
 		line-height: 1.5;
 		margin: 0;
+		max-width: 100%;
 	}
 
 	.content_texto_princ {
 		height: auto;
 		min-height: 100px;
 		overflow: visible;
+		max-width: 100%;
 	}
 
 	.estilo_caja_texto_ini {
 		width: 100%;
 		padding: 0 10px;
 		box-sizing: border-box;
+		float: none;
+	}
+
+	.content_proxima_transmision {
+		width: 100%;
 	}
 
 	.estilo_subtitulo_about {

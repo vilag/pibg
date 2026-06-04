@@ -9,12 +9,24 @@ switch ($_GET["op"] ?? '') {
 
     case 'listar':
         $result = $modal->listar();
+        if (!$result) {
+            echo "<tr><td colspan='6' style='color:#c00;text-align:center;padding:16px;'>
+                    Error al consultar la tabla. Asegúrate de haber ejecutado los archivos SQL de migración
+                    (<b>modal_bienvenida_v2.sql</b> y <b>modal_bienvenida_v3.sql</b>).
+                  </td></tr>";
+            break;
+        }
+        $filas = 0;
         while ($reg = $result->fetch_object()) {
-            $tipo_label = $reg->tiene_selector
-                ? "<span style='font-size:11px;color:#555;'>Selector</span>"
+            $filas++;
+            $tiene_sel  = (int)($reg->tiene_selector ?? 0);
+            $tipo_dir   = $reg->tipo_directo ?? '';
+            $nombre     = $reg->nombre ?? '(sin nombre)';
+            $tipo_label = $tiene_sel
+                ? "<span style='font-size:11px;color:#555;'>Selector de opciones</span>"
                 : "<span style='font-size:11px;color:#555;'>" . (
-                    $reg->tipo_directo === 'video'  ? 'Video directo' :
-                   ($reg->tipo_directo === 'imagen' ? 'Imagen directa' : 'Solo texto')
+                    $tipo_dir === 'video'  ? 'Video directo' :
+                   ($tipo_dir === 'imagen' ? 'Imagen directa' : 'Solo texto')
                   ) . "</span>";
             $badge = $reg->habilitado
                 ? "<span style='background:#28a745;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;'>Activa</span>"
@@ -25,8 +37,8 @@ switch ($_GET["op"] ?? '') {
             echo "
             <tr>
                 <td>{$reg->id}</td>
-                <td>" . htmlspecialchars($reg->nombre) . "</td>
-                <td>" . htmlspecialchars($reg->titulo) . "</td>
+                <td>" . htmlspecialchars($nombre) . "</td>
+                <td>" . htmlspecialchars($reg->titulo ?? '') . "</td>
                 <td>{$tipo_label}</td>
                 <td>{$badge}</td>
                 <td>
@@ -35,6 +47,9 @@ switch ($_GET["op"] ?? '') {
                     <button onclick=\"borrar_mbv({$reg->id});\" style=\"background:rgb(129,2,2);padding:5px 10px;border-radius:5px;border:none;color:#fff;cursor:pointer;font-size:11px;\">Eliminar</button>
                 </td>
             </tr>";
+        }
+        if ($filas === 0) {
+            echo "<tr><td colspan='6' style='color:#aaa;text-align:center;padding:16px;'>Sin anuncios registrados.</td></tr>";
         }
         break;
 

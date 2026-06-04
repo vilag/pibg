@@ -1343,10 +1343,10 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
     to   { opacity:1; transform:scale(1)    translateY(0);    }
 }
 #mbv_header {
-    background: linear-gradient(135deg,#042C49 0%,#044BA1 100%);
+    background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
     padding: 28px 30px 20px; text-align: center; position: relative;
 }
-#mbv_header h3 { color:#fff; margin:0; font-family:'Libre Baskerville',serif; font-size:22px; font-weight:700; }
+#mbv_header h3 { color:#fff; margin:0; font-family:'Libre Baskerville',serif; font-size:22px; font-weight:700; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
 #mbv_close_btn {
     position:absolute; top:12px; right:14px;
     background:rgba(255,255,255,0.18); border:none; color:#fff;
@@ -1354,30 +1354,31 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
     border-radius:50%; cursor:pointer; line-height:34px; padding:0;
     transition:background 0.2s;
 }
-#mbv_close_btn:hover { background:rgba(255,255,255,0.35); }
+#mbv_close_btn:hover { background:rgba(0,180,164,0.5); }
 #mbv_mensaje { text-align:center; color:#555; font-size:15px; padding:20px 30px 0; margin:0; }
 #mbv_selector { padding:18px 30px 26px; }
 .mbv_lang_grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .mbv_lang_btn {
-    background:#f5f8ff; border:2px solid #dde6f5;
-    color:#042C49; font-size:15px; font-weight:600;
+    background:#f0f4ff; border:2px solid #c5cef5;
+    color:#1B1464; font-size:15px; font-weight:600;
     padding:16px 12px; border-radius:12px; cursor:pointer;
     transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
 }
 .mbv_lang_btn:hover {
-    background:#042C49; color:#fff; border-color:#042C49;
-    transform:translateY(-2px); box-shadow:0 6px 18px rgba(4,44,73,0.25);
+    background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
+    color:#fff; border-color:#1B1464;
+    transform:translateY(-2px); box-shadow:0 6px 18px rgba(27,20,100,0.3);
 }
 #mbv_topbar {
     display:none; align-items:center; gap:10px;
     padding:10px 18px; border-bottom:1px solid #eee;
 }
 #mbv_back_btn {
-    background:#f0f4f8; border:none; color:#042C49;
+    background:#eef0fa; border:none; color:#1B1464;
     font-size:13px; font-weight:600; padding:7px 14px;
     border-radius:8px; cursor:pointer; transition:background 0.2s;
 }
-#mbv_back_btn:hover { background:#dde6f5; }
+#mbv_back_btn:hover { background:#c5cef5; }
 #mbv_sel_label { color:#666; font-size:14px; }
 #mbv_video_wrap { position:relative; padding-top:56.25%; background:#000; display:none; }
 #mbv_iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; display:none; }
@@ -1398,20 +1399,32 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
 .mbv_play_triangle {
     width:0; height:0; border-style:solid;
     border-width:13px 0 13px 24px;
-    border-color:transparent transparent transparent #042C49; margin-left:5px;
+    border-color:transparent transparent transparent #1B1464; margin-left:5px;
 }
 #mbv_img_area { display:none; }
 #mbv_img_area img { width:100%; display:block; max-height:380px; object-fit:contain; background:#000; }
 #mbv_no_media { padding:40px 30px; text-align:center; color:#888; display:none; font-size:15px; }
-#mbv_float_btn { position:fixed; bottom:26px; right:26px; z-index:9998; }
+#mbv_float_btn { position:fixed; bottom:26px; right:26px; z-index:9998; display:flex; flex-direction:column; align-items:center; gap:6px; }
+#mbv_click_hint {
+    color:#fff; font-size:12px; font-weight:700;
+    letter-spacing:0.08em; text-transform:capitalize;
+    background:transparent; padding:4px 10px;
+    text-shadow:0 1px 4px rgba(0,0,0,0.4);
+    animation: mbv_hint_float 2s ease-in-out infinite;
+    pointer-events:none; white-space:nowrap;
+}
+@keyframes mbv_hint_float {
+    0%,100% { transform:translateY(0);   opacity:1;    }
+    50%      { transform:translateY(-6px); opacity:0.7; }
+}
 #mbv_float_btn button {
-    background:linear-gradient(135deg,#042C49 0%,#044BA1 100%);
-    color:#fff; border:none; border-radius:50px; padding:12px 22px;
-    cursor:pointer; box-shadow:0 6px 20px rgba(4,44,73,0.45);
-    font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px;
+    background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
+    color:#fff; border:none; border-radius:50px; padding:16px 32px;
+    cursor:pointer; box-shadow:0 6px 20px rgba(27,20,100,0.5);
+    font-size:17px; font-weight:700; display:flex; align-items:center; gap:10px;
     transition:transform 0.2s, box-shadow 0.2s; font-family:'Libre Baskerville',serif;
 }
-#mbv_float_btn button:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(4,44,73,0.5); }
+#mbv_float_btn button:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,180,164,0.55); }
 @media (max-width:480px) {
     .mbv_lang_grid { grid-template-columns:1fr; }
     #mbv_selector { padding:14px 16px 20px; }
@@ -1470,7 +1483,8 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
 </div>
 
 <div id="mbv_float_btn">
-  <button onclick="mbv_open();"><i class="fa fa-globe"></i> Bienvenida</button>
+  <span id="mbv_click_hint">Click here</span>
+  <button onclick="mbv_open();"><i class="fa fa-globe"></i> Welcome</button>
 </div>
 
 <script>
