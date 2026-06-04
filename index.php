@@ -3,7 +3,7 @@ require_once('config/global.php');
 $_mbv_cfg = null;
 $_mbv_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if ($_mbv_conn) {
-    $r = mysqli_query($_mbv_conn, "SELECT * FROM modal_bienvenida LIMIT 1");
+    $r = mysqli_query($_mbv_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
     if ($r) $_mbv_cfg = mysqli_fetch_assoc($r);
     mysqli_close($_mbv_conn);
 }
@@ -1313,282 +1313,281 @@ Y todo lo que hace, prosperará</p>
 ?>
 
 </div>
-<?php if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1): ?>
+<?php
+if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
+    $mbv_tiene_sel = (int)($_mbv_cfg['tiene_selector'] ?? 0);
+    $mbv_tipo_dir  = $_mbv_cfg['tipo_directo'] ?? '';
+    $mbv_url_dir   = $_mbv_cfg['url_directo']  ?? '';
+    $mbv_opciones  = @json_decode($_mbv_cfg['opciones'] ?? '[]', true) ?: [];
+?>
 <!-- ===================== MODAL BIENVENIDA ===================== -->
 <style>
 #mbv_overlay {
-    display: none;
-    position: fixed;
+    display: none; position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.78);
     z-index: 99999;
-    align-items: center;
-    justify-content: center;
+    align-items: center; justify-content: center;
     padding: 16px;
 }
 #mbv_overlay.mbv_active { display: flex; }
 #mbv_box {
-    background: #fff;
-    border-radius: 18px;
-    max-width: 620px;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
+    background: #fff; border-radius: 18px;
+    max-width: 620px; width: 100%;
+    overflow: hidden; position: relative;
     box-shadow: 0 24px 80px rgba(0,0,0,0.55);
     animation: mbv_fadein 0.35s ease;
 }
 @keyframes mbv_fadein {
-    from { opacity: 0; transform: scale(0.93) translateY(20px); }
-    to   { opacity: 1; transform: scale(1)    translateY(0);    }
+    from { opacity:0; transform:scale(0.93) translateY(20px); }
+    to   { opacity:1; transform:scale(1)    translateY(0);    }
 }
 #mbv_header {
-    background: linear-gradient(135deg, #042C49 0%, #044BA1 100%);
-    padding: 30px 30px 22px;
-    text-align: center;
-    position: relative;
+    background: linear-gradient(135deg,#042C49 0%,#044BA1 100%);
+    padding: 28px 30px 20px; text-align: center; position: relative;
 }
-#mbv_header h3 {
-    color: #fff;
-    margin: 0;
-    font-family: 'Libre Baskerville', serif;
-    font-size: 24px;
-    font-weight: 700;
-}
+#mbv_header h3 { color:#fff; margin:0; font-family:'Libre Baskerville',serif; font-size:22px; font-weight:700; }
 #mbv_close_btn {
-    position: absolute;
-    top: 12px; right: 14px;
-    background: rgba(255,255,255,0.18);
-    border: none;
-    color: #fff;
-    font-size: 22px;
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    cursor: pointer;
-    line-height: 34px;
-    padding: 0;
-    transition: background 0.2s;
+    position:absolute; top:12px; right:14px;
+    background:rgba(255,255,255,0.18); border:none; color:#fff;
+    font-size:22px; width:34px; height:34px;
+    border-radius:50%; cursor:pointer; line-height:34px; padding:0;
+    transition:background 0.2s;
 }
-#mbv_close_btn:hover { background: rgba(255,255,255,0.35); }
-#mbv_step1 { padding: 26px 30px 30px; }
-#mbv_step1 p { text-align: center; color: #555; margin-bottom: 22px; font-size: 15px; }
-.mbv_lang_grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
+#mbv_close_btn:hover { background:rgba(255,255,255,0.35); }
+#mbv_mensaje { text-align:center; color:#555; font-size:15px; padding:20px 30px 0; margin:0; }
+#mbv_selector { padding:18px 30px 26px; }
+.mbv_lang_grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .mbv_lang_btn {
-    background: #f5f8ff;
-    border: 2px solid #dde6f5;
-    color: #042C49;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 16px 12px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    background:#f5f8ff; border:2px solid #dde6f5;
+    color:#042C49; font-size:15px; font-weight:600;
+    padding:16px 12px; border-radius:12px; cursor:pointer;
+    transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
 }
 .mbv_lang_btn:hover {
-    background: #042C49;
-    color: #fff;
-    border-color: #042C49;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(4,44,73,0.25);
+    background:#042C49; color:#fff; border-color:#042C49;
+    transform:translateY(-2px); box-shadow:0 6px 18px rgba(4,44,73,0.25);
 }
-#mbv_step2 { display: none; }
-#mbv_step2_topbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    border-bottom: 1px solid #eee;
+#mbv_topbar {
+    display:none; align-items:center; gap:10px;
+    padding:10px 18px; border-bottom:1px solid #eee;
 }
 #mbv_back_btn {
-    background: #f0f4f8;
-    border: none;
-    color: #042C49;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 7px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
+    background:#f0f4f8; border:none; color:#042C49;
+    font-size:13px; font-weight:600; padding:7px 14px;
+    border-radius:8px; cursor:pointer; transition:background 0.2s;
 }
-#mbv_back_btn:hover { background: #dde6f5; }
-#mbv_lang_label { color: #666; font-size: 14px; }
-#mbv_video_wrap {
-    position: relative;
-    padding-top: 56.25%;
-    background: #000;
+#mbv_back_btn:hover { background:#dde6f5; }
+#mbv_sel_label { color:#666; font-size:14px; }
+#mbv_video_wrap { position:relative; padding-top:56.25%; background:#000; display:none; }
+#mbv_iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; display:none; }
+#mbv_video_el { position:absolute; top:0; left:0; width:100%; height:100%; display:none; background:#000; }
+#mbv_vid_overlay {
+    position:absolute; top:0; left:0; right:0; bottom:0; z-index:2;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.12); transition:background 0.25s;
 }
-#mbv_iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: none;
+#mbv_vid_overlay:hover { background:rgba(0,0,0,0.04); }
+#mbv_vid_overlay.mbv_vid_hidden { display:none; }
+.mbv_play_icon {
+    width:68px; height:68px; background:rgba(255,255,255,0.88);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 24px rgba(0,0,0,0.35); transition:transform 0.2s, background 0.2s;
 }
-#mbv_no_video {
-    padding: 50px 30px;
-    text-align: center;
-    color: #888;
-    display: none;
-    font-size: 15px;
+#mbv_vid_overlay:hover .mbv_play_icon { transform:scale(1.12); background:#fff; }
+.mbv_play_triangle {
+    width:0; height:0; border-style:solid;
+    border-width:13px 0 13px 24px;
+    border-color:transparent transparent transparent #042C49; margin-left:5px;
 }
-/* Botón flotante */
-#mbv_float_btn {
-    position: fixed;
-    bottom: 26px;
-    right: 26px;
-    z-index: 9998;
-}
+#mbv_img_area { display:none; }
+#mbv_img_area img { width:100%; display:block; max-height:380px; object-fit:contain; background:#000; }
+#mbv_no_media { padding:40px 30px; text-align:center; color:#888; display:none; font-size:15px; }
+#mbv_float_btn { position:fixed; bottom:26px; right:26px; z-index:9998; }
 #mbv_float_btn button {
-    background: linear-gradient(135deg, #042C49 0%, #044BA1 100%);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    padding: 12px 22px;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(4,44,73,0.45);
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    font-family: 'Libre Baskerville', serif;
+    background:linear-gradient(135deg,#042C49 0%,#044BA1 100%);
+    color:#fff; border:none; border-radius:50px; padding:12px 22px;
+    cursor:pointer; box-shadow:0 6px 20px rgba(4,44,73,0.45);
+    font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px;
+    transition:transform 0.2s, box-shadow 0.2s; font-family:'Libre Baskerville',serif;
 }
-#mbv_float_btn button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(4,44,73,0.5);
-}
-@media (max-width: 480px) {
-    .mbv_lang_grid { grid-template-columns: 1fr; }
-    #mbv_step1 { padding: 20px 16px 24px; }
-    #mbv_header { padding: 22px 20px 16px; }
+#mbv_float_btn button:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(4,44,73,0.5); }
+@media (max-width:480px) {
+    .mbv_lang_grid { grid-template-columns:1fr; }
+    #mbv_selector { padding:14px 16px 20px; }
+    #mbv_header { padding:22px 20px 16px; }
 }
 </style>
 
-<!-- Overlay Modal -->
 <div id="mbv_overlay">
-    <div id="mbv_box">
-        <div id="mbv_header">
-            <button id="mbv_close_btn" title="Cerrar">&times;</button>
-            <h3><?php echo htmlspecialchars($_mbv_cfg['titulo']); ?></h3>
-        </div>
-
-        <!-- Paso 1: Selección de idioma -->
-        <div id="mbv_step1">
-            <p><?php echo htmlspecialchars($_mbv_cfg['mensaje']); ?></p>
-            <div class="mbv_lang_grid">
-                <button class="mbv_lang_btn"
-                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_espanol']); ?>"
-                    data-label="Español">
-                    <span>🇲🇽</span> Español
-                </button>
-                <button class="mbv_lang_btn"
-                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_ingles']); ?>"
-                    data-label="English">
-                    <span>🇺🇸</span> English
-                </button>
-                <button class="mbv_lang_btn"
-                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_koreano']); ?>"
-                    data-label="한국어">
-                    <span>🇰🇷</span> 한국어
-                </button>
-                <button class="mbv_lang_btn"
-                    data-url="<?php echo htmlspecialchars($_mbv_cfg['video_frances']); ?>"
-                    data-label="Français">
-                    <span>🇫🇷</span> Français
-                </button>
-            </div>
-        </div>
-
-        <!-- Paso 2: Video -->
-        <div id="mbv_step2">
-            <div id="mbv_step2_topbar">
-                <button id="mbv_back_btn">&#8592; Volver</button>
-                <span id="mbv_lang_label"></span>
-            </div>
-            <div id="mbv_video_wrap">
-                <iframe id="mbv_iframe" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-            </div>
-            <div id="mbv_no_video">
-                <p style="margin:0;">Video próximamente disponible.</p>
-            </div>
-        </div>
+  <div id="mbv_box">
+    <div id="mbv_header">
+      <button id="mbv_close_btn" title="Cerrar">&times;</button>
+      <h3><?php echo htmlspecialchars($_mbv_cfg['titulo'] ?? ''); ?></h3>
     </div>
+
+    <?php if (!empty($_mbv_cfg['mensaje'])): ?>
+    <p id="mbv_mensaje"><?php echo htmlspecialchars($_mbv_cfg['mensaje']); ?></p>
+    <?php endif; ?>
+
+    <?php if ($mbv_tiene_sel && !empty($mbv_opciones)): ?>
+    <div id="mbv_selector">
+      <div class="mbv_lang_grid">
+        <?php foreach ($mbv_opciones as $op):
+            $op_tipo  = htmlspecialchars($op['tipo']  ?? 'texto');
+            $op_url   = htmlspecialchars($op['url']   ?? '');
+            $op_label = htmlspecialchars($op['label'] ?? '');
+            $op_emoji = htmlspecialchars($op['emoji'] ?? '');
+        ?>
+        <button class="mbv_lang_btn" data-tipo="<?php echo $op_tipo; ?>" data-url="<?php echo $op_url; ?>" data-label="<?php echo $op_label; ?>">
+            <?php if ($op_emoji): ?><span><?php echo $op_emoji; ?></span><?php endif; ?>
+            <?php echo $op_label; ?>
+        </button>
+        <?php endforeach; ?>
+      </div>
+    </div>
+    <?php endif; ?>
+
+    <div id="mbv_topbar">
+      <button id="mbv_back_btn">&#8592; Volver</button>
+      <span id="mbv_sel_label"></span>
+    </div>
+
+    <div id="mbv_video_wrap">
+      <iframe id="mbv_iframe" allowfullscreen allow="autoplay;encrypted-media"></iframe>
+      <video id="mbv_video_el" controls></video>
+      <div id="mbv_vid_overlay" class="mbv_vid_hidden">
+        <div class="mbv_play_icon"><div class="mbv_play_triangle"></div></div>
+      </div>
+    </div>
+
+    <div id="mbv_img_area">
+      <img id="mbv_img" src="" alt="">
+    </div>
+
+    <div id="mbv_no_media"><p style="margin:0;">Contenido próximamente disponible.</p></div>
+  </div>
 </div>
 
-<!-- Botón flotante para reabrir -->
 <div id="mbv_float_btn">
-    <button onclick="mbv_open();">
-        <i class="fa fa-globe"></i> Bienvenida
-    </button>
+  <button onclick="mbv_open();"><i class="fa fa-globe"></i> Bienvenida</button>
 </div>
 
 <script>
 (function () {
-    var overlay   = document.getElementById('mbv_overlay');
-    var step1     = document.getElementById('mbv_step1');
-    var step2     = document.getElementById('mbv_step2');
-    var iframe    = document.getElementById('mbv_iframe');
-    var videoWrap = document.getElementById('mbv_video_wrap');
-    var noVideo   = document.getElementById('mbv_no_video');
-    var langLabel = document.getElementById('mbv_lang_label');
+    var MBV = {
+        tiene_sel: <?php echo $mbv_tiene_sel; ?>,
+        tipo_dir:  <?php echo json_encode($mbv_tipo_dir); ?>,
+        url_dir:   <?php echo json_encode($mbv_url_dir); ?>
+    };
+
+    var overlay    = document.getElementById('mbv_overlay');
+    var iframe     = document.getElementById('mbv_iframe');
+    var videoEl    = document.getElementById('mbv_video_el');
+    var videoWrap  = document.getElementById('mbv_video_wrap');
+    var imgArea    = document.getElementById('mbv_img_area');
+    var imgEl      = document.getElementById('mbv_img');
+    var noMedia    = document.getElementById('mbv_no_media');
+    var vidOverlay = document.getElementById('mbv_vid_overlay');
+    var topbar     = document.getElementById('mbv_topbar');
+    var selector   = document.getElementById('mbv_selector');
+    var mensaje    = document.getElementById('mbv_mensaje');
+    var selLabel   = document.getElementById('mbv_sel_label');
+    var mbv_pending = null;
+
+    function mbv_resolve(url) {
+        url = (url || '').trim();
+        if (!url) return null;
+        var yt = url.match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (yt) return { type:'iframe', src:'https://www.youtube.com/embed/'+yt[1]+'?rel=0' };
+        if (/youtube(?:-nocookie)?\.com\/embed\//.test(url)) return { type:'iframe', src:url };
+        var vim = url.match(/vimeo\.com\/(\d+)/);
+        if (vim) return { type:'iframe', src:'https://player.vimeo.com/video/'+vim[1] };
+        if (/player\.vimeo\.com\/video\//.test(url)) return { type:'iframe', src:url };
+        if (/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(url)) return { type:'video', src:url };
+        return { type:'iframe', src:url };
+    }
+
+    function mbv_reset_media() {
+        mbv_pending = null;
+        iframe.src = ''; iframe.style.display = 'none';
+        videoEl.pause(); videoEl.removeAttribute('src'); videoEl.style.display = 'none';
+        videoWrap.style.display = 'none';
+        imgEl.src = ''; imgArea.style.display = 'none';
+        noMedia.style.display = 'none';
+        vidOverlay.classList.add('mbv_vid_hidden');
+    }
+
+    function mbv_show_content(tipo, url) {
+        mbv_reset_media();
+        if (tipo === 'video') {
+            var r = mbv_resolve(url);
+            if (r) {
+                mbv_pending = r;
+                videoWrap.style.display = 'block';
+                if (r.type === 'video') { videoEl.src = r.src; videoEl.style.display = 'block'; }
+                else { iframe.style.display = 'block'; }
+                vidOverlay.classList.remove('mbv_vid_hidden');
+            } else { noMedia.style.display = 'block'; }
+        } else if (tipo === 'imagen') {
+            if (url) { imgEl.src = url; imgArea.style.display = 'block'; }
+            else { noMedia.style.display = 'block'; }
+        }
+        // tipo '' o 'texto': no muestra media
+    }
+
+    vidOverlay.addEventListener('click', function () {
+        vidOverlay.classList.add('mbv_vid_hidden');
+        if (!mbv_pending) return;
+        if (mbv_pending.type === 'video') {
+            videoEl.play();
+        } else {
+            var sep = mbv_pending.src.indexOf('?') !== -1 ? '&' : '?';
+            iframe.src = mbv_pending.src + sep + 'autoplay=1';
+        }
+    });
 
     function mbv_open() {
-        step1.style.display = 'block';
-        step2.style.display = 'none';
-        if (iframe) iframe.src = '';
+        if (topbar)   topbar.style.display   = 'none';
+        if (selector) selector.style.display = 'block';
+        if (mensaje)  mensaje.style.display  = 'block';
+        mbv_reset_media();
+        if (!MBV.tiene_sel && MBV.tipo_dir) mbv_show_content(MBV.tipo_dir, MBV.url_dir);
         overlay.classList.add('mbv_active');
     }
     window.mbv_open = mbv_open;
 
     function mbv_close() {
         overlay.classList.remove('mbv_active');
-        if (iframe) iframe.src = '';
+        mbv_reset_media();
     }
 
     document.getElementById('mbv_close_btn').addEventListener('click', mbv_close);
-
-    overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) mbv_close();
-    });
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) mbv_close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') mbv_close(); });
 
     document.querySelectorAll('.mbv_lang_btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var url   = this.getAttribute('data-url') || '';
+            var tipo  = this.getAttribute('data-tipo')  || 'texto';
+            var url   = this.getAttribute('data-url')   || '';
             var label = this.getAttribute('data-label') || '';
-            langLabel.textContent = label;
-            step1.style.display = 'none';
-            step2.style.display = 'block';
-            if (url) {
-                videoWrap.style.display = 'block';
-                noVideo.style.display  = 'none';
-                iframe.src = url;
-            } else {
-                videoWrap.style.display = 'none';
-                noVideo.style.display  = 'block';
-            }
+            if (selector) selector.style.display = 'none';
+            if (mensaje)  mensaje.style.display  = 'none';
+            if (topbar)   topbar.style.display   = 'flex';
+            if (selLabel) selLabel.textContent   = label;
+            mbv_show_content(tipo, url);
         });
     });
 
-    document.getElementById('mbv_back_btn').addEventListener('click', function () {
-        step2.style.display = 'none';
-        step1.style.display = 'block';
-        if (iframe) iframe.src = '';
+    var backBtn = document.getElementById('mbv_back_btn');
+    if (backBtn) backBtn.addEventListener('click', function () {
+        mbv_reset_media();
+        if (topbar)   topbar.style.display   = 'none';
+        if (selector) selector.style.display = 'block';
+        if (mensaje)  mensaje.style.display  = 'block';
     });
 
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') mbv_close();
-    });
-
-    window.addEventListener('load', function () {
-        mbv_open();
-    });
+    window.addEventListener('load', mbv_open);
 }());
 </script>
 <!-- =================== FIN MODAL BIENVENIDA =================== -->
