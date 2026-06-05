@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6,
     -webkit-hyphens: none !important;
     -ms-hyphens: none !important;
     word-break: normal !important;
-    overflow-wrap: break-word;
+    overflow-wrap: normal !important;
 }
 
 #barra_menu {

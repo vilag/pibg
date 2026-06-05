@@ -33,21 +33,37 @@ body, body * {
 	margin-top: 0px;
 	z-index: 1;
 	width: 100%;
-	max-width: 100%;
 	box-sizing: border-box;
-	overflow-wrap: break-word;
-	word-break: break-word;
 	overflow: hidden;
 }
 
 .home_text,
-#content_nom_activ_des,
-#div_content_texto_princ {
+#content_nom_activ_des {
 	max-width: 100%;
 	box-sizing: border-box;
-	/* overflow: hidden quitado — causaba clipping del verso cuando
-	   #content_nom_activ_des tiene margin-top negativo en móvil */
 	overflow: visible;
+}
+
+#content_nom_activ_des {
+	max-width: min(100%, 850px);
+	width: 100%;
+}
+
+#div_content_texto_princ {
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+#nom_activ_sem_esp {
+	width: 100%;
+	max-width: 100%;
+	display: block;
+	box-sizing: border-box;
+	white-space: normal !important;
+	overflow-wrap: break-word !important;
+	word-break: normal !important;
 }
 
 .estilo_home {
@@ -186,7 +202,6 @@ body, body * {
 	display: inline;
 	opacity: 0;
 	animation: verse-word-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
-	white-space: nowrap;
 	hyphens: none;
 	-webkit-hyphens: none;
 }
@@ -211,11 +226,12 @@ body, body * {
 	color: #FFF;
 	line-height: 1.45;
 	margin: 0;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	word-break: break-word;
+	overflow-wrap: break-word !important;
+	word-break: normal !important;
 	white-space: normal;
+	width: 100%;
 	max-width: 100%;
+	display: block;
 }
 
 .content_texto_princ {

@@ -26,7 +26,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=4">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=11">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -70,12 +70,22 @@ if ($_mbv_conn) {
 									<div class="home_content estilo_texto_inicial">
 										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
 										<div class="home_text">
-
+											<style>
+												.flip-in-ver-right{-webkit-animation:flip-in-ver-right .5s cubic-bezier(.25,.46,.45,.94) both;animation:flip-in-ver-right .5s cubic-bezier(.25,.46,.45,.94) both}
+												@-webkit-keyframes flip-in-ver-right{0%{-webkit-transform:rotateY(-80deg);transform:rotateY(-80deg);opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}}@keyframes flip-in-ver-right{0%{-webkit-transform:rotateY(-80deg);transform:rotateY(-80deg);opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}}
+												.tilt-in-left-1{-webkit-animation:tilt-in-left-1 .6s cubic-bezier(.25,.46,.45,.94) 2s both;animation:tilt-in-left-1 .6s cubic-bezier(.25,.46,.45,.94) 2s both}
+												@-webkit-keyframes tilt-in-left-1{0%{-webkit-transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);opacity:0}100%{-webkit-transform:rotateX(0deg) translateX(0) skewX(0deg);transform:rotateX(0deg) translateX(0) skewX(0deg);opacity:1}}@keyframes tilt-in-left-1{0%{-webkit-transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);opacity:0}100%{-webkit-transform:rotateX(0deg) translateX(0) skewX(0deg);transform:rotateX(0deg) translateX(0) skewX(0deg);opacity:1}}
+												.swing-in-left-bck{-webkit-animation:swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) 2s both;animation:swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) 2s both}
+												@-webkit-keyframes swing-in-left-bck{0%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);-webkit-transform-origin:left;transform-origin:left;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:left;transform-origin:left;opacity:1}}@keyframes swing-in-left-bck{0%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);-webkit-transform-origin:left;transform-origin:left;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:left;transform-origin:left;opacity:1}}
+												.fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) 2.5s both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) 2.5s both}												
+												@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
+											</style>
 											<div id="content_nom_activ_des" class="col-lg-10 estilo_caja_texto_ini">
 												<div id="div_content_texto_princ" class="content_texto_princ">
-													<!-- <label id="nom_activ_sem_esp" for="" style="font-size: 28px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</label><br> -->
-													<p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p>
-													<label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label>
+													<label for="" class="tilt-in-left-1" style="font-size: 28px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</label><br>
+													<label for="" class="text_secundario_estilo fade-in">Juan 17:3</label>
+													<!-- <p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p> -->
+													<!-- <label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label> -->
 													
 												</div>
 												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
