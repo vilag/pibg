@@ -26,7 +26,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=11">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=15">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@ if ($_mbv_conn) {
 											</style>
 											<div id="content_nom_activ_des" class="col-lg-10 estilo_caja_texto_ini">
 												<div id="div_content_texto_princ" class="content_texto_princ">
-													<label for="" class="tilt-in-left-1" style="font-size: 28px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</label><br>
+													<label for="" class="tilt-in-left-1" style="font-size: 25px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</label><br>
 													<label for="" class="text_secundario_estilo fade-in">Juan 17:3</label>
 													<!-- <p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p> -->
 													<!-- <label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label> -->
@@ -273,68 +273,101 @@ if ($_mbv_conn) {
 		</div>
 	</div> -->
 	
-	<div class="featured" style="background-color: #24344B;">
+	<!-- ── Actividades Semanales ──────────────────────────────────── -->
+	<section class="actsem-section">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-12" style="text-align: center; padding-top: 40px; padding-bottom: 20px;" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-					<h3 style="color: #ccc;">Actividades Semanales</h3>
-				</div>	
-			</div>
-			<div class="row" style="padding-bottom: 40px; display: flex; justify-content: center;">
-				
-				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
-					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Escuela <br> Dominical</p>
-					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 10:30 hrs.</p>
-				</div>
-				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
-					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de <br> Adoración</p>
-					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 12:00 hrs.</p>
-				</div>
-				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
-					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de Adoración <br> Vespertino</p>
-					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Domingo 18:00 hrs.</p>
-				</div>
-				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
-					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de <br> Oración</p>
-					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Miércoles 19:00 hrs.</p>
-				</div>
-				<div class="col-lg-2 estilo_act_sem" data-aos="fade-left">
-					<p style="margin: 0px; font-weight: bold; font-size: 15px; line-height: 20px; color: #ccc;">Culto de Estudio <br> Biblico</p>
-					<p style="margin: 10px 0px 0px 0px; color: #ccc;">Viernes 19:00 hrs.</p>
-				</div>
-				
-			</div>
-		</div>
-	</div>
 
-	<div class="featured estilo_space_lumbrera">
-		<div class="estilo_izq_lumbrera">
-							<div class="col-lg-12">
-								<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #44425A;">Jóvenes Lumbrera</h2></div>
-								<!-- <div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div> -->
-							</div>
-							<div class="col-lg-12" style="margin-top: 50px;">
-								<p style="line-height: 35px; text-shadow: 10px 10px 10px rgba(255,255,255,1);">Jóven, te invitamos a estudiar con nosotros la Palabra de Dios, te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.</p>
-								
-							</div> 
-							<!-- <div class="col-lg-12" style=" margin-top: 30px;"> 
-								<b style="font-size: 30px; ">TE ESPERAMOS!</b>
-							</div> -->
-							<div class="col-lg-12" style="background-color:rgb(250, 250, 250); color: #000; padding: 20px; margin-top: 30px; border-bottom: #FF8A00 5px solid;">
-								<div class="col-lg-12">
-									<p style="font-size: 18px; line-height: 35px; color: #000;">
-										<i>Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.</i>
-									</p>
-								</div>
-								<div class="col-lg-12" style="margin-top: 30px; text-align: left;">
-									<b style="font-size: 20px;">1 Timoteo 4:12</b>
-								</div>
-							</div>
+			<div class="actsem-header" data-aos="fade-up">
+				<p class="actsem-eyebrow">Te invitamos a nuestras</p>
+				<h2 class="actsem-title">Actividades Semanales</h2>
+				<div class="actsem-divider"></div>
+			</div>
+
+			<div class="actsem-grid">
+
+				<div class="actsem-card" data-aos="fade-up" data-aos-delay="0">
+						<h4 class="actsem-name">Escuela Dominical</h4>
+					<span class="actsem-day">Domingo</span>
+					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 10:30 hrs.</p>
+				</div>
+
+				<div class="actsem-card" data-aos="fade-up" data-aos-delay="80">
+						<h4 class="actsem-name">Culto de Adoración</h4>
+					<span class="actsem-day">Domingo</span>
+					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 12:00 hrs.</p>
+				</div>
+
+				<div class="actsem-card" data-aos="fade-up" data-aos-delay="160">
+						<h4 class="actsem-name">Culto Adoración Vespertino</h4>
+					<span class="actsem-day">Domingo</span>
+					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 18:00 hrs.</p>
+				</div>
+
+				<div class="actsem-card" data-aos="fade-up" data-aos-delay="240">
+						<h4 class="actsem-name">Culto de Oración</h4>
+					<span class="actsem-day">Miércoles</span>
+					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 19:00 hrs.</p>
+				</div>
+
+				<div class="actsem-card" data-aos="fade-up" data-aos-delay="320">
+						<h4 class="actsem-name">Culto de Estudio Bíblico</h4>
+					<span class="actsem-day">Viernes</span>
+					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 19:00 hrs.</p>
+				</div>
+
+			</div>
+
+			<div class="actsem-address-row" data-aos="fade-up">
+				<i class="fa fa-map-marker" aria-hidden="true"></i>
+				<span>C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.</span>
+				<button class="actsem-map-btn" onclick="abrirMaps()">
+					<i class="fa fa-location-arrow" aria-hidden="true"></i> Cómo llegar
+				</button>
+			</div>
+
 		</div>
-		<div class="estilo_der_lumbrera">
-			<img src="images/jovenes/lumbrera3.jpg" alt="" class="estilo_img_lumbrera">
+	</section>
+	<!-- ── /Actividades Semanales ─────────────────────────────────── -->
+
+	<script>
+	function abrirMaps() {
+		var addr = encodeURIComponent('C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.');
+		var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		if (esIOS) {
+			window.open('maps://maps.apple.com/?q=' + addr, '_blank');
+		} else {
+			window.open('https://www.google.com/maps/search/?api=1&query=' + addr, '_blank');
+		}
+	}
+	</script>
+
+	<!-- ── Jóvenes Lumbrera ───────────────────────────────────────── -->
+	<section class="lumb-section">
+
+		<div class="lumb-content" data-aos="fade-right">
+			<p class="lumb-eyebrow">Ministerio Juvenil</p>
+			<h2 class="lumb-title">Jóvenes Lumbrera</h2>
+			<p class="lumb-desc">
+				Jóven, te invitamos a estudiar con nosotros la Palabra de Dios.<br>
+				Te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.
+			</p>
+
+			<blockquote class="lumb-quote">
+				<p>«Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.»</p>
+				<cite>— 1 Timoteo 4:12</cite>
+			</blockquote>
+
+			<a href="lumbrera.php" class="lumb-btn">
+				Conoce el ministerio <i class="fa fa-arrow-right" aria-hidden="true"></i>
+			</a>
 		</div>
-	</div>
+
+		<div class="lumb-photo">
+			<img src="images/fondos/jovenes.jpeg" alt="Jóvenes Lumbrera">
+		</div>
+
+	</section>
+	<!-- ── /Jóvenes Lumbrera ──────────────────────────────────────── -->
 
 	
 
