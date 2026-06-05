@@ -26,7 +26,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=3">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@ if ($_mbv_conn) {
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="styles/modal_bienvenida.css">
+<link rel="stylesheet" type="text/css" href="styles/modal_bienvenida.css?v=2">
 </head>
 <body>
 
@@ -59,7 +59,7 @@ if ($_mbv_conn) {
 			<div class="owl-carousel owl-theme home_slider">
 
 				<!-- Slider Item -->
-				<div class="owl-item">
+				<div  class="owl-item">
 					<!-- Background image artist https://unsplash.com/@benwhitephotography -->
 					<!-- <div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728447824/Pibg/Dise%C3%B1o_sin_t%C3%ADtulo_2_vutrvg.png)"></div> -->
 					<div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qhtvlqfjush9g8bieqbk.png)"></div>
@@ -1070,7 +1070,7 @@ Y todo lo que hace, prosperará</p>
 				<!-- Events -->
 
 				<div class="col-lg-6 grouped_col">
-					<div class="grouped_title">Calendario 2024</div>
+					<div class="grouped_title">Calendario 2026</div>
 					<div class="events" id="box_calendario">
 
 						

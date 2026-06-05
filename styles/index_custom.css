@@ -14,13 +14,15 @@ body, body * {
 }
 
 .home_slider_container,
-.home_slider,
+.home_slider {
+    max-width: 100%;
+    overflow: hidden;
+}
 .owl-carousel,
 .owl-stage-outer,
 .owl-stage,
 .owl-item {
     max-width: 100%;
-    overflow-x: hidden;
 }
 
 
