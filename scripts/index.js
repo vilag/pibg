@@ -689,7 +689,7 @@ function mostrar_texto_principal()
 	var delayCita = (retardoBase + palabras.length * 0.1).toFixed(1);
 	var $cita = $('#det_activ_sem_esp');
 	$cita.removeClass('verse-cite-anim fade-in').text(cita);
-	void $cita[0].offsetWidth; // fuerza reflow para reiniciar animación
+	if ($cita[0]) void $cita[0].offsetWidth; // fuerza reflow para reiniciar animación
 	$cita.css('animation-delay', delayCita + 's').addClass('verse-cite-anim');
 
 	// Garantía: si la animación no termina (reduced-motion, browser quirk), forzar visibilidad
