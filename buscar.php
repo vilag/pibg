@@ -53,18 +53,67 @@
             // Páginas estáticas
             $paginas_catalogo = [
                 [
+                    'titulo'   => 'Conócenos — Historia de la iglesia',
+                    'desc'     => 'Historia de la Primera Iglesia Bautista de Guadalajara. Más de 135 años proclamando el evangelio, pastores fundadores e iglesias organizadas.',
+                    'url'      => 'about-us.php',
+                    'icono'    => 'fa-building',
+                    'keywords' => ['conócenos','conocenos','historia','nosotros','iglesia','fundación','fundacion','bautista','guadalajara','pibg','pastor','quiénes somos','quienes somos'],
+                ],
+                [
+                    'titulo'   => '¿Quién es Jesús?',
+                    'desc'     => 'Recurso educativo sobre Jesús con PDF descargable, Juan 3:16 y formulario de contacto para resolver tus dudas.',
+                    'url'      => 'quien_es_jesus.php',
+                    'icono'    => 'fa-question-circle',
+                    'keywords' => ['jesús','jesus','quién es','quien es','salvador','evangelio','fe','cristiano','dios'],
+                ],
+                [
+                    'titulo'   => 'Nueva Vida en Cristo',
+                    'desc'     => 'Guía interactiva para conocer a Jesús. Visor de PDF y formulario de contacto para acompañamiento espiritual.',
+                    'url'      => 'nueva_vida.php',
+                    'icono'    => 'fa-heart',
+                    'keywords' => ['nueva vida','nueva','salvación','salvacion','convertir','cristo','oración','oracion','creer'],
+                ],
+                [
+                    'titulo'   => 'Predicaciones',
+                    'desc'     => 'Archivo completo de sermones y series bíblicas de la Primera Iglesia Bautista de Guadalajara.',
+                    'url'      => 'predicaciones.php',
+                    'icono'    => 'fa-microphone',
+                    'keywords' => ['predicaciones','predicación','predicacion','sermones','sermón','sermon','series','archivo','bíblico','biblico'],
+                ],
+                [
+                    'titulo'   => 'Coro Johann Sebastian Bach',
+                    'desc'     => 'Coro coral de la PIBG. Conciertos, presentaciones y videos de los conciertos de aniversario.',
+                    'url'      => 'bach.php',
+                    'icono'    => 'fa-music',
+                    'keywords' => ['bach','coro bach','johann','concierto','coral','música','musica','coro'],
+                ],
+                [
+                    'titulo'   => 'Voces — Coro Bach',
+                    'desc'     => 'Catálogo de obras y partituras del Coro Johann Sebastian Bach. Búsqueda por voz: soprano, tenor, bajo, contralto.',
+                    'url'      => 'voces.php',
+                    'icono'    => 'fa-music',
+                    'keywords' => ['voces bach','voces coro','soprano','tenor','bajo','contralto','obra','partitura','coro bach'],
+                ],
+                [
+                    'titulo'   => 'Voces — Coro Lumbrera',
+                    'desc'     => 'Catálogo de obras y partituras del Coro Lumbrera de jóvenes.',
+                    'url'      => 'voces_lumbrera.php',
+                    'icono'    => 'fa-music',
+                    'keywords' => ['voces lumbrera','coro lumbrera','lumbrera coro','soprano lumbrera','tenor lumbrera'],
+                ],
+                [
                     'titulo'   => 'Jóvenes Lumbrera',
-                    'desc'     => 'Ministerio de jóvenes de la PIBG. Estudio bíblico, música, compañerismo, retiros y evangelismo.',
+                    'desc'     => 'Ministerio de jóvenes de la PIBG. Estudio bíblico, música, compañerismo, retiros y evangelismo. Domingos 4:30 pm.',
                     'url'      => 'lumbrera.php',
                     'icono'    => 'fa-users',
-                    'keywords' => ['jóvenes', 'jovenes', 'joven', 'lumbrera', 'juventud'],
+                    'keywords' => ['jóvenes','jovenes','joven','lumbrera','juventud','adolescentes'],
                 ],
                 [
                     'titulo'   => 'Departamento Infantil',
                     'desc'     => 'Ministerio para niños de la PIBG. Clases bíblicas, manualidades, Escuela Bíblica de Vacaciones y eventos especiales.',
                     'url'      => 'infantil.php',
                     'icono'    => 'fa-child',
-                    'keywords' => ['niños', 'ninos', 'niño', 'nino', 'infantil', 'niñez', 'ninez', 'ebv', 'escuela dominical'],
+                    'keywords' => ['niños','ninos','niño','nino','infantil','niñez','ninez','ebv','escuela dominical','niñas'],
                 ],
             ];
             $q_lower = mb_strtolower($q_raw, 'UTF-8');

@@ -73,18 +73,67 @@ if (mb_strlen($q_raw, 'UTF-8') >= 2) {
     // Páginas estáticas
     $paginas_estaticas = [
         [
+            'titulo'   => 'Conócenos — Historia de la iglesia',
+            'sub'      => 'Historia de la Primera Iglesia Bautista de Guadalajara · Más de 135 años',
+            'url'      => 'about-us.php',
+            'icono'    => 'fa-building',
+            'keywords' => ['conócenos','conocenos','historia','nosotros','iglesia','fundación','fundacion','bautista','guadalajara','pibg','pastor','quiénes somos','quienes somos'],
+        ],
+        [
+            'titulo'   => '¿Quién es Jesús?',
+            'sub'      => 'Aprende sobre Jesús · Descarga el PDF y contáctanos',
+            'url'      => 'quien_es_jesus.php',
+            'icono'    => 'fa-question-circle',
+            'keywords' => ['jesús','jesus','quién es','quien es','salvador','evangelio','fe','cristiano','dios'],
+        ],
+        [
+            'titulo'   => 'Nueva Vida en Cristo',
+            'sub'      => 'Guía interactiva para conocer a Jesús · Formulario de contacto',
+            'url'      => 'nueva_vida.php',
+            'icono'    => 'fa-heart',
+            'keywords' => ['nueva vida','nueva','salvación','salvacion','convertir','cristo','oración','oracion','creer'],
+        ],
+        [
+            'titulo'   => 'Predicaciones',
+            'sub'      => 'Archivo de sermones y series bíblicas de la PIBG',
+            'url'      => 'predicaciones.php',
+            'icono'    => 'fa-microphone',
+            'keywords' => ['predicaciones','predicación','predicacion','sermones','sermón','sermon','series','archivo','bíblico','biblico'],
+        ],
+        [
+            'titulo'   => 'Coro Johann Sebastian Bach',
+            'sub'      => 'Coro de la PIBG · Conciertos y presentaciones corales',
+            'url'      => 'bach.php',
+            'icono'    => 'fa-music',
+            'keywords' => ['bach','coro bach','johann','concierto','coral','música','musica','coro'],
+        ],
+        [
+            'titulo'   => 'Voces — Coro Bach',
+            'sub'      => 'Catálogo de obras y partituras del Coro Johann Sebastian Bach',
+            'url'      => 'voces.php',
+            'icono'    => 'fa-music',
+            'keywords' => ['voces bach','voces coro','soprano','tenor','bajo','contralto','obra','partitura','coro bach'],
+        ],
+        [
+            'titulo'   => 'Voces — Coro Lumbrera',
+            'sub'      => 'Catálogo de obras y partituras del Coro Lumbrera',
+            'url'      => 'voces_lumbrera.php',
+            'icono'    => 'fa-music',
+            'keywords' => ['voces lumbrera','coro lumbrera','lumbrera coro','soprano lumbrera','tenor lumbrera'],
+        ],
+        [
             'titulo'   => 'Jóvenes Lumbrera',
             'sub'      => 'Ministerio de jóvenes · Estudio bíblico, música y compañerismo',
             'url'      => 'lumbrera.php',
             'icono'    => 'fa-users',
-            'keywords' => ['jóvenes', 'jovenes', 'joven', 'lumbrera', 'juventud'],
+            'keywords' => ['jóvenes','jovenes','joven','lumbrera','juventud','adolescentes'],
         ],
         [
             'titulo'   => 'Departamento Infantil',
             'sub'      => 'Ministerio para niños · Clases bíblicas, manualidades y EBV',
             'url'      => 'infantil.php',
             'icono'    => 'fa-child',
-            'keywords' => ['niños', 'ninos', 'niño', 'nino', 'infantil', 'niñez', 'ninez', 'ebv', 'escuela dominical'],
+            'keywords' => ['niños','ninos','niño','nino','infantil','niñez','ninez','ebv','escuela dominical','niñas'],
         ],
     ];
     $q_lower = mb_strtolower($q_raw, 'UTF-8');
