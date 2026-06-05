@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<link rel="stylesheet" type="text/css" href="styles/header.css">
+		<link rel="stylesheet" type="text/css" href="styles/header.css?v=5">
 
 		<!-- Header Content -->
 		<div id="barra_menu" class="header_container">

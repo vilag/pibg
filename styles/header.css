@@ -119,3 +119,56 @@ h1, h2, h3, h4, h5, h6,
 .slr_ver_todos:hover { background: #F85E0C; }
 .slr_sin_res { padding: 20px; text-align: center; color: #888; font-size: 13px; }
 .slr_cargando{ padding: 16px; text-align: center; color: #aaa; font-size: 13px; }
+
+/* ── Responsive header — aplica en todas las páginas ─────────────────
+   Hamburguesa activa hasta 1280px.
+   El container Bootstrap pasa de 960px (lg) a 1140px (xl) en 1200px,
+   y el nav completo cabe sin wrapping solo a partir de ~1280px.
+──────────────────────────────────────────────────────────────────── */
+
+@media only screen and (max-width: 1280px) {
+    .top_bar        { display: none !important; }
+    .main_nav       { display: none !important; }
+    .search_button  { display: none !important; }
+    .logo_principal { max-width: 220px !important; }
+
+    .hamburger {
+        display: inline-block !important;
+        margin-left: 20px;
+        vertical-align: middle;
+    }
+
+    /* Navbar siempre sólido en tablet/móvil */
+    #barra_menu,
+    #barra_menu.estilo_nav_index,
+    #barra_menu.estilo_nav {
+        background-color: #24344B !important;
+    }
+}
+
+/* ── Desktop completo (≥1281px) ───────────────────────────────────── */
+@media only screen and (min-width: 1281px) {
+    .hamburger { display: none !important; }
+
+    /* Logo compacto para que quepan los items del nav */
+    .logo_principal { max-width: 260px !important; }
+
+    /* Forzar nav en una sola fila, sin wrapping */
+    .main_nav_contaner {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    .main_nav {
+        display: inline-flex !important;
+        flex-wrap: nowrap;
+        align-items: center;
+        list-style: none;
+        margin: 0; padding: 0;
+    }
+    .main_nav li {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+}

@@ -26,7 +26,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -97,7 +97,7 @@ if ($_mbv_conn) {
 														<label id="conector_nom_activ" style="color: #ccc;" for=""></label>
 														<label style="color: #ccc;" id="mes_sp"></label>
 														<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
-														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara5203/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
+														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
 														
 													</div>
 												
