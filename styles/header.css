@@ -120,6 +120,87 @@ h1, h2, h3, h4, h5, h6,
 .slr_sin_res { padding: 20px; text-align: center; color: #888; font-size: 13px; }
 .slr_cargando{ padding: 16px; text-align: center; color: #aaa; font-size: 13px; }
 
+/* ══════════════════════════════════════════════════════════════════
+   TOP BAR  — barra de contacto superior
+═══════════════════════════════════════════════════════════════════ */
+
+.top_bar {
+    background-color: #0d1b2a !important;
+    border-bottom: 2px solid rgba(248,94,12,0.32);
+}
+
+.top_bar_content {
+    height: 46px !important;
+}
+
+/* Texto e iconos del top bar */
+.top_bar_contact_list li > div,
+.top_bar_contact_list li label {
+    color: rgba(255,255,255,0.78) !important;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+.top_bar_contact_list li > div:hover,
+.top_bar_contact_list li > a > div {
+    color: #fff !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   NAV BAR  — barra de navegación
+═══════════════════════════════════════════════════════════════════ */
+
+/* Estado: página no-index (sólido por defecto) */
+#barra_menu {
+    background-color: #24344B;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Estado: index sin scroll (transparente sobre el hero) */
+#barra_menu.estilo_nav_index {
+    background-color: rgba(13,27,42,0.35) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: none;
+}
+
+/* Estado: scrolled (sólido con sombra) */
+#barra_menu.estilo_nav {
+    background-color: #1a2b3d !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+    border-bottom: 2px solid rgba(248,94,12,0.55);
+}
+
+/* ── Nav links — estilos de desktop ─────────────────────────────── */
+.main_nav li a {
+    background: transparent !important;
+    color: rgba(255,255,255,0.88) !important;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px !important;
+    border-radius: 20px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.main_nav li a:hover,
+.main_nav li.active a {
+    background: #F85E0C !important;
+    color: #fff !important;
+}
+
+/* Icono de búsqueda */
+.search_button i {
+    color: rgba(255,255,255,0.75) !important;
+    transition: color 0.2s ease;
+}
+.search_button:hover i {
+    color: #F85E0C !important;
+}
+
 /* ── Responsive header — aplica en todas las páginas ─────────────────
    Hamburguesa activa hasta 1280px.
    El container Bootstrap pasa de 960px (lg) a 1140px (xl) en 1200px,
@@ -142,7 +223,11 @@ h1, h2, h3, h4, h5, h6,
     #barra_menu,
     #barra_menu.estilo_nav_index,
     #barra_menu.estilo_nav {
-        background-color: #24344B !important;
+        background-color: #1a2b3d !important;
+        box-shadow: none !important;
+        border-bottom: 2px solid rgba(248,94,12,0.4) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
 }
 

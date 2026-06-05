@@ -27,7 +27,7 @@
 </script>
 
 		<!-- Top Bar -->
-		<div class="top_bar" style="background-color: rgba(36,52,75,1) !important;">
+		<div class="top_bar">
 			<div class="top_bar_container">
 				<div class="container">
 					<div class="row">
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<link rel="stylesheet" type="text/css" href="styles/header.css?v=6">
+		<link rel="stylesheet" type="text/css" href="styles/header.css?v=7">
 
 		<!-- Header Content -->
 		<div id="barra_menu" class="header_container">
