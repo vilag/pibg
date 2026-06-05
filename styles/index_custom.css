@@ -43,7 +43,9 @@ body, body * {
 #div_content_texto_princ {
 	max-width: 100%;
 	box-sizing: border-box;
-	overflow: hidden;
+	/* overflow: hidden quitado — causaba clipping del verso cuando
+	   #content_nom_activ_des tiene margin-top negativo en móvil */
+	overflow: visible;
 }
 
 .estilo_home {
@@ -191,6 +193,12 @@ body, body * {
 	display: block;
 	opacity: 0;
 	animation: verse-word-in 1.2s cubic-bezier(.39, .575, .565, 1.000) both;
+}
+
+/* Si el dispositivo tiene "Reducir movimiento" activado, mostrar texto sin animación */
+@media (prefers-reduced-motion: reduce) {
+	.verse-word      { opacity: 1 !important; animation: none !important; }
+	.verse-cite-anim { opacity: 1 !important; animation: none !important; }
 }
 
 

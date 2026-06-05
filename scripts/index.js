@@ -691,6 +691,12 @@ function mostrar_texto_principal()
 	$cita.removeClass('verse-cite-anim fade-in').text(cita);
 	void $cita[0].offsetWidth; // fuerza reflow para reiniciar animación
 	$cita.css('animation-delay', delayCita + 's').addClass('verse-cite-anim');
+
+	// Garantía: si la animación no termina (reduced-motion, browser quirk), forzar visibilidad
+	setTimeout(function() {
+		$('#nom_activ_sem_esp .verse-word').css({'opacity': '1', 'animation': 'none'});
+		$cita.css({'opacity': '1', 'animation': 'none'});
+	}, (parseFloat(delayCita) + 2) * 1000);
 }
 
 //var cant_activ_des = 0;
