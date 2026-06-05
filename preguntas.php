@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require('config/global.php');
 
 $table_name = 'semana_juventud';
@@ -30,54 +30,7 @@ $mysqli->close();
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Lista de preguntas</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      margin: 2rem;
-      background: #f7f7fb;
-    }
-    .card {
-      background: white;
-      padding: 1.2rem;
-      border-radius: 8px;
-      max-width: 600px;
-      margin: 0 auto;
-      box-shadow: 0 6px 18px rgba(20, 20, 40, 0.06);
-    }
-    h1 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
-    ol {
-      padding-left: 1.2rem;
-    }
-    li {
-      margin-bottom: .4rem;
-      padding: .4rem .6rem;
-      background: #f9fafb;
-      border-radius: 6px;
-      border: 1px solid #e5e7eb;
-    }
-    .empty {
-      color: #666;
-      text-align: center;
-      font-style: italic;
-      margin-top: 1rem;
-    }
-    button {
-      margin-top: 1rem;
-      background: #dc2626;
-      color: white;
-      border: none;
-      padding: .6rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    button:hover {
-      background: #b91c1c;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="styles/preguntas.css">
 </head>
 <body>
   <main class="card">

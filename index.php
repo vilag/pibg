@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once('config/global.php');
 $_mbv_cfg = null;
 $_mbv_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -36,6 +36,7 @@ if ($_mbv_conn) {
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/modal_bienvenida.css">
 </head>
 <body>
 
@@ -703,40 +704,7 @@ Y todo lo que hace, prosperará</p>
 
 	
 
-	<!-- <style>
-		.fade-in_ninos{-webkit-animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in_ninos 1.2s cubic-bezier(.39,.575,.565,1.000) both}
-		@-webkit-keyframes fade-in_ninos{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_ninos{0%{opacity:0}100%{opacity:1}}
-		.fade-in_jov{-webkit-animation:fade-in_jov 1.2s cubic-bezier(.39,.575,.565,1.000) .2s both;animation:fade-in_jov 1.2s cubic-bezier(.39,.575,.565,1.000) .2s both}
-		@-webkit-keyframes fade-in_jov{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_jov{0%{opacity:0}100%{opacity:1}}
-		.fade-in_adul{-webkit-animation:fade-in_adul 1.2s cubic-bezier(.39,.575,.565,1.000) .4s both;animation:fade-in_adul 1.2s cubic-bezier(.39,.575,.565,1.000) .4s both}
-		@-webkit-keyframes fade-in_adul{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_adul{0%{opacity:0}100%{opacity:1}}
-		.fade-in_anc{-webkit-animation:fade-in_anc 1.2s cubic-bezier(.39,.575,.565,1.000) .6s both;animation:fade-in_anc 1.2s cubic-bezier(.39,.575,.565,1.000) .6s both}
-		@-webkit-keyframes fade-in_anc{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_anc{0%{opacity:0}100%{opacity:1}}
-		.fade-in_mis{-webkit-animation:fade-in_mis 1.2s cubic-bezier(.39,.575,.565,1.000) .8s both;animation:fade-in_mis 1.2s cubic-bezier(.39,.575,.565,1.000) .8s both}
-		@-webkit-keyframes fade-in_mis{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_mis{0%{opacity:0}100%{opacity:1}}
-		.fade-in_core{-webkit-animation:fade-in_core 1.2s cubic-bezier(.39,.575,.565,1.000) .10s both;animation:fade-in_core 1.2s cubic-bezier(.39,.575,.565,1.000) .10s both}
-		@-webkit-keyframes fade-in_core{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_core{0%{opacity:0}100%{opacity:1}}
-		.fade-in_coros{-webkit-animation:fade-in_coros 1.2s cubic-bezier(.39,.575,.565,1.000) .12s both;animation:fade-in_coros 1.2s cubic-bezier(.39,.575,.565,1.000) .12s both}
-		@-webkit-keyframes fade-in_coros{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_coros{0%{opacity:0}100%{opacity:1}}
-		.fade-in_esc{-webkit-animation:fade-in_esc 1.2s cubic-bezier(.39,.575,.565,1.000) .14s both;animation:fade-in_esc 1.2s cubic-bezier(.39,.575,.565,1.000) .14s both}
-		@-webkit-keyframes fade-in_esc{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_esc{0%{opacity:0}100%{opacity:1}}
-
-		.barra_min::-webkit-scrollbar {
-			width: 1px;
-			height: 1px;              
-		}
-
-		.barra_min::-webkit-scrollbar-track {
-			background: rgb(212, 221, 226, 0.1);       
-		}
-
-		.barra_min::-webkit-scrollbar-thumb {
-			background-color: rgb(40, 57, 87);    
-			border-radius: 20px;    
-			border: 1px solid rgba(155, 168, 175, 0.5);
-			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-		}
-	</style> -->
+	<!--  -->
 
 	<!-- <div class="courses" style="padding-bottom: 50px;">
 		<div class="container">
@@ -1321,126 +1289,7 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
     $mbv_opciones  = @json_decode($_mbv_cfg['opciones'] ?? '[]', true) ?: [];
 ?>
 <!-- ===================== MODAL BIENVENIDA ===================== -->
-<style>
-#mbv_overlay {
-    display: none; position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.78);
-    z-index: 99999;
-    align-items: center; justify-content: center;
-    padding: 16px;
-}
-#mbv_overlay.mbv_active { display: flex; }
-#mbv_box {
-    background: #fff; border-radius: 18px;
-    max-width: 620px; width: 100%;
-    overflow: hidden; position: relative;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.55);
-    animation: mbv_fadein 0.35s ease;
-}
-@keyframes mbv_fadein {
-    from { opacity:0; transform:scale(0.93) translateY(20px); }
-    to   { opacity:1; transform:scale(1)    translateY(0);    }
-}
-#mbv_header {
-    background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
-    padding: 28px 30px 20px; text-align: center; position: relative;
-}
-#mbv_header h3 { color:#fff; margin:0; font-family:'Libre Baskerville',serif; font-size:22px; font-weight:700; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
-#mbv_close_btn {
-    position:absolute; top:12px; right:14px;
-    background:rgba(255,255,255,0.18); border:none; color:#fff;
-    font-size:22px; width:34px; height:34px;
-    border-radius:50%; cursor:pointer; line-height:34px; padding:0;
-    transition:background 0.2s;
-}
-#mbv_close_btn:hover { background:rgba(0,180,164,0.5); }
-#mbv_mensaje { text-align:center; color:#555; font-size:15px; padding:20px 30px 0; margin:0; }
-#mbv_selector { padding:18px 30px 26px; }
-.mbv_lang_grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.mbv_lang_btn {
-    background:#f0f4ff; border:2px solid #c5cef5;
-    color:#1B1464; font-size:15px; font-weight:600;
-    padding:16px 12px; border-radius:12px; cursor:pointer;
-    transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
-}
-.mbv_lang_btn:hover {
-    background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
-    color:#fff; border-color:#1B1464;
-    transform:translateY(-2px); box-shadow:0 6px 18px rgba(27,20,100,0.3);
-}
-#mbv_topbar {
-    display:none; align-items:center; gap:10px;
-    padding:10px 18px; border-bottom:1px solid #eee;
-}
-#mbv_back_btn {
-    background:#eef0fa; border:none; color:#1B1464;
-    font-size:13px; font-weight:600; padding:7px 14px;
-    border-radius:8px; cursor:pointer; transition:background 0.2s;
-}
-#mbv_back_btn:hover { background:#c5cef5; }
-#mbv_sel_label { color:#666; font-size:14px; }
-#mbv_video_wrap { position:relative; padding-top:56.25%; background:#000; display:none; }
-#mbv_iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; display:none; }
-#mbv_video_el { position:absolute; top:0; left:0; width:100%; height:100%; display:none; background:#000; }
-#mbv_vid_overlay {
-    position:absolute; top:0; left:0; right:0; bottom:0; z-index:2;
-    cursor:pointer; display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.12); transition:background 0.25s;
-}
-#mbv_vid_overlay:hover { background:rgba(0,0,0,0.04); }
-#mbv_vid_overlay.mbv_vid_hidden { display:none; }
-.mbv_play_icon {
-    width:68px; height:68px; background:rgba(255,255,255,0.88);
-    border-radius:50%; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 4px 24px rgba(0,0,0,0.35); transition:transform 0.2s, background 0.2s;
-}
-#mbv_vid_overlay:hover .mbv_play_icon { transform:scale(1.12); background:#fff; }
-.mbv_play_triangle {
-    width:0; height:0; border-style:solid;
-    border-width:13px 0 13px 24px;
-    border-color:transparent transparent transparent #1B1464; margin-left:5px;
-}
-#mbv_img_area { display:none; }
-#mbv_img_area img { width:100%; display:block; max-height:380px; object-fit:contain; background:#000; }
-#mbv_no_media { padding:40px 30px; text-align:center; color:#888; display:none; font-size:15px; }
-#mbv_float_btn { position:fixed; bottom:26px; right:26px; z-index:9998; display:flex; flex-direction:column; align-items:center; gap:6px; }
-#mbv_click_hint {
-    color:#fff; font-size:12px; font-weight:700;
-    letter-spacing:0.08em; text-transform:capitalize;
-    background:transparent; padding:4px 10px;
-    text-shadow:0 1px 4px rgba(0,0,0,0.4);
-    animation:mbv_hint_float 2s ease-in-out infinite;
-    pointer-events:none; white-space:nowrap;
-}
-@keyframes mbv_hint_float {
-    0%,100% { transform:translateY(0);    opacity:1;   }
-    50%      { transform:translateY(-6px); opacity:0.7; }
-}
-@keyframes mbv_btn_invite {
-    0%,100% { transform:scale(1);    box-shadow:0 6px 20px rgba(27,20,100,0.5); }
-    50%      { transform:scale(1.05); box-shadow:0 8px 32px rgba(0,180,164,0.65), 0 0 0 6px rgba(0,180,164,0.15); }
-}
-#mbv_float_btn button {
-    background: linear-gradient(135deg, #1B1464 0%, #00B4A4 100%);
-    color:#fff; border:none; border-radius:50px; padding:12px 22px;
-    cursor:pointer; box-shadow:0 6px 20px rgba(27,20,100,0.5);
-    font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px;
-    font-family:'Roboto',sans-serif;
-    animation:mbv_btn_invite 2.8s ease-in-out infinite;
-    transition:transform 0.2s, box-shadow 0.2s;
-}
-#mbv_float_btn button:hover {
-    animation:none;
-    transform:translateY(-3px);
-    box-shadow:0 10px 28px rgba(0,180,164,0.55);
-}
-@media (max-width:480px) {
-    .mbv_lang_grid { grid-template-columns:1fr; }
-    #mbv_selector { padding:14px 16px 20px; }
-    #mbv_header { padding:22px 20px 16px; }
-}
-</style>
+
 
 <div id="mbv_overlay">
   <div id="mbv_box">

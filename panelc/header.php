@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -19,37 +19,7 @@
     <link rel="shortcut icon" href="images/logos/icono.png" />
 
     <!-- font-display: swap para Roboto y Typicons -->
-    <style>
-      @font-face {
-        font-family: 'Roboto'; font-display: swap;
-        src: url("fonts/Roboto/Roboto-Regular.woff2") format("woff2"),
-             url("fonts/Roboto/Roboto-Regular.woff") format("woff");
-        font-weight: normal; font-style: normal;
-      }
-      @font-face {
-        font-family: 'Roboto'; font-display: swap;
-        src: url("fonts/Roboto/Roboto-Bold.woff2") format("woff2"),
-             url("fonts/Roboto/Roboto-Bold.woff") format("woff");
-        font-weight: bold; font-style: normal;
-      }
-      @font-face {
-        font-family: 'Roboto'; font-display: swap;
-        src: url("fonts/Roboto/Roboto-Light.woff2") format("woff2"),
-             url("fonts/Roboto/Roboto-Light.woff") format("woff");
-        font-weight: 300; font-style: normal;
-      }
-      @font-face {
-        font-family: 'Roboto'; font-display: swap;
-        src: url("fonts/Roboto/Roboto-Medium.woff2") format("woff2"),
-             url("fonts/Roboto/Roboto-Medium.woff") format("woff");
-        font-weight: 500; font-style: normal;
-      }
-      @font-face {
-        font-family: 'typicons'; font-display: swap;
-        src: url("vendors/typicons.font/font/typicons.woff") format("woff");
-        font-weight: normal; font-style: normal;
-      }
-    </style>
+    <link rel="stylesheet" href="css/panel_header.css">
 
     <!-- Preload LCP image -->
     <link rel="preload" as="image" href="images/logos/logo_manage.png">

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Activamos el almacenamiento en el buffer
 ob_start();
 session_start();
@@ -159,24 +159,7 @@ if ($_SESSION['administrador']==1)
     </div>
 </div>
 
-<style>
-  .barra_partituras::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-
-  .barra_partituras::-webkit-scrollbar-track {
-    background: rgba(155, 168, 175, 0.5);
-  }
-
-  .barra_partituras::-webkit-scrollbar-thumb {
-    background-color: rgb(40, 57, 87);
-    border-radius: 20px;
-    border: 1px solid rgba(155, 168, 175, 0.5);
-    ;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-  }
-</style>
+<link rel="stylesheet" href="css/lumbrera_panel.css">
 
 <div id="modal2" class="modalmask">
     <div class="modalbox movedown" style="height: 380px;">

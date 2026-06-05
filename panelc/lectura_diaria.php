@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Activamos el almacenamiento en el buffer
 ob_start();
 session_start();
@@ -18,23 +18,7 @@ if ($_SESSION['administrador']==1)
 <div class="main-panel">
           <div class="content-wrapper">
             
-            <style>
-              .estilo_btn_delete_text_reg{
-                float: left; text-align: center;
-                transition: all 0.3s;
-                padding: 2px;
-                cursor: pointer;
-              }
-              .estilo_btn_delete_text_reg:hover{
-                float: left; text-align: center;
-                background-color:rgb(50, 123, 231);
-                border-radius: 5px;
-                height: 25px;
-                padding: 2px;
-                cursor: pointer;
-                transition: all 0.3s;
-              }
-            </style>
+            <link rel="stylesheet" href="css/lectura_diaria.css">
             
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">

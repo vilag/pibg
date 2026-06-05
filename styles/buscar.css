@@ -1,0 +1,106 @@
+.buscar_banner {
+    background: linear-gradient(135deg, #042C49, #24344B);
+    padding: 60px 0 50px;
+}
+.buscar_banner h1 {
+    color: #fff;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.buscar_banner p {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    margin-bottom: 28px;
+}
+.buscar_form_wrap {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.buscar_form_wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 14px 24px;
+    font-size: 15px;
+    color: #333;
+    background: transparent;
+}
+.buscar_form_wrap button {
+    padding: 14px 28px;
+    background: #F85E0C;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.buscar_form_wrap button:hover { background: #d94e00; }
+
+.buscar_seccion { padding: 40px 0 0; }
+.buscar_seccion_titulo {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #F85E0C;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+}
+.buscar_item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f5f5f5;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+}
+.buscar_item:hover { color: inherit; text-decoration: none; }
+.buscar_item:hover .bi_titulo { color: #F85E0C; }
+.bi_icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #042C49, #24344B);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: #fff; font-size: 18px;
+}
+.bi_titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #24344B;
+    margin-bottom: 4px;
+    transition: color 0.2s;
+}
+.bi_sub { font-size: 13px; color: #888; }
+.buscar_vacio {
+    text-align: center;
+    padding: 80px 20px;
+    color: #aaa;
+}
+.buscar_vacio i { font-size: 56px; display: block; margin-bottom: 20px; color: #ddd; }
+.buscar_vacio h3 { color: #666; font-size: 20px; margin-bottom: 8px; }
+
+@media only screen and (max-width: 575px) {
+    .buscar_banner { padding: 36px 0 28px; }
+    .buscar_banner h1 { font-size: 26px; }
+    .buscar_banner p { font-size: 13px; margin-bottom: 20px; }
+    .buscar_form_wrap { border-radius: 8px; max-width: 100%; }
+    .buscar_form_wrap input { padding: 12px 16px; font-size: 14px; }
+    .buscar_form_wrap button { padding: 12px 16px; font-size: 15px; }
+    .buscar_seccion { padding: 28px 0 0; }
+    .buscar_item { gap: 10px; padding: 12px 0; }
+    .bi_icon { width: 38px; height: 38px; font-size: 15px; flex-shrink: 0; }
+    .bi_titulo { font-size: 14px; }
+    .bi_sub { font-size: 11px; }
+    .buscar_vacio { padding: 50px 16px; }
+    .buscar_vacio i { font-size: 40px; }
+    .buscar_vacio h3 { font-size: 17px; }
+}

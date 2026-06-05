@@ -1,0 +1,10 @@
+.serie_nav_block { background: #f0f4f8; border-left: 4px solid #042C49; padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 28px; }
+.serie_nav_block .serie_label { font-size: 12px; color: #888; margin-bottom: 4px; }
+.serie_nav_block .serie_nombre_link { font-size: 16px; font-weight: 700; color: #042C49; text-decoration: none; }
+.serie_nav_block .serie_nombre_link:hover { text-decoration: underline; }
+.serie_nav_prev_next { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+.nav_btn { padding: 10px 18px; border-radius: 8px; background: #042C49; color: #fff; text-decoration: none; font-size: 13px; display: inline-block; }
+.nav_btn:hover { background: #063d6b; color: #fff; text-decoration: none; }
+.nav_btn.disabled { background: #ccc; pointer-events: none; }
+.sermon_meta_footer { margin-top: 40px; padding: 16px 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #042C49; }
+.sermon_meta_footer b { color: #042C49; }

@@ -1,0 +1,15 @@
+.estilo_btn_delete_text_reg {
+  float: left; text-align: center;
+  transition: all 0.3s;
+  padding: 2px;
+  cursor: pointer;
+}
+.estilo_btn_delete_text_reg:hover {
+  float: left; text-align: center;
+  background-color: rgb(50, 123, 231);
+  border-radius: 5px;
+  height: 25px;
+  padding: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}

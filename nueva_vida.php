@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <title>¿Quién es Jesús?</title>
@@ -57,40 +57,7 @@ require 'header.php';
 
    
 
-    <style>
-        @media (max-width: 945px) {
-
-            .estilo_video{
-                width: 90% !important; 
-                height: auto; 
-                overflow: hidden;
-                margin-top: 0px !important;
-            }
-			.estilo_video_2{
-				width: 90% !important; 
-                height: auto; 
-                overflow: hidden;
-                margin-top: 100px !important;
-			}
-        
-        }
-
-		.estilo_video_sombra{
-			width: 100%; 
-			height: 100%; 
-			background-color: rgba(0,0,0,0.8); 
-			position: fixed; 
-			margin-left: 0px; 
-			z-index: 9999; 
-			display: flex; 
-			justify-content: center; 
-			align-items: center;
-			/* margin-top: 100px;  */
-		}
-		
-
-		
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles/nueva_vida.css">
 
     <div id="intro_nueva_vida" class="estilo_video_sombra">
 		<div id="content_video" class="estilo_video" style="width: 80%; height: auto; overflow: hidden; margin-top: 130px;">
