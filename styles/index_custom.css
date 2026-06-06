@@ -513,7 +513,6 @@ body, body * {
 
 .lumb-section {
 	display: flex;
-	min-height: 540px;
 	overflow: hidden;
 }
 
@@ -623,14 +622,13 @@ body, body * {
 .lumb-photo {
 	width: 50%;
 	overflow: hidden;
-	position: relative;
 }
 
 .lumb-photo img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	object-position: center;
+	object-position: top center;
 	display: block;
 	transition: transform 0.6s ease;
 }
@@ -639,19 +637,200 @@ body, body * {
 	transform: scale(1.03);
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* ── Responsive Lumbrera ─────────────────────────────────────── */
 
-/* Tablet pequeña / móvil grande: apilar verticalmente */
 @media (max-width: 768px) {
 	.lumb-section   { flex-direction: column; }
 	.lumb-content   { width: 100%; padding: 52px 28px; }
-	.lumb-photo     { width: 100%; height: 300px; }
+	.lumb-photo     { width: 100%; }
 	.lumb-btn       { align-self: stretch; justify-content: center; }
 }
 
-/* Tablet mediana (769 – 1024 px): reducir padding */
 @media (min-width: 769px) and (max-width: 1024px) {
 	.lumb-content { padding: 52px 40px; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   GRUPOS DE ESTUDIO BÍBLICO
+════════════════════════════════════════════════════════════════ */
+
+.estbib-section {
+	display: flex;
+	overflow: hidden;
+}
+
+/* ── Foto (izquierda, 55%) ───────────────────────────────────── */
+.estbib-photo {
+	width: 55%;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+.estbib-photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	display: block;
+	transition: transform 0.6s ease;
+}
+
+.estbib-section:hover .estbib-photo img {
+	transform: scale(1.03);
+}
+
+/* ── Panel de contenido (derecha, 45%) ───────────────────────── */
+.estbib-content {
+	width: 45%;
+	background: #1a2b3d;
+	padding: 64px 52px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+.estbib-eyebrow {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: rgba(248,94,12,0.8);
+	margin: 0 0 12px;
+}
+
+.estbib-title {
+	font-family: 'Libre Baskerville', serif !important;
+	font-size: clamp(1.4rem, 2.4vw, 2rem);
+	font-weight: 700;
+	color: #ffffff;
+	margin: 0 0 28px;
+	line-height: 1.25;
+}
+
+/* Tarjetas de horario */
+.estbib-cards {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 28px;
+}
+
+.estbib-card {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	background: rgba(255,255,255,0.05);
+	border: 1px solid rgba(255,255,255,0.09);
+	border-left: 3px solid rgba(248,94,12,0.5);
+	border-radius: 0 8px 8px 0;
+	padding: 16px 20px;
+	transition: background 0.25s ease;
+}
+
+.estbib-card:hover {
+	background: rgba(255,255,255,0.09);
+}
+
+.estbib-card-icon {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: rgba(248,94,12,0.12);
+	border: 1px solid rgba(248,94,12,0.25);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.estbib-card-icon i {
+	font-size: 15px;
+	color: rgba(248,94,12,0.8);
+}
+
+.estbib-card-name {
+	font-size: 13px;
+	font-weight: 700;
+	color: #ffffff;
+	margin: 0 0 4px;
+}
+
+.estbib-card-time {
+	font-size: 12px;
+	color: rgba(255,255,255,0.55);
+	margin: 0;
+}
+
+/* Versículo */
+.estbib-quote {
+	border-left: 3px solid rgba(248,94,12,0.55);
+	background: rgba(255,255,255,0.04);
+	border-radius: 0 8px 8px 0;
+	padding: 18px 22px;
+	margin: 0 0 32px;
+}
+
+.estbib-quote p {
+	font-size: 13px;
+	font-style: italic;
+	color: rgba(255,255,255,0.78);
+	line-height: 1.7;
+	margin: 0 0 8px;
+}
+
+.estbib-quote cite {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: rgba(248,94,12,0.8);
+	font-style: normal;
+}
+
+/* Botón WhatsApp */
+.estbib-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	align-self: flex-start;
+	background: #25D366;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	padding: 13px 28px;
+	border-radius: 30px;
+	text-decoration: none;
+	transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+	box-shadow: 0 6px 20px rgba(37,211,102,0.3);
+}
+
+.estbib-btn:hover {
+	background: #1ebe5d;
+	color: #fff;
+	text-decoration: none;
+	transform: translateY(-2px);
+	box-shadow: 0 10px 28px rgba(37,211,102,0.4);
+}
+
+.estbib-btn .fa {
+	font-size: 16px;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+	.estbib-section  { flex-direction: column; }
+	.estbib-photo    { width: 100%; height: 260px; }
+	.estbib-content  { width: 100%; padding: 48px 24px; }
+	.estbib-btn      { align-self: stretch; justify-content: center; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+	.estbib-photo   { width: 50%; }
+	.estbib-content { width: 50%; padding: 48px 36px; }
 }
 
 

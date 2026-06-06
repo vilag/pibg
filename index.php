@@ -26,7 +26,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=15">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=19">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -650,31 +650,46 @@ Y todo lo que hace, prosperará</p>
 	
 	
 
-	<div class="featured estilo_space_estudio_biblico">
-		<div >
-			<div >
-				
-				<div class="col-lg-8 estilo_izq_est_bib">
-					<img src="images/estudio_b.jpg" alt="" class="estilo_img_est_bib">
+	<!-- ── Grupos de Estudio Bíblico ─────────────────────────────── -->
+	<section class="estbib-section">
+
+		<div class="estbib-photo">
+			<img src="images/estudio_b.jpg" alt="Grupos de Estudio Bíblico">
+		</div>
+
+		<div class="estbib-content" data-aos="fade-left">
+			<p class="estbib-eyebrow">Formación espiritual</p>
+			<h2 class="estbib-title">Grupos de Estudio Bíblico</h2>
+
+			<div class="estbib-cards">
+				<div class="estbib-card">
+					<div class="estbib-card-icon"><i class="fa fa-laptop" aria-hidden="true"></i></div>
+					<div>
+						<p class="estbib-card-name">Estudio bíblico en línea</p>
+						<p class="estbib-card-time">Martes 22:00 hrs. &nbsp;·&nbsp; Miércoles 21:00 hrs.</p>
+					</div>
 				</div>
-				<div class="col-lg-4 estilo_der_est_bib" >
-					<h2 style="color: #fff;">Grupos de Estudio Bíblico</h2><br>
-					<div class="col-lg-12" style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px 10px 10px 0px;">
-						<b>Estudio biblico en línea</b>
-						<p style="color: #ccc;">Martes 22:00 hrs., Miércoles 21:00 hrs.</p>
+				<div class="estbib-card">
+					<div class="estbib-card-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+					<div>
+						<p class="estbib-card-name">Estudio bíblico en casas</p>
+						<p class="estbib-card-time">Viernes 21:00 hrs.</p>
 					</div>
-					<div class="col-lg-12"  style="padding: 20px 30px; background-color: rgba(255,255,255,0.1); color: #fff; margin: 10px 10px 10px 0px;">
-						<b>Estudio biblico en casas</b>
-						<p style="color: #ccc;">Viernes 21:00 hrs.</p>
-					</div>
-					<p style="line-height: 20px; color: #fff; margin: 20px 0px 0px 0px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</p>
-					<p style="color: #fff; margin: 0px;"><b>Salmos 25:5</b></p><br>
-					<!-- <p><a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a></p> -->
-					<p><a class="estilo_btn_reunion" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">Deseo reunirme</a></p>
 				</div>
 			</div>
+
+			<blockquote class="estbib-quote">
+				<p>«Encamíname en tu verdad, y enséñame, porque tú eres el Dios de mi salvación; en ti he esperado todo el día.»</p>
+				<cite>— Salmos 25:5</cite>
+			</blockquote>
+
+			<a class="estbib-btn" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">
+				<i class="fa fa-whatsapp" aria-hidden="true"></i> Deseo reunirme
+			</a>
 		</div>
-	</div>
+
+	</section>
+	<!-- ── /Grupos de Estudio Bíblico ────────────────────────────── -->
 
 	<!-- <div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
 		<div class="container">
