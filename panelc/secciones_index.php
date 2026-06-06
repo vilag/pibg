@@ -173,7 +173,7 @@ if ($_SESSION['administrador'] != 1) { echo '<p>Acceso denegado</p>'; exit; }
         <div class="si-form-row">
           <div>
             <span class="si-label">Nombre interno <small style="color:#aaa;">(solo visible en el panel)</small></span>
-            <input id="sec-nombre" class="si-input" placeholder="Ej. Ministerio de Danza, Anuncio especial…">
+            <input id="sec-nombre" class="si-input" >
           </div>
         </div>
 
@@ -560,9 +560,9 @@ function cancelarForm() { resetForm(); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 /* ── Init ── */
-$(function(){
+window.onload = function() {
     cargarVisibilidad();
-});
+};
 </script>
 
 <?php
