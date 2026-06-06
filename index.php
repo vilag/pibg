@@ -1,12 +1,35 @@
 ﻿<?php
 require_once('config/global.php');
+
+/* ── Modal bienvenida ── */
 $_mbv_cfg = null;
-$_mbv_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-if ($_mbv_conn) {
-    $r = mysqli_query($_mbv_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
+$_idx_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+if ($_idx_conn) {
+    $r = mysqli_query($_idx_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
     if ($r) $_mbv_cfg = mysqli_fetch_assoc($r);
-    mysqli_close($_mbv_conn);
+
+    /* ── Visibilidad secciones fijas ── */
+    $_vis = [];
+    $rv = mysqli_query($_idx_conn, "SELECT clave, activo FROM secciones_visibilidad");
+    if ($rv) { while ($row = mysqli_fetch_assoc($rv)) $_vis[$row['clave']] = (bool)$row['activo']; }
+    // Si la tabla no existe aún, mostrar todo por defecto
+    $vis_defaults = ['actividades'=>1,'jovenes_lumbrera'=>1,'estudio_biblico'=>1,
+                     'lecturas'=>1,'calendario'=>1,'oracion'=>1];
+    foreach ($vis_defaults as $k=>$v) { if (!array_key_exists($k,$_vis)) $_vis[$k] = true; }
+
+    /* ── Secciones personalizadas activas ── */
+    $_secciones_custom = [];
+    $rc = mysqli_query($_idx_conn, "SELECT * FROM secciones_index WHERE activo=1 ORDER BY orden ASC, id ASC");
+    if ($rc) { while ($row = mysqli_fetch_assoc($rc)) $_secciones_custom[] = $row; }
+
+    mysqli_close($_idx_conn);
+} else {
+    // Sin conexión: mostrar todo
+    $_vis = ['actividades'=>true,'jovenes_lumbrera'=>true,'estudio_biblico'=>true,
+             'lecturas'=>true,'calendario'=>true,'oracion'=>true];
+    $_secciones_custom = [];
 }
+function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$clave] : true; }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +49,7 @@ if ($_mbv_conn) {
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=19">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=22">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -274,6 +297,7 @@ if ($_mbv_conn) {
 	</div> -->
 	
 	<!-- ── Actividades Semanales ──────────────────────────────────── -->
+	<?php if (si_vis('actividades')): ?>
 	<section class="actsem-section">
 		<div class="container">
 
@@ -327,6 +351,7 @@ if ($_mbv_conn) {
 
 		</div>
 	</section>
+	<?php endif; /* actividades */ ?>
 	<!-- ── /Actividades Semanales ─────────────────────────────────── -->
 
 	<script>
@@ -342,6 +367,7 @@ if ($_mbv_conn) {
 	</script>
 
 	<!-- ── Jóvenes Lumbrera ───────────────────────────────────────── -->
+	<?php if (si_vis('jovenes_lumbrera')): ?>
 	<section class="lumb-section">
 
 		<div class="lumb-content" data-aos="fade-right">
@@ -367,6 +393,7 @@ if ($_mbv_conn) {
 		</div>
 
 	</section>
+	<?php endif; /* jovenes_lumbrera */ ?>
 	<!-- ── /Jóvenes Lumbrera ──────────────────────────────────────── -->
 
 	
@@ -651,6 +678,7 @@ Y todo lo que hace, prosperará</p>
 	
 
 	<!-- ── Grupos de Estudio Bíblico ─────────────────────────────── -->
+	<?php if (si_vis('estudio_biblico')): ?>
 	<section class="estbib-section">
 
 		<div class="estbib-photo">
@@ -689,6 +717,7 @@ Y todo lo que hace, prosperará</p>
 		</div>
 
 	</section>
+	<?php endif; /* estudio_biblico */ ?>
 	<!-- ── /Grupos de Estudio Bíblico ────────────────────────────── -->
 
 	<!-- <div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
@@ -718,8 +747,9 @@ Y todo lo que hace, prosperará</p>
 
 	
 
+	<?php if (si_vis('lecturas')): ?>
 	<div class="milestones" style="padding-bottom: 70px; padding-top: 120px;">
-		
+
 		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1706298697/paginaWeb/Lectura%20diaria/qgjdezvpsauzsxn9lw4s.png" data-speed="0.8"></div>
 		<div class="container" style="margin-top: -70px;">
 			<div class="row milestones_container">
@@ -751,10 +781,11 @@ Y todo lo que hace, prosperará</p>
 			</div>
 		</div>
 	</div>
+	<?php endif; /* lecturas */ ?>
 
 
-	
-	
+
+
 
 			
 
@@ -1074,7 +1105,7 @@ Y todo lo que hace, prosperará</p>
 	
 
 	<!-- Sections -->
-
+	<?php if (si_vis('calendario')): ?>
 	<div class="grouped_sections">
 		<div class="container">
 			<div class="row">
@@ -1225,35 +1256,40 @@ Y todo lo que hace, prosperará</p>
 			</div>
 		</div>
 	</div>
+	<?php endif; /* calendario */ ?>
 
-	<div class="featured space_orar">
-		<div class="estilo_izq_orar">
-					<!-- <div style="padding: 0px 30px;" > -->
-						<div class="section_title text-center" style="text-align: left !important;"><h2 style="color: #FFF;">NOS GUSTARIA ORAR POR USTED</h2></div>
-						<div class="section_subtitle" style="text-align: left !important; color: #ccc;">Querido hermano, si usted tuviera algun motivo por el cual le gustaria que estemos orando, le invitamos con todo cariño pueda dejarnos su petición de oración en el siguiente formulario.</div>
-					<!-- </div> -->
+	<?php if (si_vis('oracion')): ?>
+	<section class="orar-section">
+		<div class="container orar-container">
+			<div class="orar-info">
+				<div class="orar-eyebrow">Ministerio de Oración</div>
+				<h2 class="orar-title">Nos gustaría orar<br>por usted</h2>
+				<div class="orar-divider"></div>
+				<p class="orar-desc">Querido hermano, si tiene algún motivo de oración, con todo cariño le invitamos a dejarnos su petición. Estaremos orando por usted con fe y amor.</p>
+				<p class="orar-verse">"Oren en todo momento en el Espíritu,<br>con toda oración y súplica."<br><em>— Efesios 6:18</em></p>
+			</div>
+			<div class="orar-form-panel">
+				<form class="orar-form">
+					<div class="orar-field">
+						<input id="nombre_peticion" type="text" class="orar-input" placeholder="Su nombre" required>
+					</div>
+					<div class="orar-field">
+						<input id="telefono_peticion" type="text" class="orar-input" placeholder="Teléfono (opcional)">
+					</div>
+					<div class="orar-field">
+						<textarea id="motivo_peticion" class="orar-input orar-textarea" placeholder="Motivo de oración" required></textarea>
+					</div>
+					<div class="orar-field orar-submit-row">
+						<button type="button" class="orar-btn" onclick="guardar_motivo();">
+							<span>Enviar petición</span>
+							<i class="fa fa-paper-plane" aria-hidden="true"></i>
+						</button>
+					</div>
+				</form>
+			</div>
 		</div>
-		<div class="estilo_der_orar">
-					<!-- <div style="padding: 0px 30px;"> -->
-						<form >
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="nombre_peticion" type="text" class="course_input" placeholder="Nombre" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="telefono_peticion" type="text" class="course_input" placeholder="Teléfono" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px;">
-								<input id="motivo_peticion" type="text" class="course_input" placeholder="Motivo de Oración" required="required">
-							</div>
-							<div style="width: 100%; float: left; margin-top: 10px; display: flex; justify-content: center; margin-top: 30px;">
-								<p onclick="guardar_motivo();" class="course_button" style="text-align: center;"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></p>
-								<!-- <button onclick="guardar_motivo();" class="course_button"><span>Enviar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button> -->
-							</div>
-
-						</form>
-					<!-- </div> -->
-		</div>
-	</div>
+	</section>
+	<?php endif; /* oracion */ ?>
 
 	<!-- <div class="milestones">
 		
@@ -1331,6 +1367,67 @@ Y todo lo que hace, prosperará</p>
 		 -->
 		
 	
+
+<!-- ── Secciones personalizadas ───────────────────────────────── -->
+<?php if (!empty($_secciones_custom)): ?>
+<?php foreach ($_secciones_custom as $_sc):
+    $sc_oscuro  = (bool)$_sc['fondo_oscuro'];
+    $sc_bg      = $sc_oscuro ? '#0d1b2a' : '#f8f7f4';
+    $sc_color   = $sc_oscuro ? '#fff'    : '#333';
+    $sc_eyecolor= '#e07b39';
+    $sc_estilo  = htmlspecialchars($_sc['estilo'] ?: 'centrado');
+    $sc_img     = htmlspecialchars($_sc['imagen_url'] ?? '');
+    $sc_eyebrow = htmlspecialchars($_sc['eyebrow']   ?? '');
+    $sc_titulo  = htmlspecialchars($_sc['titulo']    ?? '');
+    $sc_texto   = nl2br(htmlspecialchars($_sc['texto'] ?? ''));
+    $sc_btn_t   = htmlspecialchars($_sc['btn_texto'] ?? '');
+    $sc_btn_u   = htmlspecialchars($_sc['btn_url']   ?? '');
+?>
+<section class="sc-custom sc-custom--<?php echo $sc_estilo; ?>"
+         style="background:<?php echo $sc_bg; ?>;color:<?php echo $sc_color; ?>;">
+<?php if ($sc_estilo === 'centrado'): ?>
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <?php if ($sc_eyebrow): ?><p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;"><?php echo $sc_eyebrow; ?></p><?php endif; ?>
+                <?php if ($sc_titulo):  ?><h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
+                <?php if ($sc_img):     ?><img src="<?php echo $sc_img; ?>" class="sc-custom__img--centrado" alt=""><?php endif; ?>
+                <?php if ($sc_texto):   ?><p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
+                <?php if ($sc_btn_t):   ?><a href="<?php echo $sc_btn_u ?: '#'; ?>" class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php elseif ($sc_estilo === 'split-izq'): ?>
+    <div class="container">
+        <div class="sc-custom__split">
+            <div class="sc-custom__split-img">
+                <?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" alt=""><?php endif; ?>
+            </div>
+            <div class="sc-custom__split-body">
+                <?php if ($sc_eyebrow): ?><p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;"><?php echo $sc_eyebrow; ?></p><?php endif; ?>
+                <?php if ($sc_titulo):  ?><h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
+                <?php if ($sc_texto):   ?><p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
+                <?php if ($sc_btn_t):   ?><a href="<?php echo $sc_btn_u ?: '#'; ?>" class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php else: /* split-der */ ?>
+    <div class="container">
+        <div class="sc-custom__split sc-custom__split--rev">
+            <div class="sc-custom__split-body">
+                <?php if ($sc_eyebrow): ?><p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;"><?php echo $sc_eyebrow; ?></p><?php endif; ?>
+                <?php if ($sc_titulo):  ?><h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
+                <?php if ($sc_texto):   ?><p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
+                <?php if ($sc_btn_t):   ?><a href="<?php echo $sc_btn_u ?: '#'; ?>" class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
+            </div>
+            <div class="sc-custom__split-img">
+                <?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" alt=""><?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+</section>
+<?php endforeach; endif; ?>
 
 <!-- Footer -->
 <!-- <button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button> -->
