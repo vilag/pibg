@@ -1,7 +1,8 @@
 <?php 
 //Ip de la pc servidor de base de datos
 //define("DB_HOST","sql5c25c.carrierzone.com");
-define("DB_HOST","srv467.hstgr.io");
+//define("DB_HOST","srv467.hstgr.io");  // externo — no usar desde el mismo servidor Hostinger
+define("DB_HOST","localhost");
 
 //Nombre de la base de datos
 

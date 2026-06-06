@@ -20,24 +20,19 @@ function login()
             {"logina":logina,"clavea":clavea},
             function(data)
         {
-            data = JSON.parse(data);
+            var parsed;
+            try { parsed = typeof data === 'string' ? JSON.parse(data) : data; }
+            catch(e) { alert("Error inesperado del servidor. Intente más tarde."); return; }
 
-          // alert(data);
-          // var idusuario = data.idusuario;
-           //alert(idusuario);
-            
-
-            if (data!=null)
-            {
-
-                 //alert("valido");
-                 $(location).attr("href","calendario.php");
-                                
+            if (parsed && parsed.error === 'db') {
+                alert("No se pudo conectar a la base de datos. Intente más tarde.");
+                return;
             }
-            if (data==null) {
 
+            if (parsed != null) {
+                $(location).attr("href","calendario.php");
+            } else {
                 alert("Usuario y/o Password incorrectos");
-                    
             }
         });
 }
