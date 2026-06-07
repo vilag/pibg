@@ -1294,3 +1294,131 @@ body, body * {
     .sc-custom__split-img  { flex: none; width: 100%; }
     .sc-custom__title { font-size: 26px; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   Ministerio Infantil — sección index
+════════════════════════════════════════════════════════════ */
+.infantil-section {
+	display: flex;
+	overflow: hidden;
+}
+
+/* Foto a la izquierda */
+.infantil-photo {
+	width: 50%;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+.infantil-photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+	display: block;
+	transition: transform 0.6s ease;
+}
+.infantil-section:hover .infantil-photo img {
+	transform: scale(1.03);
+}
+
+/* Texto a la derecha */
+.infantil-content {
+	width: 50%;
+	background: #faf7f2;
+	padding: 72px 64px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+.infantil-eyebrow {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: #e07b39;
+	margin: 0 0 12px;
+}
+
+.infantil-title {
+	font-family: 'Libre Baskerville', serif !important;
+	font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+	font-weight: 700;
+	color: #1a2b3d;
+	margin: 0 0 24px;
+	line-height: 1.25;
+}
+
+.infantil-desc {
+	font-size: 15px;
+	color: #555;
+	line-height: 1.75;
+	margin: 0 0 32px;
+}
+.infantil-desc strong {
+	color: #1a2b3d;
+	font-weight: 700;
+}
+
+.infantil-quote {
+	border-left: 3px solid rgba(224,123,57,0.55);
+	background: rgba(224,123,57,0.06);
+	border-radius: 0 8px 8px 0;
+	padding: 20px 24px;
+	margin: 0 0 36px;
+}
+.infantil-quote p {
+	font-size: 14px;
+	font-style: italic;
+	color: #444;
+	line-height: 1.7;
+	margin: 0 0 10px;
+}
+.infantil-quote cite {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: #e07b39;
+	font-style: normal;
+}
+
+.infantil-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	align-self: flex-start;
+	background: #e07b39;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 13px 28px;
+	border-radius: 30px;
+	text-decoration: none;
+	transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+	box-shadow: 0 6px 20px rgba(224,123,57,0.35);
+}
+.infantil-btn:hover {
+	background: #c9661e;
+	color: #fff;
+	text-decoration: none;
+	transform: translateY(-2px);
+	box-shadow: 0 10px 28px rgba(224,123,57,0.45);
+}
+.infantil-btn .fa {
+	font-size: 12px;
+	transition: transform 0.2s;
+}
+.infantil-btn:hover .fa { transform: translateX(3px); }
+
+@media (max-width: 768px) {
+	.infantil-section  { flex-direction: column; }
+	.infantil-photo    { width: 100%; height: 260px; }
+	.infantil-content  { width: 100%; padding: 52px 28px; }
+	.infantil-btn      { align-self: stretch; justify-content: center; }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+	.infantil-content { padding: 52px 40px; }
+}

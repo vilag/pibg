@@ -1,16 +1,27 @@
-<?php 
+<?php
 require_once "global.php";
 
-$conexion = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
+if (!DB_AVAILABLE) {
+    // Entorno local sin DB: responder JSON de error controlado
+    if (!headers_sent()) header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['ok' => false, 'error' => 'no_db', 'msg' => 'Sin base de datos en entorno local']);
+    exit();
+}
 
-mysqli_query( $conexion, 'SET NAMES "'.DB_ENCODE.'"');
+try {
+    $conexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+} catch (Throwable $_e) {
+    if (!headers_sent()) header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['ok' => false, 'error' => 'db', 'msg' => $_e->getMessage()]);
+    exit();
+}
 
-//Si tenemos un posible error en la conexión lo mostramos
-if (mysqli_connect_errno())
-{
-	header('Content-Type: application/json; charset=utf-8');
-	echo json_encode(['ok' => false, 'error' => 'db', 'msg' => mysqli_connect_error()]);
-	exit();
+mysqli_query($conexion, 'SET NAMES "' . DB_ENCODE . '"');
+
+if (mysqli_connect_errno()) {
+    if (!headers_sent()) header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['ok' => false, 'error' => 'db', 'msg' => mysqli_connect_error()]);
+    exit();
 }
 
 if (!function_exists('ejecutarConsulta'))

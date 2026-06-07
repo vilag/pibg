@@ -1,33 +1,33 @@
 ﻿<?php
 require_once('config/global.php');
 
-/* ── Modal bienvenida ── */
-$_mbv_cfg = null;
-$_idx_conn = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-if ($_idx_conn) {
-    $r = mysqli_query($_idx_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
-    if ($r) $_mbv_cfg = mysqli_fetch_assoc($r);
+/* ── Defaults (sin conexión: mostrar todo) ── */
+$_mbv_cfg        = null;
+$_vis            = ['actividades'=>true,'jovenes_lumbrera'=>true,'estudio_biblico'=>true,
+                    'lecturas'=>true,'calendario'=>true,'oracion'=>true];
+$_secciones_custom = [];
 
-    /* ── Visibilidad secciones fijas ── */
-    $_vis = [];
-    $rv = mysqli_query($_idx_conn, "SELECT clave, activo FROM secciones_visibilidad");
-    if ($rv) { while ($row = mysqli_fetch_assoc($rv)) $_vis[$row['clave']] = (bool)$row['activo']; }
-    // Si la tabla no existe aún, mostrar todo por defecto
-    $vis_defaults = ['actividades'=>1,'jovenes_lumbrera'=>1,'estudio_biblico'=>1,
-                     'lecturas'=>1,'calendario'=>1,'oracion'=>1];
-    foreach ($vis_defaults as $k=>$v) { if (!array_key_exists($k,$_vis)) $_vis[$k] = true; }
+if (DB_AVAILABLE) {
+    try {
+        $_idx_conn = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    } catch (Throwable $_e) {
+        $_idx_conn = false;
+    }
 
-    /* ── Secciones personalizadas activas ── */
-    $_secciones_custom = [];
-    $rc = mysqli_query($_idx_conn, "SELECT * FROM secciones_index WHERE activo=1 ORDER BY orden ASC, id ASC");
-    if ($rc) { while ($row = mysqli_fetch_assoc($rc)) $_secciones_custom[] = $row; }
+    if ($_idx_conn) {
+        $r = mysqli_query($_idx_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
+        if ($r) $_mbv_cfg = mysqli_fetch_assoc($r);
 
-    mysqli_close($_idx_conn);
-} else {
-    // Sin conexión: mostrar todo
-    $_vis = ['actividades'=>true,'jovenes_lumbrera'=>true,'estudio_biblico'=>true,
-             'lecturas'=>true,'calendario'=>true,'oracion'=>true];
-    $_secciones_custom = [];
+        $rv = mysqli_query($_idx_conn, "SELECT clave, activo FROM secciones_visibilidad");
+        if ($rv) {
+            while ($row = mysqli_fetch_assoc($rv)) $_vis[$row['clave']] = (bool)$row['activo'];
+        }
+
+        $rc = mysqli_query($_idx_conn, "SELECT * FROM secciones_index WHERE activo=1 ORDER BY orden ASC, id ASC");
+        if ($rc) { while ($row = mysqli_fetch_assoc($rc)) $_secciones_custom[] = $row; }
+
+        mysqli_close($_idx_conn);
+    }
 }
 function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$clave] : true; }
 ?>
@@ -49,7 +49,7 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=22">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=23">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -395,6 +395,35 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 	</section>
 	<?php endif; /* jovenes_lumbrera */ ?>
 	<!-- ── /Jóvenes Lumbrera ──────────────────────────────────────── -->
+
+	<!-- ── Ministerio Infantil ───────────────────────────────────── -->
+	<section class="infantil-section">
+
+		<div class="infantil-photo">
+			<img src="images/ministerios/ninos.png" alt="Ministerio Infantil">
+		</div>
+
+		<div class="infantil-content" data-aos="fade-left">
+			<p class="infantil-eyebrow">Ministerio Infantil</p>
+			<h2 class="infantil-title">Los niños son<br>bienvenidos aquí</h2>
+			<p class="infantil-desc">
+				En el Ministerio Infantil sembramos la Palabra de Dios en los corazones más pequeños.<br>
+				Contamos con maestros comprometidos y un espacio seguro y alegre para que los niños
+				crezcan en la fe cada <strong>domingo</strong>.
+			</p>
+
+			<blockquote class="infantil-quote">
+				<p>«Dejad a los niños venir a mí, y no se lo impidáis;<br>porque de los tales es el reino de los cielos.»</p>
+				<cite>— Mateo 19:14</cite>
+			</blockquote>
+
+			<a href="infantil.php" class="infantil-btn">
+				Conoce el ministerio <i class="fa fa-arrow-right" aria-hidden="true"></i>
+			</a>
+		</div>
+
+	</section>
+	<!-- ── /Ministerio Infantil ──────────────────────────────────── -->
 
 	
 
