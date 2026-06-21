@@ -200,8 +200,9 @@ function mostrar_configuracion_matriz() {
     var ordenCodigo = config.orden_codigo || '';
     var valorBase = config.valor_base !== undefined ? config.valor_base : '';
     var omitirBase = config.omitir_base ? 'Sí' : 'No';
+    var espacios = config.separador ? 'Sí' : 'No';
     var ejemplo = (matriz_json_actual.codigos && matriz_json_actual.codigos[0] && matriz_json_actual.codigos[0][0]) ? matriz_json_actual.codigos[0][0] : '';
-    var html = '<b>Configuración:</b> ' + filas + ' filas, ' + columnas + ' columnas, dígitos fila: ' + digitosFila + ', dígitos columna: ' + digitosCol + ', orden: ' + ordenCodigo + ', base: ' + valorBase + ', omitir base: ' + omitirBase + (ejemplo ? ', ejemplo: ' + ejemplo : '');
+    var html = '<b>Configuración:</b> ' + filas + ' filas, ' + columnas + ' columnas, dígitos fila: ' + digitosFila + ', dígitos columna: ' + digitosCol + ', orden: ' + ordenCodigo + ', base: ' + valorBase + ', omitir base: ' + omitirBase + ', espacios: ' + espacios + (ejemplo ? ', ejemplo: ' + ejemplo : '');
     $('#info_matriz_config').html(html).show();
 }
 
@@ -530,8 +531,9 @@ function enviar_registros_manual(nombres, columnas, digFila, digCol) {
     var ordenCodigo = $('#input_orden_concat').val() || 'col-fila-base';
     var valorBase = $('#chk_omitir_base').is(':checked') ? '' : ($('#input_valor_base').val() || '0');
     var omitirBase = $('#chk_omitir_base').is(':checked') ? 1 : 0;
+    var separador = $('#chk_separador').is(':checked') ? 1 : 0;
     $.post('ajax/sesion_matriz.php?op=guardar_matriz_manual',
-        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas, digitos_fila: digFila, digitos_col: digCol, orden_codigo: ordenCodigo, valor_base: valorBase, omitir_base: omitirBase },
+        { idsesion: idsesion_actual, nombres: JSON.stringify(nombres), columnas: columnas, digitos_fila: digFila, digitos_col: digCol, orden_codigo: ordenCodigo, valor_base: valorBase, omitir_base: omitirBase, separador: separador },
         function (r) {
             var res = JSON.parse(r);
             if (res.ok) {

@@ -21,10 +21,12 @@ switch ($_GET['op'] ?? '') {
         $orden_codigo = $_POST['orden_codigo'] ?? 'col-fila-base';
         $valor_base = $_POST['valor_base'] ?? '0';
         $omitir_base = isset($_POST['omitir_base']) ? (int)$_POST['omitir_base'] : 0;
+        $separador = isset($_POST['separador']) ? (int)$_POST['separador'] : 0;
         if ($idsesion === 0 || !is_array($nombres) || $columnas < 1 || $columnas > 1000) {
             echo json_encode(['ok' => false, 'msg' => 'Datos inválidos']);
             break;
         }
+        $sep = $separador ? ' ' : '';
         // Generar estructura JSON: filas, columnas, checks, codigos, config
         $matriz = [
             'filas' => $nombres,
@@ -36,7 +38,8 @@ switch ($_GET['op'] ?? '') {
                 'digitos_col' => $digitos_col,
                 'orden_codigo' => $orden_codigo,
                 'valor_base' => $valor_base,
-                'omitir_base' => $omitir_base
+                'omitir_base' => $omitir_base,
+                'separador' => $separador
             ]
         ];
         for ($i = 1; $i <= $columnas; $i++) {
@@ -48,19 +51,18 @@ switch ($_GET['op'] ?? '') {
             $filaPad = str_pad($idx_fila + 1, $digitos_fila, '0', STR_PAD_LEFT);
             for ($j = 1; $j <= $columnas; $j++) {
                 $colPad = str_pad($j, $digitos_col, '0', STR_PAD_LEFT);
-                $base = $omitir_base ? '' : $valor_base;
                 switch ($orden_codigo) {
-                    case 'col-fila-base': $codigo = $colPad . $filaPad . $base; break;
-                    case 'fila-col-base': $codigo = $filaPad . $colPad . $base; break;
-                    case 'base-col-fila': $codigo = $base . $colPad . $filaPad; break;
-                    case 'base-fila-col': $codigo = $base . $filaPad . $colPad; break;
-                    case 'col-base-fila': $codigo = $colPad . $base . $filaPad; break;
-                    case 'fila-base-col': $codigo = $filaPad . $base . $colPad; break;
-                    case 'col-fila': $codigo = $colPad . $filaPad; break;
-                    case 'fila-col': $codigo = $filaPad . $colPad; break;
-                    default: $codigo = $colPad . $filaPad . $base; break;
+                    case 'col-fila-base': $parts = $omitir_base ? [$colPad, $filaPad]          : [$colPad, $filaPad, $valor_base]; break;
+                    case 'fila-col-base': $parts = $omitir_base ? [$filaPad, $colPad]          : [$filaPad, $colPad, $valor_base]; break;
+                    case 'base-col-fila': $parts = $omitir_base ? [$colPad, $filaPad]          : [$valor_base, $colPad, $filaPad]; break;
+                    case 'base-fila-col': $parts = $omitir_base ? [$filaPad, $colPad]          : [$valor_base, $filaPad, $colPad]; break;
+                    case 'col-base-fila': $parts = $omitir_base ? [$colPad, $filaPad]          : [$colPad, $valor_base, $filaPad]; break;
+                    case 'fila-base-col': $parts = $omitir_base ? [$filaPad, $colPad]          : [$filaPad, $valor_base, $colPad]; break;
+                    case 'col-fila':      $parts = [$colPad, $filaPad]; break;
+                    case 'fila-col':      $parts = [$filaPad, $colPad]; break;
+                    default:              $parts = $omitir_base ? [$colPad, $filaPad]          : [$colPad, $filaPad, $valor_base]; break;
                 }
-                $codigos_fila[] = $codigo;
+                $codigos_fila[] = implode($sep, $parts);
             }
             $matriz['codigos'][] = $codigos_fila;
         }

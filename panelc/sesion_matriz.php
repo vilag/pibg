@@ -156,6 +156,12 @@ if ($_SESSION['administrador'] == 1):
                           <input type="checkbox" id="chk_omitir_base"> Omitir base
                         </label>
                       </div>
+                      <div class="sm-field">
+                        <label>&nbsp;</label>
+                        <label class="sm-field-check">
+                          <input type="checkbox" id="chk_separador"> Espacios entre valores
+                        </label>
+                      </div>
                       <div class="sm-field sm-field-wide">
                         <label>Orden del código</label>
                         <select id="input_orden_concat">
