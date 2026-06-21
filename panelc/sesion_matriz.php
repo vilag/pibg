@@ -334,64 +334,6 @@ if ($_SESSION['administrador'] == 1):
       /* Se inyecta HTML con clases nuevas desde listar_sesiones() — ver JS abajo ---- */
     </script>
 
-    <script>
-      /* Parche: sobreescribir listar_sesiones para usar las nuevas tarjetas */
-      var _orig_listar = listar_sesiones;
-      listar_sesiones = function () {
-        $("#spinner_carga").show();
-        $.get("ajax/sesion_matriz.php?op=listar_sesiones", function (data) {
-          $("#spinner_carga").hide();
-          var lista;
-          try { lista = JSON.parse(data); } catch (e) { lista = []; }
-          var html = '';
-          if (!lista.length) {
-            html = '<div class="sm-empty-state">' +
-              '<div class="sm-empty-icon">📋</div>' +
-              '<p>No hay listas registradas todavía.</p>' +
-              '<small>Crea una nueva lista con el botón de arriba.</small>' +
-              '</div>';
-          } else {
-            lista.forEach(function (s) {
-              var desc = s.descripcion ? '<span class="sm-sc-badge">📝 ' + s.descripcion + '</span>' : '';
-              html += '<div class="sm-session-card" onclick="abrir_sesion(' + s.idsesion + ',\'' + escapar(s.nombre) + '\',\'' + escapar(s.descripcion) + '\');">' +
-                '<div class="sm-sc-icon">📦</div>' +
-                '<div class="sm-sc-info">' +
-                '<h6>' + s.nombre + '</h6>' +
-                '<div class="sm-sc-meta">' +
-                '<span class="sm-sc-badge">&#9634; <b>' + s.total_registros + '</b> registros</span>' +
-                '<span class="sm-sc-badge">&#128197; ' + s.fecha_creacion + '</span>' +
-                desc +
-                '</div>' +
-                '</div>' +
-                '<div class="sm-sc-actions">' +
-                '<button class="sm-btn-outline" onclick="editar_sesion(event,' + s.idsesion + ',\'' + escapar(s.nombre) + '\',\'' + escapar(s.descripcion) + '\');">Editar</button>' +
-                '<button class="sm-btn-danger" onclick="pedir_eliminar_sesion(event,' + s.idsesion + ');">Eliminar</button>' +
-                '</div>' +
-                '</div>';
-            });
-          }
-          $("#lista_sesiones").html(html);
-        });
-      };
-
-      /* Parche: sobreescribir toggle_modo_edicion para actualizar el label del botón nuevo */
-      var _orig_toggle = toggle_modo_edicion;
-      toggle_modo_edicion = function () {
-        modo_edicion = !modo_edicion;
-        var $btn = $('#btn_modo_edicion');
-        var $lbl = $('#lbl_modo_edicion');
-        if (modo_edicion) {
-          $lbl.text('Desactivar edición');
-          $btn.addClass('btn-warning').removeClass('btn-secondary');
-          $('#tbl_matriz_wrap').addClass('modo-edicion-activo');
-        } else {
-          $lbl.text('Activar edición');
-          $btn.removeClass('btn-warning').addClass('btn-secondary');
-          $('#tbl_matriz_wrap').removeClass('modo-edicion-activo');
-        }
-      };
-    </script>
-
     <?php
     require "footer.php";
     ?>

@@ -1,9 +1,11 @@
 -- Tabla de sesiones (agrupador del listado cargado desde Excel)
 CREATE TABLE IF NOT EXISTS sesion_lista (
-  idsesion     INT          AUTO_INCREMENT PRIMARY KEY,
-  nombre       VARCHAR(255) NOT NULL,
-  descripcion  VARCHAR(500) DEFAULT NULL,
-  fecha_creacion DATETIME   DEFAULT CURRENT_TIMESTAMP
+  idsesion       INT          AUTO_INCREMENT PRIMARY KEY,
+  nombre         VARCHAR(255) NOT NULL,
+  descripcion    VARCHAR(500) DEFAULT NULL,
+  columnas       INT          DEFAULT 52,
+  matriz_json    LONGTEXT     DEFAULT NULL,
+  fecha_creacion DATETIME     DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de registros cargados desde Excel + 52 columnas (ej: semanas del año)

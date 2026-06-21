@@ -1,2 +1,3 @@
 # Archivos con secretos — NUNCA subir a git
 panelc/config/secrets.php
+

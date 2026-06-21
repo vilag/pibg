@@ -30,7 +30,6 @@ class Sesion_matriz {
     // Guardar el número de columnas para la sesión
     public function actualizar_columnas_sesion($idsesion, $columnas)
     {
-        global $conexion;
         $idsesion = (int)$idsesion;
         $columnas = (int)$columnas;
         if ($columnas < 1 || $columnas > 1000) return false;
@@ -73,6 +72,13 @@ class Sesion_matriz {
         {
             $idsesion = (int)$idsesion;
             $sql = "DELETE FROM sesion_lista WHERE idsesion = $idsesion";
+            return ejecutarConsulta($sql);
+        }
+
+        public function listar_registros($idsesion)
+        {
+            $idsesion = (int)$idsesion;
+            $sql = "SELECT * FROM sesion_registro WHERE idsesion = $idsesion ORDER BY idregistro ASC";
             return ejecutarConsulta($sql);
         }
 

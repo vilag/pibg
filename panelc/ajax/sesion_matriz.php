@@ -4,7 +4,6 @@ error_reporting(0);
 session_start();
 
 ob_start();
-session_start();
 require_once "../modelos/Sesion_matriz.php";
 require_once "../config/global.php";
 

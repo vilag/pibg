@@ -40,29 +40,35 @@ function listar_sesiones() {
     $("#spinner_carga").show();
     $.get("ajax/sesion_matriz.php?op=listar_sesiones", function (data) {
         $("#spinner_carga").hide();
-        var lista = JSON.parse(data);
+        var lista;
+        try { lista = JSON.parse(data); } catch (e) { lista = []; }
         var html = '';
-
-        if (lista.length === 0) {
-            html = '<p style="color:#888; text-align:center; padding:20px;">No hay sesiones registradas. Crea una nueva.</p>';
+        if (!lista.length) {
+            html = '<div class="sm-empty-state">' +
+                '<div class="sm-empty-icon">📋</div>' +
+                '<p>No hay listas registradas todavía.</p>' +
+                '<small>Crea una nueva lista con el botón de arriba.</small>' +
+                '</div>';
         } else {
             lista.forEach(function (s) {
-                html += '<div class="card-sesion">' +
-                    '<div class="info" onclick="abrir_sesion(' + s.idsesion + ',\'' + escapar(s.nombre) + '\',\'' + escapar(s.descripcion) + '\');">' +
+                var desc = s.descripcion ? '<span class="sm-sc-badge">📝 ' + s.descripcion + '</span>' : '';
+                html += '<div class="sm-session-card" onclick="abrir_sesion(' + s.idsesion + ',\'' + escapar(s.nombre) + '\',\'' + escapar(s.descripcion) + '\');">' +
+                    '<div class="sm-sc-icon">📦</div>' +
+                    '<div class="sm-sc-info">' +
                     '<h6>' + s.nombre + '</h6>' +
-                    '<small>' + (s.descripcion ? s.descripcion + ' &nbsp;|&nbsp; ' : '') +
-                    s.total_registros + ' registro(s) &nbsp;|&nbsp; Creada: ' + s.fecha_creacion + '</small>' +
+                    '<div class="sm-sc-meta">' +
+                    '<span class="sm-sc-badge">&#9634; <b>' + s.total_registros + '</b> registros</span>' +
+                    '<span class="sm-sc-badge">&#128197; ' + s.fecha_creacion + '</span>' +
+                    desc +
                     '</div>' +
-                    '<div class="acciones">' +
-                    '<button class="btn btn-sm btn-outline-secondary" ' +
-                    'onclick="editar_sesion(event,' + s.idsesion + ',\'' + escapar(s.nombre) + '\',\'' + escapar(s.descripcion) + '\');">Editar</button>' +
-                    '<button class="btn btn-sm btn-outline-danger" ' +
-                    'onclick="pedir_eliminar_sesion(event,' + s.idsesion + ');">Eliminar</button>' +
+                    '</div>' +
+                    '<div class="sm-sc-actions">' +
+                    '<button class="sm-btn-outline" onclick="editar_sesion(event,' + s.idsesion + ',\'' + escapar(s.nombre) + '\',\'' + escapar(s.descripcion) + '\');">Editar</button>' +
+                    '<button class="sm-btn-danger" onclick="pedir_eliminar_sesion(event,' + s.idsesion + ');">Eliminar</button>' +
                     '</div>' +
                     '</div>';
             });
         }
-
         $("#lista_sesiones").html(html);
     });
 }
@@ -182,8 +188,8 @@ function cargar_matriz(idsesion) {
         mostrar_configuracion_matriz();
         renderizar_matriz_json();
     });
+}
 
-// Muestra la configuración de la matriz sobre la tabla
 function mostrar_configuracion_matriz() {
     if (!matriz_json_actual) { $('#info_matriz_config').hide(); return; }
     var filas = matriz_json_actual.filas ? matriz_json_actual.filas.length : 0;
@@ -197,7 +203,6 @@ function mostrar_configuracion_matriz() {
     var ejemplo = (matriz_json_actual.codigos && matriz_json_actual.codigos[0] && matriz_json_actual.codigos[0][0]) ? matriz_json_actual.codigos[0][0] : '';
     var html = '<b>Configuración:</b> ' + filas + ' filas, ' + columnas + ' columnas, dígitos fila: ' + digitosFila + ', dígitos columna: ' + digitosCol + ', orden: ' + ordenCodigo + ', base: ' + valorBase + ', omitir base: ' + omitirBase + (ejemplo ? ', ejemplo: ' + ejemplo : '');
     $('#info_matriz_config').html(html).show();
-}
 }
 
 function renderizar_matriz_json() {
@@ -322,11 +327,14 @@ function renderizar_matriz(registros) {
 function toggle_modo_edicion() {
     modo_edicion = !modo_edicion;
     var $btn = $('#btn_modo_edicion');
+    var $lbl = $('#lbl_modo_edicion');
     if (modo_edicion) {
-        $btn.text('Desactivar edición').removeClass('btn-secondary').addClass('btn-warning');
+        $lbl.text('Desactivar edición');
+        $btn.addClass('btn-warning').removeClass('btn-secondary');
         $('#tbl_matriz_wrap').addClass('modo-edicion-activo');
     } else {
-        $btn.text('Activar edición').removeClass('btn-warning').addClass('btn-secondary');
+        $lbl.text('Activar edición');
+        $btn.removeClass('btn-warning').addClass('btn-secondary');
         $('#tbl_matriz_wrap').removeClass('modo-edicion-activo');
     }
 }
