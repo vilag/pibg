@@ -3,6 +3,20 @@ require "../config/Conexion.php";
 
 class Predicaciones
 {
+    public function __construct()
+    {
+        // Crea la tabla de relación si aún no existe y migra datos previos
+        ejecutarConsulta("CREATE TABLE IF NOT EXISTS sermon_categorias (
+            idsermones INT NOT NULL,
+            idcat      INT NOT NULL,
+            PRIMARY KEY (idsermones, idcat),
+            KEY idx_sc_idcat (idcat)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        ejecutarConsulta("INSERT IGNORE INTO sermon_categorias (idsermones, idcat)
+            SELECT idsermones, categoria FROM sermones
+            WHERE categoria IS NOT NULL AND categoria > 0");
+    }
+
     public function listar_sermones()
     {
         $sql = "SELECT s.*,

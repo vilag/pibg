@@ -23,6 +23,10 @@
         require('config/global.php');
         $connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
         mysqli_set_charset($connection, 'utf8');
+        if ($connection) {
+            mysqli_query($connection, "CREATE TABLE IF NOT EXISTS sermon_categorias (idsermones INT NOT NULL, idcat INT NOT NULL, PRIMARY KEY (idsermones, idcat), KEY idx_sc_idcat (idcat)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            mysqli_query($connection, "INSERT IGNORE INTO sermon_categorias (idsermones, idcat) SELECT idsermones, categoria FROM sermones WHERE categoria IS NOT NULL AND categoria > 0");
+        }
 
         $fecha = $nom_sermon = $predicador = $actividad = $predicacion = $archivo_pred = '';
         $imagen  = 'images/predicaciones/portadas/fondo1.png';
