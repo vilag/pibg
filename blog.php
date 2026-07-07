@@ -24,21 +24,22 @@
         $connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
         mysqli_set_charset($connection, 'utf8');
 
-        $fecha = $nom_sermon = $predicador = $actividad = $predicacion = '';
+        $fecha = $nom_sermon = $predicador = $actividad = $predicacion = $archivo_pred = '';
         $imagen  = 'images/predicaciones/portadas/fondo1.png';
         $serie_id = 0; $orden_serie = 0;
 
         if ($connection) {
             $r = mysqli_query($connection, "SELECT * FROM sermones WHERE idsermones = $id LIMIT 1");
             if ($r && $row = mysqli_fetch_assoc($r)) {
-                $fecha       = $row['fecha_eti'];
-                $nom_sermon  = $row['nom_sermon'];
-                $predicador  = $row['predicador'];
-                $actividad   = $row['actividad'];
-                $predicacion = $row['predicacion'];
-                $imagen      = $row['imagen'] ?: $imagen;
-                $serie_id    = isset($row['serie_id'])    ? (int)$row['serie_id']    : 0;
-                $orden_serie = isset($row['orden_serie']) ? (int)$row['orden_serie'] : 0;
+                $fecha        = $row['fecha_eti'];
+                $nom_sermon   = $row['nom_sermon'];
+                $predicador   = $row['predicador'];
+                $actividad    = $row['actividad'];
+                $predicacion  = $row['predicacion'];
+                $archivo_pred = $row['archivo_pred'] ?? '';
+                $imagen       = $row['imagen'] ?: $imagen;
+                $serie_id     = isset($row['serie_id'])    ? (int)$row['serie_id']    : 0;
+                $orden_serie  = isset($row['orden_serie']) ? (int)$row['orden_serie'] : 0;
             }
         }
 
@@ -120,7 +121,34 @@
                                         <ul><li><a href="#"><?php echo htmlspecialchars($actividad); ?></a></li></ul>
                                     </div>
                                 </div>
-                                <div class="news_post_text"><?php echo $predicacion; ?></div>
+                                <div class="news_post_text">
+                                <?php if ($archivo_pred): ?>
+                                    <?php $ext_arch = strtolower(pathinfo($archivo_pred, PATHINFO_EXTENSION)); ?>
+                                    <?php if ($ext_arch === 'pdf'): ?>
+                                        <iframe src="<?php echo htmlspecialchars($archivo_pred); ?>"
+                                            width="100%" height="820"
+                                            style="border:none;border-radius:8px;display:block;"
+                                            title="<?php echo htmlspecialchars($nom_sermon); ?>">
+                                            <p>Tu navegador no puede mostrar el PDF.
+                                               <a href="<?php echo htmlspecialchars($archivo_pred); ?>">Descárgalo aquí</a>.
+                                            </p>
+                                        </iframe>
+                                    <?php else: ?>
+                                        <div style="text-align:center;padding:32px 20px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                                            <div style="font-size:2.5rem;margin-bottom:10px;">📄</div>
+                                            <p style="font-size:15px;color:#475569;margin-bottom:18px;">
+                                                Documento de la predicación disponible para descarga.
+                                            </p>
+                                            <a href="<?php echo htmlspecialchars($archivo_pred); ?>" download
+                                               style="display:inline-block;padding:12px 28px;background:#042C49;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
+                                                ⬇ Descargar documento
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <?php echo $predicacion; ?>
+                                <?php endif; ?>
+                                </div>
 
                                 <!-- Datos del sermón -->
                                 <div class="sermon_meta_footer">
