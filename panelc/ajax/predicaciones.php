@@ -5,6 +5,49 @@ require_once "../modelos/Predicaciones.php";
 
 $pred = new Predicaciones();
 
+/* ── Extracción de texto ─────────────────────────────────────── */
+function extraer_texto_docx($ruta) {
+    if (!class_exists('ZipArchive')) return '';
+    $zip = new ZipArchive();
+    if ($zip->open($ruta) !== true) return '';
+    $xml = $zip->getFromName('word/document.xml');
+    $zip->close();
+    if (!$xml) return '';
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $dom->loadXML($xml);
+    libxml_clear_errors();
+    $xpath = new DOMXPath($dom);
+    $xpath->registerNamespace('w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+    $parrafos = $xpath->query('//w:p');
+    $partes = [];
+    foreach ($parrafos as $p) {
+        $textos = $xpath->query('.//w:t', $p);
+        $linea = '';
+        foreach ($textos as $t) { $linea .= $t->nodeValue; }
+        $linea = trim($linea);
+        if ($linea !== '') $partes[] = '<p>' . htmlspecialchars($linea) . '</p>';
+    }
+    return implode("\n", $partes);
+}
+
+function extraer_texto_pdf($ruta) {
+    if (function_exists('shell_exec')) {
+        $cmd    = 'pdftotext -enc UTF-8 ' . escapeshellarg($ruta) . ' - 2>/dev/null';
+        $salida = @shell_exec($cmd);
+        if ($salida && strlen(trim($salida)) > 5) {
+            $bloques = preg_split('/\n{2,}/', trim($salida));
+            $partes  = [];
+            foreach ($bloques as $b) {
+                $b = trim(preg_replace('/[ \t]+/', ' ', $b));
+                if ($b) $partes[] = '<p>' . htmlspecialchars($b) . '</p>';
+            }
+            return implode("\n", $partes);
+        }
+    }
+    return '';
+}
+
 switch ($_GET["op"] ?? '') {
 
     case 'listar':
@@ -153,8 +196,17 @@ switch ($_GET["op"] ?? '') {
         $nombre_original = preg_replace('/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _\-\.]/u', '', $_FILES['archivo']['name']);
         $nombre_original = substr(pathinfo($nombre_original, PATHINFO_FILENAME), 0, 80);
         $nombre_archivo  = 'pred_' . uniqid() . '_' . $nombre_original . '.' . $ext;
-        if (move_uploaded_file($_FILES['archivo']['tmp_name'], $carpeta . $nombre_archivo)) {
-            echo json_encode(['ok' => true, 'ruta' => 'uploads/predicaciones/' . $nombre_archivo, 'nombre' => $_FILES['archivo']['name']]);
+        $ruta_server = $carpeta . $nombre_archivo;
+        if (move_uploaded_file($_FILES['archivo']['tmp_name'], $ruta_server)) {
+            $texto = '';
+            if ($ext === 'docx') $texto = extraer_texto_docx($ruta_server);
+            elseif ($ext === 'pdf') $texto = extraer_texto_pdf($ruta_server);
+            echo json_encode([
+                'ok'     => true,
+                'ruta'   => 'uploads/predicaciones/' . $nombre_archivo,
+                'nombre' => $_FILES['archivo']['name'],
+                'texto'  => $texto,
+            ]);
         } else {
             echo json_encode(['ok' => false, 'msg' => 'Error al guardar el archivo en el servidor.']);
         }

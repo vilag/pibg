@@ -79,9 +79,20 @@ function subir_archivo_pred() {
         success: function (r) {
             var data = typeof r === "string" ? JSON.parse(r) : r;
             if (data.ok) {
-                $("#ruta_archivo_pred").val(data.ruta);
-                $("#upload_estado_archivo").html('✅ <b>' + data.nombre + '</b> subido correctamente.');
-                $("#bloque_archivo_existente").hide();
+                if (data.texto) {
+                    // Texto extraído correctamente: llenar transcripción y cambiar tab
+                    $("#predicacion").val(data.texto);
+                    cambiar_tipo_contenido("transcripcion");
+                    $("#upload_estado_archivo").html('✅ Texto extraído de <b>' + data.nombre + '</b>.');
+                } else {
+                    // No se pudo extraer texto: guardar como archivo de descarga
+                    $("#ruta_archivo_pred").val(data.ruta);
+                    $("#upload_estado_archivo").html(
+                        '⚠️ No se pudo extraer el texto de <b>' + data.nombre +
+                        '</b>. Se guardará como archivo de descarga.'
+                    );
+                    $("#bloque_archivo_existente").hide();
+                }
             } else {
                 $("#upload_estado_archivo").html('<span style="color:#c00;">Error: ' + data.msg + '</span>');
             }
