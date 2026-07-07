@@ -6,29 +6,158 @@ require_once "../modelos/Predicaciones.php";
 $pred = new Predicaciones();
 
 /* ── Extracción de texto ─────────────────────────────────────── */
+
+function _docx_format_num($count, $numFmt) {
+    switch ($numFmt) {
+        case 'lowerLetter': return chr(96 + (($count - 1) % 26) + 1);
+        case 'upperLetter': return chr(64 + (($count - 1) % 26) + 1);
+        case 'lowerRoman':  return strtolower(_docx_int_to_roman($count));
+        case 'upperRoman':  return _docx_int_to_roman($count);
+        default:            return (string)$count;
+    }
+}
+
+function _docx_int_to_roman($n) {
+    $map = [1000=>'M',900=>'CM',500=>'D',400=>'CD',100=>'C',90=>'XC',
+            50=>'L',40=>'XL',10=>'X',9=>'IX',5=>'V',4=>'IV',1=>'I'];
+    $r = '';
+    foreach ($map as $v => $s) { while ($n >= $v) { $r .= $s; $n -= $v; } }
+    return $r;
+}
+
 function extraer_texto_docx($ruta) {
     if (!class_exists('ZipArchive')) return '';
     $zip = new ZipArchive();
     if ($zip->open($ruta) !== true) return '';
-    $xml = $zip->getFromName('word/document.xml');
+    $doc_xml = $zip->getFromName('word/document.xml');
+    $num_xml = $zip->getFromName('word/numbering.xml');
     $zip->close();
-    if (!$xml) return '';
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $dom->loadXML($xml);
-    libxml_clear_errors();
-    $xpath = new DOMXPath($dom);
-    $xpath->registerNamespace('w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-    $parrafos = $xpath->query('//w:p');
-    $partes = [];
-    foreach ($parrafos as $p) {
-        $textos = $xpath->query('.//w:t', $p);
-        $linea = '';
-        foreach ($textos as $t) { $linea .= $t->nodeValue; }
-        $linea = trim($linea);
-        if ($linea !== '') $partes[] = '<p>' . htmlspecialchars($linea) . '</p>';
+    if (!$doc_xml) return '';
+
+    // --- Parsear definiciones de numeración ---
+    // $abstract_nums[abstractNumId][ilvl] = ['numFmt'=>..., 'lvlText'=>..., 'start'=>...]
+    $abstract_nums = [];
+    // $num_map[numId] = abstractNumId
+    $num_map = [];
+
+    if ($num_xml) {
+        $dn = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dn->loadXML($num_xml);
+        libxml_clear_errors();
+        $xn = new DOMXPath($dn);
+        $xn->registerNamespace('w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+
+        foreach ($xn->query('//w:abstractNum') as $an) {
+            $anid = (int)$an->getAttribute('w:abstractNumId');
+            $abstract_nums[$anid] = [];
+            foreach ($xn->query('.//w:lvl', $an) as $lvl) {
+                $ilvl = (int)$lvl->getAttribute('w:ilvl');
+                $fmt  = $xn->query('.//w:numFmt/@w:val',  $lvl)->item(0);
+                $txt  = $xn->query('.//w:lvlText/@w:val', $lvl)->item(0);
+                $st   = $xn->query('.//w:start/@w:val',   $lvl)->item(0);
+                $abstract_nums[$anid][$ilvl] = [
+                    'numFmt'  => $fmt ? $fmt->nodeValue : 'decimal',
+                    'lvlText' => $txt ? $txt->nodeValue : '%1.',
+                    'start'   => $st  ? (int)$st->nodeValue : 1,
+                ];
+            }
+        }
+
+        foreach ($xn->query('//w:num') as $num) {
+            $nid  = (int)$num->getAttribute('w:numId');
+            $abst = $xn->query('.//w:abstractNumId/@w:val', $num)->item(0);
+            if ($abst) $num_map[$nid] = (int)$abst->nodeValue;
+        }
     }
-    return implode("\n", $partes);
+
+    // --- Parsear cuerpo del documento ---
+    $dd = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $dd->loadXML($doc_xml);
+    libxml_clear_errors();
+    $xd = new DOMXPath($dd);
+    $xd->registerNamespace('w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+
+    $counters = [];  // ["numId-ilvl"] => contador actual
+    $html = '';
+
+    foreach ($xd->query('//w:body/w:p') as $p) {
+        // Alineación del párrafo
+        $jc_node = $xd->query('.//w:pPr/w:jc/@w:val', $p)->item(0);
+        $align   = $jc_node ? $jc_node->nodeValue : '';
+
+        // Información de lista
+        $numId_node = $xd->query('.//w:pPr/w:numPr/w:numId/@w:val', $p)->item(0);
+        $ilvl_node  = $xd->query('.//w:pPr/w:numPr/w:ilvl/@w:val', $p)->item(0);
+        $numId = $numId_node ? (int)$numId_node->nodeValue : 0;
+        $ilvl  = $ilvl_node  ? (int)$ilvl_node->nodeValue  : 0;
+
+        // Recolectar texto con formato inline (negrita, cursiva)
+        $line_html = '';
+        foreach ($xd->query('.//w:r', $p) as $run) {
+            $bold   = $xd->query('.//w:rPr/w:b',  $run)->length > 0;
+            $italic = $xd->query('.//w:rPr/w:i',  $run)->length > 0;
+            $text   = '';
+            foreach ($xd->query('.//w:t', $run) as $t) { $text .= $t->nodeValue; }
+            if ($text === '') continue;
+            $text = htmlspecialchars($text);
+            if ($bold && $italic) $text = "<strong><em>$text</em></strong>";
+            elseif ($bold)        $text = "<strong>$text</strong>";
+            elseif ($italic)      $text = "<em>$text</em>";
+            $line_html .= $text;
+        }
+
+        if (trim(strip_tags($line_html)) === '') continue;
+
+        // Generar prefijo de lista
+        $prefix      = '';
+        $margin_left = 0;
+
+        if ($numId > 0 && isset($num_map[$numId])) {
+            $abstractId = $num_map[$numId];
+            $key        = "$numId-$ilvl";
+            $margin_left = ($ilvl + 1) * 20;
+
+            // Inicializar o incrementar contador
+            if (!isset($counters[$key])) {
+                $counters[$key] = $abstract_nums[$abstractId][$ilvl]['start'] ?? 1;
+            } else {
+                $counters[$key]++;
+            }
+            // Resetear niveles más profundos del mismo numId
+            for ($d = $ilvl + 1; $d <= 8; $d++) unset($counters["$numId-$d"]);
+
+            $numFmt  = $abstract_nums[$abstractId][$ilvl]['numFmt']  ?? 'decimal';
+            $lvlText = $abstract_nums[$abstractId][$ilvl]['lvlText'] ?? '%1.';
+
+            if ($numFmt === 'bullet') {
+                // Para viñetas, lvlText ya es el carácter (•, ○, ▪, etc.)
+                $prefix = $lvlText;
+            } else {
+                // Sustituir %N por el valor formateado del nivel N-1
+                $prefix = $lvlText;
+                for ($l = 0; $l <= $ilvl; $l++) {
+                    $pkey = "$numId-$l";
+                    $pcnt = $counters[$pkey] ?? ($abstract_nums[$abstractId][$l]['start'] ?? 1);
+                    $pFmt = $abstract_nums[$abstractId][$l]['numFmt'] ?? 'decimal';
+                    $pVal = _docx_format_num($pcnt, $pFmt);
+                    $prefix = str_replace('%' . ($l + 1), $pVal, $prefix);
+                }
+            }
+        }
+
+        // Construir HTML del párrafo
+        $style = '';
+        if ($align === 'center') $style .= 'text-align:center;';
+        if ($margin_left > 0)   $style .= "margin-left:{$margin_left}px;";
+
+        $attr    = $style ? " style=\"$style\"" : '';
+        $content = $prefix !== '' ? htmlspecialchars($prefix) . '&nbsp;' . $line_html : $line_html;
+        $html   .= "<p{$attr}>{$content}</p>\n";
+    }
+
+    return $html;
 }
 
 function extraer_texto_pdf($ruta) {
