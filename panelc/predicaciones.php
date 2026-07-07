@@ -67,7 +67,7 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Categorías <span style="color:red;">*</span> <small style="color:#888;font-weight:normal;">(una o más)</small></label>
-                                    <div id="categorias_checkboxes" style="border:1px solid #ced4da;border-radius:4px;padding:8px 12px;min-height:42px;max-height:130px;overflow-y:auto;background:#fff;">
+                                    <div id="categorias_checkboxes" style="border:1px solid #ced4da;border-radius:4px;padding:8px 12px;min-height:42px;background:#fff;">
                                         <span style="color:#aaa;font-size:12px;">Cargando...</span>
                                     </div>
                                 </div>

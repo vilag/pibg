@@ -8,14 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function cargar_selectores() {
     $.getJSON("ajax/predicaciones.php?op=listar_categorias", function (cats) {
-        var html = '';
+        var html = '<div style="display:flex;flex-wrap:wrap;gap:6px;">';
         $.each(cats, function (i, c) {
-            html += '<div class="form-check" style="margin-bottom:3px;">'
-                  + '<input class="form-check-input cat-checkbox" type="checkbox" id="cat_cb_' + c.id + '" value="' + c.id + '">'
-                  + '<label class="form-check-label" for="cat_cb_' + c.id + '" style="font-size:13px;cursor:pointer;margin-left:4px;">' + c.nombre + '</label>'
-                  + '</div>';
+            html += '<span class="cat-tag" data-id="' + c.id + '" onclick="toggleCatTag(this)"'
+                  + ' style="display:inline-block;padding:5px 14px;border-radius:20px;border:2px solid #042C49;'
+                  + 'background:#fff;color:#042C49;font-size:13px;cursor:pointer;user-select:none;transition:background 0.15s,color 0.15s;">'
+                  + c.nombre + '</span>';
         });
-        $("#categorias_checkboxes").html(html || '<span style="color:#aaa;font-size:12px;">No hay categorías. Crea una primero.</span>');
+        html += '</div>';
+        $("#categorias_checkboxes").html(cats.length ? html : '<span style="color:#aaa;font-size:12px;">No hay categorías. Crea una primero.</span>');
     });
     $.getJSON("ajax/predicaciones.php?op=listar_series", function (series) {
         var sel = $("#serie_id");
@@ -24,6 +25,15 @@ function cargar_selectores() {
             sel.append('<option value="' + s.id + '">' + s.nombre + '</option>');
         });
     });
+}
+
+function toggleCatTag(el) {
+    var $el = $(el);
+    if ($el.hasClass('cat-selected')) {
+        $el.removeClass('cat-selected').css({ background: '#fff', color: '#042C49' });
+    } else {
+        $el.addClass('cat-selected').css({ background: '#042C49', color: '#fff' });
+    }
 }
 
 function toggle_orden_serie() {
@@ -140,7 +150,7 @@ function limpiar_form_pred() {
     $("#fecha_eti").val("");
     $("#predicador").val("");
     $("#actividad").val("");
-    $(".cat-checkbox").prop("checked", false);
+    $(".cat-tag").removeClass("cat-selected").css({ background: '#fff', color: '#042C49' });
     $("#serie_id").val("0");
     $("#orden_serie").val(1);
     $("#bloque_orden_serie").hide();
@@ -175,10 +185,10 @@ function editar_sermon(id) {
         $("#orden_serie").val(data.orden_serie || 1);
         toggle_orden_serie();
         // Marcar categorías
-        $(".cat-checkbox").prop("checked", false);
+        $(".cat-tag").removeClass("cat-selected").css({ background: '#fff', color: '#042C49' });
         if (data.categorias && data.categorias.length > 0) {
             $.each(data.categorias, function (i, id) {
-                $("#cat_cb_" + id).prop("checked", true);
+                $(".cat-tag[data-id='" + id + "']").addClass("cat-selected").css({ background: '#042C49', color: '#fff' });
             });
         }
         if (data.archivo_pred) {
@@ -215,7 +225,7 @@ function guardar_sermon() {
     var tipo  = $("#tipo_contenido_pred").val();
 
     var cats = [];
-    $(".cat-checkbox:checked").each(function () { cats.push(parseInt($(this).val())); });
+    $(".cat-tag.cat-selected").each(function () { cats.push(parseInt($(this).data('id'))); });
 
     if (!nom)          { bootbox.alert("El título es obligatorio."); return; }
     if (!fecha)        { bootbox.alert("La fecha es obligatoria."); return; }
