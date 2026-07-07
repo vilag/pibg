@@ -182,9 +182,13 @@ switch ($_GET["op"] ?? '') {
     case 'listar':
         $series = [];
         $rs = $pred->listar_series_activas();
-        while ($s = $rs->fetch_object()) { $series[$s->idserie] = $s->nombre; }
+        if ($rs) { while ($s = $rs->fetch_object()) { $series[$s->idserie] = $s->nombre; } }
 
         $result = $pred->listar_sermones();
+        if (!$result) {
+            echo "<tr><td colspan='9' style='color:#c00;padding:12px;'>Error al cargar predicaciones. Revisa la consola del servidor.</td></tr>";
+            break;
+        }
         while ($reg = $result->fetch_object()) {
             $cat_nombre   = $reg->categorias_nombres ? htmlspecialchars($reg->categorias_nombres) : '—';
             $serie_nombre = ($reg->serie_id && isset($series[$reg->serie_id])) ? htmlspecialchars($series[$reg->serie_id]) : '—';

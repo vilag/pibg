@@ -19,15 +19,20 @@ class Predicaciones
 
     public function listar_sermones()
     {
+        // Subconsulta correlacionada: evita GROUP BY y es compatible con cualquier modo SQL
         $sql = "SELECT s.*,
-                    MIN(sc.idcat) AS cat_first,
-                    GROUP_CONCAT(cat.nombre ORDER BY cat.nombre SEPARATOR ', ') AS categorias_nombres
+                    (SELECT GROUP_CONCAT(c.nombre ORDER BY c.nombre SEPARATOR ', ')
+                     FROM sermon_categorias sc
+                     LEFT JOIN cat_sermones c ON sc.idcat = c.idcat_sermones
+                     WHERE sc.idsermones = s.idsermones) AS categorias_nombres
                 FROM sermones s
-                LEFT JOIN sermon_categorias sc ON s.idsermones = sc.idsermones
-                LEFT JOIN cat_sermones cat ON sc.idcat = cat.idcat_sermones
-                GROUP BY s.idsermones
                 ORDER BY s.idsermones DESC";
-        return ejecutarConsulta($sql);
+        $result = ejecutarConsulta($sql);
+        // Si falla (tabla aún no existe), usar consulta simple sin categorías
+        if (!$result) {
+            $result = ejecutarConsulta("SELECT * FROM sermones ORDER BY idsermones DESC");
+        }
+        return $result;
     }
 
     public function get_sermon($id)
