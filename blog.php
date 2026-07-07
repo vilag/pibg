@@ -187,9 +187,9 @@
                                 <ul>
                                     <?php
                                     if ($connection) {
-                                        $rc = mysqli_query($connection, "SELECT * FROM cat_sermones ORDER BY idcat_sermones ASC");
-                                        while ($c = mysqli_fetch_assoc($rc)) {
-                                            $idcat  = (int)$c['idcat_sermones'];
+                                        $rc = mysqli_query($connection, "SELECT * FROM cat_sermones ORDER BY 1 ASC");
+                                        if ($rc) while ($c = mysqli_fetch_array($rc)) {
+                                            $idcat  = (int)$c[0];
                                             $active = ($categoria === $idcat) ? " style='font-weight:bold;'" : '';
                                             echo "<li><a href='predicaciones.php?cat={$idcat}'{$active}>" . htmlspecialchars($c['nombre']) . "</a></li>";
                                         }
