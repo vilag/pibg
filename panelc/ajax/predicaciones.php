@@ -180,17 +180,13 @@ function extraer_texto_pdf($ruta) {
 switch ($_GET["op"] ?? '') {
 
     case 'listar':
-        $cats = [];
-        $rc = $pred->listar_categorias();
-        while ($c = $rc->fetch_array()) { $cats[$c[0]] = $c['nombre']; }
-
         $series = [];
         $rs = $pred->listar_series_activas();
         while ($s = $rs->fetch_object()) { $series[$s->idserie] = $s->nombre; }
 
         $result = $pred->listar_sermones();
         while ($reg = $result->fetch_object()) {
-            $cat_nombre   = $cats[$reg->categoria] ?? '—';
+            $cat_nombre   = $reg->categorias_nombres ? htmlspecialchars($reg->categorias_nombres) : '—';
             $serie_nombre = ($reg->serie_id && isset($series[$reg->serie_id])) ? htmlspecialchars($series[$reg->serie_id]) : '—';
             $img_html = $reg->imagen
                 ? "<img src='../" . htmlspecialchars($reg->imagen) . "' onerror=\"this.style.display='none'\" style='width:50px;height:50px;object-fit:cover;border-radius:4px;'>"
@@ -217,16 +213,19 @@ switch ($_GET["op"] ?? '') {
     case 'get_one':
         header('Content-Type: application/json; charset=utf-8');
         $reg = $pred->get_sermon((int)$_GET['id']);
+        if ($reg) { $reg['categorias'] = $pred->get_categorias_sermon((int)$_GET['id']); }
         echo json_encode($reg, JSON_UNESCAPED_UNICODE);
         break;
 
     case 'guardar':
+        $cats = isset($_POST['categorias']) && is_array($_POST['categorias'])
+            ? array_map('intval', $_POST['categorias']) : [];
         $id = $pred->guardar_sermon(
             $_POST['nom_sermon'],
             $_POST['fecha_eti'],
             $_POST['predicador'],
             $_POST['actividad'],
-            (int)$_POST['categoria'],
+            $cats,
             (int)($_POST['serie_id'] ?? 0),
             (int)($_POST['orden_serie'] ?? 0),
             $_POST['imagen'] ?? '',
@@ -237,13 +236,15 @@ switch ($_GET["op"] ?? '') {
         break;
 
     case 'actualizar':
+        $cats = isset($_POST['categorias']) && is_array($_POST['categorias'])
+            ? array_map('intval', $_POST['categorias']) : [];
         $ok = $pred->actualizar_sermon(
             (int)$_POST['idsermones'],
             $_POST['nom_sermon'],
             $_POST['fecha_eti'],
             $_POST['predicador'],
             $_POST['actividad'],
-            (int)$_POST['categoria'],
+            $cats,
             (int)($_POST['serie_id'] ?? 0),
             (int)($_POST['orden_serie'] ?? 0),
             $_POST['imagen'] ?? '',

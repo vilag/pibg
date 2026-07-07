@@ -183,11 +183,11 @@
                                 <ul>
                                     <?php
                                     if ($connection) {
-                                        $rc = mysqli_query($connection, "SELECT * FROM cat_sermones");
-                                        $cnt = 1;
+                                        $rc = mysqli_query($connection, "SELECT * FROM cat_sermones ORDER BY idcat_sermones ASC");
                                         while ($c = mysqli_fetch_assoc($rc)) {
-                                            echo "<li><a href='blog.php?id=$id&cat={$cnt}'>" . htmlspecialchars($c['nombre']) . "</a></li>";
-                                            $cnt++;
+                                            $idcat  = (int)$c['idcat_sermones'];
+                                            $active = ($categoria === $idcat) ? " style='font-weight:bold;'" : '';
+                                            echo "<li><a href='predicaciones.php?cat={$idcat}'{$active}>" . htmlspecialchars($c['nombre']) . "</a></li>";
                                         }
                                     }
                                     ?>
@@ -201,7 +201,7 @@
                                 <?php
                                 if ($connection) {
                                     $ql = $categoria > 0
-                                        ? "SELECT * FROM sermones WHERE categoria = $categoria ORDER BY idsermones DESC LIMIT 3"
+                                        ? "SELECT s.* FROM sermones s INNER JOIN sermon_categorias sc ON s.idsermones = sc.idsermones WHERE sc.idcat = $categoria ORDER BY s.idsermones DESC LIMIT 3"
                                         : "SELECT * FROM sermones ORDER BY idsermones DESC LIMIT 3";
                                     $rl = mysqli_query($connection, $ql);
                                     while ($colum = mysqli_fetch_assoc($rl)) {

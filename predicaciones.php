@@ -97,7 +97,10 @@
                         <?php
                         if ($connection) {
                             if ($categoria > 0) {
-                                $consulta = "SELECT * FROM sermones WHERE categoria = $categoria ORDER BY idsermones DESC LIMIT 12";
+                                $consulta = "SELECT s.* FROM sermones s
+                                             INNER JOIN sermon_categorias sc ON s.idsermones = sc.idsermones
+                                             WHERE sc.idcat = $categoria
+                                             ORDER BY s.idsermones DESC LIMIT 12";
                             } else {
                                 $consulta = "SELECT * FROM sermones ORDER BY idsermones DESC LIMIT 12";
                             }
@@ -105,17 +108,18 @@
                             if ($result && mysqli_num_rows($result) > 0) {
                                 while ($colum = mysqli_fetch_assoc($result)) {
                                     $pred_corta = mb_substr(strip_tags($colum['predicacion']), 0, 400);
+                                    $cat_link   = $categoria > 0 ? $categoria : (int)$colum['categoria'];
                                     echo "<div class='news_post'>";
                                     echo "<div class='news_post_image'><img src='" . htmlspecialchars($colum['imagen']) . "' alt='' onerror=\"this.src='images/predicaciones/portadas/fondo1.png'\"></div>";
                                     echo "<div class='news_post_body'>";
                                     echo "<div class='news_post_date'><a href='#'>" . htmlspecialchars($colum['fecha_eti']) . "</a></div>";
-                                    echo "<div class='news_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "&cat=" . $colum['categoria'] . "'>" . htmlspecialchars($colum['nom_sermon']) . "</a></div>";
+                                    echo "<div class='news_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "&cat=" . $cat_link . "'>" . htmlspecialchars($colum['nom_sermon']) . "</a></div>";
                                     echo "<div class='news_post_meta d-flex flex-row align-items-start justify-content-start'>";
                                     echo "<div class='news_post_author'><a href='#'>" . htmlspecialchars($colum['predicador']) . "</a></div>";
                                     echo "<div class='news_post_comments'><a href='#'>" . htmlspecialchars($colum['actividad']) . "</a></div>";
                                     echo "</div>";
                                     echo "<div class='news_post_text'><p>" . htmlspecialchars($pred_corta) . "...</p></div>";
-                                    echo "<div class='news_post_link'><a href='blog.php?id=" . $colum['idsermones'] . "&cat=" . $colum['categoria'] . "'>Seguir leyendo</a></div>";
+                                    echo "<div class='news_post_link'><a href='blog.php?id=" . $colum['idsermones'] . "&cat=" . $cat_link . "'>Seguir leyendo</a></div>";
                                     echo "</div></div>";
                                 }
                             } else {
@@ -136,12 +140,11 @@
                                     <li><a href="predicaciones.php">Todas</a></li>
                                     <?php
                                     if ($connection) {
-                                        $rc = mysqli_query($connection, "SELECT * FROM cat_sermones");
-                                        $cnt = 1;
+                                        $rc = mysqli_query($connection, "SELECT * FROM cat_sermones ORDER BY idcat_sermones ASC");
                                         while ($c = mysqli_fetch_assoc($rc)) {
-                                            $active = ($categoria == $cnt) ? " style='font-weight:bold;'" : '';
-                                            echo "<li><a href='predicaciones.php?cat={$cnt}'{$active}>" . htmlspecialchars($c['nombre']) . "</a></li>";
-                                            $cnt++;
+                                            $idcat  = (int)$c['idcat_sermones'];
+                                            $active = ($categoria === $idcat) ? " style='font-weight:bold;'" : '';
+                                            echo "<li><a href='predicaciones.php?cat={$idcat}'{$active}>" . htmlspecialchars($c['nombre']) . "</a></li>";
                                         }
                                     }
                                     ?>
@@ -155,15 +158,16 @@
                                 <?php
                                 if ($connection) {
                                     $q = $categoria > 0
-                                        ? "SELECT * FROM sermones WHERE categoria = $categoria ORDER BY idsermones DESC LIMIT 5"
+                                        ? "SELECT s.* FROM sermones s INNER JOIN sermon_categorias sc ON s.idsermones = sc.idsermones WHERE sc.idcat = $categoria ORDER BY s.idsermones DESC LIMIT 5"
                                         : "SELECT * FROM sermones ORDER BY idsermones DESC LIMIT 5";
                                     $rl = mysqli_query($connection, $q);
                                     while ($colum = mysqli_fetch_assoc($rl)) {
+                                        $cat_link = $categoria > 0 ? $categoria : (int)$colum['categoria'];
                                         echo "<div class='latest_post d-flex flex-row align-items-start justify-content-start'>";
                                         echo "<div><div class='latest_post_image'><img src='" . htmlspecialchars($colum['imagen']) . "' alt='' onerror=\"this.src='images/predicaciones/portadas/fondo1.png'\"></div></div>";
                                         echo "<div class='latest_post_body'>";
                                         echo "<div class='latest_post_date'>" . htmlspecialchars($colum['fecha_eti']) . "</div>";
-                                        echo "<div class='latest_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "&cat=" . $colum['categoria'] . "'>" . htmlspecialchars($colum['nom_sermon']) . "</a></div>";
+                                        echo "<div class='latest_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "&cat=" . $cat_link . "'>" . htmlspecialchars($colum['nom_sermon']) . "</a></div>";
                                         echo "<div class='latest_post_author'>" . htmlspecialchars($colum['predicador']) . "</div>";
                                         echo "</div></div>";
                                     }

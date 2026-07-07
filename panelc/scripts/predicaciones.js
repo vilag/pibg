@@ -8,11 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function cargar_selectores() {
     $.getJSON("ajax/predicaciones.php?op=listar_categorias", function (cats) {
-        var sel = $("#categoria");
-        sel.find("option:not(:first)").remove();
+        var html = '';
         $.each(cats, function (i, c) {
-            sel.append('<option value="' + c.id + '">' + c.nombre + '</option>');
+            html += '<div class="form-check" style="margin-bottom:3px;">'
+                  + '<input class="form-check-input cat-checkbox" type="checkbox" id="cat_cb_' + c.id + '" value="' + c.id + '">'
+                  + '<label class="form-check-label" for="cat_cb_' + c.id + '" style="font-size:13px;cursor:pointer;margin-left:4px;">' + c.nombre + '</label>'
+                  + '</div>';
         });
+        $("#categorias_checkboxes").html(html || '<span style="color:#aaa;font-size:12px;">No hay categorías. Crea una primero.</span>');
     });
     $.getJSON("ajax/predicaciones.php?op=listar_series", function (series) {
         var sel = $("#serie_id");
@@ -137,7 +140,7 @@ function limpiar_form_pred() {
     $("#fecha_eti").val("");
     $("#predicador").val("");
     $("#actividad").val("");
-    $("#categoria").val("");
+    $(".cat-checkbox").prop("checked", false);
     $("#serie_id").val("0");
     $("#orden_serie").val(1);
     $("#bloque_orden_serie").hide();
@@ -171,6 +174,13 @@ function editar_sermon(id) {
         $("#serie_id").val(data.serie_id || "0");
         $("#orden_serie").val(data.orden_serie || 1);
         toggle_orden_serie();
+        // Marcar categorías
+        $(".cat-checkbox").prop("checked", false);
+        if (data.categorias && data.categorias.length > 0) {
+            $.each(data.categorias, function (i, id) {
+                $("#cat_cb_" + id).prop("checked", true);
+            });
+        }
         if (data.archivo_pred) {
             cambiar_tipo_contenido("archivo");
             $("#ruta_archivo_pred").val(data.archivo_pred);
@@ -202,14 +212,16 @@ function guardar_sermon() {
     var fecha = $("#fecha_eti").val().trim();
     var pred  = $("#predicador").val().trim();
     var activ = $("#actividad").val();
-    var cat   = $("#categoria").val();
     var tipo  = $("#tipo_contenido_pred").val();
 
-    if (!nom)   { bootbox.alert("El título es obligatorio."); return; }
-    if (!fecha) { bootbox.alert("La fecha es obligatoria."); return; }
-    if (!pred)  { bootbox.alert("El predicador es obligatorio."); return; }
-    if (!activ) { bootbox.alert("Selecciona el tipo de actividad."); return; }
-    if (!cat)   { bootbox.alert("Selecciona una categoría."); return; }
+    var cats = [];
+    $(".cat-checkbox:checked").each(function () { cats.push(parseInt($(this).val())); });
+
+    if (!nom)          { bootbox.alert("El título es obligatorio."); return; }
+    if (!fecha)        { bootbox.alert("La fecha es obligatoria."); return; }
+    if (!pred)         { bootbox.alert("El predicador es obligatorio."); return; }
+    if (!activ)        { bootbox.alert("Selecciona el tipo de actividad."); return; }
+    if (!cats.length)  { bootbox.alert("Selecciona al menos una categoría."); return; }
 
     if (tipo === 'transcripcion') {
         if (!$("#predicacion").val().trim()) {
@@ -226,7 +238,7 @@ function guardar_sermon() {
         fecha_eti:    fecha,
         predicador:   pred,
         actividad:    activ,
-        categoria:    cat,
+        categorias:   cats,
         serie_id:     $("#serie_id").val() || 0,
         orden_serie:  $("#orden_serie").val() || 0,
         imagen:       $("#ruta_imagen_pred").val(),
@@ -295,7 +307,7 @@ function guardar_categoria() {
         if (resp.ok) {
             $("#nueva_categoria").val("");
             cargar_lista_categorias();
-            cargar_selectores();
+            cargar_selectores();  // refresca los checkboxes
         } else {
             bootbox.alert("Error al guardar la categoría.");
         }
@@ -304,7 +316,7 @@ function guardar_categoria() {
 
 function borrar_categoria(id) {
     bootbox.confirm({
-        message: "¿Eliminar esta categoría? Los sermones vinculados quedarán sin categoría.",
+        message: "¿Eliminar esta categoría? Los sermones vinculados perderán esa categoría.",
         buttons: {
             confirm: { label: "Sí", className: "btn-danger" },
             cancel:  { label: "No", className: "btn-secondary" }
@@ -313,7 +325,7 @@ function borrar_categoria(id) {
             if (result) {
                 $.post("ajax/predicaciones.php?op=borrar_categoria", { idcat: id }, function () {
                     cargar_lista_categorias();
-                    cargar_selectores();
+                    cargar_selectores();  // refresca los checkboxes
                 });
             }
         }
