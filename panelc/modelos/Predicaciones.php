@@ -16,38 +16,41 @@ class Predicaciones
         return ejecutarConsultaSimpleFila($sql);
     }
 
-    public function guardar_sermon($nom_sermon, $fecha_eti, $predicador, $actividad, $categoria, $serie_id, $orden_serie, $imagen, $predicacion)
+    public function guardar_sermon($nom_sermon, $fecha_eti, $predicador, $actividad, $categoria, $serie_id, $orden_serie, $imagen, $predicacion, $archivo_pred = '')
     {
         global $conexion;
-        $nom_sermon  = limpiarCadena($nom_sermon);
-        $fecha_eti   = limpiarCadena($fecha_eti);
-        $predicador  = limpiarCadena($predicador);
-        $actividad   = limpiarCadena($actividad);
-        $categoria   = (int)$categoria;
-        $serie_val   = ($serie_id > 0) ? (int)$serie_id : 'NULL';
-        $orden_serie = (int)$orden_serie;
-        $imagen      = limpiarCadena($imagen);
-        $predicacion = mysqli_real_escape_string($conexion, $predicacion);
-        $sql = "INSERT INTO sermones(nom_sermon,fecha_eti,predicador,actividad,categoria,serie_id,orden_serie,imagen,predicacion)
-                VALUES('$nom_sermon','$fecha_eti','$predicador','$actividad',$categoria,$serie_val,$orden_serie,'$imagen','$predicacion')";
+        $nom_sermon   = limpiarCadena($nom_sermon);
+        $fecha_eti    = limpiarCadena($fecha_eti);
+        $predicador   = limpiarCadena($predicador);
+        $actividad    = limpiarCadena($actividad);
+        $categoria    = (int)$categoria;
+        $serie_val    = ($serie_id > 0) ? (int)$serie_id : 'NULL';
+        $orden_serie  = (int)$orden_serie;
+        $imagen       = limpiarCadena($imagen);
+        $predicacion  = mysqli_real_escape_string($conexion, $predicacion);
+        $archivo_pred = limpiarCadena($archivo_pred);
+        $sql = "INSERT INTO sermones(nom_sermon,fecha_eti,predicador,actividad,categoria,serie_id,orden_serie,imagen,predicacion,archivo_pred)
+                VALUES('$nom_sermon','$fecha_eti','$predicador','$actividad',$categoria,$serie_val,$orden_serie,'$imagen','$predicacion','$archivo_pred')";
         return ejecutarConsulta_retornarID($sql);
     }
 
-    public function actualizar_sermon($idsermones, $nom_sermon, $fecha_eti, $predicador, $actividad, $categoria, $serie_id, $orden_serie, $imagen, $predicacion)
+    public function actualizar_sermon($idsermones, $nom_sermon, $fecha_eti, $predicador, $actividad, $categoria, $serie_id, $orden_serie, $imagen, $predicacion, $archivo_pred = '')
     {
         global $conexion;
-        $idsermones  = (int)$idsermones;
-        $nom_sermon  = limpiarCadena($nom_sermon);
-        $fecha_eti   = limpiarCadena($fecha_eti);
-        $predicador  = limpiarCadena($predicador);
-        $actividad   = limpiarCadena($actividad);
-        $categoria   = (int)$categoria;
-        $serie_val   = ($serie_id > 0) ? (int)$serie_id : 'NULL';
-        $orden_serie = (int)$orden_serie;
-        $imagen      = limpiarCadena($imagen);
-        $predicacion = mysqli_real_escape_string($conexion, $predicacion);
+        $idsermones   = (int)$idsermones;
+        $nom_sermon   = limpiarCadena($nom_sermon);
+        $fecha_eti    = limpiarCadena($fecha_eti);
+        $predicador   = limpiarCadena($predicador);
+        $actividad    = limpiarCadena($actividad);
+        $categoria    = (int)$categoria;
+        $serie_val    = ($serie_id > 0) ? (int)$serie_id : 'NULL';
+        $orden_serie  = (int)$orden_serie;
+        $imagen       = limpiarCadena($imagen);
+        $predicacion  = mysqli_real_escape_string($conexion, $predicacion);
+        $archivo_pred = limpiarCadena($archivo_pred);
         $sql = "UPDATE sermones SET nom_sermon='$nom_sermon',fecha_eti='$fecha_eti',predicador='$predicador',actividad='$actividad',
-                categoria=$categoria,serie_id=$serie_val,orden_serie=$orden_serie,imagen='$imagen',predicacion='$predicacion'
+                categoria=$categoria,serie_id=$serie_val,orden_serie=$orden_serie,imagen='$imagen',predicacion='$predicacion',
+                archivo_pred='$archivo_pred'
                 WHERE idsermones=$idsermones";
         return ejecutarConsulta($sql);
     }

@@ -39,6 +39,59 @@ function listar_sermones() {
     });
 }
 
+/* ─── Tipo de contenido: transcripción ↔ archivo ──────────────── */
+function cambiar_tipo_contenido(tipo) {
+    $("#tipo_contenido_pred").val(tipo);
+    if (tipo === 'transcripcion') {
+        $("#panel_transcripcion").show();
+        $("#panel_archivo").hide();
+        $("#btn_tab_transcripcion").css({ background: "#042C49", color: "#fff" });
+        $("#btn_tab_archivo").css({ background: "#fff", color: "#042C49" });
+    } else {
+        $("#panel_transcripcion").hide();
+        $("#panel_archivo").show();
+        $("#btn_tab_archivo").css({ background: "#042C49", color: "#fff" });
+        $("#btn_tab_transcripcion").css({ background: "#fff", color: "#042C49" });
+    }
+}
+
+function subir_archivo_pred() {
+    var archivo = document.getElementById("input_archivo_pred").files[0];
+    if (!archivo) return;
+    var ext = archivo.name.split('.').pop().toLowerCase();
+    if (ext !== 'pdf' && ext !== 'docx') {
+        $("#upload_estado_archivo").html('<span style="color:#c00;">Solo se permiten archivos .pdf o .docx</span>');
+        return;
+    }
+    if (archivo.size > 15 * 1024 * 1024) {
+        $("#upload_estado_archivo").html('<span style="color:#c00;">El archivo supera el límite de 15 MB</span>');
+        return;
+    }
+    var fd = new FormData();
+    fd.append("archivo", archivo);
+    $("#upload_estado_archivo").html('⏳ Subiendo <b>' + archivo.name + '</b>...');
+    $.ajax({
+        url: "ajax/predicaciones.php?op=subir_archivo",
+        type: "POST",
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function (r) {
+            var data = typeof r === "string" ? JSON.parse(r) : r;
+            if (data.ok) {
+                $("#ruta_archivo_pred").val(data.ruta);
+                $("#upload_estado_archivo").html('✅ <b>' + data.nombre + '</b> subido correctamente.');
+                $("#bloque_archivo_existente").hide();
+            } else {
+                $("#upload_estado_archivo").html('<span style="color:#c00;">Error: ' + data.msg + '</span>');
+            }
+        },
+        error: function () {
+            $("#upload_estado_archivo").html('<span style="color:#c00;">Error de conexión al subir el archivo.</span>');
+        }
+    });
+}
+
 function subir_imagen_pred() {
     var archivo = document.getElementById("input_imagen_pred").files[0];
     if (!archivo) return;
@@ -82,6 +135,12 @@ function limpiar_form_pred() {
     $("#img_preview_pred").attr("src", "").hide();
     $("#upload_estado_pred").text("Sin imagen seleccionada");
     $("#predicacion").val("");
+    // Resetear panel de archivo
+    $("#ruta_archivo_pred").val("");
+    $("#input_archivo_pred").val("");
+    $("#upload_estado_archivo").text("Sin archivo seleccionado");
+    $("#bloque_archivo_existente").hide();
+    cambiar_tipo_contenido("transcripcion");
     $("#btn_guardar_pred").text("Guardar predicación");
     $("#titulo_form").text("Nueva Predicación");
     $("#btn_cancelar_pred").hide();
@@ -101,7 +160,17 @@ function editar_sermon(id) {
         $("#serie_id").val(data.serie_id || "0");
         $("#orden_serie").val(data.orden_serie || 1);
         toggle_orden_serie();
-        $("#predicacion").val(data.predicacion);
+        if (data.archivo_pred) {
+            cambiar_tipo_contenido("archivo");
+            $("#ruta_archivo_pred").val(data.archivo_pred);
+            var nombreArchivo = data.archivo_pred.split('/').pop();
+            $("#upload_estado_archivo").html('📄 <b>' + nombreArchivo + '</b>');
+            $("#link_archivo_existente").attr("href", "../" + data.archivo_pred);
+            $("#bloque_archivo_existente").show();
+        } else {
+            cambiar_tipo_contenido("transcripcion");
+            $("#predicacion").val(data.predicacion);
+        }
         if (data.imagen) {
             $("#ruta_imagen_pred").val(data.imagen);
             $("#img_preview_pred").attr("src", "../" + data.imagen).show();
@@ -123,25 +192,35 @@ function guardar_sermon() {
     var pred  = $("#predicador").val().trim();
     var activ = $("#actividad").val();
     var cat   = $("#categoria").val();
-    var conte = $("#predicacion").val().trim();
+    var tipo  = $("#tipo_contenido_pred").val();
 
     if (!nom)   { bootbox.alert("El título es obligatorio."); return; }
     if (!fecha) { bootbox.alert("La fecha es obligatoria."); return; }
     if (!pred)  { bootbox.alert("El predicador es obligatorio."); return; }
     if (!activ) { bootbox.alert("Selecciona el tipo de actividad."); return; }
     if (!cat)   { bootbox.alert("Selecciona una categoría."); return; }
-    if (!conte) { bootbox.alert("El contenido de la transcripción es obligatorio."); return; }
+
+    if (tipo === 'transcripcion') {
+        if (!$("#predicacion").val().trim()) {
+            bootbox.alert("El contenido de la transcripción es obligatorio."); return;
+        }
+    } else {
+        if (!$("#ruta_archivo_pred").val()) {
+            bootbox.alert("Sube un archivo .docx o .pdf antes de guardar."); return;
+        }
+    }
 
     var datos = {
-        nom_sermon:  nom,
-        fecha_eti:   fecha,
-        predicador:  pred,
-        actividad:   activ,
-        categoria:   cat,
-        serie_id:    $("#serie_id").val() || 0,
-        orden_serie: $("#orden_serie").val() || 0,
-        imagen:      $("#ruta_imagen_pred").val(),
-        predicacion: conte
+        nom_sermon:   nom,
+        fecha_eti:    fecha,
+        predicador:   pred,
+        actividad:    activ,
+        categoria:    cat,
+        serie_id:     $("#serie_id").val() || 0,
+        orden_serie:  $("#orden_serie").val() || 0,
+        imagen:       $("#ruta_imagen_pred").val(),
+        predicacion:  tipo === 'transcripcion' ? $("#predicacion").val().trim() : '',
+        archivo_pred: tipo === 'archivo'        ? $("#ruta_archivo_pred").val()  : ''
     };
 
     var op = modo_edicion_pred ? "actualizar" : "guardar";

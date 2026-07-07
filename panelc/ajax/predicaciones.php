@@ -58,7 +58,8 @@ switch ($_GET["op"] ?? '') {
             (int)($_POST['serie_id'] ?? 0),
             (int)($_POST['orden_serie'] ?? 0),
             $_POST['imagen'] ?? '',
-            $_POST['predicacion']
+            $_POST['predicacion'] ?? '',
+            $_POST['archivo_pred'] ?? ''
         );
         echo json_encode(['ok' => $id > 0, 'id' => $id]);
         break;
@@ -74,7 +75,8 @@ switch ($_GET["op"] ?? '') {
             (int)($_POST['serie_id'] ?? 0),
             (int)($_POST['orden_serie'] ?? 0),
             $_POST['imagen'] ?? '',
-            $_POST['predicacion']
+            $_POST['predicacion'] ?? '',
+            $_POST['archivo_pred'] ?? ''
         );
         echo json_encode(['ok' => (bool)$ok]);
         break;
@@ -126,6 +128,35 @@ switch ($_GET["op"] ?? '') {
             echo json_encode(['ok' => true, 'ruta' => 'images/predicaciones/portadas/' . $archivo]);
         } else {
             echo json_encode(['ok' => false, 'msg' => 'Error al guardar el archivo.']);
+        }
+        break;
+
+    case 'subir_archivo':
+        $ext_ok = ['pdf', 'docx'];
+        $mime_ok = [
+            'application/pdf',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/msword',
+        ];
+        if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+            echo json_encode(['ok' => false, 'msg' => 'No se recibió el archivo.']); break;
+        }
+        $ext = strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
+        if (!in_array($ext, $ext_ok)) {
+            echo json_encode(['ok' => false, 'msg' => 'Solo se permiten archivos .pdf o .docx.']); break;
+        }
+        if ($_FILES['archivo']['size'] > 15 * 1024 * 1024) {
+            echo json_encode(['ok' => false, 'msg' => 'El archivo supera el límite de 15 MB.']); break;
+        }
+        $carpeta = '../../uploads/predicaciones/';
+        if (!file_exists($carpeta)) mkdir($carpeta, 0755, true);
+        $nombre_original = preg_replace('/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _\-\.]/u', '', $_FILES['archivo']['name']);
+        $nombre_original = substr(pathinfo($nombre_original, PATHINFO_FILENAME), 0, 80);
+        $nombre_archivo  = 'pred_' . uniqid() . '_' . $nombre_original . '.' . $ext;
+        if (move_uploaded_file($_FILES['archivo']['tmp_name'], $carpeta . $nombre_archivo)) {
+            echo json_encode(['ok' => true, 'ruta' => 'uploads/predicaciones/' . $nombre_archivo, 'nombre' => $_FILES['archivo']['name']]);
+        } else {
+            echo json_encode(['ok' => false, 'msg' => 'Error al guardar el archivo en el servidor.']);
         }
         break;
 }

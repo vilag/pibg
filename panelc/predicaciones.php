@@ -105,9 +105,56 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
                         </div>
 
+                        <!-- Tipo de contenido -->
                         <div class="form-group">
-                            <label>Transcripción <small style="color:#888;">(HTML permitido)</small></label>
-                            <textarea class="form-control" id="predicacion" rows="14" placeholder="Pega aquí el contenido de la predicación. Puedes incluir etiquetas HTML como &lt;p&gt;, &lt;b&gt;, &lt;i&gt;, etc."></textarea>
+                            <label>Contenido de la predicación <span style="color:red;">*</span></label>
+                            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                                <button type="button" id="btn_tab_transcripcion"
+                                    onclick="cambiar_tipo_contenido('transcripcion');"
+                                    style="padding:7px 18px;border-radius:8px;border:2px solid #042C49;background:#042C49;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">
+                                    ✏️ Transcripción
+                                </button>
+                                <button type="button" id="btn_tab_archivo"
+                                    onclick="cambiar_tipo_contenido('archivo');"
+                                    style="padding:7px 18px;border-radius:8px;border:2px solid #042C49;background:#fff;color:#042C49;cursor:pointer;font-size:13px;font-weight:600;">
+                                    📄 Subir archivo (.docx / .pdf)
+                                </button>
+                            </div>
+                            <input type="hidden" id="tipo_contenido_pred" value="transcripcion">
+
+                            <!-- Panel: transcripción -->
+                            <div id="panel_transcripcion">
+                                <textarea class="form-control" id="predicacion" rows="14"
+                                    placeholder="Pega aquí el contenido de la predicación. Puedes incluir etiquetas HTML como &lt;p&gt;, &lt;b&gt;, &lt;i&gt;, etc."></textarea>
+                            </div>
+
+                            <!-- Panel: archivo -->
+                            <div id="panel_archivo" style="display:none;">
+                                <div style="border:2px dashed #cbd5e1;border-radius:10px;padding:28px 20px;text-align:center;background:#f8fafc;">
+                                    <div style="font-size:2rem;margin-bottom:8px;">📄</div>
+                                    <p style="color:#475569;margin-bottom:14px;font-size:13px;">
+                                        Selecciona un archivo <strong>.docx</strong> o <strong>.pdf</strong>.<br>
+                                        Se conservará la numeración, orden y estructura del documento.
+                                    </p>
+                                    <label for="input_archivo_pred"
+                                        style="display:inline-block;padding:9px 22px;background:#042C49;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;">
+                                        Seleccionar archivo
+                                    </label>
+                                    <input type="file" id="input_archivo_pred"
+                                        accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        onchange="subir_archivo_pred();" style="display:none;">
+                                    <div id="upload_estado_archivo" style="margin-top:12px;font-size:12px;color:#64748b;">
+                                        Sin archivo seleccionado
+                                    </div>
+                                </div>
+                                <input type="hidden" id="ruta_archivo_pred">
+                                <!-- Indicador de archivo existente (al editar) -->
+                                <div id="bloque_archivo_existente" style="display:none;margin-top:10px;padding:10px 14px;background:#f0f9ff;border-radius:8px;border:1px solid #bae6fd;font-size:13px;">
+                                    Archivo actual:
+                                    <a id="link_archivo_existente" href="#" target="_blank" style="color:#0369a1;font-weight:600;">Ver / Descargar</a>
+                                    <span style="color:#94a3b8;margin-left:8px;font-size:11px;">(selecciona uno nuevo para reemplazarlo)</span>
+                                </div>
+                            </div>
                         </div>
 
                         <div style="text-align:right;margin-top:12px;">
