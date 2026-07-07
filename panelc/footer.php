@@ -30,5 +30,18 @@
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->
     <script src="../js/bootbox.js"></script>
+    <script>
+    // Badge de peticiones pendientes en el sidebar (todas las páginas del admin)
+    (function() {
+        if (typeof $ !== 'undefined' && document.getElementById('badge_peticiones')) {
+            $.getJSON("ajax/peticiones.php?op=contar", function(data) {
+                if (data && data.n > 0) {
+                    document.getElementById('badge_peticiones').textContent = data.n;
+                    document.getElementById('badge_peticiones').style.display = 'inline';
+                }
+            });
+        }
+    })();
+    </script>
   </body>
 </html>
