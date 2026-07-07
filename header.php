@@ -217,7 +217,7 @@
 			<ul class="menu_mm">
 				<li class="menu_mm"><a href="./">Inicio</a></li>
 				<li class="menu_mm"><a href="about-us.php">Conócenos</a></li>
-				<li class="menu_mm"><a href="blog.php">Predicaciones</a></li>
+				<li class="menu_mm"><a href="predicaciones.php">Predicaciones</a></li>
 				<li class="menu_mm"><a href="biografias.php">Biografías</a></li>
 				<li class="menu_mm"><a href="lumbrera.php">Jóvenes</a></li>
 				<li class="menu_mm"><a href="infantil.php">Niños</a></li>
