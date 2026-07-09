@@ -21,6 +21,24 @@ var TIPO_LABELS = {
 document.addEventListener('DOMContentLoaded', function () {
     listar_encuestas();
 
+    // ── Imagen de encabezado ──
+    $('#enc_img_file').on('change', function (e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            $('#enc_img_preview').attr('src', reader.result).show();
+            $('#enc_img_file').data('base64', reader.result);
+            $('#enc_imagen_base64').val(reader.result);
+            $('#enc_img_clear').show();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    $('#enc_img_clear').on('click', function () {
+        limpiar_imagen_encabezado();
+    });
+
     $('#modalMetricas').on('hidden.bs.modal', function () {
         chart_instances.forEach(function (c) { c.destroy(); });
         chart_instances = [];
@@ -45,11 +63,19 @@ function nueva_encuesta() {
     $('#enc_descripcion').val('');
     $('#enc_fecha_inicio').val('');
     $('#enc_fecha_fin').val('');
+    limpiar_imagen_encabezado();
     $('#qb_lista').empty();
     qb_idx = 0;
     $('#modalEncuestaTitulo').text('Nueva encuesta');
     actualizar_vacio();
     $('#modalEncuesta').modal('show');
+}
+
+function limpiar_imagen_encabezado() {
+    $('#enc_img_file').val('').data('base64', null);
+    $('#enc_img_preview').hide().attr('src', '');
+    $('#enc_img_clear').hide();
+    $('#enc_imagen_base64').val('');
 }
 
 function editar_encuesta(id) {
@@ -61,6 +87,13 @@ function editar_encuesta(id) {
         $('#enc_descripcion').val(e.descripcion || '');
         $('#enc_fecha_inicio').val(e.fecha_inicio || '');
         $('#enc_fecha_fin').val(e.fecha_fin || '');
+        limpiar_imagen_encabezado();
+        if (e.imagen_base64 && e.imagen_base64.length > 10) {
+            $('#enc_img_preview').attr('src', e.imagen_base64).show();
+            $('#enc_img_file').data('base64', e.imagen_base64);
+            $('#enc_imagen_base64').val(e.imagen_base64);
+            $('#enc_img_clear').show();
+        }
         $('#qb_lista').empty();
         qb_idx = 0;
         $('#modalEncuestaTitulo').text('Editar encuesta');
@@ -109,14 +142,6 @@ function agregar_pregunta(datos) {
   </div>\
   <div class="card-body">\
     <input type="text" class="form-control mb-2 qb-texto" placeholder="Escribe tu pregunta aquí...">\
-    <div class="mb-2">\
-      <label style="font-size:12px;color:#666;">Imagen (opcional):</label>\
-      <div class="d-flex align-items-center">\
-        <input type="file" class="qb-img-file" accept="image/*" style="font-size:12px;flex:1;">\
-        <img class="qb-img-preview ml-2">\
-        <button type="button" class="btn btn-sm btn-outline-danger qb-img-clear ml-1" style="display:none;font-size:11px;">✕</button>\
-      </div>\
-    </div>\
     <div class="qb-opciones-area" style="display:none;">\
       <div class="qb-opciones-list">' + opciones_html + '</div>\
       <button type="button" class="btn btn-sm btn-outline-secondary qb-add-opcion mt-1">+ Agregar opción</button>\
@@ -128,11 +153,6 @@ function agregar_pregunta(datos) {
     $q.find('.qb-tipo').val(tipo);
     if (datos && datos.pregunta)   $q.find('.qb-texto').val(datos.pregunta);
     if (datos && datos.requerida)  $q.find('.qb-requerida').prop('checked', true);
-    if (datos && datos.imagen_base64 && datos.imagen_base64.length > 10) {
-        $q.find('.qb-img-preview').attr('src', datos.imagen_base64).show();
-        $q.find('.qb-img-file').data('base64', datos.imagen_base64);
-        $q.find('.qb-img-clear').show();
-    }
 
     actualizar_tipo_ui($q, tipo);
     if (!opciones_html && (tipo === 'opcion_multiple' || tipo === 'casillas')) {
@@ -154,24 +174,6 @@ function agregar_pregunta(datos) {
 
     $q.find('.qb-add-opcion').on('click', function () {
         agregar_opcion_a($q);
-    });
-
-    $q.find('.qb-img-file').on('change', function (e) {
-        var file = e.target.files[0];
-        if (!file) return;
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            $q.find('.qb-img-preview').attr('src', reader.result).show();
-            $q.find('.qb-img-file').data('base64', reader.result);
-            $q.find('.qb-img-clear').show();
-        };
-        reader.readAsDataURL(file);
-    });
-
-    $q.find('.qb-img-clear').on('click', function () {
-        $q.find('.qb-img-file').val('').data('base64', null);
-        $q.find('.qb-img-preview').hide().attr('src', '');
-        $(this).hide();
     });
 
     $('#qb_lista').append($q);
@@ -231,11 +233,10 @@ function serializar_preguntas() {
         var $q   = $(this);
         var tipo = $q.find('.qb-tipo').val();
         var p = {
-            tipo:          tipo,
-            pregunta:      $q.find('.qb-texto').val().trim(),
-            requerida:     $q.find('.qb-requerida').is(':checked') ? 1 : 0,
-            imagen_base64: $q.find('.qb-img-file').data('base64') || null,
-            opciones:      [],
+            tipo:     tipo,
+            pregunta: $q.find('.qb-texto').val().trim(),
+            requerida: $q.find('.qb-requerida').is(':checked') ? 1 : 0,
+            opciones: [],
         };
         if (tipo === 'opcion_multiple' || tipo === 'casillas') {
             $q.find('.qb-opcion-input').each(function () {
@@ -270,11 +271,12 @@ function guardar_encuesta() {
     var id  = $('#enc_id').val();
     var op  = id ? 'editar_encuesta' : 'crear_encuesta';
     var datos = {
-        titulo:       titulo,
-        descripcion:  $('#enc_descripcion').val().trim(),
-        fecha_inicio: $('#enc_fecha_inicio').val(),
-        fecha_fin:    $('#enc_fecha_fin').val(),
-        preguntas:    JSON.stringify(preguntas),
+        titulo:         titulo,
+        descripcion:    $('#enc_descripcion').val().trim(),
+        fecha_inicio:   $('#enc_fecha_inicio').val(),
+        fecha_fin:      $('#enc_fecha_fin').val(),
+        imagen_base64:  $('#enc_imagen_base64').val(),
+        preguntas:      JSON.stringify(preguntas),
     };
     if (id) datos.id = id;
 

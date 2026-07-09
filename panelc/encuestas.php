@@ -111,6 +111,19 @@ if (!isset($_SESSION["nombre"])) {
                   <label style="font-size:13px;font-weight:600;">Fecha de fin</label>
                   <input type="date" class="form-control" id="enc_fecha_fin">
                 </div>
+                <div class="form-group">
+                  <label style="font-size:13px;font-weight:600;">Imagen de encabezado</label>
+                  <input type="file" class="form-control-file" id="enc_img_file" accept="image/*" style="font-size:13px;">
+                  <div class="mt-2 d-flex align-items-center" style="gap:8px;">
+                    <img id="enc_img_preview" src="" alt="preview"
+                      style="display:none;width:80px;height:56px;object-fit:cover;border-radius:6px;border:1px solid #dee2e6;">
+                    <button type="button" id="enc_img_clear"
+                      style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;">
+                      Quitar
+                    </button>
+                  </div>
+                  <input type="hidden" id="enc_imagen_base64">
+                </div>
               </div>
             </div>
           </div>

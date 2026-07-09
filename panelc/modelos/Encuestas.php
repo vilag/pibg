@@ -7,24 +7,27 @@ class Encuestas
 
     /* ── Encuestas ─────────────────────────────────── */
 
-    public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin)
+    public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '')
     {
         global $conexion;
-        $titulo      = $conexion->real_escape_string($titulo);
-        $descripcion = $conexion->real_escape_string($descripcion);
-        $sql = "INSERT INTO encuestas (titulo, descripcion, fecha_inicio, fecha_fin)
-                VALUES ('$titulo','$descripcion','$fecha_inicio','$fecha_fin')";
+        $titulo        = $conexion->real_escape_string($titulo);
+        $descripcion   = $conexion->real_escape_string($descripcion);
+        $imagen_base64 = $conexion->real_escape_string($imagen_base64);
+        $sql = "INSERT INTO encuestas (titulo, descripcion, fecha_inicio, fecha_fin, imagen_base64)
+                VALUES ('$titulo','$descripcion','$fecha_inicio','$fecha_fin','$imagen_base64')";
         return ejecutarConsulta_retornarID($sql);
     }
 
-    public function actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin)
+    public function actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '')
     {
         global $conexion;
-        $titulo      = $conexion->real_escape_string($titulo);
-        $descripcion = $conexion->real_escape_string($descripcion);
+        $titulo        = $conexion->real_escape_string($titulo);
+        $descripcion   = $conexion->real_escape_string($descripcion);
+        $imagen_base64 = $conexion->real_escape_string($imagen_base64);
         $id = intval($id);
         ejecutarConsulta("UPDATE encuestas SET titulo='$titulo', descripcion='$descripcion',
-            fecha_inicio='$fecha_inicio', fecha_fin='$fecha_fin' WHERE id='$id'");
+            fecha_inicio='$fecha_inicio', fecha_fin='$fecha_fin', imagen_base64='$imagen_base64'
+            WHERE id='$id'");
     }
 
     public function listar_encuestas()
@@ -98,12 +101,9 @@ class Encuestas
             $opciones = (isset($p['opciones']) && is_array($p['opciones']))
                 ? "'" . $conexion->real_escape_string(json_encode($p['opciones'], JSON_UNESCAPED_UNICODE)) . "'"
                 : "NULL";
-            $imagen = isset($p['imagen_base64']) && $p['imagen_base64']
-                ? "'" . $conexion->real_escape_string($p['imagen_base64']) . "'"
-                : "NULL";
             ejecutarConsulta("INSERT INTO encuesta_preguntas
-                (encuesta_id, orden, tipo, pregunta, opciones, imagen_base64, requerida)
-                VALUES ('$encuesta_id','$orden','$tipo','$pregunta',$opciones,$imagen,'$requerida')");
+                (encuesta_id, orden, tipo, pregunta, opciones, requerida)
+                VALUES ('$encuesta_id','$orden','$tipo','$pregunta',$opciones,'$requerida')");
         }
     }
 

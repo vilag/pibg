@@ -90,7 +90,13 @@ if (!$token) {
   </div>
 
 <?php else: ?>
-  <div class="enc-header">
+  <?php if (!empty($encuesta->imagen_base64)): ?>
+  <div style="border-radius:14px 14px 0 0;overflow:hidden;max-height:220px;">
+    <img src="<?php echo $encuesta->imagen_base64; ?>" alt=""
+      style="width:100%;max-height:220px;object-fit:cover;display:block;">
+  </div>
+  <?php endif; ?>
+  <div class="enc-header" style="<?php echo empty($encuesta->imagen_base64) ? 'border-radius:14px 14px 0 0;' : 'border-radius:0;'; ?>">
     <h2><?php echo htmlspecialchars($encuesta->titulo); ?></h2>
     <?php if ($encuesta->descripcion): ?>
       <p><?php echo htmlspecialchars($encuesta->descripcion); ?></p>

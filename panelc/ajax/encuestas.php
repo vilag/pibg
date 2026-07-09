@@ -24,26 +24,28 @@ if (!isset($_SESSION['nombre'])) {
 switch ($op) {
 
     case 'crear_encuesta':
-        $titulo       = $_POST['titulo']       ?? '';
-        $descripcion  = $_POST['descripcion']  ?? '';
-        $fecha_inicio = $_POST['fecha_inicio'] ?? '';
-        $fecha_fin    = $_POST['fecha_fin']    ?? '';
-        $preguntas    = json_decode($_POST['preguntas'] ?? '[]', true);
+        $titulo        = $_POST['titulo']        ?? '';
+        $descripcion   = $_POST['descripcion']   ?? '';
+        $fecha_inicio  = $_POST['fecha_inicio']  ?? '';
+        $fecha_fin     = $_POST['fecha_fin']     ?? '';
+        $imagen_base64 = $_POST['imagen_base64'] ?? '';
+        $preguntas     = json_decode($_POST['preguntas'] ?? '[]', true);
 
-        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin);
+        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64);
         if ($preguntas) $enc->guardar_preguntas($id, $preguntas);
         echo json_encode(['ok' => true, 'id' => $id]);
         break;
 
     case 'editar_encuesta':
-        $id           = intval($_POST['id']           ?? 0);
-        $titulo       = $_POST['titulo']       ?? '';
-        $descripcion  = $_POST['descripcion']  ?? '';
-        $fecha_inicio = $_POST['fecha_inicio'] ?? '';
-        $fecha_fin    = $_POST['fecha_fin']    ?? '';
-        $preguntas    = json_decode($_POST['preguntas'] ?? '[]', true);
+        $id            = intval($_POST['id']           ?? 0);
+        $titulo        = $_POST['titulo']        ?? '';
+        $descripcion   = $_POST['descripcion']   ?? '';
+        $fecha_inicio  = $_POST['fecha_inicio']  ?? '';
+        $fecha_fin     = $_POST['fecha_fin']     ?? '';
+        $imagen_base64 = $_POST['imagen_base64'] ?? '';
+        $preguntas     = json_decode($_POST['preguntas'] ?? '[]', true);
 
-        $enc->actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin);
+        $enc->actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64);
         $enc->guardar_preguntas($id, $preguntas);
         echo json_encode(['ok' => true]);
         break;
