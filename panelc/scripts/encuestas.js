@@ -43,6 +43,21 @@ document.addEventListener('DOMContentLoaded', function () {
         chart_instances.forEach(function (c) { c.destroy(); });
         chart_instances = [];
     });
+
+    // ── Toggle público/privado ──
+    $('#comp_toggle').on('change', function () {
+        var activar = this.checked ? 1 : 0;
+        var id      = $('#comp_id').val();
+        $.post('ajax/encuestas.php?op=toggle_publica', { id: id, activar: activar }, function (data) {
+            data = JSON.parse(data);
+            if (data.ok && data.url) {
+                mostrar_link(data.url);
+            } else {
+                ocultar_link();
+            }
+            listar_encuestas();
+        });
+    });
 });
 
 /* ══════════════════════════════════════════════════════
@@ -331,20 +346,6 @@ function compartir_encuesta(id) {
         $('#modalCompartir').modal('show');
     });
 }
-
-$('#comp_toggle').on('change', function () {
-    var activar = this.checked ? 1 : 0;
-    var id      = $('#comp_id').val();
-    $.post('ajax/encuestas.php?op=toggle_publica', { id: id, activar: activar }, function (data) {
-        data = JSON.parse(data);
-        if (data.ok && data.url) {
-            mostrar_link(data.url);
-        } else {
-            ocultar_link();
-        }
-        listar_encuestas();
-    });
-});
 
 function generar_url(token) {
     var base = window.location.origin;
