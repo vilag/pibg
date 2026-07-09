@@ -9,15 +9,17 @@ switch ($_GET["op"]){
 
 
 		case 'guardar_activ_sem':
-			
-			$fecha1 = $_POST['fecha1'];
-			$fecha2 = $_POST['fecha2'];
-			$nombre = $_POST['nombre'];
+
+			$fecha1       = $_POST['fecha1'];
+			$fecha2       = $_POST['fecha2'];
+			$nombre       = $_POST['nombre'];
 			$nombre_corto = $_POST['nombre_corto'];
-			$detalle = $_POST['detalle'];
-			$imagen = $_POST['imagen'];
-										
-			$rspta=$semanas_esp->guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen);
+			$detalle      = $_POST['detalle'];
+			$imagen       = $_POST['imagen'];
+			$texto_banner = $_POST['texto_banner'] ?? '';
+			$video_url    = $_POST['video_url']    ?? '';
+
+			$rspta=$semanas_esp->guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner,$video_url);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
@@ -77,15 +79,17 @@ switch ($_GET["op"]){
 
 		case 'editar_activ_sem':
 
-			$idactiv     = $_POST['idactiv'];
-			$fecha1      = $_POST['fecha1'];
-			$fecha2      = $_POST['fecha2'];
-			$nombre      = $_POST['nombre'];
+			$idactiv      = $_POST['idactiv'];
+			$fecha1       = $_POST['fecha1'];
+			$fecha2       = $_POST['fecha2'];
+			$nombre       = $_POST['nombre'];
 			$nombre_corto = $_POST['nombre_corto'];
-			$detalle     = $_POST['detalle'];
-			$imagen      = $_POST['imagen'];
+			$detalle      = $_POST['detalle'];
+			$imagen       = $_POST['imagen'];
+			$texto_banner = $_POST['texto_banner'] ?? '';
+			$video_url    = $_POST['video_url']    ?? '';
 
-			$rspta = $semanas_esp->editar_activ_sem($idactiv,$fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen);
+			$rspta = $semanas_esp->editar_activ_sem($idactiv,$fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner,$video_url);
 			echo json_encode($rspta);
 		break;
 

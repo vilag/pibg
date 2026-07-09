@@ -673,6 +673,7 @@ function consul_sem_esp(){
 
 function mostrar_texto_principal()
 {
+	ocultar_info_banner();
 	var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
 	var cita = "Juan 17:3";
 
@@ -709,6 +710,41 @@ function cancelAllAnimations() {
 	animTimeouts = [];
 }
 
+function yt_embed(url) {
+	var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]{11})/);
+	return m ? 'https://www.youtube.com/embed/' + m[1] : url;
+}
+
+function actualizar_info_banner(idx) {
+	var item = array_activ_des[idx];
+	if (!item) { ocultar_info_banner(); return; }
+	var texto = item.texto_banner || '';
+	var video = item.video_url || '';
+	if (texto) {
+		$('.content_proxima_transmision').hide();
+		var html = '<p style="font-size:22px;color:#fff;line-height:1.4;margin-bottom:16px;">' + texto + '</p>';
+		if (video) {
+			html += '<button onclick="abrir_video_banner(\'' + video.replace(/'/g, "\\'") + '\')" style="background:#fff;color:#222;padding:10px 24px;border:none;border-radius:6px;font-size:16px;cursor:pointer;">&#9654; Ver video</button>';
+		}
+		$('#banner_custom_info').html(html).show();
+	} else {
+		ocultar_info_banner();
+	}
+}
+
+function ocultar_info_banner() {
+	$('#banner_custom_info').hide().html('');
+	$('.content_proxima_transmision').show();
+}
+
+function abrir_video_banner(url) {
+	var embed = yt_embed(url);
+	$('#modal_video_banner_src').attr('src', embed + '?autoplay=1&rel=0');
+	$('#modal_video_banner').modal('show').one('hidden.bs.modal', function() {
+		$('#modal_video_banner_src').attr('src', '');
+	});
+}
+
 function count_activ_esp(){
 	cont2 = 0;
 	cont_consec = 0;
@@ -717,6 +753,7 @@ function count_activ_esp(){
 	{
 		data = JSON.parse(data);
 		array_activ_des = data;
+		if (data.length > 0) actualizar_info_banner(0);
 
 		var cont=0;
 		var desfase = 3;
@@ -824,6 +861,7 @@ function animar_contenedores(){
 				.text(array_activ_des[cont2].detalle)
 				.removeClass("ae-text-out fade-in")
 				.addClass("ae-text-in");
+			actualizar_info_banner(cont2);
 		}, 200);
 
 	}, 6500);
@@ -899,6 +937,7 @@ function expandBannerNow(thumbnail_id, data_idx) {
 				.text(array_activ_des[data_idx].detalle)
 				.removeClass("ae-text-out fade-in")
 				.addClass("ae-text-in");
+			actualizar_info_banner(data_idx);
 		}, 200);
 	}, 500);
 

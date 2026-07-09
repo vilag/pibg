@@ -64,6 +64,18 @@ if ($_SESSION['administrador']==1)
                                 
                               </div>
                             </div>
+                            <div class="col-lg-12" style="float: left; height: 130px;">
+                              <div class="form-group">
+                                <label>Texto en portada <small style="color:#888;">(reemplaza "Próxima Transmisión" mientras el banner esté activo)</small></label>
+                                <textarea class="form-control" id="texto_banner" rows="2" placeholder="Ej: Esta semana celebramos el culto de adoración..."></textarea>
+                              </div>
+                            </div>
+                            <div class="col-lg-12" style="float: left; height: 100px;">
+                              <div class="form-group">
+                                <label>URL del video <small style="color:#888;">(YouTube — aparece como botón "Ver video")</small></label>
+                                <input type="text" class="form-control" id="video_url" placeholder="https://youtu.be/...">
+                              </div>
+                            </div>
                             <div class="col-lg-12" style="float: left;">
                                 <div class="form-group">
                                     <label>Imagen *</label>
@@ -176,6 +188,18 @@ if ($_SESSION['administrador']==1)
                       <div class="form-group">
                         <label>Detalle</label>
                         <input type="text" class="form-control" id="edit_detalle">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Texto en portada <small style="color:#888;">(reemplaza "Próxima Transmisión")</small></label>
+                        <textarea class="form-control" id="edit_texto_banner" rows="2" placeholder="Ej: Esta semana celebramos..."></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>URL del video <small style="color:#888;">(YouTube — aparece como botón "Ver video")</small></label>
+                        <input type="text" class="form-control" id="edit_video_url" placeholder="https://youtu.be/...">
                       </div>
                     </div>
                     <div class="col-md-12">

@@ -10,6 +10,8 @@ function guardar_activ_sem(){
     var nombre_corto = $("#nom_actividad_corto_sem").val();
     var detalle = $("#detalle_actividad").val();
     var imagen = $("#archivo_audio").val();
+    var texto_banner = $("#texto_banner").val();
+    var video_url = $("#video_url").val();
 
     if (fecha1!="" && fecha2!="" && nombre!="" && nombre_corto!="" && imagen!="") {
         $.post("ajax/semanas_esp.php?op=guardar_activ_sem",{
@@ -18,7 +20,9 @@ function guardar_activ_sem(){
             nombre:nombre,
             nombre_corto:nombre_corto,
             detalle:detalle,
-            imagen:imagen
+            imagen:imagen,
+            texto_banner:texto_banner,
+            video_url:video_url
         },function(data, status)
         {
             data = JSON.parse(data);
@@ -30,6 +34,8 @@ function guardar_activ_sem(){
             $("#nom_actividad_corto_sem").val("");
             $("#detalle_actividad").val("");
             $("#archivo_audio").val("");
+            $("#texto_banner").val("");
+            $("#video_url").val("");
             listar_activ_sem_esp();
 
         });
@@ -90,6 +96,8 @@ function editar_activ(idactiv) {
         $("#edit_detalle").val(data.detalle);
         $("#edit_imagen").val(data.imagen);
         $("#edit_preview_img").attr("src", data.imagen).show();
+        $("#edit_texto_banner").val(data.texto_banner || "");
+        $("#edit_video_url").val(data.video_url || "");
         $("#modalEditarActiv").modal("show");
     });
 }
@@ -102,6 +110,8 @@ function guardar_edicion_activ() {
     var nombre_corto = $("#edit_nombre_corto").val();
     var detalle      = $("#edit_detalle").val();
     var imagen       = $("#edit_imagen").val();
+    var texto_banner = $("#edit_texto_banner").val();
+    var video_url    = $("#edit_video_url").val();
 
     if (fecha1 != "" && fecha2 != "" && nombre != "" && nombre_corto != "" && imagen != "") {
         $.post("ajax/semanas_esp.php?op=editar_activ_sem", {
@@ -111,7 +121,9 @@ function guardar_edicion_activ() {
             nombre:       nombre,
             nombre_corto: nombre_corto,
             detalle:      detalle,
-            imagen:       imagen
+            imagen:       imagen,
+            texto_banner: texto_banner,
+            video_url:    video_url
         }, function(data) {
             data = JSON.parse(data);
             $("#modalEditarActiv").modal("hide");

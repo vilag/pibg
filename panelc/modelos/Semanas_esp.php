@@ -10,10 +10,10 @@ Class Semanas_esp
 
 	}
 
-	public function guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen)
+	public function guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner='',$video_url='')
     {
-    	$sql="INSERT INTO actividades_destacadas (fecha1, fecha2, nombre, nombre_corto, detalle, imagen) VALUES ('$fecha1','$fecha2','$nombre', '$nombre_corto','$detalle','$imagen')"; 
-    	return ejecutarConsulta($sql);  
+    	$sql="INSERT INTO actividades_destacadas (fecha1, fecha2, nombre, nombre_corto, detalle, imagen, texto_banner, video_url) VALUES ('$fecha1','$fecha2','$nombre','$nombre_corto','$detalle','$imagen','$texto_banner','$video_url')";
+    	return ejecutarConsulta($sql);
     }
 
     public function listar_activ_sem_esp()
@@ -28,9 +28,9 @@ Class Semanas_esp
     	return ejecutarConsulta($sql);
     }
 
-    public function editar_activ_sem($idactiv,$fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen)
+    public function editar_activ_sem($idactiv,$fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner='',$video_url='')
     {
-    	$sql="UPDATE actividades_destacadas SET fecha1='$fecha1', fecha2='$fecha2', nombre='$nombre', nombre_corto='$nombre_corto', detalle='$detalle', imagen='$imagen' WHERE idactiv='$idactiv'";
+    	$sql="UPDATE actividades_destacadas SET fecha1='$fecha1', fecha2='$fecha2', nombre='$nombre', nombre_corto='$nombre_corto', detalle='$detalle', imagen='$imagen', texto_banner='$texto_banner', video_url='$video_url' WHERE idactiv='$idactiv'";
     	return ejecutarConsulta($sql);
     }
 

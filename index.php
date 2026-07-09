@@ -131,6 +131,7 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
 														
 													</div>
+							<div id="banner_custom_info" style="display:none; padding-top: 16px;"></div>
 												
 												<!-- <a id="enlace_redirect_local" href="" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none;">Ver Más</a> -->
 
@@ -1647,6 +1648,26 @@ if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
 </script>
 <!-- =================== FIN MODAL BIENVENIDA =================== -->
 <?php endif; ?>
+
+<!-- Modal: video del banner -->
+<div class="modal fade" id="modal_video_banner" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content" style="background:#000;border:none;">
+      <div class="modal-header" style="border:none;padding:8px 16px;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" style="color:#fff;opacity:1;font-size:28px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+          <iframe id="modal_video_banner_src" src="" frameborder="0"
+            allow="autoplay; encrypted-media; fullscreen" allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
