@@ -296,6 +296,12 @@
               <span id="badge_peticiones" style="display:none;background:#dc3545;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;font-weight:700;"></span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="codigos_qr.php">
+              <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Códigos QR</span>
+            </a>
+          </li>
           <li id="li_registros_iglesia" class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic_reg" aria-expanded="false" aria-controls="ui-basic">
                <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
