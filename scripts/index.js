@@ -1,6 +1,6 @@
 mostrar_texto_principal();
 listar_lecturas();
-//count_activ_esp();
+count_activ_esp();
 
 //consul_sem_esp();
 ver_vista();
