@@ -32,6 +32,10 @@ switch ($op) {
         $preguntas     = json_decode($_POST['preguntas'] ?? '[]', true);
 
         $id = $enc->crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64);
+        if (!$id) {
+            echo json_encode(['ok' => false, 'msg' => 'Error en la base de datos. Verifica que las tablas existan (encuestas.sql).']);
+            break;
+        }
         if ($preguntas) $enc->guardar_preguntas($id, $preguntas);
         echo json_encode(['ok' => true, 'id' => $id]);
         break;

@@ -296,13 +296,18 @@ function guardar_encuesta() {
     if (id) datos.id = id;
 
     $.post('ajax/encuestas.php?op=' + op, datos, function (data) {
-        data = JSON.parse(data);
-        if (data.ok) {
+        var r;
+        try { r = JSON.parse(data); } catch (e) {
+            console.error('Respuesta del servidor:', data);
+            bootbox.alert('Error de servidor. Revisa la consola (F12) y verifica que las tablas SQL existan.');
+            return;
+        }
+        if (r.ok) {
             $('#modalEncuesta').modal('hide');
             listar_encuestas();
             bootbox.alert(id ? '✓ Encuesta actualizada.' : '✓ Encuesta creada exitosamente.');
         } else {
-            bootbox.alert('Error al guardar.');
+            bootbox.alert('Error al guardar' + (r.msg ? ': ' + r.msg : '.'));
         }
     });
 }

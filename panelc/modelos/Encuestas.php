@@ -10,24 +10,31 @@ class Encuestas
     public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '')
     {
         global $conexion;
-        $titulo        = $conexion->real_escape_string($titulo);
-        $descripcion   = $conexion->real_escape_string($descripcion);
-        $imagen_base64 = $conexion->real_escape_string($imagen_base64);
-        $sql = "INSERT INTO encuestas (titulo, descripcion, fecha_inicio, fecha_fin, imagen_base64)
-                VALUES ('$titulo','$descripcion','$fecha_inicio','$fecha_fin','$imagen_base64')";
-        return ejecutarConsulta_retornarID($sql);
+        $titulo      = $conexion->real_escape_string($titulo);
+        $descripcion = $conexion->real_escape_string($descripcion);
+        $id = ejecutarConsulta_retornarID(
+            "INSERT INTO encuestas (titulo, descripcion, fecha_inicio, fecha_fin)
+             VALUES ('$titulo','$descripcion','$fecha_inicio','$fecha_fin')"
+        );
+        if ($id && $imagen_base64) {
+            $img = $conexion->real_escape_string($imagen_base64);
+            $conexion->query("UPDATE encuestas SET imagen_base64='$img' WHERE id='$id'");
+        }
+        return $id;
     }
 
     public function actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '')
     {
         global $conexion;
-        $titulo        = $conexion->real_escape_string($titulo);
-        $descripcion   = $conexion->real_escape_string($descripcion);
-        $imagen_base64 = $conexion->real_escape_string($imagen_base64);
+        $titulo      = $conexion->real_escape_string($titulo);
+        $descripcion = $conexion->real_escape_string($descripcion);
         $id = intval($id);
         ejecutarConsulta("UPDATE encuestas SET titulo='$titulo', descripcion='$descripcion',
-            fecha_inicio='$fecha_inicio', fecha_fin='$fecha_fin', imagen_base64='$imagen_base64'
-            WHERE id='$id'");
+            fecha_inicio='$fecha_inicio', fecha_fin='$fecha_fin' WHERE id='$id'");
+        if ($imagen_base64) {
+            $img = $conexion->real_escape_string($imagen_base64);
+            $conexion->query("UPDATE encuestas SET imagen_base64='$img' WHERE id='$id'");
+        }
     }
 
     public function listar_encuestas()

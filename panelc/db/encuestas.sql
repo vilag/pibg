@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS encuestas (
     descripcion     TEXT,
     fecha_inicio    DATE,
     fecha_fin       DATE,
+    imagen_base64   MEDIUMTEXT   DEFAULT NULL,
     es_publica      TINYINT(1)   NOT NULL DEFAULT 0,
     token_publico   VARCHAR(64)  DEFAULT NULL,
     activa          TINYINT(1)   NOT NULL DEFAULT 1,
