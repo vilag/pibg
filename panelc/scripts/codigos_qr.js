@@ -120,7 +120,7 @@ function descargar_qr_guardado(id) {
     });
 }
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     initQR();
     listar_qr_codes();
 
