@@ -192,8 +192,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-  </div><!-- /content-wrapper -->
-</div><!-- /main-panel -->
+  </div><!-- content-wrapper ends -->
 
 <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
 <script src="scripts/codigos_qr.js?v=<?php echo rand(); ?>"></script>
