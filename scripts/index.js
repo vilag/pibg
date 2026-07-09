@@ -848,9 +848,14 @@ function animar_contenedores(){
 				}, 2000);
 
 				setTimeout(() => {
-					
+
 					mostrar_texto_principal();
 					array_activ_des = [];
+
+					// Reiniciar el ciclo de banners después de mostrar el texto por defecto
+					setTimeout(() => {
+						count_activ_esp();
+					}, 10000);
 				}, 5000);
 				
 			}, 8000);			
