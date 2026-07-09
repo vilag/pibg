@@ -95,6 +95,7 @@ body, body * {
 	width: 150px;
 	float: left;
 	margin-left: 20px;
+	cursor: pointer;
 	margin-right: 0px;
 	border-radius: 10px;
 	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);

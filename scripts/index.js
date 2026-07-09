@@ -693,21 +693,31 @@ function mostrar_texto_principal()
 
 //var cant_activ_des = 0;
 var array_activ_des = [];
-var cont2 = 0;	
+var cont2 = 0;
 var cont_consec = 0;
+
+var animTimeouts = [];
+
+function scheduleAnim(fn, delay) {
+	var id = setTimeout(fn, delay);
+	animTimeouts.push(id);
+	return id;
+}
+
+function cancelAllAnimations() {
+	animTimeouts.forEach(function(id) { clearTimeout(id); });
+	animTimeouts = [];
+}
+
 function count_activ_esp(){
-	cont2 = 0;	
+	cont2 = 0;
 	cont_consec = 0;
 	var fecha=moment().format('YYYY-MM-DD');
 	$.post("ajax/index.php?op=count_activ_esp",{fecha:fecha},function(data, status)
 	{
 		data = JSON.parse(data);
-		//console.log(data);
 		array_activ_des = data;
 
-		
-
-		//cant_activ_des = data.length;
 		var cont=0;
 		var desfase = 3;
 		for (var index = 0; index < data.length; index++) {
@@ -717,7 +727,7 @@ function count_activ_esp(){
 					'.fade-in_'+cont+'{-webkit-animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1.000) '+desfase+'s both;animation:fade-in_'+cont+' 1.2s cubic-bezier(.39,.575,.565,1.000) '+desfase+'s both}'+
 					'@-webkit-keyframes fade-in_'+cont+'{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_'+cont+'{0%{opacity:0}100%{opacity:1}}'+
 				'</style>'+
-				'<div id="mini'+cont+'" class="estilo_mini_princ1 fade-in_'+cont+'" style="'+
+				'<div id="mini'+cont+'" class="estilo_mini_princ1 fade-in_'+cont+'" data-index="'+cont+'" style="'+
 					'background-image: url('+data[index].imagen+');'+
 					'background-repeat: no-repeat;'+
 					'background-size: 400px 350px;'+
@@ -728,7 +738,6 @@ function count_activ_esp(){
 				'</div>'+
             '</div>';
 			var filaBig='<div id="filaBig'+cont+'">'+
-				
 				'<div id="mini'+cont+'_2" class="estilo_mini_princ1-in" style="'+
 					'background-image: url('+data[index].imagen+');'+
 					'background-repeat: no-repeat;'+
@@ -742,46 +751,71 @@ function count_activ_esp(){
 			cont++;
 			$('#content_actividades_destacadas').append(fila);
 			$('#content_actividades_destacadas').append(filaBig);
-
 		}
 
 		animar_contenedores();
-		
+
 	});
 }
 
+
+function doEndCycle() {
+	scheduleAnim(() => {
+		var ult_ext1 = array_activ_des.length;
+		var ult_ext2 = array_activ_des.length + array_activ_des.length;
+
+		for (var index = ult_ext1; index <= ult_ext2; index++) {
+			$("#mini" + index).removeClass("fade-in_" + index).addClass("fade-out");
+		}
+		for (var i = 0; i < array_activ_des.length; i++) {
+			$("#mini" + i + "_2").removeClass("ae-card-expand fade-in").addClass("ae-card-shrink");
+		}
+		$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
+		$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
+
+		scheduleAnim(() => {
+			for (var index = ult_ext1; index <= ult_ext2; index++) {
+				$("#fila" + index).remove();
+			}
+			for (var index = 0; index <= array_activ_des.length; index++) {
+				$("#filaBig" + index).remove();
+			}
+		}, 2000);
+
+		scheduleAnim(() => {
+			mostrar_texto_principal();
+			array_activ_des = [];
+			scheduleAnim(() => { count_activ_esp(); }, 10000);
+		}, 5000);
+
+	}, 6000);
+}
 
 
 function animar_contenedores(){
 
 	var cant_next = array_activ_des.length + cont_consec;
 
-	// Primera tarjeta resaltada (ligeramente elevada, borde blanco)
 	$("#mini" + cont_consec).addClass("ae-active");
 
-	// 6s — miniatura se desvanece + texto sale deslizando hacia la izquierda
-	setTimeout(() => {
+	scheduleAnim(() => {
 		$("#mini" + cont_consec).removeClass("fade-in_" + cont_consec + " ae-active").addClass("fade-out");
 		$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
 		$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
 	}, 6000);
 
-	// 6.5s — imagen se expande desde la posición de la tarjeta hacia pantalla completa
-	setTimeout(() => {
-		// Colapsar overlay anterior con animación inversa
+	scheduleAnim(() => {
 		if (cont2 > 0) {
 			$("#mini" + (cont2 - 1) + "_2")
 				.removeClass("ae-card-expand fade-in")
 				.addClass("ae-card-shrink");
 		}
-		// Expandir nuevo overlay
 		$("#mini" + cont2 + "_2")
 			.css("display", "block")
 			.removeClass("fade-out ae-card-shrink")
 			.addClass("ae-card-expand");
 
-		// Texto nuevo entra deslizando desde la izquierda (con pequeño desfase)
-		setTimeout(() => {
+		scheduleAnim(() => {
 			$("#nom_activ_sem_esp")
 				.text(array_activ_des[cont2].nombre)
 				.removeClass("ae-text-out fade-in tilt-in-left-1")
@@ -794,19 +828,17 @@ function animar_contenedores(){
 
 	}, 6500);
 
-	// 7.2s — tarjetas deslizan a la izquierda
-	setTimeout(() => {
+	scheduleAnim(() => {
 		$(".estilo_back_ae").addClass("slide-left");
 	}, 7200);
 
-	// 7.7s — agregar siguiente tarjeta, eliminar la vieja, quitar slide
-	setTimeout(() => {
+	scheduleAnim(() => {
 		var fila = '<div id="fila' + cant_next + '" class="estilo_back_ae">' +
 			'<style>' +
 				'.fade-in_' + cant_next + '{-webkit-animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in_' + cant_next + ' 1.2s cubic-bezier(.39,.575,.565,1.000) both}' +
 				'@-webkit-keyframes fade-in_' + cant_next + '{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_' + cant_next + '{0%{opacity:0}100%{opacity:1}}' +
 			'</style>' +
-			'<div id="mini' + cant_next + '" class="estilo_mini_princ1 fade-in_' + cant_next + '" style="' +
+			'<div id="mini' + cant_next + '" class="estilo_mini_princ1 fade-in_' + cant_next + '" data-index="' + cont2 + '" style="' +
 				'background-image: url(' + array_activ_des[cont2].imagen + ');' +
 				'background-repeat: no-repeat;' +
 				'background-size: 400px 350px;' +
@@ -821,39 +853,10 @@ function animar_contenedores(){
 		$(".estilo_back_ae").removeClass("slide-left");
 	}, 7700);
 
-	// 8.5s — siguiente banner o fin de ciclo
-	setTimeout(() => {
+	scheduleAnim(() => {
 		cont2++;
 		if (cont2 == array_activ_des.length) {
-			// Fin: limpiar DOM y regresar al texto principal
-			setTimeout(() => {
-				var ult_ext1 = array_activ_des.length;
-				var ult_ext2 = array_activ_des.length + array_activ_des.length;
-
-				for (var index = ult_ext1; index <= ult_ext2; index++) {
-					$("#mini" + index).removeClass("fade-in_" + index).addClass("fade-out");
-				}
-				var cont_ult = array_activ_des.length - 1;
-				$("#mini" + cont_ult + "_2").removeClass("ae-card-expand fade-in").addClass("ae-card-shrink");
-				$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
-				$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
-
-				setTimeout(() => {
-					for (var index = ult_ext1; index <= ult_ext2; index++) {
-						$("#fila" + index).remove();
-					}
-					for (var index = 0; index <= array_activ_des.length; index++) {
-						$("#filaBig" + index).remove();
-					}
-				}, 2000);
-
-				setTimeout(() => {
-					mostrar_texto_principal();
-					array_activ_des = [];
-					setTimeout(() => { count_activ_esp(); }, 10000);
-				}, 5000);
-
-			}, 6000);
+			doEndCycle();
 		} else {
 			cont_consec++;
 			animar_contenedores();
@@ -861,6 +864,108 @@ function animar_contenedores(){
 	}, 8500);
 
 }
+
+
+function expandBannerNow(thumbnail_id, data_idx) {
+	var N = array_activ_des.length;
+	var cant_next = N + thumbnail_id;
+
+	$(".estilo_mini_princ1").removeClass("ae-active");
+
+	for (var i = 0; i < N; i++) {
+		var $ov = $("#mini" + i + "_2");
+		if ($ov.css("display") !== "none") {
+			$ov.removeClass("ae-card-expand fade-in").addClass("ae-card-shrink");
+		}
+	}
+
+	$("#mini" + thumbnail_id).addClass("fade-out");
+	$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
+	$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
+
+	scheduleAnim(() => {
+		cont2 = data_idx;
+		$("#mini" + data_idx + "_2")
+			.css("display", "block")
+			.removeClass("fade-out ae-card-shrink")
+			.addClass("ae-card-expand");
+
+		scheduleAnim(() => {
+			$("#nom_activ_sem_esp")
+				.text(array_activ_des[data_idx].nombre)
+				.removeClass("ae-text-out fade-in tilt-in-left-1")
+				.addClass("ae-text-in");
+			$("#det_activ_sem_esp")
+				.text(array_activ_des[data_idx].detalle)
+				.removeClass("ae-text-out fade-in")
+				.addClass("ae-text-in");
+		}, 200);
+	}, 500);
+
+	scheduleAnim(() => {
+		$(".estilo_back_ae").addClass("slide-left");
+	}, 1200);
+
+	scheduleAnim(() => {
+		var fila = '<div id="fila' + cant_next + '" class="estilo_back_ae">' +
+			'<style>' +
+				'.fade-in_' + cant_next + '{-webkit-animation:fade-in_1 1.2s cubic-bezier(.39,.575,.565,1) both;animation:fade-in_' + cant_next + ' 1.2s cubic-bezier(.39,.575,.565,1) both}' +
+				'@-webkit-keyframes fade-in_' + cant_next + '{0%{opacity:0}100%{opacity:1}}@keyframes fade-in_' + cant_next + '{0%{opacity:0}100%{opacity:1}}' +
+			'</style>' +
+			'<div id="mini' + cant_next + '" class="estilo_mini_princ1 fade-in_' + cant_next + '" data-index="' + data_idx + '" style="' +
+				'background-image: url(' + array_activ_des[data_idx].imagen + ');' +
+				'background-repeat: no-repeat;background-size: 400px 350px;background-position: center; z-index: 1;">' +
+				'<div style="padding: 15px; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)); height: 100%; width: 100%; border-radius: 10px; word-wrap: break-word;">' +
+					'<p class="yanone-kaffeesatz">' + array_activ_des[data_idx].nombre_corto + '</p>' +
+				'</div>' +
+			'</div>' +
+		'</div>';
+		$('#content_actividades_destacadas').append(fila);
+		$("#fila" + thumbnail_id).remove();
+		$(".estilo_back_ae").removeClass("slide-left");
+	}, 1700);
+
+	scheduleAnim(() => {
+		cont2 = data_idx + 1;
+		if (cont2 >= N) {
+			doEndCycle();
+		} else {
+			var $next = $('.estilo_mini_princ1[data-index="' + cont2 + '"]');
+			if ($next.length) {
+				cont_consec = parseInt($next.first().attr('id').replace('mini', ''));
+				animar_contenedores();
+			} else {
+				cont_consec = cant_next + 1;
+				var fila2 = '<div id="fila' + cont_consec + '" class="estilo_back_ae">' +
+					'<style>.fade-in_' + cont_consec + '{animation:fade-in_' + cont_consec + ' 1.2s cubic-bezier(.39,.575,.565,1) both}@keyframes fade-in_' + cont_consec + '{0%{opacity:0}100%{opacity:1}}</style>' +
+					'<div id="mini' + cont_consec + '" class="estilo_mini_princ1 fade-in_' + cont_consec + '" data-index="' + cont2 + '" style="' +
+						'background-image:url(' + array_activ_des[cont2].imagen + ');' +
+						'background-repeat:no-repeat;background-size:400px 350px;background-position:center;z-index:1;">' +
+						'<div style="padding:15px;background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.8));height:100%;width:100%;border-radius:10px;word-wrap:break-word;">' +
+							'<p class="yanone-kaffeesatz">' + array_activ_des[cont2].nombre_corto + '</p>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+				$('#content_actividades_destacadas').append(fila2);
+				animar_contenedores();
+			}
+		}
+	}, 2500);
+}
+
+
+$(document).on('click', '.estilo_mini_princ1', function() {
+	if (array_activ_des.length === 0) return;
+	var $clicked = $(this);
+	if ($clicked.hasClass('fade-out')) return;
+	var thumbnail_id = parseInt($clicked.attr('id').replace('mini', ''));
+	var data_idx = $clicked.data('index');
+	if (data_idx === undefined || data_idx === null) {
+		data_idx = thumbnail_id % array_activ_des.length;
+	}
+	cancelAllAnimations();
+	expandBannerNow(thumbnail_id, parseInt(data_idx));
+});
 
 
 
