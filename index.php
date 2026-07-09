@@ -105,11 +105,9 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 											</style>
 											<div id="content_nom_activ_des" class="col-lg-10 estilo_caja_texto_ini">
 												<div id="div_content_texto_princ" class="content_texto_princ">
-													<label for="" class="tilt-in-left-1" style="font-size: 25px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.</label><br>
-													<label for="" class="text_secundario_estilo fade-in">Juan 17:3</label>
-													<!-- <p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p> -->
-													<!-- <label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label> -->
-													
+													<p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p>
+													<label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label>
+
 												</div>
 												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
 												<!-- <div class="home_buttons">
