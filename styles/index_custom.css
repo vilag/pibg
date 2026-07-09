@@ -50,8 +50,8 @@ body, body * {
 }
 
 #div_content_texto_princ {
-	max-width: 100%;
-	width: 100%;
+	max-width: 50%;
+	width: 50%;
 	box-sizing: border-box;
 	overflow: visible;
 }
@@ -919,6 +919,11 @@ body, body * {
 		height: auto;
 		min-height: 80px;
 		overflow: visible;
+	}
+
+	#div_content_texto_princ {
+		max-width: 100%;
+		width: 100%;
 	}
 
 	.text_secundario_estilo {

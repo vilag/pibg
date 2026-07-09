@@ -1,4 +1,4 @@
-mostrar_texto_principal();
+﻿mostrar_texto_principal();
 listar_lecturas();
 count_activ_esp();
 
@@ -675,28 +675,20 @@ function mostrar_texto_principal()
 {
 	var texto_principal = "Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado.";
 	var cita = "Juan 17:3";
-	var palabras = texto_principal.split(' ');
-	var retardoBase = 2; // 2s de espera inicial, igual que antes
 
-	// Inyecta todas las palabras de una vez; CSS maneja el stagger con animation-delay
-	var html = palabras.map(function(p, i) {
-		var delay = (retardoBase + i * 0.1).toFixed(1);
-		return '<span class="verse-word" style="animation-delay:' + delay + 's">' + p + ' </span>';
-	}).join('');
-	$('#nom_activ_sem_esp').html(html);
-
-	// Cita bíblica: aparece justo después de la última palabra
-	var delayCita = (retardoBase + palabras.length * 0.1).toFixed(1);
+	var $nom = $('#nom_activ_sem_esp');
 	var $cita = $('#det_activ_sem_esp');
-	$cita.removeClass('verse-cite-anim fade-in').text(cita);
-	if ($cita[0]) void $cita[0].offsetWidth; // fuerza reflow para reiniciar animación
-	$cita.css('animation-delay', delayCita + 's').addClass('verse-cite-anim');
 
-	// Garantía: si la animación no termina (reduced-motion, browser quirk), forzar visibilidad
-	setTimeout(function() {
-		$('#nom_activ_sem_esp .verse-word').css({'opacity': '1', 'animation': 'none'});
-		$cita.css({'opacity': '1', 'animation': 'none'});
-	}, (parseFloat(delayCita) + 2) * 1000);
+	$nom.text(texto_principal);
+	$cita.text(cita);
+
+	// Reiniciar animaciones (remover, forzar reflow, volver a agregar)
+	$nom.removeClass('tilt-in-left-1 ae-text-in ae-text-out');
+	$cita.removeClass('fade-in ae-text-in ae-text-out');
+	if ($nom[0]) void $nom[0].offsetWidth;
+	if ($cita[0]) void $cita[0].offsetWidth;
+	$nom.addClass('tilt-in-left-1');
+	$cita.addClass('fade-in');
 }
 
 //var cant_activ_des = 0;
@@ -770,7 +762,7 @@ function animar_contenedores(){
 	// 6s — miniatura se desvanece + texto sale deslizando hacia la izquierda
 	setTimeout(() => {
 		$("#mini" + cont_consec).removeClass("fade-in_" + cont_consec + " ae-active").addClass("fade-out");
-		$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
+		$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
 		$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
 	}, 6000);
 
@@ -792,7 +784,7 @@ function animar_contenedores(){
 		setTimeout(() => {
 			$("#nom_activ_sem_esp")
 				.text(array_activ_des[cont2].nombre)
-				.removeClass("ae-text-out fade-in")
+				.removeClass("ae-text-out fade-in tilt-in-left-1")
 				.addClass("ae-text-in");
 			$("#det_activ_sem_esp")
 				.text(array_activ_des[cont2].detalle)
@@ -843,7 +835,7 @@ function animar_contenedores(){
 				}
 				var cont_ult = array_activ_des.length - 1;
 				$("#mini" + cont_ult + "_2").removeClass("ae-card-expand fade-in").addClass("ae-card-shrink");
-				$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
+				$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
 				$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
 
 				setTimeout(() => {
