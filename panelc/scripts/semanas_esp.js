@@ -79,4 +79,48 @@ function borrar_activ(idactiv){
     });
 }
 
+function editar_activ(idactiv) {
+    $.post("ajax/semanas_esp.php?op=obtener_activ", {idactiv: idactiv}, function(data) {
+        data = JSON.parse(data);
+        $("#edit_idactiv").val(data.idactiv);
+        $("#edit_fecha1").val(data.fecha1);
+        $("#edit_fecha2").val(data.fecha2);
+        $("#edit_nombre").val(data.nombre);
+        $("#edit_nombre_corto").val(data.nombre_corto);
+        $("#edit_detalle").val(data.detalle);
+        $("#edit_imagen").val(data.imagen);
+        $("#edit_preview_img").attr("src", data.imagen).show();
+        $("#modalEditarActiv").modal("show");
+    });
+}
+
+function guardar_edicion_activ() {
+    var idactiv      = $("#edit_idactiv").val();
+    var fecha1       = $("#edit_fecha1").val();
+    var fecha2       = $("#edit_fecha2").val();
+    var nombre       = $("#edit_nombre").val();
+    var nombre_corto = $("#edit_nombre_corto").val();
+    var detalle      = $("#edit_detalle").val();
+    var imagen       = $("#edit_imagen").val();
+
+    if (fecha1 != "" && fecha2 != "" && nombre != "" && nombre_corto != "" && imagen != "") {
+        $.post("ajax/semanas_esp.php?op=editar_activ_sem", {
+            idactiv:      idactiv,
+            fecha1:       fecha1,
+            fecha2:       fecha2,
+            nombre:       nombre,
+            nombre_corto: nombre_corto,
+            detalle:      detalle,
+            imagen:       imagen
+        }, function(data) {
+            data = JSON.parse(data);
+            $("#modalEditarActiv").modal("hide");
+            listar_activ_sem_esp();
+            bootbox.alert("Registro actualizado exitosamente");
+        });
+    } else {
+        bootbox.alert("Es necesario capturar los campos obligatorios (*)");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() { init(); });

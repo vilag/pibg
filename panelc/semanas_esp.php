@@ -114,9 +114,9 @@ if ($_SESSION['administrador']==1)
                                     Imagen
                                 </th>
                                 <th>
-                                    Eliminar
+                                    Acciones
                                 </th>
-                            
+
                             </tr>
                         </thead>
                         <tbody id="temas_sem">
@@ -134,6 +134,70 @@ if ($_SESSION['administrador']==1)
             
           </div>
           <!-- content-wrapper ends -->
+
+          <!-- Modal editar banner -->
+          <div class="modal fade" id="modalEditarActiv" tabindex="-1" role="dialog" aria-labelledby="modalEditarActivLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalEditarActivLabel">Editar banner</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" id="edit_idactiv">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Fecha 1 *</label>
+                        <input type="date" class="form-control" id="edit_fecha1">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Fecha 2 *</label>
+                        <input type="date" class="form-control" id="edit_fecha2">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Nombre de Actividad *</label>
+                        <input type="text" class="form-control" id="edit_nombre">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Nombre corto *</label>
+                        <input type="text" class="form-control" id="edit_nombre_corto" maxlength="40">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Detalle</label>
+                        <input type="text" class="form-control" id="edit_detalle">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Imagen *</label>
+                        <div class="d-flex align-items-center" style="gap:10px;">
+                          <img id="edit_preview_img" src="" alt="preview" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #ccc;">
+                          <button type="button" id="btn-foto-edit" class="btn btn-secondary btn-sm">Cambiar imagen</button>
+                        </div>
+                        <input type="text" class="form-control mt-2" id="edit_imagen" disabled>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" onclick="guardar_edicion_activ()">Guardar cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
            <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
            <script type="text/javascript" src="scripts/semanas_esp.js?v=<?php echo(rand()); ?>"></script>
            <script type="text/javascript" src="scripts/servicio-imagen.js?v=<?php echo(rand()); ?>"></script>

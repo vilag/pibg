@@ -22,10 +22,22 @@ Class Semanas_esp
     	return ejecutarConsulta($sql);  
     }
 	
+	public function obtener_activ($idactiv)
+    {
+    	$sql="SELECT * FROM actividades_destacadas WHERE idactiv='$idactiv'";
+    	return ejecutarConsulta($sql);
+    }
+
+    public function editar_activ_sem($idactiv,$fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen)
+    {
+    	$sql="UPDATE actividades_destacadas SET fecha1='$fecha1', fecha2='$fecha2', nombre='$nombre', nombre_corto='$nombre_corto', detalle='$detalle', imagen='$imagen' WHERE idactiv='$idactiv'";
+    	return ejecutarConsulta($sql);
+    }
+
 	public function borrar_activ($idactiv)
     {
-    	$sql="DELETE FROM actividades_destacadas WHERE idactiv='$idactiv'"; 
-    	return ejecutarConsulta($sql);  
+    	$sql="DELETE FROM actividades_destacadas WHERE idactiv='$idactiv'";
+    	return ejecutarConsulta($sql);
     }
 
 }

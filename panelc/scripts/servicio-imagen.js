@@ -1,21 +1,24 @@
 'use strict';
+
+const CLOUDINARY_CONFIG = { cloudName: 'dozoneujz', uploadPreset: 'preset_pabs' };
+
+// Widget para el formulario de registro
 const boton_foto = document.querySelector('#btn-foto');
-//const imagen = document.querySelector('#user-photo');
-let widget_cloudinary = cloudinary.createUploadWidget({
-    cloudName: 'dozoneujz',
-    uploadPreset: 'preset_pabs'
-}, (err, result) => {
+let widget_cloudinary = cloudinary.createUploadWidget(CLOUDINARY_CONFIG, (err, result) => {
     if (!err && result && result.event === 'success') {
-        console.log('Audio subida con éxito', result.info);
-        console.log(result.info.secure_url);
         $("#archivo_audio").val(result.info.secure_url);
-        // imagen.src = result.info.secure_url;
-        // var img = result.info.secure_url;
-        // $("#nombre_img").val(img);
-        //alert(img);
     }
 });
+boton_foto.addEventListener('click', () => { widget_cloudinary.open(); }, false);
 
-boton_foto.addEventListener('click', () => {
-    widget_cloudinary.open();
-}, false);
+// Widget para el modal de edición (se inicializa cuando existe el botón)
+const boton_foto_edit = document.querySelector('#btn-foto-edit');
+if (boton_foto_edit) {
+    let widget_cloudinary_edit = cloudinary.createUploadWidget(CLOUDINARY_CONFIG, (err, result) => {
+        if (!err && result && result.event === 'success') {
+            $("#edit_imagen").val(result.info.secure_url);
+            $("#edit_preview_img").attr("src", result.info.secure_url);
+        }
+    });
+    boton_foto_edit.addEventListener('click', () => { widget_cloudinary_edit.open(); }, false);
+}
