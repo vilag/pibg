@@ -124,6 +124,12 @@ if (!isset($_SESSION["nombre"])) {
                   <input type="range" class="qr-range" id="qr_size" min="200" max="600" value="300" step="50">
                 </div>
 
+                <!-- Margen -->
+                <div class="form-group">
+                  <label class="qr-opt-label">Margen: <span id="qr_margin_val">10</span> px</label>
+                  <input type="range" class="qr-range" id="qr_margin" min="0" max="60" value="10" step="2">
+                </div>
+
                 <!-- Logo -->
                 <div class="form-group">
                   <label class="qr-opt-label">Logo central (opcional)</label>

@@ -5,10 +5,12 @@ var logoDataUrl = null;
 
 function getQROptions() {
     var data = $('#qr_contenido').val().trim() || 'https://pibg.mx';
-    var size = parseInt($('#qr_size').val()) || 300;
+    var size   = parseInt($('#qr_size').val())   || 300;
+    var margin = parseInt($('#qr_margin').val()) || 0;
     var opts = {
         width:  size,
         height: size,
+        margin: margin,
         type:   'canvas',
         data:   data,
         dotsOptions: {
@@ -145,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('#qr_size').on('input', function() {
         $('#qr_size_val').text($(this).val());
+        updateQR();
+    });
+
+    $('#qr_margin').on('input', function() {
+        $('#qr_margin_val').text($(this).val());
         updateQR();
     });
 
