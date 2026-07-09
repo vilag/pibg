@@ -720,16 +720,15 @@ function actualizar_info_banner(idx) {
 	if (!item) { ocultar_info_banner(); return; }
 	var texto = item.texto_banner || '';
 	var video = item.video_url || '';
+	$('.content_proxima_transmision').hide();
+	var html = '';
 	if (texto) {
-		$('.content_proxima_transmision').hide();
-		var html = '<p style="font-size:22px;color:#fff;line-height:1.4;margin-bottom:16px;">' + texto + '</p>';
-		if (video) {
-			html += '<button onclick="abrir_video_banner(\'' + video.replace(/'/g, "\\'") + '\')" style="background:#fff;color:#222;padding:10px 24px;border:none;border-radius:6px;font-size:16px;cursor:pointer;">&#9654; Ver video</button>';
-		}
-		$('#banner_custom_info').html(html).show();
-	} else {
-		ocultar_info_banner();
+		html += '<p style="font-size:22px;color:#fff;line-height:1.4;margin-bottom:16px;">' + texto + '</p>';
 	}
+	if (video) {
+		html += '<button onclick="abrir_video_banner(\'' + video.replace(/'/g, "\\'") + '\')" style="background:#fff;color:#222;padding:10px 24px;border:none;border-radius:6px;font-size:16px;cursor:pointer;">&#9654; Ver video</button>';
+	}
+	$('#banner_custom_info').html(html).show();
 }
 
 function ocultar_info_banner() {
@@ -753,7 +752,6 @@ function count_activ_esp(){
 	{
 		data = JSON.parse(data);
 		array_activ_des = data;
-		if (data.length > 0) actualizar_info_banner(0);
 
 		var cont=0;
 		var desfase = 3;
