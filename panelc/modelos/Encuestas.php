@@ -7,7 +7,7 @@ class Encuestas
 
     /* ── Encuestas ─────────────────────────────────── */
 
-    public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '')
+    public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '', $imagen_secundaria_base64 = '')
     {
         global $conexion;
         $titulo      = $conexion->real_escape_string($titulo);
@@ -20,10 +20,14 @@ class Encuestas
             $img = $conexion->real_escape_string($imagen_base64);
             $conexion->query("UPDATE encuestas SET imagen_base64='$img' WHERE id='$id'");
         }
+        if ($id && $imagen_secundaria_base64) {
+            $img2 = $conexion->real_escape_string($imagen_secundaria_base64);
+            $conexion->query("UPDATE encuestas SET imagen_secundaria_base64='$img2' WHERE id='$id'");
+        }
         return $id;
     }
 
-    public function actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '')
+    public function actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '', $imagen_secundaria_base64 = '')
     {
         global $conexion;
         $titulo      = $conexion->real_escape_string($titulo);
@@ -31,10 +35,10 @@ class Encuestas
         $id = intval($id);
         ejecutarConsulta("UPDATE encuestas SET titulo='$titulo', descripcion='$descripcion',
             fecha_inicio='$fecha_inicio', fecha_fin='$fecha_fin' WHERE id='$id'");
-        if ($imagen_base64) {
-            $img = $conexion->real_escape_string($imagen_base64);
-            $conexion->query("UPDATE encuestas SET imagen_base64='$img' WHERE id='$id'");
-        }
+        $img = $conexion->real_escape_string($imagen_base64);
+        $conexion->query("UPDATE encuestas SET imagen_base64='$img' WHERE id='$id'");
+        $img2 = $conexion->real_escape_string($imagen_secundaria_base64);
+        $conexion->query("UPDATE encuestas SET imagen_secundaria_base64='$img2' WHERE id='$id'");
     }
 
     public function listar_encuestas()

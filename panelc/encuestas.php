@@ -112,7 +112,7 @@ if (!isset($_SESSION["nombre"])) {
                   <input type="date" class="form-control" id="enc_fecha_fin">
                 </div>
                 <div class="form-group">
-                  <label style="font-size:13px;font-weight:600;">Imagen de encabezado</label>
+                  <label style="font-size:13px;font-weight:600;">Imagen de portada</label>
                   <input type="file" class="form-control-file" id="enc_img_file" accept="image/*" style="font-size:13px;">
                   <div class="mt-2 d-flex align-items-center" style="gap:8px;">
                     <img id="enc_img_preview" src="" alt="preview"
@@ -123,6 +123,19 @@ if (!isset($_SESSION["nombre"])) {
                     </button>
                   </div>
                   <input type="hidden" id="enc_imagen_base64">
+                </div>
+                <div class="form-group">
+                  <label style="font-size:13px;font-weight:600;">Imagen secundaria <span style="font-size:11px;font-weight:400;color:#6c757d;">(logo / icono circular)</span></label>
+                  <input type="file" class="form-control-file" id="enc_img2_file" accept="image/*" style="font-size:13px;">
+                  <div class="mt-2 d-flex align-items-center" style="gap:8px;">
+                    <img id="enc_img2_preview" src="" alt="preview"
+                      style="display:none;width:48px;height:48px;object-fit:cover;border-radius:50%;border:2px solid #dee2e6;">
+                    <button type="button" id="enc_img2_clear"
+                      style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;">
+                      Quitar
+                    </button>
+                  </div>
+                  <input type="hidden" id="enc_imagen_secundaria_base64">
                 </div>
               </div>
             </div>

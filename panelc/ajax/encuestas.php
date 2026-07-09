@@ -24,14 +24,15 @@ if (!isset($_SESSION['nombre'])) {
 switch ($op) {
 
     case 'crear_encuesta':
-        $titulo        = $_POST['titulo']        ?? '';
-        $descripcion   = $_POST['descripcion']   ?? '';
-        $fecha_inicio  = $_POST['fecha_inicio']  ?? '';
-        $fecha_fin     = $_POST['fecha_fin']     ?? '';
-        $imagen_base64 = $_POST['imagen_base64'] ?? '';
-        $preguntas     = json_decode($_POST['preguntas'] ?? '[]', true);
+        $titulo                    = $_POST['titulo']                    ?? '';
+        $descripcion               = $_POST['descripcion']               ?? '';
+        $fecha_inicio              = $_POST['fecha_inicio']              ?? '';
+        $fecha_fin                 = $_POST['fecha_fin']                 ?? '';
+        $imagen_base64             = $_POST['imagen_base64']             ?? '';
+        $imagen_secundaria_base64  = $_POST['imagen_secundaria_base64']  ?? '';
+        $preguntas                 = json_decode($_POST['preguntas'] ?? '[]', true);
 
-        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64);
+        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64, $imagen_secundaria_base64);
         if (!$id) {
             echo json_encode(['ok' => false, 'msg' => 'Error en la base de datos. Verifica que las tablas existan (encuestas.sql).']);
             break;
@@ -41,15 +42,16 @@ switch ($op) {
         break;
 
     case 'editar_encuesta':
-        $id            = intval($_POST['id']           ?? 0);
-        $titulo        = $_POST['titulo']        ?? '';
-        $descripcion   = $_POST['descripcion']   ?? '';
-        $fecha_inicio  = $_POST['fecha_inicio']  ?? '';
-        $fecha_fin     = $_POST['fecha_fin']     ?? '';
-        $imagen_base64 = $_POST['imagen_base64'] ?? '';
-        $preguntas     = json_decode($_POST['preguntas'] ?? '[]', true);
+        $id                        = intval($_POST['id']                   ?? 0);
+        $titulo                    = $_POST['titulo']                    ?? '';
+        $descripcion               = $_POST['descripcion']               ?? '';
+        $fecha_inicio              = $_POST['fecha_inicio']              ?? '';
+        $fecha_fin                 = $_POST['fecha_fin']                 ?? '';
+        $imagen_base64             = $_POST['imagen_base64']             ?? '';
+        $imagen_secundaria_base64  = $_POST['imagen_secundaria_base64']  ?? '';
+        $preguntas                 = json_decode($_POST['preguntas'] ?? '[]', true);
 
-        $enc->actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64);
+        $enc->actualizar_encuesta($id, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64, $imagen_secundaria_base64);
         $enc->guardar_preguntas($id, $preguntas);
         echo json_encode(['ok' => true]);
         break;

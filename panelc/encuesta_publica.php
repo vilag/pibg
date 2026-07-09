@@ -97,12 +97,25 @@ if (!$token) {
   </div>
   <?php endif; ?>
   <div class="enc-header" style="<?php echo empty($encuesta->imagen_base64) ? 'border-radius:14px 14px 0 0;' : 'border-radius:0;'; ?>">
+    <?php if (!empty($encuesta->imagen_secundaria_base64)): ?>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+      <img src="<?php echo $encuesta->imagen_secundaria_base64; ?>" alt=""
+        style="width:54px;height:54px;object-fit:cover;border-radius:50%;border:3px solid rgba(255,255,255,.45);flex-shrink:0;">
+      <div>
+        <h2 style="margin:0;"><?php echo htmlspecialchars($encuesta->titulo); ?></h2>
+        <?php if ($encuesta->descripcion): ?>
+          <p style="margin:4px 0 0;opacity:.82;font-size:14px;"><?php echo htmlspecialchars($encuesta->descripcion); ?></p>
+        <?php endif; ?>
+      </div>
+    </div>
+    <?php else: ?>
     <h2><?php echo htmlspecialchars($encuesta->titulo); ?></h2>
     <?php if ($encuesta->descripcion): ?>
       <p><?php echo htmlspecialchars($encuesta->descripcion); ?></p>
     <?php endif; ?>
+    <?php endif; ?>
     <?php if ($encuesta->fecha_fin): ?>
-      <p style="font-size:12px;opacity:.7;margin-top:8px;">Vigencia hasta: <?php echo date('d/m/Y', strtotime($encuesta->fecha_fin)); ?></p>
+      <p style="font-size:12px;opacity:.7;margin-top:6px;">Vigencia hasta: <?php echo date('d/m/Y', strtotime($encuesta->fecha_fin)); ?></p>
     <?php endif; ?>
   </div>
 
