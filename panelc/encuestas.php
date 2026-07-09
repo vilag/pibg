@@ -72,7 +72,6 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
   </div><!-- content-wrapper ends -->
-</div><!-- main-panel ends (footer.php cierra el div) -->
 
 <!-- ══════════════════════════════════════════════
      MODAL: Crear / Editar encuesta
