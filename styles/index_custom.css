@@ -45,13 +45,13 @@ body, body * {
 }
 
 #content_nom_activ_des {
-	max-width: min(100%, 850px);
+	max-width: 100%;
 	width: 100%;
 }
 
 #div_content_texto_princ {
-	max-width: 50%;
-	width: 50%;
+	max-width: 50vw;
+	width: 50vw;
 	box-sizing: border-box;
 	overflow: visible;
 }
