@@ -124,3 +124,51 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* ── Selector de modo ── */
+.bp-modo-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.bp-modo-opcion {
+  flex: 1;
+  min-width: 220px;
+  border: 2px solid #e2e8f4;
+  border-radius: 12px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.bp-modo-opcion:hover { border-color: #b7c9e0; }
+
+.bp-modo-activa {
+  border-color: #1D4268;
+  background: #f2f6fb;
+}
+
+.bp-modo-icono { font-size: 1.6rem; margin-bottom: 6px; }
+.bp-modo-titulo { font-size: .9rem; font-weight: 700; color: #1D4268; margin-bottom: 4px; }
+.bp-modo-desc { font-size: .78rem; color: #64748b; line-height: 1.4; }
+
+/* ── Picker de imágenes (Pixabay) ── */
+.bp-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.bp-picker-item {
+  border: 3px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  background: #f0f2f5;
+}
+.bp-picker-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bp-picker-item:hover { border-color: #b7c9e0; }
+
+.bp-picker-item-activa { border-color: #1D4268; }
