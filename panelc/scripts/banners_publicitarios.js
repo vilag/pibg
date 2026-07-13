@@ -512,7 +512,7 @@ function bpa_input_logo_file() {
     return input && input.files && input.files[0] ? input.files[0] : null;
 }
 
-/* ── Búsqueda y selección de imagen (Pixabay) ── */
+/* ── Búsqueda y selección de imagen (Pexels) ── */
 function bpa_buscar_imagenes() {
     var tema = $('#bpa_tema').val().trim();
     if (!tema) {

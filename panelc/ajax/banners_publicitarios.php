@@ -74,11 +74,11 @@ switch ($op) {
         break;
 
     case 'buscar_imagenes':
-        buscar_imagenes_pixabay();
+        buscar_imagenes_pexels();
         break;
 
     case 'descargar_imagen':
-        descargar_imagen_pixabay();
+        descargar_imagen_pexels();
         break;
 
     case 'auto_generar_ia':
@@ -161,13 +161,13 @@ function llamar_groq_chat($system_prompt, $user_prompt, $temperature = 0.2)
 }
 
 /* ============================================================
-   BÚSQUEDA DE IMÁGENES (Pixabay — banco gratuito, uso comercial
+   BÚSQUEDA DE IMÁGENES (Pexels — banco gratuito, uso comercial
    permitido, sin atribución obligatoria)
 ============================================================ */
-function buscar_imagenes_pixabay()
+function buscar_imagenes_pexels()
 {
-    if (!defined('PIXABAY_API_KEY') || strpos(PIXABAY_API_KEY, 'TU_PIXABAY_API_KEY_AQUI') !== false) {
-        echo json_encode(['ok' => false, 'msg' => 'Configura tu API key de Pixabay en panelc/config/secrets.php — Obtén una gratis en https://pixabay.com/api/docs/']);
+    if (!defined('PEXELS_API_KEY') || strpos(PEXELS_API_KEY, 'TU_PEXELS_API_KEY_AQUI') !== false) {
+        echo json_encode(['ok' => false, 'msg' => 'Configura tu API key de Pexels en panelc/config/secrets.php — Obtén una gratis en https://www.pexels.com/api/']);
         exit;
     }
 
@@ -183,20 +183,21 @@ function buscar_imagenes_pixabay()
         $orientacion = 'all';
     }
 
-    $url = 'https://pixabay.com/api/?' . http_build_query([
-        'key'         => PIXABAY_API_KEY,
-        'q'           => $tema,
-        'image_type'  => 'all',
-        'orientation' => $orientacion,
-        'safesearch'  => 'true',
-        'per_page'    => 8,
-        'lang'        => 'es',
-    ]);
+    $params = [
+        'query'    => $tema,
+        'per_page' => 8,
+        'locale'   => 'es-ES',
+    ];
+    if ($orientacion === 'horizontal') $params['orientation'] = 'landscape';
+    if ($orientacion === 'vertical')   $params['orientation'] = 'portrait';
+
+    $url = 'https://api.pexels.com/v1/search?' . http_build_query($params);
 
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT        => 30,
+        CURLOPT_HTTPHEADER     => ['Authorization: ' . PEXELS_API_KEY],
     ]);
     $response  = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -204,25 +205,26 @@ function buscar_imagenes_pixabay()
     curl_close($ch);
 
     if ($curl_err) {
-        echo json_encode(['ok' => false, 'msg' => 'Error de conexión con Pixabay: ' . $curl_err]);
+        echo json_encode(['ok' => false, 'msg' => 'Error de conexión con Pexels: ' . $curl_err]);
         exit;
     }
 
     $data = json_decode($response, true);
 
     if ($http_code !== 200) {
-        echo json_encode(['ok' => false, 'msg' => 'Error de Pixabay (' . $http_code . ').']);
+        $msg = $data['error'] ?? $data['message'] ?? $response;
+        echo json_encode(['ok' => false, 'msg' => 'Error de Pexels (' . $http_code . '): ' . $msg]);
         exit;
     }
 
-    $hits = array_map(function ($hit) {
+    $hits = array_map(function ($foto) {
         return [
-            'id'        => $hit['id'],
-            'preview'   => $hit['previewURL'],
-            'webformat' => $hit['webformatURL'],
-            'tags'      => $hit['tags'],
+            'id'        => $foto['id'],
+            'preview'   => $foto['src']['medium'],
+            'webformat' => $foto['src']['large2x'],
+            'tags'      => $foto['alt'] ?? '',
         ];
-    }, $data['hits'] ?? []);
+    }, $data['photos'] ?? []);
 
     echo json_encode(['ok' => true, 'datos' => $hits]);
 }
@@ -231,11 +233,11 @@ function buscar_imagenes_pixabay()
    DESCARGA DE IMAGEN ELEGIDA (proxy servidor → evita "tainted
    canvas" al exportar el PNG y valida el host contra SSRF)
 ============================================================ */
-function descargar_imagen_pixabay()
+function descargar_imagen_pexels()
 {
     $url = trim($_POST['url'] ?? '');
 
-    if (!$url || !preg_match('#^https://([a-z0-9-]+\.)*pixabay\.com/#i', $url)) {
+    if (!$url || !preg_match('#^https://([a-z0-9-]+\.)*pexels\.com/#i', $url)) {
         echo json_encode(['ok' => false, 'msg' => 'URL de imagen no válida.']);
         exit;
     }

@@ -152,7 +152,7 @@
 .bp-modo-titulo { font-size: .9rem; font-weight: 700; color: #1D4268; margin-bottom: 4px; }
 .bp-modo-desc { font-size: .78rem; color: #64748b; line-height: 1.4; }
 
-/* ── Picker de imágenes (Pixabay) ── */
+/* ── Picker de imágenes (Pexels) ── */
 .bp-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
