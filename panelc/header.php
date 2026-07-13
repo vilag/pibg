@@ -290,6 +290,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="banners_publicitarios.php">
+              <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Banners Publicitarios</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="peticiones.php">
               <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Peticiones de Oración</span>

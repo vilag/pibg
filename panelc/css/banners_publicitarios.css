@@ -1,0 +1,126 @@
+.main-panel { flex: 1 1 0 !important; width: auto !important; min-width: 0 !important; margin-left: 0 !important; }
+
+.bp-wrap { max-width: 1200px; margin: 0 auto; padding-bottom: 60px; }
+
+.bp-card {
+  background: #fff;
+  border: 1px solid #e2e8f4;
+  border-radius: 14px;
+  padding: 26px 28px;
+}
+
+.bp-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bp-card-title {
+  font-size: .95rem;
+  font-weight: 700;
+  color: #1D4268;
+}
+
+.bp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.bp-field { flex: 1; min-width: 160px; }
+.bp-field-sm { flex: 0 0 100px; min-width: 90px; }
+.bp-field label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.bp-hint {
+  font-size: .78rem;
+  color: #94a3b8;
+  margin-top: 10px;
+}
+
+.bp-editor-layout {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.bp-toolbox {
+  flex: 0 0 280px;
+  background: #f8fafd;
+  border: 1px solid #e2e8f4;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.bp-tool-group { margin-bottom: 14px; }
+.bp-tool-group label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.bp-obj-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.bp-canvas-wrap {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: repeating-conic-gradient(#f0f2f5 0% 25%, #fff 0% 50%) 50% / 20px 20px;
+  border: 1px solid #e2e8f4;
+  border-radius: 12px;
+  padding: 20px;
+  overflow: auto;
+}
+
+.bp-btn, .bp-btn-sec, .bp-btn-danger {
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.bp-btn:hover, .bp-btn-sec:hover, .bp-btn-danger:hover { opacity: .85; }
+
+.bp-btn-primary, .bp-btn {
+  background: #1D4268;
+  color: #fff;
+}
+
+.bp-btn-sec {
+  background: #e2e8f4;
+  color: #334155;
+}
+
+.bp-btn-danger {
+  background: rgb(129,2,2);
+  color: #fff;
+}
+
+#bp_obj_color {
+  width: 44px;
+  height: 34px;
+  padding: 2px;
+  border: 1px solid #e2e8f4;
+  border-radius: 6px;
+  cursor: pointer;
+}
