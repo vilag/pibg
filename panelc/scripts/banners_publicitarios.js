@@ -213,7 +213,8 @@ function bp_mostrar_panel_objeto(e) {
     var esTexto = obj.type === 'textbox';
     $('#bp_grupo_texto').toggle(esTexto);
     if (esTexto) {
-        $('#bp_obj_fontfamily').val(obj.fontFamily || 'Arial');
+        var fuenteActual = obj.fontFamily || 'Arial';
+        $('#bp_obj_fontfamily').val(fuenteActual).css('font-family', "'" + fuenteActual + "'");
         $('#bp_obj_espaciado').val(obj.charSpacing || 0);
     }
 }
@@ -292,6 +293,7 @@ function cambiar_espaciado_obj(valor) {
 function cambiar_fuente_obj(fuente) {
     var obj = bp_canvas && bp_canvas.getActiveObject();
     if (!obj) return;
+    $('#bp_obj_fontfamily').css('font-family', "'" + fuente + "'");
     var aplicar = function () {
         obj.set('fontFamily', fuente);
         bp_canvas.renderAll();
