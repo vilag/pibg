@@ -215,9 +215,8 @@ function pintar_seccion_qr(idactiv, qr, url_publica, nombre_evento) {
             '<img src="' + qr.imagen_base64 + '" style="width:160px;height:160px;border:1px solid #ccc;border-radius:8px;background:#fff;">' +
             '<div style="margin-top:8px;display:flex;gap:8px;">' +
                 '<a href="' + qr.imagen_base64 + '" download="qr_evento_' + idactiv + '.png" class="btn btn-sm btn-secondary">Descargar</a>' +
-                '<button class="btn btn-sm btn-outline-secondary" onclick="mostrar_editor_qr(' + idactiv + ', ' + qr.id + ');">Editar</button>' +
-            '</div>' +
-            '<div id="ver_qr_editor" style="display:none;margin-top:14px;padding:12px;border:1px solid #ddd;border-radius:8px;background:#f8fafd;"></div>'
+                '<button class="btn btn-sm btn-outline-secondary" onclick="abrir_modal_editar_qr(' + idactiv + ', ' + qr.id + ');">Editar</button>' +
+            '</div>'
         );
         $("#ver_seccion_qr").data("qr", qr).data("url", url_publica).data("nombre", nombre_evento);
     } else {
@@ -227,30 +226,6 @@ function pintar_seccion_qr(idactiv, qr, url_publica, nombre_evento) {
             '<button class="btn btn-sm btn-primary" onclick="generar_qr_evento(' + idactiv + ', \'' + url_publica + '\', \'' + nombre_escapado + '\');">Generar código QR</button>'
         );
     }
-}
-
-function mostrar_editor_qr(idactiv, id) {
-    var qr = $("#ver_seccion_qr").data("qr") || {};
-    var $editor = $("#ver_qr_editor");
-    $editor.html(
-        '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;">' +
-            '<div><label style="font-size:12px;display:block;">Color de puntos</label>' +
-                '<input type="color" id="qredit_color_frente" value="' + (qr.color_frente || '#042C49') + '"></div>' +
-            '<div><label style="font-size:12px;display:block;">Color de fondo</label>' +
-                '<input type="color" id="qredit_color_fondo" value="' + (qr.color_fondo || '#ffffff') + '"></div>' +
-            '<div><label style="font-size:12px;display:block;">Estilo de puntos</label>' +
-                '<select class="form-control form-control-sm" id="qredit_estilo_puntos">' +
-                    ['square','rounded','dots','classy','classy-rounded','extra-rounded'].map(function(op) {
-                        return '<option value="' + op + '"' + (qr.estilo_puntos === op ? ' selected' : '') + '>' + op + '</option>';
-                    }).join('') +
-                '</select></div>' +
-            '<div style="display:flex;gap:6px;">' +
-                '<button class="btn btn-sm btn-primary" onclick="guardar_edicion_qr(' + idactiv + ', ' + id + ');">Guardar cambios</button>' +
-                '<button class="btn btn-sm btn-secondary" onclick="$(\'#ver_qr_editor\').hide();">Cancelar</button>' +
-            '</div>' +
-        '</div>'
-    );
-    $editor.show();
 }
 
 function generar_qr_png(url_publica, colorFrente, colorFondo, estiloPuntos, callback) {
@@ -328,32 +303,186 @@ function generar_qr_evento(idactiv, url_publica, nombre_evento) {
     });
 }
 
-function guardar_edicion_qr(idactiv, id) {
-    var url_publica   = $("#ver_seccion_qr").data("url");
-    var nombre_evento = $("#ver_seccion_qr").data("nombre");
-    var colorFrente   = $("#qredit_color_frente").val();
-    var colorFondo    = $("#qredit_color_fondo").val();
-    var estiloPuntos  = $("#qredit_estilo_puntos").val();
+/* ══════════════════════════════════════════════
+   MODAL DE EDICIÓN DE QR (replicado de codigos_qr.js,
+   para editar el código QR sin salir de esta vista)
+══════════════════════════════════════════════ */
 
-    generar_qr_png(url_publica, colorFrente, colorFondo, estiloPuntos, function(imagen_base64) {
-        $.post("ajax/codigos_qr.php?op=editar_qr", {
-            id: id,
-            nombre: nombre_evento,
-            contenido: url_publica,
-            color_frente: colorFrente,
-            color_fondo: colorFondo,
-            estilo_puntos: estiloPuntos,
-            nivel_correccion: 'M',
-            imagen_base64: imagen_base64
-        }, function(res) {
-            res = JSON.parse(res);
-            if (res.ok && $("#ver_idactiv").val() == idactiv) {
-                cargar_seccion_qr(idactiv, url_publica, nombre_evento);
-                bootbox.alert("Código QR actualizado.");
-            }
-        });
+var qrCode_modal      = null;
+var logoDataUrl_modal = null;
+
+function getQROptions_modal() {
+    var data   = $('#qr_contenido').val().trim() || 'https://pibg.mx';
+    var size   = parseInt($('#qr_size').val())   || 300;
+    var margin = parseInt($('#qr_margin').val()) || 0;
+    var opts = {
+        width:  size,
+        height: size,
+        margin: margin,
+        type:   'canvas',
+        data:   data,
+        dotsOptions: {
+            color: $('#qr_color_dots').val(),
+            type:  $('#qr_dots_style').val()
+        },
+        cornersSquareOptions: {
+            type:  $('#qr_corners_style').val(),
+            color: $('#qr_color_dots').val()
+        },
+        cornersDotOptions: {
+            color: $('#qr_color_dots').val()
+        },
+        backgroundOptions: {
+            color: $('#qr_color_bg').val()
+        },
+        qrOptions: {
+            errorCorrectionLevel: $('#qr_error_correction').val()
+        }
+    };
+    if (logoDataUrl_modal) {
+        opts.image = logoDataUrl_modal;
+        opts.imageOptions = { crossOrigin: 'anonymous', margin: 6, imageSize: 0.3 };
+    }
+    return opts;
+}
+
+function initQR_modal() {
+    $('#qr_preview').empty();
+    qrCode_modal = new QRCodeStyling(getQROptions_modal());
+    qrCode_modal.append(document.getElementById('qr_preview'));
+}
+
+function updateQR_modal() {
+    if (!qrCode_modal) return;
+    qrCode_modal.update(getQROptions_modal());
+}
+
+function abrir_modal_editar_qr(idactiv, id) {
+    $.post("ajax/codigos_qr.php?op=obtener_qr", { id: id }, function(data) {
+        data = JSON.parse(data);
+        if (!data || !data.id) { bootbox.alert("No se encontró el código QR."); return; }
+
+        $("#qredit_idactiv").val(idactiv);
+        $("#qredit_id").val(id);
+        $("#qr_nombre").val(data.nombre);
+        $("#qr_contenido").val(data.contenido);
+        $("#qr_color_dots").val(data.color_frente || "#042C49");
+        $("#qr_color_bg").val(data.color_fondo || "#ffffff");
+        $("#qr_error_correction").val(data.nivel_correccion || "M");
+        $("#qr_size").val(300); $("#qr_size_val").text(300);
+        $("#qr_margin").val(10); $("#qr_margin_val").text(10);
+
+        $("#qr_dots_style").val(data.estilo_puntos || "rounded");
+        $("#dots_style_group .qr-dot-btn").removeClass("active");
+        $("#dots_style_group .qr-dot-btn[data-val='" + (data.estilo_puntos || "rounded") + "']").addClass("active");
+
+        $("#qr_corners_style").val("dot");
+        $("#corners_style_group .qr-dot-btn").removeClass("active");
+        $("#corners_style_group .qr-dot-btn[data-val='dot']").addClass("active");
+
+        logoDataUrl_modal = null;
+        $("#qr_logo").val("");
+        $("#qr_logo_preview").hide().attr("src", "");
+        $("#qr_logo_clear").hide();
+
+        $("#modalEditarQR").modal("show");
     });
 }
+
+$(document).on('shown.bs.modal', '#modalEditarQR', function() {
+    initQR_modal();
+});
+
+function guardar_edicion_qr_modal() {
+    var idactiv   = $("#qredit_idactiv").val();
+    var id        = $("#qredit_id").val();
+    var nombre    = $("#qr_nombre").val().trim();
+    var contenido = $("#qr_contenido").val().trim();
+
+    if (!nombre || !contenido) {
+        bootbox.alert("Es necesario ingresar el nombre y el contenido del código QR.");
+        return;
+    }
+
+    qrCode_modal.getRawData('png').then(function(blob) {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            $.post("ajax/codigos_qr.php?op=editar_qr", {
+                id: id,
+                nombre: nombre,
+                contenido: contenido,
+                color_frente: $("#qr_color_dots").val(),
+                color_fondo: $("#qr_color_bg").val(),
+                estilo_puntos: $("#qr_dots_style").val(),
+                nivel_correccion: $("#qr_error_correction").val(),
+                imagen_base64: reader.result
+            }, function(res) {
+                res = JSON.parse(res);
+                if (!res.ok) {
+                    bootbox.alert("Error al guardar" + (res.msg ? ": " + res.msg : "."));
+                    return;
+                }
+                $("#modalEditarQR").modal("hide");
+                bootbox.alert("✓ Código QR actualizado.");
+                if ($("#ver_idactiv").val() == idactiv) {
+                    var url_publica   = $("#ver_seccion_qr").data("url");
+                    var nombre_evento = $("#ver_seccion_qr").data("nombre");
+                    cargar_seccion_qr(idactiv, url_publica, nombre_evento);
+                }
+            });
+        };
+        reader.readAsDataURL(blob);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    $('#dots_style_group').on('click', '.qr-dot-btn', function() {
+        $('#dots_style_group .qr-dot-btn').removeClass('active');
+        $(this).addClass('active');
+        $('#qr_dots_style').val($(this).data('val'));
+        updateQR_modal();
+    });
+
+    $('#corners_style_group').on('click', '.qr-dot-btn', function() {
+        $('#corners_style_group .qr-dot-btn').removeClass('active');
+        $(this).addClass('active');
+        $('#qr_corners_style').val($(this).data('val'));
+        updateQR_modal();
+    });
+
+    $('#qr_contenido, #qr_color_dots, #qr_color_bg, #qr_error_correction').on('input change', updateQR_modal);
+
+    $('#qr_size').on('input', function() {
+        $('#qr_size_val').text($(this).val());
+        updateQR_modal();
+    });
+
+    $('#qr_margin').on('input', function() {
+        $('#qr_margin_val').text($(this).val());
+        updateQR_modal();
+    });
+
+    $('#qr_logo').on('change', function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            logoDataUrl_modal = reader.result;
+            $('#qr_logo_preview').attr('src', logoDataUrl_modal).show();
+            $('#qr_logo_clear').show();
+            updateQR_modal();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    $('#qr_logo_clear').on('click', function() {
+        logoDataUrl_modal = null;
+        $('#qr_logo').val('');
+        $('#qr_logo_preview').hide().attr('src', '');
+        $(this).hide();
+        updateQR_modal();
+    });
+});
 
 /* ══════════════════════════════════════════════
    EDITAR ENCUESTA (replicado de encuestas.js, para

@@ -367,6 +367,134 @@ if ($_SESSION['administrador']==1)
             </div>
           </div>
 
+          <!-- Modal editar código QR (replicado de codigos_qr.php) -->
+          <style>
+            .qr-opt-label { font-size: 13px; font-weight: 600; color: #495057; margin-bottom: 4px; }
+            .qr-color-row { display: flex; gap: 16px; align-items: center; }
+            .qr-color-group { flex: 1; }
+            .qr-color-input { width: 100%; height: 42px; border-radius: 8px; border: 1px solid #ced4da; padding: 3px 6px; cursor: pointer; }
+            .qr-range { width: 100%; accent-color: #042C49; }
+            .qr-badge-dots { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+            .qr-dot-btn {
+              padding: 6px 12px; border: 2px solid #dee2e6; border-radius: 20px;
+              font-size: 12px; cursor: pointer; background: #fff; transition: all .18s;
+              white-space: nowrap;
+            }
+            .qr-dot-btn.active { border-color: #042C49; background: #042C49; color: #fff; }
+            .qr-section-title { font-size: 13px; font-weight: 700; color: #042C49; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 8px; }
+            .logo-preview { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; border: 1px solid #dee2e6; display: none; vertical-align: middle; }
+            .qr-preview-wrap {
+              display: flex; align-items: center; justify-content: center;
+              min-height: 340px; background: #f8f9fa; border-radius: 12px;
+              border: 2px dashed #dee2e6;
+            }
+            .qr-preview-inner {
+              padding: 18px; background: #fff; border-radius: 14px;
+              box-shadow: 0 6px 32px rgba(0,0,0,.13);
+              display: inline-block;
+            }
+            #qr_preview canvas { display: block; }
+          </style>
+          <div class="modal fade" id="modalEditarQR" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="background:#042C49;">
+                  <h5 class="modal-title text-white">Editar código QR</h5>
+                  <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body" style="background:#f4f6f8;">
+                  <input type="hidden" id="qredit_idactiv">
+                  <input type="hidden" id="qredit_id">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="qr-opt-label">Nombre del QR <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="qr_nombre">
+                      </div>
+                      <div class="form-group">
+                        <label class="qr-opt-label">Contenido / URL <span style="color:red">*</span></label>
+                        <textarea class="form-control" id="qr_contenido" rows="3"></textarea>
+                      </div>
+
+                      <div class="qr-section-title">Colores</div>
+                      <div class="qr-color-row">
+                        <div class="qr-color-group">
+                          <label class="qr-opt-label">Puntos</label>
+                          <input type="color" class="qr-color-input" id="qr_color_dots" value="#042C49">
+                        </div>
+                        <div class="qr-color-group">
+                          <label class="qr-opt-label">Fondo</label>
+                          <input type="color" class="qr-color-input" id="qr_color_bg" value="#ffffff">
+                        </div>
+                      </div>
+
+                      <div class="qr-section-title">Estilo de puntos</div>
+                      <div class="qr-badge-dots" id="dots_style_group">
+                        <button type="button" class="qr-dot-btn" data-val="square">Cuadrado</button>
+                        <button type="button" class="qr-dot-btn active" data-val="rounded">Redondeado</button>
+                        <button type="button" class="qr-dot-btn" data-val="dots">Círculos</button>
+                        <button type="button" class="qr-dot-btn" data-val="classy">Elegante</button>
+                        <button type="button" class="qr-dot-btn" data-val="classy-rounded">Eleg. redondo</button>
+                        <button type="button" class="qr-dot-btn" data-val="extra-rounded">Extra redondo</button>
+                      </div>
+                      <input type="hidden" id="qr_dots_style" value="rounded">
+
+                      <div class="qr-section-title">Estilo de esquinas</div>
+                      <div class="qr-badge-dots" id="corners_style_group">
+                        <button type="button" class="qr-dot-btn" data-val="square">Cuadrado</button>
+                        <button type="button" class="qr-dot-btn active" data-val="dot">Punto</button>
+                        <button type="button" class="qr-dot-btn" data-val="extra-rounded">Redondeado</button>
+                      </div>
+                      <input type="hidden" id="qr_corners_style" value="dot">
+
+                      <div class="qr-section-title">Nivel de corrección de error</div>
+                      <div class="form-group">
+                        <select class="form-control" id="qr_error_correction">
+                          <option value="L">L — Bajo (7%) — QR más simple</option>
+                          <option value="M" selected>M — Medio (15%)</option>
+                          <option value="Q">Q — Cuartil (25%) — recomendado con logo</option>
+                          <option value="H">H — Alto (30%) — mayor tolerancia</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="qr-opt-label">Tamaño: <span id="qr_size_val">300</span> px</label>
+                        <input type="range" class="qr-range" id="qr_size" min="200" max="600" value="300" step="50">
+                      </div>
+
+                      <div class="form-group">
+                        <label class="qr-opt-label">Margen: <span id="qr_margin_val">10</span> px</label>
+                        <input type="range" class="qr-range" id="qr_margin" min="0" max="60" value="10" step="2">
+                      </div>
+
+                      <div class="form-group">
+                        <label class="qr-opt-label">Logo central (opcional)</label>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                          <input type="file" class="form-control-file" id="qr_logo" accept="image/*" style="flex:1;">
+                          <img id="qr_logo_preview" class="logo-preview" src="" alt="logo">
+                          <button type="button" id="qr_logo_clear" style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;">✕</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex flex-column align-items-center" style="padding-top:8px;">
+                      <p style="font-size:13px;color:#888;margin-bottom:12px;">Vista previa en tiempo real</p>
+                      <div class="qr-preview-wrap" style="width:100%;">
+                        <div class="qr-preview-inner">
+                          <div id="qr_preview"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" onclick="guardar_edicion_qr_modal();" style="background:#042C49;border-color:#042C49;">Guardar cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
            <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
            <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
            <script type="text/javascript" src="scripts/semanas_esp.js?v=<?php echo(rand()); ?>"></script>
