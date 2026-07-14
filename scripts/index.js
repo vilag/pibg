@@ -822,7 +822,7 @@ function doEndCycle() {
 			mostrar_texto_principal();
 			array_activ_des = [];
 			scheduleAnim(() => { count_activ_esp(); }, 10000);
-		}, 5000);
+		}, 1000);
 
 	}, 6000);
 }
