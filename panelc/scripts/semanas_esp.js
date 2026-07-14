@@ -1,3 +1,5 @@
+var qb_idx = 0;
+
 function init(){
     listar_activ_sem_esp();
 }
@@ -186,7 +188,7 @@ function pintar_seccion_formulario(idactiv, encuesta) {
             '<p><b>' + encuesta.titulo + '</b></p>' +
             '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
                 '<a href="' + url_publica + '" target="_blank" class="btn btn-sm btn-primary">Abrir formulario público</a>' +
-                '<a href="encuestas.php?editar=' + encuesta.id + '" class="btn btn-sm btn-secondary">Editar preguntas en Encuestas</a>' +
+                '<button class="btn btn-sm btn-secondary" onclick="editar_encuesta(' + encuesta.id + ');">Editar preguntas</button>' +
             '</div>'
         );
         cargar_seccion_qr(idactiv, url_publica, encuesta.titulo);
@@ -283,6 +285,288 @@ function generar_qr_evento(idactiv, url_publica, nombre_evento) {
         };
         reader.readAsDataURL(blob);
     });
+}
+
+/* ══════════════════════════════════════════════
+   EDITAR ENCUESTA (replicado de encuestas.js, para
+   poder editar el formulario de registro sin salir
+   de esta vista)
+══════════════════════════════════════════════ */
+
+document.addEventListener("DOMContentLoaded", function () {
+    $('#enc_img_file').on('change', function (e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            $('#enc_img_preview').attr('src', reader.result).show();
+            $('#enc_img_file').data('base64', reader.result);
+            $('#enc_imagen_base64').val(reader.result);
+            $('#enc_img_clear').show();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    $('#enc_img_clear').on('click', function () {
+        limpiar_imagen_encabezado();
+    });
+
+    $('#enc_img2_file').on('change', function (e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            $('#enc_img2_preview').attr('src', reader.result).show();
+            $('#enc_imagen_secundaria_base64').val(reader.result);
+            $('#enc_img2_clear').show();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    $('#enc_img2_clear').on('click', function () {
+        limpiar_imagen_secundaria();
+    });
+});
+
+function limpiar_imagen_encabezado() {
+    $('#enc_img_file').val('').data('base64', null);
+    $('#enc_img_preview').hide().attr('src', '');
+    $('#enc_img_clear').hide();
+    $('#enc_imagen_base64').val('');
+}
+
+function limpiar_imagen_secundaria() {
+    $('#enc_img2_file').val('');
+    $('#enc_img2_preview').hide().attr('src', '');
+    $('#enc_img2_clear').hide();
+    $('#enc_imagen_secundaria_base64').val('');
+}
+
+function editar_encuesta(id) {
+    $.post('ajax/encuestas.php?op=obtener_encuesta', { id: id }, function (data) {
+        data = JSON.parse(data);
+        var e = data.encuesta;
+        $('#enc_id').val(e.id);
+        $('#enc_titulo').val(e.titulo);
+        $('#enc_descripcion').val(e.descripcion || '');
+        $('#enc_fecha_inicio').val(e.fecha_inicio || '');
+        $('#enc_fecha_fin').val(e.fecha_fin || '');
+        limpiar_imagen_encabezado();
+        limpiar_imagen_secundaria();
+        if (e.imagen_base64 && e.imagen_base64.length > 10) {
+            $('#enc_img_preview').attr('src', e.imagen_base64).show();
+            $('#enc_img_file').data('base64', e.imagen_base64);
+            $('#enc_imagen_base64').val(e.imagen_base64);
+            $('#enc_img_clear').show();
+        }
+        if (e.imagen_secundaria_base64 && e.imagen_secundaria_base64.length > 10) {
+            $('#enc_img2_preview').attr('src', e.imagen_secundaria_base64).show();
+            $('#enc_imagen_secundaria_base64').val(e.imagen_secundaria_base64);
+            $('#enc_img2_clear').show();
+        }
+        $('#qb_lista').empty();
+        qb_idx = 0;
+        $('#modalEncuestaTitulo').text('Editar encuesta');
+        data.preguntas.forEach(function (p) {
+            agregar_pregunta(p);
+        });
+        actualizar_vacio();
+        $('#modalEncuesta').modal('show');
+    });
+}
+
+function agregar_pregunta(datos) {
+    var idx  = qb_idx++;
+    var tipo = (datos && datos.tipo) ? datos.tipo : 'libre';
+
+    var opciones_html = '';
+    if (datos && datos.opciones && datos.opciones.length) {
+        datos.opciones.forEach(function (op) {
+            opciones_html += opcion_row_html(op);
+        });
+    }
+
+    var $q = $('\
+<div class="qb-pregunta" data-idx="' + idx + '">\
+  <div class="card-header">\
+    <div class="d-flex align-items-center">\
+      <span class="qb-num font-weight-bold mr-2" style="color:#042C49;min-width:28px;">P' + (idx + 1) + '</span>\
+      <select class="form-control form-control-sm qb-tipo">\
+        <option value="libre">Respuesta libre</option>\
+        <option value="opcion_multiple">Opción múltiple</option>\
+        <option value="casillas">Casillas (múltiple)</option>\
+        <option value="verdadero_falso">Verdadero / Falso</option>\
+        <option value="si_no">Sí / No</option>\
+        <option value="calificacion">Calificación (1-5)</option>\
+      </select>\
+    </div>\
+    <div class="d-flex align-items-center">\
+      <label class="qb-requerida-lbl mr-3 mb-0">\
+        <input type="checkbox" class="qb-requerida mr-1"> Requerida\
+      </label>\
+      <button class="btn btn-sm btn-danger qb-eliminar">✕</button>\
+    </div>\
+  </div>\
+  <div class="card-body">\
+    <input type="text" class="form-control mb-2 qb-texto" placeholder="Escribe tu pregunta aquí...">\
+    <div class="qb-opciones-area" style="display:none;">\
+      <div class="qb-opciones-list">' + opciones_html + '</div>\
+      <button type="button" class="btn btn-sm btn-outline-secondary qb-add-opcion mt-1">+ Agregar opción</button>\
+    </div>\
+    <div class="qb-preview-hint"></div>\
+  </div>\
+</div>');
+
+    $q.find('.qb-tipo').val(tipo);
+    if (datos && datos.pregunta)   $q.find('.qb-texto').val(datos.pregunta);
+    if (datos && datos.requerida)  $q.find('.qb-requerida').prop('checked', true);
+
+    actualizar_tipo_ui($q, tipo);
+    if (!opciones_html && (tipo === 'opcion_multiple' || tipo === 'casillas')) {
+        agregar_opcion_a($q);
+        agregar_opcion_a($q);
+    }
+
+    $q.find('.qb-tipo').on('change', function () {
+        var t = $(this).val();
+        actualizar_tipo_ui($q, t);
+    });
+
+    $q.find('.qb-eliminar').on('click', function () {
+        $q.remove();
+        renumerar_preguntas();
+        actualizar_vacio();
+    });
+
+    $q.find('.qb-add-opcion').on('click', function () {
+        agregar_opcion_a($q);
+    });
+
+    $('#qb_lista').append($q);
+    actualizar_vacio();
+}
+
+function opcion_row_html(valor) {
+    return '<div class="qb-opcion-row">' +
+        '<input type="text" class="qb-opcion-input form-control form-control-sm" value="' + escHtml(valor) + '" placeholder="Opción...">' +
+        '<button type="button" class="qb-remove-opcion">✕</button>' +
+        '</div>';
+}
+
+function agregar_opcion_a($q) {
+    var $row = $(opcion_row_html(''));
+    $row.find('.qb-remove-opcion').on('click', function () { $row.remove(); });
+    $q.find('.qb-opciones-list').append($row);
+}
+
+function actualizar_tipo_ui($q, tipo) {
+    var $hint = $q.find('.qb-preview-hint');
+    var $opc  = $q.find('.qb-opciones-area');
+    $hint.text('');
+    $opc.hide();
+
+    if (tipo === 'opcion_multiple' || tipo === 'casillas') {
+        $opc.show();
+        $hint.text(tipo === 'opcion_multiple' ? '(Una sola respuesta)' : '(Múltiples respuestas)');
+    } else if (tipo === 'verdadero_falso') {
+        $hint.text('Opciones fijas: Verdadero · Falso');
+    } else if (tipo === 'si_no') {
+        $hint.text('Opciones fijas: Sí · No');
+    } else if (tipo === 'calificacion') {
+        $hint.text('Escala de 1 (muy malo) a 5 (excelente)');
+    } else {
+        $hint.text('El participante escribirá su respuesta libremente');
+    }
+}
+
+function renumerar_preguntas() {
+    $('#qb_lista .qb-pregunta').each(function (i) {
+        $(this).find('.qb-num').text('P' + (i + 1));
+    });
+}
+
+function actualizar_vacio() {
+    var hay = $('#qb_lista .qb-pregunta').length > 0;
+    $('#qb_vacio').toggle(!hay);
+}
+
+function serializar_preguntas() {
+    var preguntas = [];
+    $('#qb_lista .qb-pregunta').each(function () {
+        var $q   = $(this);
+        var tipo = $q.find('.qb-tipo').val();
+        var p = {
+            tipo:     tipo,
+            pregunta: $q.find('.qb-texto').val().trim(),
+            requerida: $q.find('.qb-requerida').is(':checked') ? 1 : 0,
+            opciones: [],
+        };
+        if (tipo === 'opcion_multiple' || tipo === 'casillas') {
+            $q.find('.qb-opcion-input').each(function () {
+                var v = $(this).val().trim();
+                if (v) p.opciones.push(v);
+            });
+        }
+        preguntas.push(p);
+    });
+    return preguntas;
+}
+
+function guardar_encuesta() {
+    var titulo = $('#enc_titulo').val().trim();
+    if (!titulo) { bootbox.alert('El título es obligatorio.'); return; }
+
+    var preguntas = serializar_preguntas();
+    if (!preguntas.length) { bootbox.alert('Agrega al menos una pregunta.'); return; }
+
+    var ok = true;
+    preguntas.forEach(function (p, i) {
+        if (!p.pregunta) { bootbox.alert('La pregunta ' + (i + 1) + ' no tiene texto.'); ok = false; }
+        if ((p.tipo === 'opcion_multiple' || p.tipo === 'casillas') && p.opciones.length < 2) {
+            bootbox.alert('La pregunta ' + (i + 1) + ' necesita al menos 2 opciones.'); ok = false;
+        }
+    });
+    if (!ok) return;
+
+    var id = $('#enc_id').val();
+    if (!id) { bootbox.alert('No se encontró la encuesta a editar.'); return; }
+
+    var datos = {
+        id:                       id,
+        titulo:                   titulo,
+        descripcion:              $('#enc_descripcion').val().trim(),
+        fecha_inicio:             $('#enc_fecha_inicio').val(),
+        fecha_fin:                $('#enc_fecha_fin').val(),
+        imagen_base64:            $('#enc_imagen_base64').val(),
+        imagen_secundaria_base64: $('#enc_imagen_secundaria_base64').val(),
+        preguntas:                JSON.stringify(preguntas),
+    };
+
+    $.post('ajax/encuestas.php?op=editar_encuesta', datos, function (data) {
+        var r;
+        try { r = JSON.parse(data); } catch (e) {
+            bootbox.alert('Error de servidor al guardar la encuesta.');
+            return;
+        }
+        if (r.ok) {
+            $('#modalEncuesta').modal('hide');
+            bootbox.alert('✓ Formulario de registro actualizado.');
+            var idactiv = $('#ver_idactiv').val();
+            if (idactiv) {
+                $.post('ajax/encuestas.php?op=obtener_por_actividad', {idactiv: idactiv}, function (res) {
+                    res = JSON.parse(res);
+                    pintar_seccion_formulario(idactiv, res.encuesta);
+                });
+            }
+        } else {
+            bootbox.alert('Error al guardar' + (r.msg ? ': ' + r.msg : '.'));
+        }
+    });
+}
+
+function escHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 document.addEventListener("DOMContentLoaded", function() { init(); });

@@ -269,6 +269,103 @@ if ($_SESSION['administrador']==1)
             </div>
           </div>
 
+          <!-- Modal editar encuesta (replicado de encuestas.php, para editar sin salir de esta vista) -->
+          <style>
+            .enc-card { border-radius:14px; box-shadow:0 2px 16px rgba(0,0,0,.08); border:none; }
+            .qb-pregunta { border:1px solid #dee2e6; border-radius:10px; margin-bottom:14px; background:#fff; }
+            .qb-pregunta .card-header { background:#f8f9fa; border-radius:10px 10px 0 0; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; }
+            .qb-tipo { border-radius:6px; font-size:13px; padding:4px 8px; }
+            .qb-texto { border-radius:8px; font-size:14px; }
+            .qb-opcion-row { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+            .qb-opcion-input { flex:1; border-radius:6px; border:1px solid #ced4da; padding:5px 10px; font-size:13px; }
+            .qb-remove-opcion { background:#dc3545; color:#fff; border:none; border-radius:5px; padding:3px 8px; cursor:pointer; font-size:12px; }
+            .qb-add-opcion { font-size:12px; padding:4px 12px; border-radius:6px; }
+            .qb-preview-hint { font-size:12px; color:#6c757d; margin-top:6px; }
+            .qb-img-preview { width:54px; height:54px; object-fit:cover; border-radius:6px; border:1px solid #dee2e6; display:none; }
+            .qb-requerida-lbl { font-size:12px; color:#495057; margin:0; cursor:pointer; }
+          </style>
+          <div class="modal fade" id="modalEncuesta" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="background:#042C49;">
+                  <h5 class="modal-title text-white" id="modalEncuestaTitulo">Editar encuesta</h5>
+                  <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body" style="background:#f4f6f8;">
+                  <input type="hidden" id="enc_id">
+
+                  <div class="card enc-card mb-3">
+                    <div class="card-body">
+                      <h6 style="color:#042C49;font-weight:700;margin-bottom:14px;">Información general</h6>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            <label style="font-size:13px;font-weight:600;">Título <span style="color:red">*</span></label>
+                            <input type="text" class="form-control" id="enc_titulo" placeholder="Nombre de la encuesta">
+                          </div>
+                          <div class="form-group">
+                            <label style="font-size:13px;font-weight:600;">Descripción</label>
+                            <textarea class="form-control" id="enc_descripcion" rows="2" placeholder="Descripción opcional..."></textarea>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label style="font-size:13px;font-weight:600;">Fecha de inicio</label>
+                            <input type="date" class="form-control" id="enc_fecha_inicio">
+                          </div>
+                          <div class="form-group">
+                            <label style="font-size:13px;font-weight:600;">Fecha de fin</label>
+                            <input type="date" class="form-control" id="enc_fecha_fin">
+                          </div>
+                          <div class="form-group">
+                            <label style="font-size:13px;font-weight:600;">Imagen de portada</label>
+                            <input type="file" class="form-control-file" id="enc_img_file" accept="image/*" style="font-size:13px;">
+                            <div class="mt-2 d-flex align-items-center" style="gap:8px;">
+                              <img id="enc_img_preview" src="" alt="preview"
+                                style="display:none;width:80px;height:56px;object-fit:cover;border-radius:6px;border:1px solid #dee2e6;">
+                              <button type="button" id="enc_img_clear"
+                                style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;">
+                                Quitar
+                              </button>
+                            </div>
+                            <input type="hidden" id="enc_imagen_base64">
+                          </div>
+                          <div class="form-group">
+                            <label style="font-size:13px;font-weight:600;">Imagen secundaria <span style="font-size:11px;font-weight:400;color:#6c757d;">(logo / icono circular)</span></label>
+                            <input type="file" class="form-control-file" id="enc_img2_file" accept="image/*" style="font-size:13px;">
+                            <div class="mt-2 d-flex align-items-center" style="gap:8px;">
+                              <img id="enc_img2_preview" src="" alt="preview"
+                                style="display:none;width:48px;height:48px;object-fit:cover;border-radius:50%;border:2px solid #dee2e6;">
+                              <button type="button" id="enc_img2_clear"
+                                style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;">
+                                Quitar
+                              </button>
+                            </div>
+                            <input type="hidden" id="enc_imagen_secundaria_base64">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 style="color:#042C49;font-weight:700;margin:0;">Preguntas</h6>
+                    <button class="btn btn-sm btn-outline-primary" onclick="agregar_pregunta();">+ Agregar pregunta</button>
+                  </div>
+                  <div id="qb_lista"></div>
+                  <div id="qb_vacio" class="text-center text-muted py-4" style="border:2px dashed #dee2e6;border-radius:10px;">
+                    <p class="mb-1" style="font-size:16px;">&#128203;</p>
+                    <p style="font-size:13px;">Agrega al menos una pregunta para continuar</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" onclick="guardar_encuesta();" style="background:#042C49;border-color:#042C49;">Guardar encuesta</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
            <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
            <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
            <script type="text/javascript" src="scripts/semanas_esp.js?v=<?php echo(rand()); ?>"></script>
