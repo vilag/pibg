@@ -213,8 +213,13 @@ function pintar_seccion_qr(idactiv, qr, url_publica, nombre_evento) {
     if (qr) {
         $sec.html(
             '<img src="' + qr.imagen_base64 + '" style="width:160px;height:160px;border:1px solid #ccc;border-radius:8px;background:#fff;">' +
-            '<br><a href="' + qr.imagen_base64 + '" download="qr_evento_' + idactiv + '.png" class="btn btn-sm btn-secondary" style="margin-top:8px;">Descargar</a>'
+            '<div style="margin-top:8px;display:flex;gap:8px;">' +
+                '<a href="' + qr.imagen_base64 + '" download="qr_evento_' + idactiv + '.png" class="btn btn-sm btn-secondary">Descargar</a>' +
+                '<button class="btn btn-sm btn-outline-secondary" onclick="mostrar_editor_qr(' + idactiv + ', ' + qr.id + ');">Editar</button>' +
+            '</div>' +
+            '<div id="ver_qr_editor" style="display:none;margin-top:14px;padding:12px;border:1px solid #ddd;border-radius:8px;background:#f8fafd;"></div>'
         );
+        $("#ver_seccion_qr").data("qr", qr).data("url", url_publica).data("nombre", nombre_evento);
     } else {
         var nombre_escapado = (nombre_evento || '').replace(/'/g, "");
         $sec.html(
@@ -222,6 +227,65 @@ function pintar_seccion_qr(idactiv, qr, url_publica, nombre_evento) {
             '<button class="btn btn-sm btn-primary" onclick="generar_qr_evento(' + idactiv + ', \'' + url_publica + '\', \'' + nombre_escapado + '\');">Generar código QR</button>'
         );
     }
+}
+
+function mostrar_editor_qr(idactiv, id) {
+    var qr = $("#ver_seccion_qr").data("qr") || {};
+    var $editor = $("#ver_qr_editor");
+    $editor.html(
+        '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;">' +
+            '<div><label style="font-size:12px;display:block;">Color de puntos</label>' +
+                '<input type="color" id="qredit_color_frente" value="' + (qr.color_frente || '#042C49') + '"></div>' +
+            '<div><label style="font-size:12px;display:block;">Color de fondo</label>' +
+                '<input type="color" id="qredit_color_fondo" value="' + (qr.color_fondo || '#ffffff') + '"></div>' +
+            '<div><label style="font-size:12px;display:block;">Estilo de puntos</label>' +
+                '<select class="form-control form-control-sm" id="qredit_estilo_puntos">' +
+                    ['square','rounded','dots','classy','classy-rounded','extra-rounded'].map(function(op) {
+                        return '<option value="' + op + '"' + (qr.estilo_puntos === op ? ' selected' : '') + '>' + op + '</option>';
+                    }).join('') +
+                '</select></div>' +
+            '<div style="display:flex;gap:6px;">' +
+                '<button class="btn btn-sm btn-primary" onclick="guardar_edicion_qr(' + idactiv + ', ' + id + ');">Guardar cambios</button>' +
+                '<button class="btn btn-sm btn-secondary" onclick="$(\'#ver_qr_editor\').hide();">Cancelar</button>' +
+            '</div>' +
+        '</div>'
+    );
+    $editor.show();
+}
+
+function generar_qr_png(url_publica, colorFrente, colorFondo, estiloPuntos, callback) {
+    if (typeof QRCodeStyling === 'undefined') {
+        bootbox.alert("No se pudo cargar el generador de códigos QR. Recarga la página e intenta de nuevo.");
+        return;
+    }
+
+    var $contenedor = $("#qr_temp_container").empty();
+
+    var qrCode = new QRCodeStyling({
+        width: 300,
+        height: 300,
+        margin: 10,
+        type: 'canvas',
+        data: url_publica,
+        dotsOptions: { color: colorFrente, type: estiloPuntos },
+        cornersSquareOptions: { type: 'dot', color: colorFrente },
+        cornersDotOptions: { color: colorFrente },
+        backgroundOptions: { color: colorFondo },
+        qrOptions: { errorCorrectionLevel: 'M' }
+    });
+
+    // La librería necesita dibujar en un elemento del DOM antes de poder
+    // extraer la imagen; sin este paso el PNG resultante sale en blanco/negro.
+    qrCode.append($contenedor[0]);
+
+    qrCode.getRawData('png').then(function(blob) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            $contenedor.empty();
+            callback(reader.result);
+        };
+        reader.readAsDataURL(blob);
+    });
 }
 
 function crear_formulario_registro(idactiv, nombre_corto, fecha1, fecha2) {
@@ -245,45 +309,49 @@ function crear_formulario_registro(idactiv, nombre_corto, fecha1, fecha2) {
 }
 
 function generar_qr_evento(idactiv, url_publica, nombre_evento) {
-    if (typeof QRCodeStyling === 'undefined') {
-        bootbox.alert("No se pudo cargar el generador de códigos QR. Recarga la página e intenta de nuevo.");
-        return;
-    }
-
-    var qrCode = new QRCodeStyling({
-        width: 300,
-        height: 300,
-        margin: 10,
-        type: 'canvas',
-        data: url_publica,
-        dotsOptions: { color: '#042C49', type: 'rounded' },
-        cornersSquareOptions: { type: 'dot', color: '#042C49' },
-        cornersDotOptions: { color: '#042C49' },
-        backgroundOptions: { color: '#ffffff' },
-        qrOptions: { errorCorrectionLevel: 'M' }
+    generar_qr_png(url_publica, '#042C49', '#ffffff', 'rounded', function(imagen_base64) {
+        $.post("ajax/codigos_qr.php?op=guardar_qr", {
+            nombre: nombre_evento,
+            contenido: url_publica,
+            color_frente: '#042C49',
+            color_fondo: '#ffffff',
+            estilo_puntos: 'rounded',
+            nivel_correccion: 'M',
+            imagen_base64: imagen_base64,
+            idactiv_relacionada: idactiv
+        }, function(res) {
+            res = JSON.parse(res);
+            if (res.ok && $("#ver_idactiv").val() == idactiv) {
+                cargar_seccion_qr(idactiv, url_publica, nombre_evento);
+            }
+        });
     });
+}
 
-    qrCode.getRawData('png').then(function(blob) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var imagen_base64 = reader.result;
-            $.post("ajax/codigos_qr.php?op=guardar_qr", {
-                nombre: nombre_evento,
-                contenido: url_publica,
-                color_frente: '#042C49',
-                color_fondo: '#ffffff',
-                estilo_puntos: 'rounded',
-                nivel_correccion: 'M',
-                imagen_base64: imagen_base64,
-                idactiv_relacionada: idactiv
-            }, function(res) {
-                res = JSON.parse(res);
-                if (res.ok && $("#ver_idactiv").val() == idactiv) {
-                    pintar_seccion_qr(idactiv, {imagen_base64: imagen_base64}, url_publica, nombre_evento);
-                }
-            });
-        };
-        reader.readAsDataURL(blob);
+function guardar_edicion_qr(idactiv, id) {
+    var url_publica   = $("#ver_seccion_qr").data("url");
+    var nombre_evento = $("#ver_seccion_qr").data("nombre");
+    var colorFrente   = $("#qredit_color_frente").val();
+    var colorFondo    = $("#qredit_color_fondo").val();
+    var estiloPuntos  = $("#qredit_estilo_puntos").val();
+
+    generar_qr_png(url_publica, colorFrente, colorFondo, estiloPuntos, function(imagen_base64) {
+        $.post("ajax/codigos_qr.php?op=editar_qr", {
+            id: id,
+            nombre: nombre_evento,
+            contenido: url_publica,
+            color_frente: colorFrente,
+            color_fondo: colorFondo,
+            estilo_puntos: estiloPuntos,
+            nivel_correccion: 'M',
+            imagen_base64: imagen_base64
+        }, function(res) {
+            res = JSON.parse(res);
+            if (res.ok && $("#ver_idactiv").val() == idactiv) {
+                cargar_seccion_qr(idactiv, url_publica, nombre_evento);
+                bootbox.alert("Código QR actualizado.");
+            }
+        });
     });
 }
 

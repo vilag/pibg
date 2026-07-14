@@ -15,6 +15,19 @@ Class Codigos_qr
         return ejecutarConsulta_retornarID($sql);
     }
 
+    public function editar_qr($id, $nombre, $contenido, $color_frente, $color_fondo, $estilo_puntos, $nivel_correccion, $imagen_base64)
+    {
+        global $conexion;
+        $id            = intval($id);
+        $imagen_base64 = $conexion->real_escape_string($imagen_base64);
+        $sql = "UPDATE qr_codes SET
+                    nombre='$nombre', contenido='$contenido', color_frente='$color_frente',
+                    color_fondo='$color_fondo', estilo_puntos='$estilo_puntos',
+                    nivel_correccion='$nivel_correccion', imagen_base64='$imagen_base64'
+                WHERE id='$id'";
+        return ejecutarConsulta($sql);
+    }
+
     public function obtener_qr_por_actividad($idactiv)
     {
         $idactiv = intval($idactiv);

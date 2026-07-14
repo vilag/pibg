@@ -261,6 +261,7 @@ if ($_SESSION['administrador']==1)
                   <div id="ver_seccion_qr">
                     <p style="color:#aaa;">Cargando…</p>
                   </div>
+                  <div id="qr_temp_container" style="display:none;"></div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
