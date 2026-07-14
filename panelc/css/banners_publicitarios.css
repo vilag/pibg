@@ -168,3 +168,25 @@
   cursor: pointer;
   font-size: .8rem;
 }
+
+.bp-icono-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.bp-icono-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border: 2px solid #e2e8f4;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  padding: 4px;
+}
+.bp-icono-item:hover { border-color: #1D4268; }
+.bp-icono-item img { width: 100%; height: 100%; object-fit: contain; }

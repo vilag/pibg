@@ -562,8 +562,9 @@ function bpa_generar_imagen_fondo(prompt, ancho_px, alto_px, callback) {
    el endpoint .json (usado aquí para evitar cargar imágenes cross-origin
    dentro del canvas) siempre devuelve el body con fill="currentColor",
    así que el color se reemplaza aquí mismo antes de construir el SVG. */
-function bp_obtener_icono_svg(nombre, colorHex, callback) {
-    var url = 'https://api.iconify.design/mdi.json?icons=' + encodeURIComponent(nombre);
+function bp_obtener_icono_svg(nombre, colorHex, callback, prefix) {
+    prefix = prefix || 'mdi';
+    var url = 'https://api.iconify.design/' + prefix + '.json?icons=' + encodeURIComponent(nombre);
     fetch(url).then(function (r) { return r.json(); }).then(function (data) {
         var info = data && data.icons && data.icons[nombre];
         if (!info) { callback(null); return; }
@@ -575,6 +576,74 @@ function bp_obtener_icono_svg(nombre, colorHex, callback) {
             callback(fabric.util.groupSVGElements(objects, options));
         });
     }).catch(function () { callback(null); });
+}
+
+/* ── Buscador de íconos (Iconify search — sin API key) para el
+   editor manual: el usuario busca, ve resultados y elige uno para
+   agregarlo al lienzo. ── */
+function buscar_iconos() {
+    var termino = $('#bp_icono_busqueda').val().trim();
+    if (!termino) { bootbox.alert('Escribe qué ícono buscas.'); return; }
+
+    $('#bp_icono_status').text('Buscando…');
+    $('#bp_icono_resultados').html('');
+
+    $.post('ajax/banners_publicitarios.php?op=traducir_termino', { termino: termino }, function (resTrad) {
+        var terminoEn = (resTrad && resTrad.ok && resTrad.termino_en) ? resTrad.termino_en : termino;
+        var color = $('#bp_icono_color').val() || '#1D4268';
+
+        fetch('https://api.iconify.design/search?query=' + encodeURIComponent(terminoEn) + '&limit=48')
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                $('#bp_icono_status').text('');
+                var iconos = (data && data.icons) || [];
+                if (!iconos.length) {
+                    $('#bp_icono_resultados').html('<p class="bp-hint">Sin resultados para "' + terminoEn + '". Intenta con otra palabra.</p>');
+                    return;
+                }
+                var colorParam = encodeURIComponent(color);
+                var html = iconos.slice(0, 48).map(function (id) {
+                    var partes = id.split(':');
+                    var src = 'https://api.iconify.design/' + partes[0] + '/' + partes[1] + '.svg?color=' + colorParam;
+                    return '<div class="bp-icono-item" title="' + id + '" onclick="agregar_icono_buscado(\'' + id + '\')">' +
+                        '<img src="' + src + '" alt="' + id + '" loading="lazy">' +
+                    '</div>';
+                }).join('');
+                $('#bp_icono_resultados').html(html);
+            })
+            .catch(function () {
+                $('#bp_icono_status').text('');
+                bootbox.alert('Error al buscar íconos.');
+            });
+    }, 'json').fail(function () {
+        $('#bp_icono_status').text('');
+        bootbox.alert('Error de conexión al traducir el término de búsqueda.');
+    });
+}
+
+function agregar_icono_buscado(idIcono) {
+    if (!bp_canvas) return;
+    var partes = idIcono.split(':');
+    var prefijo = partes[0], nombre = partes[1];
+    var color = $('#bp_icono_color').val() || '#1D4268';
+
+    bp_obtener_icono_svg(nombre, color, function (obj) {
+        if (!obj) {
+            bootbox.alert('No se pudo cargar ese ícono.');
+            return;
+        }
+        var cw = bp_canvas.getWidth() / bp_canvas.getZoom();
+        var ch = bp_canvas.getHeight() / bp_canvas.getZoom();
+        var tam = Math.min(cw, ch) * 0.15;
+        obj.set({
+            left: cw / 2, top: ch / 2, originX: 'center', originY: 'center',
+            id: 'icono_' + (++bp_contador_ids), tipo: 'icono'
+        });
+        obj.scaleToWidth(tam);
+        bp_canvas.add(obj);
+        bp_canvas.setActiveObject(obj);
+        bp_canvas.renderAll();
+    }, prefijo);
 }
 
 function bpa_colocar_icono_svg(nombreIcono, glifoFallback, colorHex, x, y, tam) {

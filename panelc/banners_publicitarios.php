@@ -249,6 +249,19 @@ if ($_SESSION['administrador'] == 1):
 
             <hr>
 
+            <div class="bp-tool-group">
+              <label>Buscar ícono</label>
+              <div class="bp-obj-row">
+                <input type="text" class="form-control" id="bp_icono_busqueda" placeholder="Ej. teléfono, estrella, iglesia" onkeydown="if(event.key==='Enter'){buscar_iconos();return false;}">
+                <input type="color" id="bp_icono_color" value="#1D4268" title="Color del ícono">
+              </div>
+              <button class="bp-btn bp-btn-sec" style="width:100%;margin-top:6px;" onclick="buscar_iconos()">Buscar</button>
+              <p class="bp-hint" id="bp_icono_status"></p>
+              <div class="bp-icono-grid" id="bp_icono_resultados"></div>
+            </div>
+
+            <hr>
+
             <div class="bp-tool-group" id="bp_panel_objeto" style="display:none;">
               <label>Objeto seleccionado</label>
               <div class="bp-obj-row">

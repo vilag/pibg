@@ -81,6 +81,10 @@ switch ($op) {
         auto_generar_ia();
         break;
 
+    case 'traducir_termino':
+        traducir_termino_busqueda();
+        break;
+
     default:
         echo json_encode(['ok' => false, 'msg' => 'Operación no válida.']);
 }
@@ -346,6 +350,36 @@ function auto_generar_ia()
         'imagen_prompt' => $imagen_prompt,
         'puntos'   => $puntos_final,
     ], JSON_UNESCAPED_UNICODE);
+}
+
+/* ============================================================
+   TRADUCCIÓN DE TÉRMINO DE BÚSQUEDA (Groq)
+   La API de búsqueda de íconos (Iconify) solo entiende inglés;
+   esto traduce lo que escriba el usuario para que la búsqueda
+   funcione igual de bien en español.
+============================================================ */
+function traducir_termino_busqueda()
+{
+    $termino = trim($_POST['termino'] ?? '');
+    if (!$termino) {
+        echo json_encode(['ok' => false, 'msg' => 'Escribe qué ícono buscas.']);
+        exit;
+    }
+
+    $system_prompt = 'Traduce al inglés la palabra o frase corta que te den, para usarla como término de búsqueda de íconos. ' .
+        'Responde ÚNICAMENTE con la traducción en minúsculas, 1-3 palabras, sin comillas, sin explicaciones, sin punto final. ' .
+        'Si ya está en inglés, devuélvela tal cual (en minúsculas).';
+
+    $resultado = llamar_groq_chat($system_prompt, $termino, 0.1);
+
+    if (!$resultado['ok']) {
+        // Si Groq falla, no bloqueamos la búsqueda: se intenta con el término original.
+        echo json_encode(['ok' => true, 'termino_en' => $termino]);
+        exit;
+    }
+
+    $traduccion = strtolower(trim($resultado['texto'], " \t\n\r\0\x0B\"'."));
+    echo json_encode(['ok' => true, 'termino_en' => $traduccion ?: $termino]);
 }
 
 /* ============================================================
