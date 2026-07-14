@@ -807,6 +807,7 @@ function doEndCycle() {
 		}
 		$("#nom_activ_sem_esp").removeClass("ae-text-in fade-in tilt-in-left-1").addClass("ae-text-out");
 		$("#det_activ_sem_esp").removeClass("ae-text-in fade-in").addClass("ae-text-out");
+		ocultar_info_banner();
 
 		scheduleAnim(() => {
 			for (var index = ult_ext1; index <= ult_ext2; index++) {
