@@ -26,8 +26,8 @@ function guardar_activ_sem(){
         },function(data, status)
         {
             data = JSON.parse(data);
+            var idactiv_nuevo = data.idactiv;
 
-            alert("Registro guardado exitosamente");
             $("#fecha_actividad1").val("");
             $("#fecha_actividad2").val("");
             $("#nom_actividad_sem").val("");
@@ -38,12 +38,22 @@ function guardar_activ_sem(){
             $("#video_url").val("");
             listar_activ_sem_esp();
 
+            if (idactiv_nuevo) {
+                bootbox.confirm("Registro guardado exitosamente. ¿Quieres crear ya su formulario de registro y código QR?", function(ok) {
+                    if (ok) {
+                        crear_formulario_registro(idactiv_nuevo, nombre_corto, fecha1, fecha2);
+                    }
+                });
+            } else {
+                bootbox.alert("Registro guardado exitosamente");
+            }
+
         });
     }else{
         bootbox.alert("Es necesario capturar los campos obligatorios (*) ");
     }
 
-    
+
 }
 
 function listar_activ_sem_esp(){
@@ -133,6 +143,146 @@ function guardar_edicion_activ() {
     } else {
         bootbox.alert("Es necesario capturar los campos obligatorios (*)");
     }
+}
+
+/* ══════════════════════════════════════════════
+   VER DETALLE + FORMULARIO DE REGISTRO + CÓDIGO QR
+══════════════════════════════════════════════ */
+
+function construir_url_encuesta_publica(token) {
+    var dir = window.location.pathname.replace(/[^\/]*$/, '');
+    return window.location.origin + dir + 'encuesta_publica.php?t=' + token;
+}
+
+function ver_activ_detalle(idactiv) {
+    $("#ver_idactiv").val(idactiv);
+    $("#ver_seccion_formulario").html('<p style="color:#aaa;">Cargando…</p>');
+    $("#ver_seccion_qr").html('<p style="color:#aaa;">Cargando…</p>');
+
+    $.post("ajax/semanas_esp.php?op=obtener_activ", {idactiv: idactiv}, function(data) {
+        data = JSON.parse(data);
+        $("#ver_nombre_corto").val(data.nombre_corto);
+        $("#ver_fecha1").val(data.fecha1);
+        $("#ver_fecha2").val(data.fecha2);
+        $("#ver_nombre").text(data.nombre);
+        $("#ver_fechas").text(data.fecha1 + " al " + data.fecha2);
+        $("#ver_detalle").text(data.detalle || "");
+        $("#ver_imagen").attr("src", data.imagen);
+    });
+
+    $.post("ajax/encuestas.php?op=obtener_por_actividad", {idactiv: idactiv}, function(res) {
+        res = JSON.parse(res);
+        pintar_seccion_formulario(idactiv, res.encuesta);
+    });
+
+    $("#modalVerActiv").modal("show");
+}
+
+function pintar_seccion_formulario(idactiv, encuesta) {
+    var $sec = $("#ver_seccion_formulario");
+    if (encuesta) {
+        var url_publica = construir_url_encuesta_publica(encuesta.token_publico);
+        $sec.html(
+            '<p><b>' + encuesta.titulo + '</b></p>' +
+            '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                '<a href="' + url_publica + '" target="_blank" class="btn btn-sm btn-primary">Abrir formulario público</a>' +
+                '<a href="encuestas.php" target="_blank" class="btn btn-sm btn-secondary">Editar preguntas en Encuestas</a>' +
+            '</div>'
+        );
+        cargar_seccion_qr(idactiv, url_publica, encuesta.titulo);
+    } else {
+        $sec.html(
+            '<p style="color:#888;">Este evento aún no tiene formulario de registro.</p>' +
+            '<button class="btn btn-sm btn-primary" onclick="crear_formulario_registro(' + idactiv + ', $(\'#ver_nombre_corto\').val(), $(\'#ver_fecha1\').val(), $(\'#ver_fecha2\').val());">Crear formulario de registro</button>'
+        );
+        $("#ver_seccion_qr").html('<p style="color:#888;">Primero crea el formulario de registro para poder generar su código QR.</p>');
+    }
+}
+
+function cargar_seccion_qr(idactiv, url_publica, nombre_evento) {
+    $.post("ajax/codigos_qr.php?op=obtener_por_actividad", {idactiv: idactiv}, function(res) {
+        res = JSON.parse(res);
+        pintar_seccion_qr(idactiv, res.qr, url_publica, nombre_evento);
+    });
+}
+
+function pintar_seccion_qr(idactiv, qr, url_publica, nombre_evento) {
+    var $sec = $("#ver_seccion_qr");
+    if (qr) {
+        $sec.html(
+            '<img src="' + qr.imagen_base64 + '" style="width:160px;height:160px;border:1px solid #ccc;border-radius:8px;background:#fff;">' +
+            '<br><a href="' + qr.imagen_base64 + '" download="qr_evento_' + idactiv + '.png" class="btn btn-sm btn-secondary" style="margin-top:8px;">Descargar</a>'
+        );
+    } else {
+        var nombre_escapado = (nombre_evento || '').replace(/'/g, "");
+        $sec.html(
+            '<p style="color:#888;">Aún no se ha generado un código QR para este formulario.</p>' +
+            '<button class="btn btn-sm btn-primary" onclick="generar_qr_evento(' + idactiv + ', \'' + url_publica + '\', \'' + nombre_escapado + '\');">Generar código QR</button>'
+        );
+    }
+}
+
+function crear_formulario_registro(idactiv, nombre_corto, fecha1, fecha2) {
+    $.post("ajax/encuestas.php?op=crear_para_evento", {
+        idactiv: idactiv,
+        nombre_corto: nombre_corto,
+        fecha1: fecha1,
+        fecha2: fecha2
+    }, function(res) {
+        res = JSON.parse(res);
+        if (!res.ok) {
+            bootbox.alert(res.msg || "No se pudo crear el formulario de registro.");
+            return;
+        }
+        bootbox.alert("Formulario de registro creado.");
+        if ($("#ver_idactiv").val() == idactiv) {
+            pintar_seccion_formulario(idactiv, {titulo: 'Registro: ' + nombre_corto, token_publico: res.token});
+        }
+        generar_qr_evento(idactiv, res.url, 'Registro: ' + nombre_corto);
+    });
+}
+
+function generar_qr_evento(idactiv, url_publica, nombre_evento) {
+    if (typeof QRCodeStyling === 'undefined') {
+        bootbox.alert("No se pudo cargar el generador de códigos QR. Recarga la página e intenta de nuevo.");
+        return;
+    }
+
+    var qrCode = new QRCodeStyling({
+        width: 300,
+        height: 300,
+        margin: 10,
+        type: 'canvas',
+        data: url_publica,
+        dotsOptions: { color: '#042C49', type: 'rounded' },
+        cornersSquareOptions: { type: 'dot', color: '#042C49' },
+        cornersDotOptions: { color: '#042C49' },
+        backgroundOptions: { color: '#ffffff' },
+        qrOptions: { errorCorrectionLevel: 'M' }
+    });
+
+    qrCode.getRawData('png').then(function(blob) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var imagen_base64 = reader.result;
+            $.post("ajax/codigos_qr.php?op=guardar_qr", {
+                nombre: nombre_evento,
+                contenido: url_publica,
+                color_frente: '#042C49',
+                color_fondo: '#ffffff',
+                estilo_puntos: 'rounded',
+                nivel_correccion: 'M',
+                imagen_base64: imagen_base64,
+                idactiv_relacionada: idactiv
+            }, function(res) {
+                res = JSON.parse(res);
+                if (res.ok && $("#ver_idactiv").val() == idactiv) {
+                    pintar_seccion_qr(idactiv, {imagen_base64: imagen_base64}, url_publica, nombre_evento);
+                }
+            });
+        };
+        reader.readAsDataURL(blob);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function() { init(); });

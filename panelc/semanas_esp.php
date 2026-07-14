@@ -222,7 +222,55 @@ if ($_SESSION['administrador']==1)
             </div>
           </div>
 
+          <!-- Modal ver detalle -->
+          <div class="modal fade" id="modalVerActiv" tabindex="-1" role="dialog" aria-labelledby="modalVerActivLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalVerActivLabel">Detalle de la semana especial</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" id="ver_idactiv">
+                  <input type="hidden" id="ver_nombre_corto">
+                  <input type="hidden" id="ver_fecha1">
+                  <input type="hidden" id="ver_fecha2">
+                  <div class="row">
+                    <div class="col-md-4 text-center">
+                      <img id="ver_imagen" src="" alt="" style="width:100%;max-width:220px;border-radius:8px;border:1px solid #ccc;">
+                    </div>
+                    <div class="col-md-8">
+                      <h4 id="ver_nombre" style="margin-bottom:4px;"></h4>
+                      <p style="color:#888;margin-bottom:6px;" id="ver_fechas"></p>
+                      <p id="ver_detalle"></p>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <h5>Formulario de registro</h5>
+                  <div id="ver_seccion_formulario">
+                    <p style="color:#aaa;">Cargando…</p>
+                  </div>
+
+                  <hr>
+
+                  <h5>Código QR</h5>
+                  <div id="ver_seccion_qr">
+                    <p style="color:#aaa;">Cargando…</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
            <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+           <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
            <script type="text/javascript" src="scripts/semanas_esp.js?v=<?php echo(rand()); ?>"></script>
            <script type="text/javascript" src="scripts/servicio-imagen.js?v=<?php echo(rand()); ?>"></script>
 <?php

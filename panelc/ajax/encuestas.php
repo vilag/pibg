@@ -146,6 +146,56 @@ switch ($op) {
         echo json_encode($enc->obtener_respuestas_excel($id));
         break;
 
+    case 'crear_para_evento':
+        $idactiv      = intval($_POST['idactiv']      ?? 0);
+        $nombre_corto = $_POST['nombre_corto']         ?? '';
+        $fecha1       = $_POST['fecha1']               ?? '';
+        $fecha2       = $_POST['fecha2']               ?? '';
+
+        if (!$idactiv || !$nombre_corto) {
+            echo json_encode(['ok' => false, 'msg' => 'Faltan datos del evento.']);
+            break;
+        }
+
+        $existente = $enc->obtener_encuesta_por_actividad($idactiv)->fetch_object();
+        if ($existente) {
+            echo json_encode(['ok' => false, 'msg' => 'Este evento ya tiene un formulario de registro.']);
+            break;
+        }
+
+        $titulo      = 'Registro: ' . $nombre_corto;
+        $descripcion = 'Formulario de registro para "' . $nombre_corto . '".';
+
+        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha1, $fecha2, '', '', $idactiv);
+        if (!$id) {
+            echo json_encode(['ok' => false, 'msg' => 'Error al crear el formulario de registro.']);
+            break;
+        }
+
+        $preguntas_default = [
+            ['tipo' => 'libre', 'pregunta' => 'Nombre completo', 'requerida' => 1],
+            ['tipo' => 'libre', 'pregunta' => 'Teléfono', 'requerida' => 1],
+            ['tipo' => 'libre', 'pregunta' => 'Correo electrónico', 'requerida' => 0],
+            ['tipo' => 'libre', 'pregunta' => 'Número de acompañantes', 'requerida' => 0],
+            ['tipo' => 'libre', 'pregunta' => 'Alergias o condición médica a considerar', 'requerida' => 0],
+        ];
+        $enc->guardar_preguntas($id, $preguntas_default);
+
+        $token = $enc->generar_token($id);
+        $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host  = $_SERVER['HTTP_HOST'];
+        $dir   = rtrim(dirname(str_replace('/ajax', '', $_SERVER['PHP_SELF'])), '/');
+        $url   = $proto . '://' . $host . $dir . '/encuesta_publica.php?t=' . $token;
+
+        echo json_encode(['ok' => true, 'id' => $id, 'token' => $token, 'url' => $url]);
+        break;
+
+    case 'obtener_por_actividad':
+        $idactiv = intval($_POST['idactiv'] ?? 0);
+        $e = $enc->obtener_encuesta_por_actividad($idactiv)->fetch_object();
+        echo json_encode(['ok' => true, 'encuesta' => $e ?: null]);
+        break;
+
     default:
         echo json_encode(['ok' => false, 'msg' => 'op no definida']);
 }

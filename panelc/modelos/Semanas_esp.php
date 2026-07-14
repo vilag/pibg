@@ -13,7 +13,7 @@ Class Semanas_esp
 	public function guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner='',$video_url='')
     {
     	$sql="INSERT INTO actividades_destacadas (fecha1, fecha2, nombre, nombre_corto, detalle, imagen, texto_banner, video_url) VALUES ('$fecha1','$fecha2','$nombre','$nombre_corto','$detalle','$imagen','$texto_banner','$video_url')";
-    	return ejecutarConsulta($sql);
+    	return ejecutarConsulta_retornarID($sql);
     }
 
     public function listar_activ_sem_esp()

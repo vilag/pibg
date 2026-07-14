@@ -19,9 +19,8 @@ switch ($_GET["op"]){
 			$texto_banner = $_POST['texto_banner'] ?? '';
 			$video_url    = $_POST['video_url']    ?? '';
 
-			$rspta=$semanas_esp->guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner,$video_url);
-			echo json_encode($rspta);
-	 		//echo $rspta ? "Anulada" : "No se puede anular";
+			$idactiv=$semanas_esp->guardar_activ_sem($fecha1,$fecha2,$nombre,$nombre_corto,$detalle,$imagen,$texto_banner,$video_url);
+			echo json_encode(['ok' => $idactiv > 0, 'idactiv' => $idactiv]);
 		break;
 
         case 'listar_activ_sem_esp':
@@ -53,6 +52,7 @@ switch ($_GET["op"]){
                                     <img src="'.$reg->imagen.'" alt="" style="width: 50px; height: 50px; border-radius: 0px !important;">
                                 </td>
 								<td>
+									<button onclick="ver_activ_detalle('.$reg->idactiv .');" title="Ver detalle" style="background-color:#455a64; padding: 10px; border-radius: 5px; margin-right: 6px; cursor:pointer; color:#fff; border:none;">👁</button>
 									<button onclick="editar_activ('.$reg->idactiv .');" style="background-color:rgb(13, 110, 180); padding: 10px; border-radius: 5px; margin-right: 6px; cursor:pointer;">
 										<img src="images/iconos/edit.png" style="width: 20px; height: 20px" onerror="this.style.display=\'none\'; this.parentNode.appendChild(document.createTextNode(\'✏️\'))">
 									</button>

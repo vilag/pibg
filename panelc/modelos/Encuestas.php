@@ -7,14 +7,15 @@ class Encuestas
 
     /* ── Encuestas ─────────────────────────────────── */
 
-    public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '', $imagen_secundaria_base64 = '')
+    public function crear_encuesta($titulo, $descripcion, $fecha_inicio, $fecha_fin, $imagen_base64 = '', $imagen_secundaria_base64 = '', $idactiv_relacionada = null)
     {
         global $conexion;
         $titulo      = $conexion->real_escape_string($titulo);
         $descripcion = $conexion->real_escape_string($descripcion);
+        $idactiv_sql = $idactiv_relacionada !== null ? intval($idactiv_relacionada) : 'NULL';
         $id = ejecutarConsulta_retornarID(
-            "INSERT INTO encuestas (titulo, descripcion, fecha_inicio, fecha_fin)
-             VALUES ('$titulo','$descripcion','$fecha_inicio','$fecha_fin')"
+            "INSERT INTO encuestas (titulo, descripcion, fecha_inicio, fecha_fin, idactiv_relacionada)
+             VALUES ('$titulo','$descripcion','$fecha_inicio','$fecha_fin',$idactiv_sql)"
         );
         if ($id && $imagen_base64) {
             $img = $conexion->real_escape_string($imagen_base64);
@@ -61,6 +62,12 @@ class Encuestas
         $encuesta_id = intval($encuesta_id);
         return ejecutarConsulta("SELECT * FROM encuesta_preguntas
             WHERE encuesta_id='$encuesta_id' ORDER BY orden ASC");
+    }
+
+    public function obtener_encuesta_por_actividad($idactiv)
+    {
+        $idactiv = intval($idactiv);
+        return ejecutarConsulta("SELECT * FROM encuestas WHERE idactiv_relacionada='$idactiv' LIMIT 1");
     }
 
     public function obtener_encuesta_por_token($token)

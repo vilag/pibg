@@ -14,9 +14,17 @@ switch ($_GET['op'] ?? '') {
         $estilo_puntos   = $_POST['estilo_puntos']   ?? 'square';
         $nivel_correccion = $_POST['nivel_correccion'] ?? 'M';
         $imagen_base64   = $_POST['imagen_base64']   ?? '';
+        $idactiv_relacionada = isset($_POST['idactiv_relacionada']) && $_POST['idactiv_relacionada'] !== ''
+            ? intval($_POST['idactiv_relacionada']) : null;
 
-        $id = $codigos_qr->guardar_qr($nombre, $contenido, $color_frente, $color_fondo, $estilo_puntos, $nivel_correccion, $imagen_base64);
+        $id = $codigos_qr->guardar_qr($nombre, $contenido, $color_frente, $color_fondo, $estilo_puntos, $nivel_correccion, $imagen_base64, $idactiv_relacionada);
         echo json_encode(['ok' => true, 'id' => $id]);
+        break;
+
+    case 'obtener_por_actividad':
+        $idactiv = intval($_POST['idactiv'] ?? 0);
+        $reg = $codigos_qr->obtener_qr_por_actividad($idactiv)->fetch_object();
+        echo json_encode(['ok' => true, 'qr' => $reg ?: null]);
         break;
 
     case 'listar_qr':
