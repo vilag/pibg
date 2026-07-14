@@ -18,7 +18,7 @@ if ($_SESSION['administrador'] == 1):
     <link rel="stylesheet" href="css/banners_publicitarios.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Pacifico&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
     <div class="bp-wrap">
 
@@ -265,12 +265,43 @@ if ($_SESSION['administrador'] == 1):
             <div class="bp-tool-group" id="bp_panel_objeto" style="display:none;">
               <label>Objeto seleccionado</label>
               <div class="bp-obj-row">
-                <input type="color" id="bp_obj_color" onchange="cambiar_color_obj(this.value)" title="Color de texto">
-                <input type="number" class="form-control" id="bp_obj_fontsize" style="width:75px;" min="6" max="300" onchange="cambiar_fontsize_obj(this.value)" title="Tamaño de fuente">
+                <input type="color" id="bp_obj_color" onchange="cambiar_color_obj(this.value)" title="Color">
+                <input type="number" class="form-control" id="bp_obj_fontsize" style="width:70px;" min="6" max="300" onchange="cambiar_fontsize_obj(this.value)" title="Tamaño de fuente">
               </div>
+
+              <div id="bp_grupo_texto">
+                <div class="bp-obj-row">
+                  <select class="form-control" id="bp_obj_fontfamily" onchange="cambiar_fuente_obj(this.value)" title="Tipo de letra" style="font-size:13px;">
+                    <option value="Arial">Arial (predeterminada)</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Montserrat">Montserrat</option>
+                    <option value="Anton">Anton (bold display)</option>
+                    <option value="Bebas Neue">Bebas Neue (condensada)</option>
+                    <option value="Oswald">Oswald (condensada)</option>
+                    <option value="Playfair Display">Playfair Display (serif elegante)</option>
+                    <option value="Merriweather">Merriweather (serif)</option>
+                    <option value="Pacifico">Pacifico (manuscrita)</option>
+                    <option value="Caveat">Caveat (manuscrita casual)</option>
+                  </select>
+                </div>
+                <div class="bp-obj-row">
+                  <button class="bp-btn-sec" onclick="obj_negrita()" title="Negrita"><b>N</b></button>
+                  <button class="bp-btn-sec" onclick="obj_cursiva()" title="Cursiva"><i>I</i></button>
+                  <button class="bp-btn-sec" onclick="obj_subrayado()" title="Subrayado"><u>S</u></button>
+                </div>
+                <div class="bp-obj-row">
+                  <button class="bp-btn-sec" onclick="alinear_obj('left')" title="Alinear a la izquierda">Izq</button>
+                  <button class="bp-btn-sec" onclick="alinear_obj('center')" title="Centrar">Centro</button>
+                  <button class="bp-btn-sec" onclick="alinear_obj('right')" title="Alinear a la derecha">Der</button>
+                  <button class="bp-btn-sec" onclick="alinear_obj('justify')" title="Justificar">Just.</button>
+                </div>
+                <div class="bp-obj-row" style="align-items:center;">
+                  <label style="font-size:11px;color:#666;margin:0;min-width:60px;">Espaciado</label>
+                  <input type="range" id="bp_obj_espaciado" min="-50" max="400" step="10" value="0" oninput="cambiar_espaciado_obj(this.value)" style="flex:1;">
+                </div>
+              </div>
+
               <div class="bp-obj-row">
-                <button class="bp-btn-sec" onclick="obj_negrita()" title="Negrita"><b>N</b></button>
-                <button class="bp-btn-sec" onclick="obj_cursiva()" title="Cursiva"><i>I</i></button>
                 <button class="bp-btn-sec" onclick="traer_al_frente()" title="Traer al frente">&#8593;</button>
                 <button class="bp-btn-sec" onclick="enviar_atras()" title="Enviar atrás">&#8595;</button>
                 <button class="bp-btn-sec bp-btn-danger" onclick="eliminar_obj_seleccionado()" title="Eliminar">&times;</button>

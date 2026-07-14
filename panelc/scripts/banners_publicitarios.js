@@ -209,6 +209,13 @@ function bp_mostrar_panel_objeto(e) {
     var colorActual = obj.tipo === 'icono' ? obj.colorIcono : bp_color_a_hex(obj.fill);
     $('#bp_obj_color').val(colorActual || '#000000');
     $('#bp_obj_fontsize').val(obj.fontSize || '');
+
+    var esTexto = obj.type === 'textbox';
+    $('#bp_grupo_texto').toggle(esTexto);
+    if (esTexto) {
+        $('#bp_obj_fontfamily').val(obj.fontFamily || 'Arial');
+        $('#bp_obj_espaciado').val(obj.charSpacing || 0);
+    }
 }
 
 function bp_color_a_hex(color) {
@@ -259,6 +266,44 @@ function obj_cursiva() {
     if (!obj) return;
     obj.set('fontStyle', obj.fontStyle === 'italic' ? 'normal' : 'italic');
     bp_canvas.renderAll();
+}
+
+function obj_subrayado() {
+    var obj = bp_canvas && bp_canvas.getActiveObject();
+    if (!obj) return;
+    obj.set('underline', !obj.underline);
+    bp_canvas.renderAll();
+}
+
+function alinear_obj(alineacion) {
+    var obj = bp_canvas && bp_canvas.getActiveObject();
+    if (!obj) return;
+    obj.set('textAlign', alineacion);
+    bp_canvas.renderAll();
+}
+
+function cambiar_espaciado_obj(valor) {
+    var obj = bp_canvas && bp_canvas.getActiveObject();
+    if (!obj) return;
+    obj.set('charSpacing', parseInt(valor, 10) || 0);
+    bp_canvas.renderAll();
+}
+
+function cambiar_fuente_obj(fuente) {
+    var obj = bp_canvas && bp_canvas.getActiveObject();
+    if (!obj) return;
+    var aplicar = function () {
+        obj.set('fontFamily', fuente);
+        bp_canvas.renderAll();
+    };
+    if (document.fonts && document.fonts.load) {
+        // Asegura que la fuente ya esté descargada antes de aplicarla —
+        // si no, el navegador la dibuja con la fuente de respaldo la
+        // primera vez que se usa.
+        document.fonts.load('700 40px "' + fuente + '"').then(aplicar).catch(aplicar);
+    } else {
+        aplicar();
+    }
 }
 
 function traer_al_frente() {
