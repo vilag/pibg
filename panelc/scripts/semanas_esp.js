@@ -389,10 +389,6 @@ function abrir_modal_editar_qr(idactiv, id) {
     });
 }
 
-$(document).on('shown.bs.modal', '#modalEditarQR', function() {
-    initQR_modal();
-});
-
 function guardar_edicion_qr_modal() {
     var idactiv   = $("#qredit_idactiv").val();
     var id        = $("#qredit_id").val();
@@ -436,6 +432,10 @@ function guardar_edicion_qr_modal() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    $(document).on('shown.bs.modal', '#modalEditarQR', function() {
+        initQR_modal();
+    });
+
     $('#dots_style_group').on('click', '.qr-dot-btn', function() {
         $('#dots_style_group .qr-dot-btn').removeClass('active');
         $(this).addClass('active');
