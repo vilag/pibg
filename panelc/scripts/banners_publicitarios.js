@@ -513,6 +513,32 @@ function bpa_input_logo_file() {
     return input && input.files && input.files[0] ? input.files[0] : null;
 }
 
+/* ── List-builder de "puntos destacados" (usados por la plantilla
+   "cartel_evento") — máximo 5, mínimo 0 ── */
+function bpa_agregar_punto() {
+    if ($('#bpa_puntos_lista .bp-punto-row').length >= 5) {
+        bootbox.alert('Máximo 5 puntos destacados.');
+        return;
+    }
+    var $row = $(
+        '<div class="bp-punto-row">' +
+            '<input type="text" class="form-control" placeholder="Ej. Enseñanza Bíblica">' +
+            '<button type="button" class="bp-punto-quitar">✕</button>' +
+        '</div>'
+    );
+    $row.find('.bp-punto-quitar').on('click', function () { $row.remove(); });
+    $('#bpa_puntos_lista').append($row);
+}
+
+function bpa_serializar_puntos() {
+    var puntos = [];
+    $('#bpa_puntos_lista .bp-punto-row input').each(function () {
+        var texto = $(this).val().trim();
+        if (texto) puntos.push(texto);
+    });
+    return puntos;
+}
+
 /* ── Generación de imagen de fondo con IA (Pollinations.ai — sin
    API key, se descarga en el servidor para evitar "tainted canvas") ── */
 function bpa_generar_imagen_fondo(prompt, ancho_px, alto_px, callback) {
@@ -651,9 +677,10 @@ function bpa_bloque_contacto(c, colorTexto, colorAcento, x, y, maxWidth, fontSiz
 }
 
 /* ── Selección determinística de plantilla (fallback si Groq no aplica) ── */
-function bpa_seleccionar_plantilla(ratio, longitudMensaje, tieneLogo) {
+function bpa_seleccionar_plantilla(ratio, longitudMensaje, tieneLogo, cantidadPuntos) {
     if (ratio >= 1.4) return 'franja_inferior';
     if (ratio <= 0.75) return 'panel_lateral';
+    if (cantidadPuntos >= 2) return 'cartel_evento';
     if (longitudMensaje > 140) return 'tarjeta_flotante';
     if (tieneLogo) return 'centro_apilado';
     return 'minimal_esquinas';
@@ -769,12 +796,144 @@ function bpa_plantilla_minimal_esquinas(cw, ch, pal, c, iconoNombre, logoDataUrl
     bpa_colocar_icono_decorativo(iconoNombre, pal.acento, cw - margen - ch * 0.05, margen, ch * 0.05);
 }
 
-function bpa_construir_plantilla(nombre, cw, ch, pal, c, iconoNombre, logoDataUrl) {
+/* ── Foto en marco circular (usa clipPath de Fabric.js) ── */
+function bpa_foto_circular(dataUrl, cx, cy, diametro, colorAnillo) {
+    if (!dataUrl) return;
+    fabric.Image.fromURL(dataUrl, function (img) {
+        var escala = Math.max(diametro / img.width, diametro / img.height);
+        img.set({
+            left: cx, top: cy, originX: 'center', originY: 'center',
+            scaleX: escala, scaleY: escala,
+            clipPath: new fabric.Circle({ radius: diametro / 2, originX: 'center', originY: 'center' }),
+            id: 'foto_circular_' + (++bp_contador_ids), tipo: 'imagen_secundaria'
+        });
+        bp_canvas.add(img);
+
+        var anillo = new fabric.Circle({
+            left: cx, top: cy, originX: 'center', originY: 'center',
+            radius: diametro / 2, fill: 'transparent', stroke: colorAnillo,
+            strokeWidth: Math.max(3, Math.round(diametro * 0.025)),
+            selectable: false, evented: false
+        });
+        bp_canvas.add(anillo);
+        bp_canvas.renderAll();
+    }, { crossOrigin: 'anonymous' });
+}
+
+/* ── Hilera de insignias (círculo de color + ícono + etiqueta) para
+   los "puntos destacados" ── */
+function bpa_insignias_puntos(puntos, cw, y, colorAcento, colorTexto) {
+    if (!puntos || !puntos.length) return y;
+    var n = puntos.length;
+    var espacio = (cw * 0.86) / n;
+    var diametro = Math.min(cw * 0.15, espacio * 0.65);
+    var xInicio = cw * 0.07 + espacio / 2;
+
+    puntos.forEach(function (punto, i) {
+        var cx = xInicio + espacio * i;
+        var cy = y + diametro / 2;
+
+        bp_canvas.add(new fabric.Circle({
+            left: cx, top: cy, originX: 'center', originY: 'center',
+            radius: diametro / 2, fill: colorAcento, selectable: false, evented: false
+        }));
+
+        bp_obtener_icono_svg(punto.icono, '#ffffff', function (obj) {
+            if (!obj) return;
+            obj.set({ left: cx, top: cy, originX: 'center', originY: 'center', selectable: false });
+            obj.scaleToWidth(diametro * 0.5);
+            bp_canvas.add(obj);
+            bp_canvas.renderAll();
+        });
+
+        bpa_texto(punto.texto, 'punto', {
+            left: cx - espacio / 2 + espacio * 0.05, top: cy + diametro / 2 + diametro * 0.18,
+            width: espacio * 0.9, fontSize: Math.round(diametro * 0.2), fill: colorTexto,
+            textAlign: 'center', fontFamily: 'Poppins', fontWeight: '600'
+        });
+    });
+
+    return y + diametro * 1.9;
+}
+
+/* ── Plantilla "Cartel de evento": título grande + foto circular +
+   insignias de puntos destacados + barra de datos + franja CTA ── */
+function bpa_plantilla_cartel_evento(cw, ch, pal, c, puntos, logoDataUrl, fondoDataUrl) {
+    var margen = Math.round(cw * 0.06);
+
+    bpa_agregar_overlay_degradado(cw, 0, ch * 0.3, pal.overlay, pal.overlayOpacidad * 0.75);
+
+    var tituloSize = Math.round(ch * 0.072);
+    var y = ch * 0.045;
+    if (c.titulo) {
+        bpa_texto(c.titulo, 'titulo', {
+            left: margen, top: y, width: cw - margen * 2, fontSize: tituloSize,
+            fontFamily: 'Anton', fill: pal.texto, textAlign: 'center', charSpacing: 20, lineHeight: 0.95
+        });
+        y += tituloSize * 1.35;
+    }
+
+    var diametroFoto = ch * 0.24;
+    bpa_foto_circular(logoDataUrl || fondoDataUrl, cw / 2, y + diametroFoto / 2, diametroFoto, pal.acento);
+    y += diametroFoto + ch * 0.035;
+
+    if (puntos && puntos.length) {
+        y = bpa_insignias_puntos(puntos, cw, y, pal.acento, pal.textoPanel || '#333333');
+    }
+
+    var datos = [];
+    if (c.direccion)    datos.push(['map-marker', c.direccion]);
+    if (c.fecha_evento) datos.push(['calendar-month', c.fecha_evento]);
+    if (c.costo)        datos.push(['cash', c.costo]);
+
+    if (datos.length) {
+        var altoBarra = ch * 0.09;
+        bpa_rect_solido(margen, y, cw - margen * 2, altoBarra, pal.panel, 0.96);
+        var anchoCol = (cw - margen * 2) / datos.length;
+        datos.forEach(function (dato, i) {
+            var xCol = margen + anchoCol * i;
+            bpa_colocar_icono_svg(dato[0], '', pal.acento, xCol + anchoCol / 2 - ch * 0.018, y + altoBarra * 0.14, ch * 0.036);
+            bpa_texto(dato[1], 'dato', {
+                left: xCol + anchoCol * 0.06, top: y + altoBarra * 0.52,
+                width: anchoCol * 0.88, fontSize: Math.round(ch * 0.018), fill: pal.textoPanel || '#333333',
+                textAlign: 'center', fontFamily: 'Poppins'
+            });
+            if (i > 0) {
+                bp_canvas.add(new fabric.Line(
+                    [xCol, y + altoBarra * 0.15, xCol, y + altoBarra * 0.85],
+                    { stroke: '#cccccc', strokeWidth: 1, selectable: false, evented: false }
+                ));
+            }
+        });
+        y += altoBarra + ch * 0.02;
+    }
+
+    if (c.mensaje) {
+        var altoCta = ch * 0.07;
+        bpa_rect_solido(margen, y, cw - margen * 2, altoCta, pal.acento, 1);
+        bpa_texto(c.mensaje, 'parrafo', {
+            left: margen + cw * 0.02, top: y + altoCta * 0.22, width: cw - margen * 2 - cw * 0.04,
+            fontSize: Math.round(ch * 0.024), fill: '#ffffff', fontWeight: 'bold',
+            textAlign: 'center', fontFamily: 'Poppins'
+        });
+        y += altoCta + ch * 0.02;
+    }
+
+    if (c.telefono || c.correo) {
+        var altoContacto = ch * 0.05 * ((c.telefono ? 1 : 0) + (c.correo ? 1 : 0)) + ch * 0.02;
+        bpa_rect_solido(margen, y, cw - margen * 2, altoContacto, pal.panel, 0.9);
+        var contactoSimple = { telefono: c.telefono, correo: c.correo, direccion: '' };
+        bpa_bloque_contacto(contactoSimple, pal.textoPanel || '#333333', pal.acento, margen + cw * 0.03, y + ch * 0.012, cw - margen * 2 - cw * 0.06, Math.round(ch * 0.02));
+    }
+}
+
+function bpa_construir_plantilla(nombre, cw, ch, pal, c, iconoNombre, logoDataUrl, puntos, fondoDataUrl) {
     switch (nombre) {
         case 'franja_inferior':  bpa_plantilla_franja_inferior(cw, ch, pal, c, iconoNombre, logoDataUrl); break;
         case 'panel_lateral':    bpa_plantilla_panel_lateral(cw, ch, pal, c, iconoNombre, logoDataUrl); break;
         case 'tarjeta_flotante': bpa_plantilla_tarjeta_flotante(cw, ch, pal, c, iconoNombre, logoDataUrl); break;
         case 'minimal_esquinas': bpa_plantilla_minimal_esquinas(cw, ch, pal, c, iconoNombre, logoDataUrl); break;
+        case 'cartel_evento':    bpa_plantilla_cartel_evento(cw, ch, pal, c, puntos, logoDataUrl, fondoDataUrl); break;
         default:                 bpa_plantilla_centro_apilado(cw, ch, pal, c, iconoNombre, logoDataUrl); break;
     }
 }
@@ -801,6 +960,8 @@ function bpa_generar_banner() {
     $('#bpa_generar_status').text('Diseñando banner…');
     $('#bpa_btn_generar').prop('disabled', true);
 
+    var puntos = bpa_serializar_puntos();
+
     $.post('ajax/banners_publicitarios.php?op=auto_generar_ia', {
         tema: tema,
         titulo: titulo,
@@ -808,7 +969,8 @@ function bpa_generar_banner() {
         ratio: ratio,
         tiene_logo: archivoLogo ? '1' : '0',
         mejorar_textos: $('#bpa_mejorar_textos').is(':checked') ? '1' : '0',
-        paleta_forzada: $('#bpa_paleta').val()
+        paleta_forzada: $('#bpa_paleta').val(),
+        puntos: JSON.stringify(puntos)
     }, function (resIA) {
         if (!resIA || !resIA.ok) {
             $('#bpa_btn_generar').prop('disabled', false);
@@ -817,15 +979,20 @@ function bpa_generar_banner() {
             return;
         }
 
-        var plantilla = resIA.template || bpa_seleccionar_plantilla(ratio, (resIA.mensaje || '').length, !!archivoLogo);
+        var plantilla = resIA.template || bpa_seleccionar_plantilla(ratio, (resIA.mensaje || '').length, !!archivoLogo, puntos.length);
         var paleta = BP_PALETAS[resIA.palette] || BP_PALETAS.institucional;
         var contenido = {
             titulo: resIA.titulo || titulo,
             mensaje: resIA.mensaje || mensaje,
             telefono: $('#bpa_telefono').val().trim(),
             direccion: $('#bpa_direccion').val().trim(),
-            correo: $('#bpa_correo').val().trim()
+            correo: $('#bpa_correo').val().trim(),
+            fecha_evento: $('#bpa_fecha_evento').val().trim(),
+            costo: $('#bpa_costo').val().trim()
         };
+        var puntosFinales = (resIA.puntos && resIA.puntos.length)
+            ? resIA.puntos
+            : puntos.map(function (texto) { return { texto: texto, icono: 'star-four-points' }; });
 
         bpa_ultimo_imagen_prompt = resIA.imagen_prompt;
 
@@ -844,7 +1011,7 @@ function bpa_generar_banner() {
 
             var terminarGeneracion = function (logoDataUrl) {
                 bp_set_fondo_desde_dataurl(imagenDataUrl, function () {
-                    bpa_construir_plantilla(plantilla, ancho_px, alto_px, paleta, contenido, resIA.icon, logoDataUrl);
+                    bpa_construir_plantilla(plantilla, ancho_px, alto_px, paleta, contenido, resIA.icon, logoDataUrl, puntosFinales, imagenDataUrl);
                     bp_canvas.renderAll();
                     $('#bpa_generar_status').text('');
                     $('#btn_regenerar_fondo_ia').show();

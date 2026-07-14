@@ -16,6 +16,9 @@ if ($_SESSION['administrador'] == 1):
   <div class="content-wrapper">
 
     <link rel="stylesheet" href="css/banners_publicitarios.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
     <div class="bp-wrap">
 
@@ -109,6 +112,25 @@ if ($_SESSION['administrador'] == 1):
           <div class="bp-field">
             <label>Correo</label>
             <input type="text" class="form-control" id="bpa_correo" placeholder="contacto@iglesia.org">
+          </div>
+        </div>
+
+        <div class="bp-row">
+          <div class="bp-field">
+            <label>Fecha a mostrar <small style="color:#888;">(opcional, ej. "Del 27 al 30 de julio")</small></label>
+            <input type="text" class="form-control" id="bpa_fecha_evento" placeholder="Del 27 al 30 de julio del 2026">
+          </div>
+          <div class="bp-field">
+            <label>Costo <small style="color:#888;">(opcional)</small></label>
+            <input type="text" class="form-control" id="bpa_costo" placeholder="$1,500 pesos por persona">
+          </div>
+        </div>
+
+        <div class="bp-row">
+          <div class="bp-field" style="flex:1;">
+            <label>Puntos destacados <small style="color:#888;">(opcional, 2 a 5 — ej. "Enseñanza Bíblica")</small></label>
+            <div id="bpa_puntos_lista"></div>
+            <button type="button" class="bp-btn bp-btn-sec" style="margin-top:6px;" onclick="bpa_agregar_punto()">+ Agregar punto</button>
           </div>
         </div>
 

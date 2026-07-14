@@ -151,3 +151,20 @@
 .bp-modo-icono { font-size: 1.6rem; margin-bottom: 6px; }
 .bp-modo-titulo { font-size: .9rem; font-weight: 700; color: #1D4268; margin-bottom: 4px; }
 .bp-modo-desc { font-size: .78rem; color: #64748b; line-height: 1.4; }
+
+.bp-punto-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.bp-punto-row input { flex: 1; }
+.bp-punto-quitar {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: .8rem;
+}

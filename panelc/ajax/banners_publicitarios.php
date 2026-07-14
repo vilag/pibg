@@ -91,7 +91,7 @@ switch ($op) {
 ============================================================ */
 function bp_plantillas_validas()
 {
-    return ['centro_apilado', 'franja_inferior', 'panel_lateral', 'tarjeta_flotante', 'minimal_esquinas'];
+    return ['centro_apilado', 'franja_inferior', 'panel_lateral', 'tarjeta_flotante', 'minimal_esquinas', 'cartel_evento'];
 }
 
 function bp_paletas_validas()
@@ -101,7 +101,7 @@ function bp_paletas_validas()
 
 function bp_iconos_validos()
 {
-    return ['account-group', 'calendar-star', 'gift', 'music-note', 'microphone-variant', 'hands-pray', 'cross', 'book-open-variant', 'heart', 'candle', 'party-popper', 'star-four-points'];
+    return ['account-group', 'calendar-star', 'gift', 'music-note', 'microphone-variant', 'hands-pray', 'cross', 'book-open-variant', 'heart', 'candle', 'party-popper', 'star-four-points', 'tent', 'pine-tree', 'weather-sunny', 'trophy', 'ticket-confirmation'];
 }
 
 /* ============================================================
@@ -237,6 +237,11 @@ function auto_generar_ia()
     $mejorar      = ($_POST['mejorar_textos'] ?? '0') === '1';
     $paleta_forzada = trim($_POST['paleta_forzada'] ?? '');
 
+    $puntos_in = json_decode($_POST['puntos'] ?? '[]', true);
+    if (!is_array($puntos_in)) $puntos_in = [];
+    $puntos_in = array_values(array_filter(array_map('trim', $puntos_in)));
+    $puntos_in = array_slice($puntos_in, 0, 5);
+
     if (!$titulo && !$mensaje) {
         echo json_encode(['ok' => false, 'msg' => 'Escribe al menos un título o un mensaje.']);
         exit;
@@ -249,7 +254,9 @@ function auto_generar_ia()
     // La proporción del lienzo es una regla geométrica dura: si es muy horizontal
     // o muy vertical, se decide la plantilla ANTES de llamar a la IA (para que
     // redacte el prompt de imagen sabiendo dónde va a quedar el texto encima).
-    // Solo en el rango "cuadrado" se le confía la elección a la IA.
+    // Solo en el rango "cuadrado" se le confía la elección a la IA (y si el
+    // usuario capturó 2+ puntos destacados, se prefiere la plantilla más
+    // elaborada "cartel_evento", pensada justo para ese contenido).
     $plantilla_forzada = null;
     $zona_texto = 'inferior';
     if ($ratio >= 1.4) {
@@ -258,6 +265,9 @@ function auto_generar_ia()
     } elseif ($ratio <= 0.75) {
         $plantilla_forzada = 'panel_lateral';
         $zona_texto = 'la mitad inferior (panel sólido, la imagen solo ocupa la mitad superior)';
+    } elseif (count($puntos_in) >= 2) {
+        $plantilla_forzada = 'cartel_evento';
+        $zona_texto = 'varias franjas repartidas en todo el cartel (título arriba, insignias a media altura, barra de datos y franja inferior)';
     }
 
     $descripcion_plantillas = "centro_apilado (texto centrado con overlay degradado inferior), " .
@@ -266,15 +276,18 @@ function auto_generar_ia()
 
     $system_prompt = "Eres un director de arte que arma banners publicitarios a partir de plantillas y paletas ya predefinidas (no inventas posiciones ni colores libres).\n" .
         "Debes responder ÚNICAMENTE con un JSON (sin markdown, sin explicaciones) con esta forma exacta:\n" .
-        '{"template": "<una de: ' . implode(', ', $plantillas) . '>", "palette": "<una de: ' . implode(', ', $paletas) . '>", "icon": "<una de: ' . implode(', ', $iconos) . ', o null>", "titulo": "<texto final del título>", "mensaje": "<texto final del mensaje>", "imagen_prompt": "<prompt en inglés para generar la imagen de fondo>"}' . "\n" .
+        '{"template": "<una de: ' . implode(', ', $plantillas) . '>", "palette": "<una de: ' . implode(', ', $paletas) . '>", "icon": "<una de: ' . implode(', ', $iconos) . ', o null>", "titulo": "<texto final del título>", "mensaje": "<texto final del mensaje>", "imagen_prompt": "<prompt en inglés para generar la imagen de fondo>", "puntos": [{"texto": "<punto tal cual o mejorado>", "icono": "<una de la misma lista de íconos>"}]}' . "\n" .
         ($plantilla_forzada
-            ? "La plantilla YA fue decidida por la proporción del lienzo: '$plantilla_forzada'. Devuélvela tal cual en \"template\".\n"
+            ? "La plantilla YA fue decidida: '$plantilla_forzada'. Devuélvela tal cual en \"template\".\n"
             : "Elige la plantilla entre: $descripcion_plantillas. Si hay logo (" . ($tiene_logo ? 'sí' : 'no') . "), 'centro_apilado' facilita ponerlo arriba. Si el mensaje es largo (>140 caracteres), prefiere 'tarjeta_flotante'.\n") .
         "Elige la paleta según el tema/tono del evento (festivo, formal, juvenil, natural, o institucional/genérico por defecto).\n" .
         "Elige un ícono decorativo relacionado al tema, o null si ninguno aplica bien.\n" .
         ($mejorar
             ? "El usuario pidió que mejores/pulas el título y mensaje (gramática, brevedad, impacto), conservando el idioma español y el significado original.\n"
             : "Devuelve el título y mensaje EXACTAMENTE igual a como te los dieron, sin modificarlos.\n") .
+        (count($puntos_in)
+            ? "El usuario capturó estos puntos destacados: " . implode(' | ', $puntos_in) . ". Devuélvelos en \"puntos\", en el mismo orden, uno por uno, asignando a cada uno el ícono de la lista que mejor le quede" . ($mejorar ? " y puliendo su redacción si hace falta (muy breve, 2-4 palabras)" : " (sin cambiar su texto)") . ". Si no hay puntos, responde \"puntos\": [].\n"
+            : "No hay puntos destacados capturados, responde \"puntos\": [].\n") .
         "Para \"imagen_prompt\": redacta, en INGLÉS, la descripción de una fotografía o ilustración profesional para el fondo de este banner, acorde al tema y a la paleta elegida (luz e iluminación coherentes con el tono festivo/formal/juvenil/natural/institucional). " .
         "El texto del banner se sobrepondrá en la zona: $zona_texto — pide explícitamente que esa zona quede simple/despejada (cielo, pared lisa, desenfoque, etc.) para que el texto se lea bien. " .
         "Nunca incluyas texto, letras, logotipos ni marcas de agua en la imagen. Contenido apto para todo público (el banner es de una iglesia). Responde con 1-2 oraciones, estilo directo de prompt de generación de imágenes, sin comillas.";
@@ -305,6 +318,17 @@ function auto_generar_ia()
     $titulo_final  = $mejorar && !empty($sugerencia['titulo'])  ? trim($sugerencia['titulo'])  : $titulo;
     $mensaje_final = $mejorar && !empty($sugerencia['mensaje']) ? trim($sugerencia['mensaje']) : $mensaje;
 
+    // Los puntos: se valida cada ícono contra la lista cerrada; si la IA no
+    // devolvió algo utilizable, se respalda con el texto original sin ícono.
+    $puntos_sugeridos = is_array($sugerencia['puntos'] ?? null) ? $sugerencia['puntos'] : [];
+    $puntos_final = [];
+    foreach ($puntos_in as $i => $texto_punto) {
+        $sugerido = $puntos_sugeridos[$i] ?? [];
+        $texto_final = ($mejorar && !empty($sugerido['texto'])) ? trim($sugerido['texto']) : $texto_punto;
+        $icono_final = in_array($sugerido['icono'] ?? '', $iconos, true) ? $sugerido['icono'] : 'star-four-points';
+        $puntos_final[] = ['texto' => $texto_final, 'icono' => $icono_final];
+    }
+
     $imagen_prompt = trim($sugerencia['imagen_prompt'] ?? '');
     if (!$imagen_prompt) {
         // Respaldo simple si la IA no devolvió un prompt utilizable.
@@ -320,6 +344,7 @@ function auto_generar_ia()
         'titulo'   => $titulo_final,
         'mensaje'  => $mensaje_final,
         'imagen_prompt' => $imagen_prompt,
+        'puntos'   => $puntos_final,
     ], JSON_UNESCAPED_UNICODE);
 }
 
