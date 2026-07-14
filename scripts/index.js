@@ -710,6 +710,15 @@ function cancelAllAnimations() {
 	animTimeouts = [];
 }
 
+// Evita que una misma actividad quede duplicada en la fila de miniaturas
+// (puede pasar si el usuario hace clic justo cuando el ciclo automático
+// ya había insertado la siguiente tarjeta antes de ser cancelado).
+function quitar_duplicados_indice(idx) {
+	$('.estilo_mini_princ1[data-index="' + idx + '"]').each(function() {
+		$(this).closest('.estilo_back_ae').remove();
+	});
+}
+
 function yt_embed(url) {
 	var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]{11})/);
 	return m ? 'https://www.youtube.com/embed/' + m[1] : url;
@@ -885,6 +894,7 @@ function animar_contenedores(){
 				'</div>' +
 			'</div>' +
 		'</div>';
+		quitar_duplicados_indice(cont2);
 		$('#content_actividades_destacadas').append(fila);
 		$("#fila" + cont_consec).remove();
 		$(".estilo_back_ae").removeClass("slide-left");
@@ -958,6 +968,7 @@ function expandBannerNow(thumbnail_id, data_idx) {
 				'</div>' +
 			'</div>' +
 		'</div>';
+		quitar_duplicados_indice(data_idx);
 		$('#content_actividades_destacadas').append(fila);
 		$("#fila" + thumbnail_id).remove();
 		$(".estilo_back_ae").removeClass("slide-left");
@@ -984,6 +995,7 @@ function expandBannerNow(thumbnail_id, data_idx) {
 						'</div>' +
 					'</div>' +
 				'</div>';
+				quitar_duplicados_indice(cont2);
 				$('#content_actividades_destacadas').append(fila2);
 				animar_contenedores();
 			}
