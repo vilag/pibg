@@ -73,12 +73,8 @@ switch ($op) {
         ajustar_con_ia();
         break;
 
-    case 'buscar_imagenes':
-        buscar_imagenes_pexels();
-        break;
-
-    case 'descargar_imagen':
-        descargar_imagen_pexels();
+    case 'generar_imagen_ia':
+        generar_imagen_pollinations();
         break;
 
     case 'auto_generar_ia':
@@ -161,91 +157,44 @@ function llamar_groq_chat($system_prompt, $user_prompt, $temperature = 0.2)
 }
 
 /* ============================================================
-   BÚSQUEDA DE IMÁGENES (Pexels — banco gratuito, uso comercial
-   permitido, sin atribución obligatoria)
+   GENERACIÓN DE IMAGEN DE FONDO CON IA (Pollinations.ai — sin
+   API key, modelo flux gratuito/ilimitado en el tier anónimo)
 ============================================================ */
-function buscar_imagenes_pexels()
+function generar_imagen_pollinations()
 {
-    if (!defined('PEXELS_API_KEY') || strpos(PEXELS_API_KEY, 'TU_PEXELS_API_KEY_AQUI') !== false) {
-        echo json_encode(['ok' => false, 'msg' => 'Configura tu API key de Pexels en panelc/config/secrets.php — Obtén una gratis en https://www.pexels.com/api/']);
+    $prompt = trim($_POST['prompt'] ?? '');
+    $width  = (int)($_POST['width']  ?? 1024);
+    $height = (int)($_POST['height'] ?? 1024);
+    $seed   = isset($_POST['seed']) ? (int)$_POST['seed'] : mt_rand(1, 999999);
+
+    if (!$prompt) {
+        echo json_encode(['ok' => false, 'msg' => 'Falta la descripción de la imagen a generar.']);
         exit;
     }
 
-    $tema        = trim($_GET['tema'] ?? '');
-    $orientacion = $_GET['orientacion'] ?? 'all';
-
-    if (!$tema) {
-        echo json_encode(['ok' => false, 'msg' => 'Escribe un tema para buscar imágenes.']);
-        exit;
+    // Cap de resolución: suficiente calidad para un banner, sin pedir imágenes
+    // enormes que tarden demasiado o pesen de más al guardarse en la BD.
+    $max_lado = 1200;
+    if ($width > $height && $width > $max_lado) {
+        $height = (int)round($height * ($max_lado / $width));
+        $width  = $max_lado;
+    } elseif ($height >= $width && $height > $max_lado) {
+        $width  = (int)round($width * ($max_lado / $height));
+        $height = $max_lado;
     }
 
-    if (!in_array($orientacion, ['horizontal', 'vertical', 'all'], true)) {
-        $orientacion = 'all';
-    }
-
-    $params = [
-        'query'    => $tema,
-        'per_page' => 8,
-        'locale'   => 'es-ES',
-    ];
-    if ($orientacion === 'horizontal') $params['orientation'] = 'landscape';
-    if ($orientacion === 'vertical')   $params['orientation'] = 'portrait';
-
-    $url = 'https://api.pexels.com/v1/search?' . http_build_query($params);
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 30,
-        CURLOPT_HTTPHEADER     => ['Authorization: ' . PEXELS_API_KEY],
+    $url = 'https://image.pollinations.ai/prompt/' . rawurlencode($prompt) . '?' . http_build_query([
+        'width'  => $width,
+        'height' => $height,
+        'seed'   => $seed,
+        'model'  => 'flux',
+        'nologo' => 'true',
     ]);
-    $response  = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curl_err  = curl_error($ch);
-    curl_close($ch);
-
-    if ($curl_err) {
-        echo json_encode(['ok' => false, 'msg' => 'Error de conexión con Pexels: ' . $curl_err]);
-        exit;
-    }
-
-    $data = json_decode($response, true);
-
-    if ($http_code !== 200) {
-        $msg = $data['error'] ?? $data['message'] ?? $response;
-        echo json_encode(['ok' => false, 'msg' => 'Error de Pexels (' . $http_code . '): ' . $msg]);
-        exit;
-    }
-
-    $hits = array_map(function ($foto) {
-        return [
-            'id'        => $foto['id'],
-            'preview'   => $foto['src']['medium'],
-            'webformat' => $foto['src']['large2x'],
-            'tags'      => $foto['alt'] ?? '',
-        ];
-    }, $data['photos'] ?? []);
-
-    echo json_encode(['ok' => true, 'datos' => $hits]);
-}
-
-/* ============================================================
-   DESCARGA DE IMAGEN ELEGIDA (proxy servidor → evita "tainted
-   canvas" al exportar el PNG y valida el host contra SSRF)
-============================================================ */
-function descargar_imagen_pexels()
-{
-    $url = trim($_POST['url'] ?? '');
-
-    if (!$url || !preg_match('#^https://([a-z0-9-]+\.)*pexels\.com/#i', $url)) {
-        echo json_encode(['ok' => false, 'msg' => 'URL de imagen no válida.']);
-        exit;
-    }
 
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_TIMEOUT        => 90,
     ]);
     $response  = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -253,18 +202,23 @@ function descargar_imagen_pexels()
     $curl_err  = curl_error($ch);
     curl_close($ch);
 
-    if ($curl_err || $http_code !== 200 || !$response) {
-        echo json_encode(['ok' => false, 'msg' => 'No se pudo descargar la imagen.']);
+    if ($curl_err) {
+        echo json_encode(['ok' => false, 'msg' => 'Error de conexión con el generador de imágenes: ' . $curl_err]);
         exit;
     }
 
-    if (strpos($mime, 'image/') !== 0) {
-        echo json_encode(['ok' => false, 'msg' => 'La URL no devolvió una imagen válida.']);
+    if ($http_code === 429) {
+        echo json_encode(['ok' => false, 'msg' => 'El generador de imágenes está ocupado (límite de una imagen cada 15 segundos). Espera un momento e intenta de nuevo.']);
+        exit;
+    }
+
+    if ($http_code !== 200 || !$response || strpos($mime, 'image/') !== 0) {
+        echo json_encode(['ok' => false, 'msg' => 'No se pudo generar la imagen (código ' . $http_code . ').']);
         exit;
     }
 
     $data_uri = 'data:' . $mime . ';base64,' . base64_encode($response);
-    echo json_encode(['ok' => true, 'data' => $data_uri]);
+    echo json_encode(['ok' => true, 'data' => $data_uri, 'seed' => $seed]);
 }
 
 /* ============================================================
@@ -292,21 +246,44 @@ function auto_generar_ia()
     $paletas    = bp_paletas_validas();
     $iconos     = bp_iconos_validos();
 
-    $system_prompt = "Eres un asistente de diseño gráfico que arma banners publicitarios a partir de plantillas y paletas ya predefinidas (no inventas posiciones ni colores libres).\n" .
+    // La proporción del lienzo es una regla geométrica dura: si es muy horizontal
+    // o muy vertical, se decide la plantilla ANTES de llamar a la IA (para que
+    // redacte el prompt de imagen sabiendo dónde va a quedar el texto encima).
+    // Solo en el rango "cuadrado" se le confía la elección a la IA.
+    $plantilla_forzada = null;
+    $zona_texto = 'inferior';
+    if ($ratio >= 1.4) {
+        $plantilla_forzada = 'franja_inferior';
+        $zona_texto = 'tercio inferior (franja horizontal)';
+    } elseif ($ratio <= 0.75) {
+        $plantilla_forzada = 'panel_lateral';
+        $zona_texto = 'la mitad inferior (panel sólido, la imagen solo ocupa la mitad superior)';
+    }
+
+    $descripcion_plantillas = "centro_apilado (texto centrado con overlay degradado inferior), " .
+        "tarjeta_flotante (tarjeta clara centrada sobre la imagen), " .
+        "minimal_esquinas (texto abajo con sombra, sin overlay fuerte)";
+
+    $system_prompt = "Eres un director de arte que arma banners publicitarios a partir de plantillas y paletas ya predefinidas (no inventas posiciones ni colores libres).\n" .
         "Debes responder ÚNICAMENTE con un JSON (sin markdown, sin explicaciones) con esta forma exacta:\n" .
-        '{"template": "<una de: ' . implode(', ', $plantillas) . '>", "palette": "<una de: ' . implode(', ', $paletas) . '>", "icon": "<una de: ' . implode(', ', $iconos) . ', o null>", "titulo": "<texto final del título>", "mensaje": "<texto final del mensaje>"}' . "\n" .
-        "Elige la plantilla según: proporción del lienzo (ratio ancho/alto " . round($ratio, 2) . "; ratio>=1.4 sugiere 'franja_inferior', ratio<=0.75 sugiere 'panel_lateral'), longitud del mensaje (>140 caracteres sugiere 'tarjeta_flotante'), y si hay logo (" . ($tiene_logo ? 'sí' : 'no') . ", si hay logo prefiere 'centro_apilado').\n" .
+        '{"template": "<una de: ' . implode(', ', $plantillas) . '>", "palette": "<una de: ' . implode(', ', $paletas) . '>", "icon": "<una de: ' . implode(', ', $iconos) . ', o null>", "titulo": "<texto final del título>", "mensaje": "<texto final del mensaje>", "imagen_prompt": "<prompt en inglés para generar la imagen de fondo>"}' . "\n" .
+        ($plantilla_forzada
+            ? "La plantilla YA fue decidida por la proporción del lienzo: '$plantilla_forzada'. Devuélvela tal cual en \"template\".\n"
+            : "Elige la plantilla entre: $descripcion_plantillas. Si hay logo (" . ($tiene_logo ? 'sí' : 'no') . "), 'centro_apilado' facilita ponerlo arriba. Si el mensaje es largo (>140 caracteres), prefiere 'tarjeta_flotante'.\n") .
         "Elige la paleta según el tema/tono del evento (festivo, formal, juvenil, natural, o institucional/genérico por defecto).\n" .
         "Elige un ícono decorativo relacionado al tema, o null si ninguno aplica bien.\n" .
         ($mejorar
-            ? "El usuario pidió que mejores/pulas el título y mensaje (gramática, brevedad, impacto), conservando el idioma español y el significado original."
-            : "Devuelve el título y mensaje EXACTAMENTE igual a como te los dieron, sin modificarlos.");
+            ? "El usuario pidió que mejores/pulas el título y mensaje (gramática, brevedad, impacto), conservando el idioma español y el significado original.\n"
+            : "Devuelve el título y mensaje EXACTAMENTE igual a como te los dieron, sin modificarlos.\n") .
+        "Para \"imagen_prompt\": redacta, en INGLÉS, la descripción de una fotografía o ilustración profesional para el fondo de este banner, acorde al tema y a la paleta elegida (luz e iluminación coherentes con el tono festivo/formal/juvenil/natural/institucional). " .
+        "El texto del banner se sobrepondrá en la zona: $zona_texto — pide explícitamente que esa zona quede simple/despejada (cielo, pared lisa, desenfoque, etc.) para que el texto se lea bien. " .
+        "Nunca incluyas texto, letras, logotipos ni marcas de agua en la imagen. Contenido apto para todo público (el banner es de una iglesia). Responde con 1-2 oraciones, estilo directo de prompt de generación de imágenes, sin comillas.";
 
     $user_prompt = "Tema/palabras clave: " . ($tema ?: '(sin tema específico)') .
         "\nTítulo actual: " . $titulo .
         "\nMensaje actual: " . $mensaje;
 
-    $resultado = llamar_groq_chat($system_prompt, $user_prompt, 0.4);
+    $resultado = llamar_groq_chat($system_prompt, $user_prompt, 0.5);
 
     if (!$resultado['ok']) {
         echo json_encode($resultado);
@@ -319,16 +296,7 @@ function auto_generar_ia()
     }
 
     // Validar contra listas cerradas — cualquier valor fuera de rango cae a un valor seguro por defecto.
-    // La proporción del lienzo es una regla geométrica dura: si es muy horizontal o muy vertical,
-    // se fuerza la plantilla adecuada sin importar lo que sugiera la IA (solo se le confía la elección
-    // dentro del rango "cuadrado", donde varias plantillas encajan igual de bien).
-    if ($ratio >= 1.4) {
-        $template = 'franja_inferior';
-    } elseif ($ratio <= 0.75) {
-        $template = 'panel_lateral';
-    } else {
-        $template = in_array($sugerencia['template'] ?? '', $plantillas, true) ? $sugerencia['template'] : null;
-    }
+    $template = $plantilla_forzada ?: (in_array($sugerencia['template'] ?? '', $plantillas, true) ? $sugerencia['template'] : null);
     $palette  = in_array($paleta_forzada, $paletas, true)
         ? $paleta_forzada
         : (in_array($sugerencia['palette'] ?? '', $paletas, true) ? $sugerencia['palette'] : 'institucional');
@@ -337,6 +305,13 @@ function auto_generar_ia()
     $titulo_final  = $mejorar && !empty($sugerencia['titulo'])  ? trim($sugerencia['titulo'])  : $titulo;
     $mensaje_final = $mejorar && !empty($sugerencia['mensaje']) ? trim($sugerencia['mensaje']) : $mensaje;
 
+    $imagen_prompt = trim($sugerencia['imagen_prompt'] ?? '');
+    if (!$imagen_prompt) {
+        // Respaldo simple si la IA no devolvió un prompt utilizable.
+        $imagen_prompt = 'Professional advertising banner background related to: ' . ($tema ?: $titulo) .
+            '. Clean simple composition, soft lighting, no text, no logos, no watermarks, family friendly.';
+    }
+
     echo json_encode([
         'ok' => true,
         'template' => $template, // null = usar el fallback determinístico en el navegador
@@ -344,6 +319,7 @@ function auto_generar_ia()
         'icon'     => $icon,
         'titulo'   => $titulo_final,
         'mensaje'  => $mensaje_final,
+        'imagen_prompt' => $imagen_prompt,
     ], JSON_UNESCAPED_UNICODE);
 }
 

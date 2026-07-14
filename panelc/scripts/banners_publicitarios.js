@@ -481,7 +481,8 @@ function borrar_bp(id) {
    textos; la composición la resuelve este archivo.
 ══════════════════════════════════════════════════════════════ */
 
-var bpa_imagen_elegida = null;
+// Prompt de imagen usado para el último banner generado (permite "Regenerar")
+var bpa_ultimo_imagen_prompt = null;
 
 var BP_PALETAS = {
     institucional:     { overlay: '#0b1f33', overlayOpacidad: 0.55, texto: '#ffffff', textoSecundario: '#dbe7f3', acento: '#8fb4d9', panel: '#ffffff', textoPanel: '#1D4268' },
@@ -512,52 +513,22 @@ function bpa_input_logo_file() {
     return input && input.files && input.files[0] ? input.files[0] : null;
 }
 
-/* ── Búsqueda y selección de imagen (Pexels) ── */
-function bpa_buscar_imagenes() {
-    var tema = $('#bpa_tema').val().trim();
-    if (!tema) {
-        bootbox.alert('Escribe un tema o palabras clave primero.');
-        return;
-    }
-
-    var unidad = $('#bpa_unidad').val();
-    var ancho = bp_valor_a_px($('#bpa_ancho').val(), unidad);
-    var alto  = bp_valor_a_px($('#bpa_alto').val(), unidad);
-    var ratio = ancho / alto;
-    var orientacion = ratio >= 1.15 ? 'horizontal' : (ratio <= 0.85 ? 'vertical' : 'all');
-
-    bpa_imagen_elegida = null;
-    $('#bpa_btn_generar').prop('disabled', true);
-    $('#bpa_buscar_status').text('Buscando imágenes…');
-    $('#bpa_picker_grid').html('');
-
-    $.get('ajax/banners_publicitarios.php?op=buscar_imagenes', { tema: tema, orientacion: orientacion }, function (res) {
-        $('#bpa_buscar_status').text('');
-        if (!res || !res.ok || !res.datos || !res.datos.length) {
-            $('#bpa_picker_grid').html('<p class="bp-hint">' + ((res && res.msg) || 'No se encontraron imágenes para ese tema. Intenta con otras palabras.') + '</p>');
+/* ── Generación de imagen de fondo con IA (Pollinations.ai — sin
+   API key, se descarga en el servidor para evitar "tainted canvas") ── */
+function bpa_generar_imagen_fondo(prompt, ancho_px, alto_px, callback) {
+    $.post('ajax/banners_publicitarios.php?op=generar_imagen_ia', {
+        prompt: prompt,
+        width: ancho_px,
+        height: alto_px
+    }, function (res) {
+        if (!res || !res.ok) {
+            bootbox.alert((res && res.msg) || 'No se pudo generar la imagen de fondo.');
             return;
         }
-        var html = res.datos.map(function (hit, idx) {
-            return '<div class="bp-picker-item" data-idx="' + idx + '" onclick="bpa_elegir_imagen(this, ' + idx + ')">' +
-                '<img src="' + hit.preview + '" alt="">' +
-                '</div>';
-        }).join('');
-        $('#bpa_picker_grid').html(html);
-        $('#bpa_picker_grid').data('hits', res.datos);
+        callback(res.data);
     }, 'json').fail(function () {
-        $('#bpa_buscar_status').text('');
-        bootbox.alert('Error de conexión al buscar imágenes.');
+        bootbox.alert('Error de conexión al generar la imagen con IA.');
     });
-}
-
-function bpa_elegir_imagen(el, idx) {
-    var hits = $('#bpa_picker_grid').data('hits') || [];
-    var hit = hits[idx];
-    if (!hit) return;
-    $('#bpa_picker_grid .bp-picker-item').removeClass('bp-picker-item-activa');
-    $(el).addClass('bp-picker-item-activa');
-    bpa_imagen_elegida = hit;
-    $('#bpa_btn_generar').prop('disabled', false);
 }
 
 /* ── Íconos (Iconify — JSON, sin API key, se renderiza localmente) ──
@@ -818,54 +789,50 @@ function bpa_generar_banner() {
     if (!nombre) { bootbox.alert('Escribe un nombre para el banner.'); return; }
     if (!tema) { bootbox.alert('Escribe un tema o palabras clave.'); return; }
     if (!titulo && !mensaje) { bootbox.alert('Escribe al menos un título o un mensaje.'); return; }
-    if (!bpa_imagen_elegida) { bootbox.alert('Busca y elige una imagen de fondo primero.'); return; }
 
-    $('#bpa_generar_status').text('Descargando imagen…');
+    var unidad         = $('#bpa_unidad').val();
+    var ancho_original = $('#bpa_ancho').val();
+    var alto_original  = $('#bpa_alto').val();
+    var ancho_px = bp_valor_a_px(ancho_original, unidad);
+    var alto_px  = bp_valor_a_px(alto_original, unidad);
+    var ratio = ancho_px / alto_px;
+    var archivoLogo = bpa_input_logo_file();
+
+    $('#bpa_generar_status').text('Diseñando banner…');
     $('#bpa_btn_generar').prop('disabled', true);
 
-    $.post('ajax/banners_publicitarios.php?op=descargar_imagen', { url: bpa_imagen_elegida.webformat }, function (resImg) {
-        if (!resImg || !resImg.ok) {
-            $('#bpa_generar_status').text('');
+    $.post('ajax/banners_publicitarios.php?op=auto_generar_ia', {
+        tema: tema,
+        titulo: titulo,
+        mensaje: mensaje,
+        ratio: ratio,
+        tiene_logo: archivoLogo ? '1' : '0',
+        mejorar_textos: $('#bpa_mejorar_textos').is(':checked') ? '1' : '0',
+        paleta_forzada: $('#bpa_paleta').val()
+    }, function (resIA) {
+        if (!resIA || !resIA.ok) {
             $('#bpa_btn_generar').prop('disabled', false);
-            bootbox.alert((resImg && resImg.msg) || 'No se pudo descargar la imagen elegida.');
+            $('#bpa_generar_status').text('');
+            bootbox.alert((resIA && resIA.msg) || 'No se pudo generar el diseño.');
             return;
         }
 
-        var unidad         = $('#bpa_unidad').val();
-        var ancho_original  = $('#bpa_ancho').val();
-        var alto_original   = $('#bpa_alto').val();
-        var ancho_px = bp_valor_a_px(ancho_original, unidad);
-        var alto_px  = bp_valor_a_px(alto_original, unidad);
-        var ratio = ancho_px / alto_px;
-        var archivoLogo = bpa_input_logo_file();
+        var plantilla = resIA.template || bpa_seleccionar_plantilla(ratio, (resIA.mensaje || '').length, !!archivoLogo);
+        var paleta = BP_PALETAS[resIA.palette] || BP_PALETAS.institucional;
+        var contenido = {
+            titulo: resIA.titulo || titulo,
+            mensaje: resIA.mensaje || mensaje,
+            telefono: $('#bpa_telefono').val().trim(),
+            direccion: $('#bpa_direccion').val().trim(),
+            correo: $('#bpa_correo').val().trim()
+        };
 
-        $('#bpa_generar_status').text('Diseñando banner…');
+        bpa_ultimo_imagen_prompt = resIA.imagen_prompt;
 
-        $.post('ajax/banners_publicitarios.php?op=auto_generar_ia', {
-            tema: tema,
-            titulo: titulo,
-            mensaje: mensaje,
-            ratio: ratio,
-            tiene_logo: archivoLogo ? '1' : '0',
-            mejorar_textos: $('#bpa_mejorar_textos').is(':checked') ? '1' : '0',
-            paleta_forzada: $('#bpa_paleta').val()
-        }, function (resIA) {
+        $('#bpa_generar_status').text('Generando imagen de fondo con IA…');
+
+        bpa_generar_imagen_fondo(resIA.imagen_prompt, ancho_px, alto_px, function (imagenDataUrl) {
             $('#bpa_btn_generar').prop('disabled', false);
-            if (!resIA || !resIA.ok) {
-                $('#bpa_generar_status').text('');
-                bootbox.alert((resIA && resIA.msg) || 'No se pudo generar el diseño.');
-                return;
-            }
-
-            var plantilla = resIA.template || bpa_seleccionar_plantilla(ratio, (resIA.mensaje || '').length, !!archivoLogo);
-            var paleta = BP_PALETAS[resIA.palette] || BP_PALETAS.institucional;
-            var contenido = {
-                titulo: resIA.titulo || titulo,
-                mensaje: resIA.mensaje || mensaje,
-                telefono: $('#bpa_telefono').val().trim(),
-                direccion: $('#bpa_direccion').val().trim(),
-                correo: $('#bpa_correo').val().trim()
-            };
 
             $('#bp_nombre').val(nombre);
             $('#bp_ancho').val(ancho_original);
@@ -876,10 +843,11 @@ function bpa_generar_banner() {
             crear_lienzo(ancho_px, alto_px);
 
             var terminarGeneracion = function (logoDataUrl) {
-                bp_set_fondo_desde_dataurl(resImg.data, function () {
+                bp_set_fondo_desde_dataurl(imagenDataUrl, function () {
                     bpa_construir_plantilla(plantilla, ancho_px, alto_px, paleta, contenido, resIA.icon, logoDataUrl);
                     bp_canvas.renderAll();
                     $('#bpa_generar_status').text('');
+                    $('#btn_regenerar_fondo_ia').show();
                     cambiar_modo('manual');
                     $('#bp_form_titulo').text('Editando: ' + nombre);
                     $('html, body').animate({ scrollTop: 0 }, 300);
@@ -891,14 +859,28 @@ function bpa_generar_banner() {
             } else {
                 terminarGeneracion(null);
             }
-        }, 'json').fail(function () {
-            $('#bpa_btn_generar').prop('disabled', false);
-            $('#bpa_generar_status').text('');
-            bootbox.alert('Error de conexión al generar el diseño.');
         });
     }, 'json').fail(function () {
         $('#bpa_btn_generar').prop('disabled', false);
         $('#bpa_generar_status').text('');
-        bootbox.alert('Error de conexión al descargar la imagen.');
+        bootbox.alert('Error de conexión al generar el diseño.');
     });
+}
+
+function regenerar_fondo_ia() {
+    if (!bpa_ultimo_imagen_prompt || !bp_canvas) return;
+    var ancho_px = Math.round(bp_canvas.getWidth() / bp_canvas.getZoom());
+    var alto_px  = Math.round(bp_canvas.getHeight() / bp_canvas.getZoom());
+
+    $('#btn_regenerar_fondo_ia').prop('disabled', true).text('Generando…');
+    bpa_generar_imagen_fondo(bpa_ultimo_imagen_prompt, ancho_px, alto_px, function (imagenDataUrl) {
+        bp_set_fondo_desde_dataurl(imagenDataUrl, function () {
+            bp_canvas.renderAll();
+            $('#btn_regenerar_fondo_ia').prop('disabled', false).text('🔄 Regenerar imagen de fondo con IA');
+        });
+    });
+    // Si falla o tarda, restaurar el botón para que se pueda reintentar.
+    setTimeout(function () {
+        $('#btn_regenerar_fondo_ia').prop('disabled', false).text('🔄 Regenerar imagen de fondo con IA');
+    }, 30000);
 }

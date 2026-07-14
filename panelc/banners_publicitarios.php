@@ -33,7 +33,7 @@ if ($_SESSION['administrador'] == 1):
           <div class="bp-modo-opcion" id="bp_modo_auto_card" onclick="cambiar_modo('auto')">
             <div class="bp-modo-icono">&#10024;</div>
             <div class="bp-modo-titulo">Crear automáticamente con IA</div>
-            <div class="bp-modo-desc">Dale el título, mensaje, contacto y tema — la IA busca una imagen, elige un diseño profesional y arma el banner por ti.</div>
+            <div class="bp-modo-desc">Dale el título, mensaje, contacto y tema — la IA genera una imagen de fondo a la medida, elige un diseño profesional y arma el banner por ti.</div>
           </div>
         </div>
       </div>
@@ -139,14 +139,7 @@ if ($_SESSION['administrador'] == 1):
         <hr>
 
         <div class="bp-row" style="align-items:center;">
-          <button class="bp-btn bp-btn-primary" onclick="bpa_buscar_imagenes()">Buscar imágenes</button>
-          <p class="bp-hint" id="bpa_buscar_status" style="margin:0;"></p>
-        </div>
-
-        <div class="bp-picker-grid" id="bpa_picker_grid"></div>
-
-        <div class="bp-row" style="align-items:center;margin-top:14px;">
-          <button class="bp-btn bp-btn-primary" id="bpa_btn_generar" onclick="bpa_generar_banner()" disabled>Generar banner</button>
+          <button class="bp-btn bp-btn-primary" id="bpa_btn_generar" onclick="bpa_generar_banner()">✨ Generar banner con IA</button>
           <p class="bp-hint" id="bpa_generar_status" style="margin:0;"></p>
         </div>
       </div>
@@ -213,6 +206,7 @@ if ($_SESSION['administrador'] == 1):
             <div class="bp-tool-group">
               <label>Imagen de fondo</label>
               <input type="file" id="bp_input_fondo" accept="image/*" onchange="subir_imagen_fondo(this)">
+              <button class="bp-btn bp-btn-sec" id="btn_regenerar_fondo_ia" style="width:100%;margin-top:6px;display:none;" onclick="regenerar_fondo_ia()">🔄 Regenerar imagen de fondo con IA</button>
             </div>
 
             <div class="bp-tool-group">
