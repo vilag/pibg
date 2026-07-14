@@ -206,7 +206,8 @@ function bp_mostrar_panel_objeto(e) {
     var obj = bp_canvas.getActiveObject();
     if (!obj) { $('#bp_panel_objeto').hide(); return; }
     $('#bp_panel_objeto').show();
-    $('#bp_obj_color').val(bp_color_a_hex(obj.fill) || '#000000');
+    var colorActual = obj.tipo === 'icono' ? obj.colorIcono : bp_color_a_hex(obj.fill);
+    $('#bp_obj_color').val(colorActual || '#000000');
     $('#bp_obj_fontsize').val(obj.fontSize || '');
 }
 
@@ -216,10 +217,26 @@ function bp_color_a_hex(color) {
     return null;
 }
 
+// Los íconos son grupos de formas SVG (fabric.Group) sin un "fill" propio
+// útil — hay que recolorear cada forma dentro del grupo (recursivo, por si
+// hay grupos anidados).
+function bp_recolorar_icono(obj, color) {
+    if (typeof obj.getObjects === 'function') {
+        obj.getObjects().forEach(function (hijo) { bp_recolorar_icono(hijo, color); });
+    } else {
+        obj.set('fill', color);
+    }
+}
+
 function cambiar_color_obj(color) {
     var obj = bp_canvas && bp_canvas.getActiveObject();
     if (!obj) return;
-    obj.set('fill', color);
+    if (obj.tipo === 'icono') {
+        bp_recolorar_icono(obj, color);
+        obj.colorIcono = color;
+    } else {
+        obj.set('fill', color);
+    }
     bp_canvas.renderAll();
 }
 
@@ -637,7 +654,7 @@ function agregar_icono_buscado(idIcono) {
         var tam = Math.min(cw, ch) * 0.15;
         obj.set({
             left: cw / 2, top: ch / 2, originX: 'center', originY: 'center',
-            id: 'icono_' + (++bp_contador_ids), tipo: 'icono'
+            id: 'icono_' + (++bp_contador_ids), tipo: 'icono', colorIcono: color
         });
         obj.scaleToWidth(tam);
         bp_canvas.add(obj);
@@ -649,11 +666,11 @@ function agregar_icono_buscado(idIcono) {
 function bpa_colocar_icono_svg(nombreIcono, glifoFallback, colorHex, x, y, tam) {
     bp_obtener_icono_svg(nombreIcono, colorHex, function (obj) {
         if (obj) {
-            obj.set({ left: x, top: y, selectable: true });
+            obj.set({ left: x, top: y, selectable: true, tipo: 'icono', colorIcono: colorHex, id: 'icono_' + (++bp_contador_ids) });
             obj.scaleToWidth(tam);
             bp_canvas.add(obj);
         } else {
-            bpa_texto(glifoFallback, 'icono', { left: x, top: y, width: tam * 1.5, fontSize: tam, fill: colorHex });
+            bpa_texto(glifoFallback, 'icono', { left: x, top: y, width: tam * 1.5, fontSize: tam, fill: colorHex, colorIcono: colorHex });
         }
         bp_canvas.renderAll();
     });
@@ -663,7 +680,7 @@ function bpa_colocar_icono_decorativo(nombreIcono, colorHex, x, y, tam) {
     if (!nombreIcono) return;
     bp_obtener_icono_svg(nombreIcono, colorHex, function (obj) {
         if (!obj) return;
-        obj.set({ left: x, top: y, selectable: true });
+        obj.set({ left: x, top: y, selectable: true, tipo: 'icono', colorIcono: colorHex, id: 'icono_' + (++bp_contador_ids) });
         obj.scaleToWidth(tam);
         bp_canvas.add(obj);
         bp_canvas.renderAll();
