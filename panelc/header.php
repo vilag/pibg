@@ -235,6 +235,9 @@
             <p class="sidebar-menu-title">Dash menu</p>
           </li>
           <li class="nav-item">
+            <p class="sidebar-menu-title">Edición del sitio web</p>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="calendario.php">
               <img src="images/iconos/calendar.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Calendario</span>
@@ -272,12 +275,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="transcriptor.php">
-              <img src="images/iconos/voz.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
-              <span class="menu-title">Transcriptor</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="modal_bienvenida.php">
               <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Modal Bienvenida</span>
@@ -287,6 +284,42 @@
             <a class="nav-link" href="secciones_index.php">
               <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Secciones Inicio</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+               <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Coros</span>
+              <i class="typcn typcn-chevron-right menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="bach.php">BACH</a></li>
+                <li class="nav-item"> <a class="nav-link" href="lumbrera.php">LUMBRERA</a></li>
+                <!-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="bach.php">
+              <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Coro Bach</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lumbrera.php">
+              <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Coro Lumbrera</span>
+            </a>
+          </li> -->
+
+          <li class="nav-item">
+            <p class="sidebar-menu-title">Herramientas adicionales</p>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="transcriptor.php">
+              <img src="images/iconos/voz.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Transcriptor</span>
             </a>
           </li>
           <li class="nav-item">
@@ -334,32 +367,6 @@
               <span class="menu-title">Registros</span>
             </a>
           </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="bach.php">
-              <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
-              <span class="menu-title">Coro Bach</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="lumbrera.php">
-              <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
-              <span class="menu-title">Coro Lumbrera</span>
-            </a>
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-               <img src="images/iconos/nota-musical.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
-              <span class="menu-title">Coros</span>
-              <i class="typcn typcn-chevron-right menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="bach.php">BACH</a></li>
-                <li class="nav-item"> <a class="nav-link" href="lumbrera.php">LUMBRERA</a></li>
-                <!-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li> -->
-              </ul>
-            </div>
-          </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="index.html">
               <i class="typcn typcn-device-desktop menu-icon"></i>
