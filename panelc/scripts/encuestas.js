@@ -21,6 +21,14 @@ var TIPO_LABELS = {
 document.addEventListener('DOMContentLoaded', function () {
     listar_encuestas();
 
+    // Si se llega con ?editar=<id> (ej. desde Semanas Especiales), abrir
+    // directamente el modal de edición de esa encuesta.
+    var params   = new URLSearchParams(window.location.search);
+    var idEditar = params.get('editar');
+    if (idEditar) {
+        editar_encuesta(parseInt(idEditar, 10));
+    }
+
     // ── Imagen de encabezado ──
     $('#enc_img_file').on('change', function (e) {
         var file = e.target.files[0];

@@ -186,7 +186,7 @@ function pintar_seccion_formulario(idactiv, encuesta) {
             '<p><b>' + encuesta.titulo + '</b></p>' +
             '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
                 '<a href="' + url_publica + '" target="_blank" class="btn btn-sm btn-primary">Abrir formulario público</a>' +
-                '<a href="encuestas.php" target="_blank" class="btn btn-sm btn-secondary">Editar preguntas en Encuestas</a>' +
+                '<a href="encuestas.php?editar=' + encuesta.id + '" class="btn btn-sm btn-secondary">Editar preguntas en Encuestas</a>' +
             '</div>'
         );
         cargar_seccion_qr(idactiv, url_publica, encuesta.titulo);
@@ -236,7 +236,7 @@ function crear_formulario_registro(idactiv, nombre_corto, fecha1, fecha2) {
         }
         bootbox.alert("Formulario de registro creado.");
         if ($("#ver_idactiv").val() == idactiv) {
-            pintar_seccion_formulario(idactiv, {titulo: 'Registro: ' + nombre_corto, token_publico: res.token});
+            pintar_seccion_formulario(idactiv, {id: res.id, titulo: 'Registro: ' + nombre_corto, token_publico: res.token});
         }
         generar_qr_evento(idactiv, res.url, 'Registro: ' + nombre_corto);
     });

@@ -166,7 +166,12 @@ switch ($op) {
         $titulo      = 'Registro: ' . $nombre_corto;
         $descripcion = 'Formulario de registro para "' . $nombre_corto . '".';
 
-        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha1, $fecha2, '', '', $idactiv);
+        // El formulario debe estar disponible desde que se crea (el registro suele
+        // ser previo al evento), no a partir de la fecha en que inicia el evento.
+        $fecha_inicio_encuesta = date('Y-m-d');
+        $fecha_fin_encuesta    = $fecha2 ?: $fecha1;
+
+        $id = $enc->crear_encuesta($titulo, $descripcion, $fecha_inicio_encuesta, $fecha_fin_encuesta, '', '', $idactiv);
         if (!$id) {
             echo json_encode(['ok' => false, 'msg' => 'Error al crear el formulario de registro.']);
             break;
