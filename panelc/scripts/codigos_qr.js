@@ -1,7 +1,8 @@
 'use strict';
 
-var qrCode     = null;
+var qrCode      = null;
 var logoDataUrl = null;
+var qr_editando_id = null;
 
 function getQROptions() {
     var data = $('#qr_contenido').val().trim() || 'https://pibg.mx';
@@ -63,7 +64,7 @@ function guardar_qr() {
     qrCode.getRawData('png').then(function(blob) {
         var reader = new FileReader();
         reader.onloadend = function() {
-            $.post('ajax/codigos_qr.php?op=guardar_qr', {
+            var datos = {
                 nombre:           nombre,
                 contenido:        contenido,
                 color_frente:     $('#qr_color_dots').val(),
@@ -71,14 +72,54 @@ function guardar_qr() {
                 estilo_puntos:    $('#qr_dots_style').val(),
                 nivel_correccion: $('#qr_error_correction').val(),
                 imagen_base64:    reader.result
-            }, function(data) {
+            };
+            var op = 'guardar_qr';
+            if (qr_editando_id) {
+                datos.id = qr_editando_id;
+                op = 'editar_qr';
+            }
+            $.post('ajax/codigos_qr.php?op=' + op, datos, function(data) {
                 data = JSON.parse(data);
+                var editando = !!qr_editando_id;
+                cancelar_edicion_qr();
                 listar_qr_codes();
-                bootbox.alert('&#10003; Código QR guardado exitosamente.');
+                bootbox.alert(editando ? '✓ Código QR actualizado.' : '✓ Código QR guardado exitosamente.');
             });
         };
         reader.readAsDataURL(blob);
     });
+}
+
+function editar_qr_guardado(id) {
+    $.post('ajax/codigos_qr.php?op=obtener_qr', { id: id }, function(data) {
+        data = JSON.parse(data);
+        if (!data || !data.id) { bootbox.alert('No se encontró el código QR.'); return; }
+
+        qr_editando_id = id;
+
+        $('#qr_nombre').val(data.nombre);
+        $('#qr_contenido').val(data.contenido);
+        $('#qr_color_dots').val(data.color_frente || '#042C49');
+        $('#qr_color_bg').val(data.color_fondo || '#ffffff');
+        $('#qr_error_correction').val(data.nivel_correccion || 'M');
+
+        $('#qr_dots_style').val(data.estilo_puntos || 'rounded');
+        $('#dots_style_group .qr-dot-btn').removeClass('active');
+        $('#dots_style_group .qr-dot-btn[data-val="' + (data.estilo_puntos || 'rounded') + '"]').addClass('active');
+
+        $('#qr_btn_guardar').html('&#128190; Actualizar');
+        $('#qr_editando_nombre').text(data.nombre);
+        $('#qr_editando_msg').show();
+
+        updateQR();
+        $('html, body').animate({ scrollTop: 0 }, 300);
+    });
+}
+
+function cancelar_edicion_qr() {
+    qr_editando_id = null;
+    $('#qr_btn_guardar').html('&#128190; Guardar');
+    $('#qr_editando_msg').hide();
 }
 
 function listar_qr_codes() {

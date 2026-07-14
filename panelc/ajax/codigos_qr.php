@@ -56,6 +56,9 @@ switch ($_GET['op'] ?? '') {
                 <td style="vertical-align:middle;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' . $cont . '">' . $cont . '</td>
                 <td style="vertical-align:middle;white-space:nowrap;">' . $fecha . '</td>
                 <td style="vertical-align:middle;white-space:nowrap;">
+                    <button onclick="editar_qr_guardado(' . $reg->id . ');" style="background:rgb(13,110,180);padding:8px 12px;border-radius:6px;border:none;cursor:pointer;margin-right:4px;" title="Editar">
+                        <span style="color:#fff;font-size:13px;">&#9998; Editar</span>
+                    </button>
                     <button onclick="descargar_qr_guardado(' . $reg->id . ');" style="background:#042C49;padding:8px 12px;border-radius:6px;border:none;cursor:pointer;margin-right:4px;" title="Descargar">
                         <span style="color:#fff;font-size:13px;">&#11015; Bajar</span>
                     </button>

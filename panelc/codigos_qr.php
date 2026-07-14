@@ -141,9 +141,13 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
 
                 <!-- Botones -->
-                <div style="display:flex;gap:12px;margin-top:24px;">
+                <div style="display:flex;gap:12px;margin-top:24px;align-items:center;flex-wrap:wrap;">
                   <button class="qr-action-btn qr-btn-download" onclick="descargar_qr();">&#11015; Descargar</button>
-                  <button class="qr-action-btn qr-btn-save"     onclick="guardar_qr();">&#128190; Guardar</button>
+                  <button class="qr-action-btn qr-btn-save" id="qr_btn_guardar" onclick="guardar_qr();">&#128190; Guardar</button>
+                  <span id="qr_editando_msg" style="display:none;font-size:13px;color:#042C49;">
+                    Editando <b id="qr_editando_nombre"></b> —
+                    <a href="#" onclick="cancelar_edicion_qr();return false;">Cancelar</a>
+                  </span>
                 </div>
 
               </div><!-- /col izquierda -->
