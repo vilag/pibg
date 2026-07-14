@@ -31,6 +31,22 @@
     <!-- End custom js for this page-->
     <script src="../js/bootbox.js"></script>
     <script>
+    // Apilar modales correctamente cuando se abre uno encima de otro (incluye
+    // los diálogos de bootbox, que también son modales de Bootstrap): cada
+    // modal nuevo y su fondo quedan por encima del anterior, y como los fondos
+    // se superponen, el que está hasta arriba resalta con una sombra más oscura.
+    (function() {
+        if (typeof $ === 'undefined') return;
+        $(document).on('show.bs.modal', '.modal', function () {
+            var zIndexBase = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndexBase);
+            setTimeout(function () {
+                $('.modal-backdrop:not(.modal-stack-fixed)').css('z-index', zIndexBase - 1).addClass('modal-stack-fixed');
+            }, 0);
+        });
+    })();
+    </script>
+    <script>
     // Badge de peticiones pendientes en el sidebar (todas las páginas del admin)
     (function() {
         if (typeof $ !== 'undefined' && document.getElementById('badge_peticiones')) {
