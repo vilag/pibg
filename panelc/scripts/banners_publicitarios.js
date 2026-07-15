@@ -214,7 +214,8 @@ function bp_mostrar_panel_objeto(e) {
     $('#bp_grupo_texto').toggle(esTexto);
     if (esTexto) {
         var fuenteActual = obj.fontFamily || 'Arial';
-        $('#bp_obj_fontfamily').val(fuenteActual).css('font-family', "'" + fuenteActual + "'");
+        bp_inyectar_fuente_css(fuenteActual);
+        $('#bp_obj_fontfamily_buscar').val(fuenteActual).css('font-family', "'" + fuenteActual + "'");
         $('#bp_obj_espaciado').val(obj.charSpacing || 0);
     }
 }
@@ -293,7 +294,7 @@ function cambiar_espaciado_obj(valor) {
 function cambiar_fuente_obj(fuente) {
     var obj = bp_canvas && bp_canvas.getActiveObject();
     if (!obj) return;
-    $('#bp_obj_fontfamily').css('font-family', "'" + fuente + "'");
+    $('#bp_obj_fontfamily_buscar').val(fuente).css('font-family', "'" + fuente + "'");
     var aplicar = function () {
         obj.set('fontFamily', fuente);
         bp_canvas.renderAll();
@@ -307,6 +308,71 @@ function cambiar_fuente_obj(fuente) {
         aplicar();
     }
 }
+
+/* ══════════════════════════════════════════════
+   BUSCADOR DE TIPOS DE LETRA (catálogo completo de
+   Google Fonts, ~1900 familias — sin API key, se
+   descarga una sola vez desde un JSON propio del
+   proyecto generado a partir de fonts.google.com)
+══════════════════════════════════════════════ */
+
+var BP_FUENTES_TODAS = [];
+var BP_FUENTES_CARGADAS = { 'Arial': true };
+var BP_FUENTES_POPULARES = [
+    'Arial', 'Poppins', 'Montserrat', 'Anton', 'Bebas Neue',
+    'Oswald', 'Playfair Display', 'Merriweather', 'Pacifico', 'Caveat'
+];
+
+function bp_cargar_lista_fuentes() {
+    fetch('data/google_fonts.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) { BP_FUENTES_TODAS = data || []; })
+        .catch(function () { BP_FUENTES_TODAS = []; });
+}
+
+function bp_inyectar_fuente_css(nombre) {
+    if (!nombre || nombre === 'Arial' || BP_FUENTES_CARGADAS[nombre]) return;
+    BP_FUENTES_CARGADAS[nombre] = true;
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(nombre).replace(/%20/g, '+') + ':wght@400;700&display=swap';
+    document.head.appendChild(link);
+}
+
+function bp_buscar_fuentes(termino) {
+    termino = (termino || '').trim().toLowerCase();
+    var resultados;
+    if (!termino) {
+        resultados = BP_FUENTES_POPULARES.map(function (nombre) { return { family: nombre, category: '' }; });
+    } else {
+        resultados = BP_FUENTES_TODAS.filter(function (f) {
+            return f.family.toLowerCase().indexOf(termino) !== -1;
+        }).slice(0, 40);
+    }
+
+    if (!resultados.length) {
+        $('#bp_fuente_resultados').html('<div class="bp-fuente-item" style="cursor:default;color:#94a3b8;">Sin resultados</div>').show();
+        return;
+    }
+
+    var html = resultados.map(function (f) {
+        bp_inyectar_fuente_css(f.family);
+        var categoria = f.category ? '<small>' + f.category + '</small>' : '';
+        return '<div class="bp-fuente-item" style="font-family:\'' + f.family + '\';" onmousedown="bp_seleccionar_fuente_buscada(\'' + f.family.replace(/'/g, "\\'") + '\')">' +
+            f.family + categoria +
+        '</div>';
+    }).join('');
+    $('#bp_fuente_resultados').html(html).show();
+}
+
+function bp_seleccionar_fuente_buscada(nombre) {
+    $('#bp_fuente_resultados').hide();
+    cambiar_fuente_obj(nombre);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    bp_cargar_lista_fuentes();
+});
 
 function traer_al_frente() {
     var obj = bp_canvas && bp_canvas.getActiveObject();

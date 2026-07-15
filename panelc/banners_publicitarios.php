@@ -289,21 +289,13 @@ if ($_SESSION['administrador'] == 1):
                   </div>
 
                   <div id="bp_grupo_texto">
-                    <div class="bp-obj-row">
-                      <select class="form-control" id="bp_obj_fontfamily" onchange="cambiar_fuente_obj(this.value)"
-                        title="Tipo de letra" style="font-size:14px;">
-                        <option value="Arial" style="font-family:Arial;">Arial (predeterminada)</option>
-                        <option value="Poppins" style="font-family:'Poppins';">Poppins</option>
-                        <option value="Montserrat" style="font-family:'Montserrat';">Montserrat</option>
-                        <option value="Anton" style="font-family:'Anton';">Anton (bold display)</option>
-                        <option value="Bebas Neue" style="font-family:'Bebas Neue';">Bebas Neue (condensada)</option>
-                        <option value="Oswald" style="font-family:'Oswald';">Oswald (condensada)</option>
-                        <option value="Playfair Display" style="font-family:'Playfair Display';">Playfair Display (serif
-                          elegante)</option>
-                        <option value="Merriweather" style="font-family:'Merriweather';">Merriweather (serif)</option>
-                        <option value="Pacifico" style="font-family:'Pacifico';">Pacifico (manuscrita)</option>
-                        <option value="Caveat" style="font-family:'Caveat';">Caveat (manuscrita casual)</option>
-                      </select>
+                    <div class="bp-obj-row" style="position:relative;">
+                      <input type="text" class="form-control" id="bp_obj_fontfamily_buscar" title="Tipo de letra"
+                        placeholder="Buscar tipo de letra…" autocomplete="off" style="font-size:14px;"
+                        oninput="bp_buscar_fuentes(this.value)"
+                        onfocus="bp_buscar_fuentes(this.value); $('#bp_fuente_resultados').show();"
+                        onblur="setTimeout(function(){ $('#bp_fuente_resultados').hide(); }, 200);">
+                      <div class="bp-fuente-resultados" id="bp_fuente_resultados" style="display:none;"></div>
                     </div>
                     <div class="bp-obj-row">
                       <button class="bp-btn-sec" onclick="obj_negrita()" title="Negrita"><b>N</b></button>
