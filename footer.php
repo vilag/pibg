@@ -27,6 +27,7 @@
 					<li><a href="lumbrera.php">Jóvenes</a></li>
 					<li><a href="infantil.php">Niños</a></li>
 					<li><a href="bach.php">Coro J. S. Bach</a></li>
+					<li><a href="descarga-app.php"><i class="fa fa-android" aria-hidden="true"></i> App Android</a></li>
 				</ul>
 			</div>
 

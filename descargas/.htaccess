@@ -1,0 +1,22 @@
+# Solo se permite servir el instalador de Android desde esta carpeta.
+Options -Indexes -ExecCGI -Includes
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_mime.c>
+    AddType application/vnd.android.package-archive .apk
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.apk$">
+        Header set Content-Disposition "attachment"
+        Header set X-Content-Type-Options "nosniff"
+    </FilesMatch>
+</IfModule>
