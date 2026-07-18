@@ -270,23 +270,6 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 		</div>
 	</div>
 
-	<!-- ── Banner: instalar la app ────────────────────────────────── -->
-	<section class="app-promo-banner">
-		<div class="container">
-			<div class="app-promo-inner">
-				<img src="images/icons/icon-192.png" alt="Ícono de la app PIBG" class="app-promo-icon">
-				<div class="app-promo-text">
-					<div class="app-promo-title">Lleva la Iglesia en tu bolsillo</div>
-					<div class="app-promo-desc">Instala nuestra app gratis y ten a la mano predicaciones, el calendario de actividades y todas las noticias, directo desde tu celular.</div>
-				</div>
-				<a href="descarga-app.php" class="app-promo-btn">
-					<i class="fa fa-download" aria-hidden="true"></i> Instalar la App
-				</a>
-			</div>
-		</div>
-	</section>
-	<!-- ── /Banner: instalar la app ───────────────────────────────── -->
-
 	<!-- Featured Course -->
 
 	<!-- <div class="featured" style="margin-top: -450px;">
@@ -1479,6 +1462,23 @@ Y todo lo que hace, prosperará</p>
 <?php endif; ?>
 </section>
 <?php endforeach; endif; ?>
+
+<!-- ── Banner: instalar la app ────────────────────────────────── -->
+<section class="app-promo-banner">
+	<div class="container">
+		<div class="app-promo-inner">
+			<img src="images/icons/icon-192.png" alt="Ícono de la app PIBG" class="app-promo-icon">
+			<div class="app-promo-text">
+				<div class="app-promo-title">Lleva la Iglesia en tu bolsillo</div>
+				<div class="app-promo-desc">Instala nuestra app gratis y ten a la mano predicaciones, el calendario de actividades y todas las noticias, directo desde tu celular.</div>
+			</div>
+			<a href="descarga-app.php" class="app-promo-btn">
+				<i class="fa fa-download" aria-hidden="true"></i> Instalar la App
+			</a>
+		</div>
+	</div>
+</section>
+<!-- ── /Banner: instalar la app ───────────────────────────────── -->
 
 <!-- Footer -->
 <!-- <button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button> -->
