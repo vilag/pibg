@@ -28,7 +28,11 @@
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/personal.css">
 <script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/push_cliente.js"></script>
 <style>
+	.push-activar-box{display:none;background:#eef6f0;border:1px solid #bfe3c8;border-radius:12px;padding:24px 28px;margin-bottom:30px;}
+	.push-activar-box h4{color:#1c7a3d;}
+	html.pibg-app-instalada .push-activar-box{display:block !important;}
 	.app-download-card{background:#fff;border:1px solid #e2e8f4;border-radius:14px;padding:32px;margin-bottom:30px;box-shadow:0 4px 18px rgba(0,0,0,.05);}
 	.app-download-btn{display:inline-flex;align-items:center;gap:10px;background:#F2125E;color:#fff !important;font-weight:700;font-size:16px;padding:14px 28px;border-radius:10px;text-decoration:none !important;transition:opacity .15s;}
 	.app-download-btn:hover{opacity:.85;}
@@ -71,6 +75,13 @@
 	</div>
 
 	<div class="container" style="padding: 50px 15px; line-height: 1.8; max-width: 820px;">
+
+		<div class="push-activar-box text-center" id="push_activar_box">
+			<h4><i class="fa fa-bell" aria-hidden="true"></i> Activa las notificaciones</h4>
+			<p>Recibe un aviso cuando publiquemos anuncios, actividades o cambios de última hora.</p>
+			<button type="button" class="app-download-btn" id="push_activar_btn" onclick="push_activar_click()">Activar notificaciones</button>
+			<div id="push_activar_resultado" style="margin-top:12px;font-size:13px;"></div>
+		</div>
 
 		<div class="app-platform-picker text-center" id="app_platform_picker">
 			<h4 style="margin-bottom:0;">¿En qué celular vas a instalar la app?</h4>
@@ -164,6 +175,31 @@
 			if (plataforma) {
 				document.getElementById('app_seccion_' + plataforma).scrollIntoView({ behavior: 'smooth', block: 'start' });
 			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			if (typeof push_yaActivo === 'function') {
+				push_yaActivo(function (activo) {
+					if (activo) {
+						document.getElementById('push_activar_btn').style.display = 'none';
+						document.getElementById('push_activar_resultado').textContent = 'Ya tienes las notificaciones activadas. 🔔';
+					}
+				});
+			}
+		});
+
+		function push_activar_click() {
+			var btn = document.getElementById('push_activar_btn');
+			var resultado = document.getElementById('push_activar_resultado');
+			btn.disabled = true;
+			resultado.textContent = 'Activando…';
+			push_activar(function () {
+				btn.style.display = 'none';
+				resultado.textContent = '¡Listo! Ya recibirás notificaciones. 🔔';
+			}, function (msg) {
+				btn.disabled = false;
+				resultado.textContent = msg;
+			});
 		}
 	</script>
 
