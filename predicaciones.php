@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#F2125E">
+<link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PIBG">
 <title>Predicaciones</title>
 <link href="images/iconos/icono.png" rel="icon">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
