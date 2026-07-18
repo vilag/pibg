@@ -55,7 +55,7 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=23">
+<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
@@ -269,6 +269,23 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 			</div>
 		</div>
 	</div>
+
+	<!-- ── Banner: instalar la app ────────────────────────────────── -->
+	<section class="app-promo-banner">
+		<div class="container">
+			<div class="app-promo-inner">
+				<img src="images/icons/icon-192.png" alt="Ícono de la app PIBG" class="app-promo-icon">
+				<div class="app-promo-text">
+					<div class="app-promo-title">Lleva la Iglesia en tu bolsillo</div>
+					<div class="app-promo-desc">Instala nuestra app gratis y ten a la mano predicaciones, el calendario de actividades y todas las noticias, directo desde tu celular.</div>
+				</div>
+				<a href="descarga-app.php" class="app-promo-btn">
+					<i class="fa fa-download" aria-hidden="true"></i> Instalar la App
+				</a>
+			</div>
+		</div>
+	</section>
+	<!-- ── /Banner: instalar la app ───────────────────────────────── -->
 
 	<!-- Featured Course -->
 
