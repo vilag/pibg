@@ -32,6 +32,15 @@ $mysqli->close();
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PIBG">
+<script>
+(function(){
+	var esApp = false;
+	try { if (window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform()) esApp = true; } catch(e){}
+	if (!esApp && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) esApp = true;
+	if (!esApp && window.navigator && window.navigator.standalone === true) esApp = true;
+	if (esApp) document.documentElement.className += ' pibg-app-instalada';
+})();
+</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Lista de preguntas</title>

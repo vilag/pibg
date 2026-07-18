@@ -1561,3 +1561,9 @@ body, body * {
 		justify-content: center;
 	}
 }
+
+/* Si el sitio ya se esta viendo dentro de la app instalada (Android o
+   PWA agregada a inicio en iOS), no tiene sentido invitar a instalarla. */
+html.pibg-app-instalada .app-promo-banner {
+	display: none !important;
+}
