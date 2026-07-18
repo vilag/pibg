@@ -52,6 +52,8 @@
 
 		<div class="pibg-footer__bottom">
 			<span>Copyright &copy;<script>document.write(new Date().getFullYear());</script> Primera Iglesia Bautista de Guadalajara. Todos los derechos reservados.</span>
+			<span class="pibg-footer__bottom-sep">&middot;</span>
+			<a href="privacidad.php" class="pibg-footer__privacy-link">Aviso de Privacidad</a>
 		</div>
 	</div>
 </footer>

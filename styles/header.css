@@ -416,6 +416,19 @@ h1, h2, h3, h4, h5, h6,
     letter-spacing: 0.02em;
 }
 
+.pibg-footer__bottom-sep {
+    margin: 0 8px;
+}
+
+.pibg-footer__privacy-link {
+    color: #999 !important;
+    text-decoration: underline !important;
+}
+
+.pibg-footer__privacy-link:hover {
+    color: #F85E0C !important;
+}
+
 @media only screen and (max-width: 768px) {
     .pibg-footer {
         padding-top: 52px !important;
