@@ -80,7 +80,7 @@ function si_vis($clave)
 	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 	<link rel="stylesheet" type="text/css" href="styles/respindex.css">
-	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=25">
+	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=26">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -1729,6 +1729,26 @@ Y todo lo que hace, prosperará</p>
 		</section>
 		<!-- ── /Banner: instalar la app ───────────────────────────────── -->
 
+		<!-- ── Banner: activar notificaciones ─────────────────────────── -->
+		<section class="app-notif-banner" id="app_notif_banner">
+			<div class="container">
+				<div class="app-promo-inner">
+					<div class="app-notif-icon-wrap">
+						<i class="fa fa-bell" aria-hidden="true"></i>
+					</div>
+					<div class="app-promo-text">
+						<div class="app-promo-title">No te pierdas ningún anuncio</div>
+						<div class="app-promo-desc">Activa las notificaciones y entérate al instante de nuevas actividades, predicaciones y avisos importantes.</div>
+					</div>
+					<button type="button" class="app-notif-btn" id="app_notif_btn" onclick="app_notif_activar_click()">
+						<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
+					</button>
+				</div>
+				<div id="app_notif_resultado" class="app-notif-resultado"></div>
+			</div>
+		</section>
+		<!-- ── /Banner: activar notificaciones ────────────────────────── -->
+
 		<!-- Footer -->
 		<!-- <button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button> -->
 		<?php
@@ -1950,6 +1970,35 @@ Y todo lo que hace, prosperará</p>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script type="text/javascript" src="scripts/index.js?v=<?php echo (rand()); ?>"></script>
 	<script src="js/bootbox.js"></script>
+	<script src="js/push_cliente.js"></script>
+	<script>
+		(function () {
+			var banner = document.getElementById('app_notif_banner');
+			if (!banner) return;
+			if (!document.documentElement.classList.contains('pibg-app-instalada')) return;
+			if (typeof push_soportado !== 'function' || !push_soportado()) return;
+
+			push_yaActivo(function (activo) {
+				if (!activo) { banner.classList.add('app-notif-banner--visible'); }
+			});
+		})();
+
+		function app_notif_activar_click() {
+			var btn = document.getElementById('app_notif_btn');
+			var resultado = document.getElementById('app_notif_resultado');
+			btn.disabled = true;
+			resultado.textContent = 'Activando…';
+			push_activar(function () {
+				resultado.textContent = '¡Listo! Ya recibirás notificaciones. 🔔';
+				setTimeout(function () {
+					document.getElementById('app_notif_banner').style.display = 'none';
+				}, 2200);
+			}, function (msg) {
+				btn.disabled = false;
+				resultado.textContent = msg;
+			});
+		}
+	</script>
 </body>
 
 </html>
