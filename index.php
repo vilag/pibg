@@ -2,164 +2,318 @@
 require_once('config/global.php');
 
 /* ── Defaults (sin conexión: mostrar todo) ── */
-$_mbv_cfg        = null;
-$_vis            = ['actividades'=>true,'jovenes_lumbrera'=>true,'estudio_biblico'=>true,
-                    'lecturas'=>true,'calendario'=>true,'oracion'=>true];
+$_mbv_cfg = null;
+$_vis = [
+	'actividades' => true,
+	'jovenes_lumbrera' => true,
+	'estudio_biblico' => true,
+	'lecturas' => true,
+	'calendario' => true,
+	'oracion' => true
+];
 $_secciones_custom = [];
 
 if (DB_AVAILABLE) {
-    try {
-        $_idx_conn = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    } catch (Throwable $_e) {
-        $_idx_conn = false;
-    }
+	try {
+		$_idx_conn = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+	} catch (Throwable $_e) {
+		$_idx_conn = false;
+	}
 
-    if ($_idx_conn) {
-        $r = mysqli_query($_idx_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
-        if ($r) $_mbv_cfg = mysqli_fetch_assoc($r);
+	if ($_idx_conn) {
+		$r = mysqli_query($_idx_conn, "SELECT * FROM modal_bienvenida WHERE habilitado = 1 LIMIT 1");
+		if ($r)
+			$_mbv_cfg = mysqli_fetch_assoc($r);
 
-        $rv = mysqli_query($_idx_conn, "SELECT clave, activo FROM secciones_visibilidad");
-        if ($rv) {
-            while ($row = mysqli_fetch_assoc($rv)) $_vis[$row['clave']] = (bool)$row['activo'];
-        }
+		$rv = mysqli_query($_idx_conn, "SELECT clave, activo FROM secciones_visibilidad");
+		if ($rv) {
+			while ($row = mysqli_fetch_assoc($rv))
+				$_vis[$row['clave']] = (bool) $row['activo'];
+		}
 
-        $rc = mysqli_query($_idx_conn, "SELECT * FROM secciones_index WHERE activo=1 ORDER BY orden ASC, id ASC");
-        if ($rc) { while ($row = mysqli_fetch_assoc($rc)) $_secciones_custom[] = $row; }
+		$rc = mysqli_query($_idx_conn, "SELECT * FROM secciones_index WHERE activo=1 ORDER BY orden ASC, id ASC");
+		if ($rc) {
+			while ($row = mysqli_fetch_assoc($rc))
+				$_secciones_custom[] = $row;
+		}
 
-        mysqli_close($_idx_conn);
-    }
+		mysqli_close($_idx_conn);
+	}
 }
-function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$clave] : true; }
+function si_vis($clave)
+{
+	global $_vis;
+	return isset($_vis[$clave]) ? $_vis[$clave] : true;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#F2125E">
-<link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="PIBG">
-<script>
-(function(){
-	var esApp = false;
-	try { if (window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform()) esApp = true; } catch(e){}
-	if (!esApp && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) esApp = true;
-	if (!esApp && window.navigator && window.navigator.standalone === true) esApp = true;
-	if (esApp) document.documentElement.className += ' pibg-app-instalada';
-})();
-</script>
-<title>Primera Iglesia Bautista de Guadalajara</title>
-<link href="images/iconos/icono.png" rel="icon">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Primera Iglesia Bautista de Guadalajara">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-<link href="plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-<link rel="stylesheet" type="text/css" href="styles/responsive.css">
-<link rel="stylesheet" type="text/css" href="styles/respindex.css">
-<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=25">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
-<!-- <link rel="stylesheet" type="text/css" href="./styles/personal.css"> -->
+	<link rel="manifest" href="manifest.webmanifest">
+	<meta name="theme-color" content="#F2125E">
+	<link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="PIBG">
+	<script>
+		(function () {
+			var esApp = false;
+			try { if (window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform()) esApp = true; } catch (e) { }
+			if (!esApp && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) esApp = true;
+			if (!esApp && window.navigator && window.navigator.standalone === true) esApp = true;
+			if (esApp) document.documentElement.className += ' pibg-app-instalada';
+		})();
+	</script>
+	<title>Primera Iglesia Bautista de Guadalajara</title>
+	<link href="images/iconos/icono.png" rel="icon">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Primera Iglesia Bautista de Guadalajara">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+	<link href="plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+	<link rel="stylesheet" type="text/css" href="styles/respindex.css">
+	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=25">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Yanone+Kaffeesatz:wght@300&display=swap"
+		rel="stylesheet">
+	<!-- <link rel="stylesheet" type="text/css" href="./styles/personal.css"> -->
 
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
-<script src="js/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="styles/modal_bienvenida.css?v=2">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="styles/modal_bienvenida.css?v=2">
 </head>
+
 <body>
 
-<div class="super_container">
+	<div class="super_container">
 
-	<!-- Header -->
+		<!-- Header -->
 
-	<?php
+		<?php
 		require('header.php');
-	?>
-	
-	<!-- Home -->
+		?>
+
+		<!-- Home -->
 
 
-	<div class="home estilo_home">
-	<input id="input_vista" type="hidden" value="1">
-		<div class="home_slider_container">
+		<div class="home estilo_home">
+			<input id="input_vista" type="hidden" value="1">
+			<div class="home_slider_container">
 
-			<!-- Home Slider -->
-			<div class="owl-carousel owl-theme home_slider">
+				<!-- Home Slider -->
+				<div class="owl-carousel owl-theme home_slider">
 
-				<!-- Slider Item -->
-				<div  class="owl-item">
-					<!-- Background image artist https://unsplash.com/@benwhitephotography -->
-					<!-- <div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728447824/Pibg/Dise%C3%B1o_sin_t%C3%ADtulo_2_vutrvg.png)"></div> -->
-					<div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qhtvlqfjush9g8bieqbk.png)"></div>
-					<div class="home_container">
-						<div class="container">
-							<div class="row">
-								<div class="col">
-									<div class="home_content estilo_texto_inicial">
-										<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
-										<div class="home_text">
-											<style>
-												.flip-in-ver-right{-webkit-animation:flip-in-ver-right .5s cubic-bezier(.25,.46,.45,.94) both;animation:flip-in-ver-right .5s cubic-bezier(.25,.46,.45,.94) both}
-												@-webkit-keyframes flip-in-ver-right{0%{-webkit-transform:rotateY(-80deg);transform:rotateY(-80deg);opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}}@keyframes flip-in-ver-right{0%{-webkit-transform:rotateY(-80deg);transform:rotateY(-80deg);opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);opacity:1}}
-												.tilt-in-left-1{-webkit-animation:tilt-in-left-1 .6s cubic-bezier(.25,.46,.45,.94) 2s both;animation:tilt-in-left-1 .6s cubic-bezier(.25,.46,.45,.94) 2s both}
-												@-webkit-keyframes tilt-in-left-1{0%{-webkit-transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);opacity:0}100%{-webkit-transform:rotateX(0deg) translateX(0) skewX(0deg);transform:rotateX(0deg) translateX(0) skewX(0deg);opacity:1}}@keyframes tilt-in-left-1{0%{-webkit-transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);transform:rotateX(-30deg) translateX(-300px) skewX(-30deg);opacity:0}100%{-webkit-transform:rotateX(0deg) translateX(0) skewX(0deg);transform:rotateX(0deg) translateX(0) skewX(0deg);opacity:1}}
-												.swing-in-left-bck{-webkit-animation:swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) 2s both;animation:swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) 2s both}
-												@-webkit-keyframes swing-in-left-bck{0%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);-webkit-transform-origin:left;transform-origin:left;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:left;transform-origin:left;opacity:1}}@keyframes swing-in-left-bck{0%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);-webkit-transform-origin:left;transform-origin:left;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:left;transform-origin:left;opacity:1}}
-												.fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) 2.5s both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) 2.5s both}												
-												@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
-											</style>
-											<div id="content_nom_activ_des" class="col-lg-10 estilo_caja_texto_ini">
-												<div id="div_content_texto_princ" class="content_texto_princ">
-													<p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p>
-													<label id="det_activ_sem_esp" class="text_secundario_estilo" for=""></label>
+					<!-- Slider Item -->
+					<div class="owl-item">
+						<!-- Background image artist https://unsplash.com/@benwhitephotography -->
+						<!-- <div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/ddcszcshl/image/upload/v1728447824/Pibg/Dise%C3%B1o_sin_t%C3%ADtulo_2_vutrvg.png)"></div> -->
+						<div class="home_slider_background"
+							style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qhtvlqfjush9g8bieqbk.png)">
+						</div>
+						<div class="home_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="home_content estilo_texto_inicial">
+											<!-- <div class="home_logo"><img src="images/home_logo.png" alt=""></div> -->
+											<div class="home_text">
+												<style>
+													.flip-in-ver-right {
+														-webkit-animation: flip-in-ver-right .5s cubic-bezier(.25, .46, .45, .94) both;
+														animation: flip-in-ver-right .5s cubic-bezier(.25, .46, .45, .94) both
+													}
 
-												</div>
-												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
-												<!-- <div class="home_buttons">
+													@-webkit-keyframes flip-in-ver-right {
+														0% {
+															-webkit-transform: rotateY(-80deg);
+															transform: rotateY(-80deg);
+															opacity: 0
+														}
+
+														100% {
+															-webkit-transform: rotateY(0);
+															transform: rotateY(0);
+															opacity: 1
+														}
+													}
+
+													@keyframes flip-in-ver-right {
+														0% {
+															-webkit-transform: rotateY(-80deg);
+															transform: rotateY(-80deg);
+															opacity: 0
+														}
+
+														100% {
+															-webkit-transform: rotateY(0);
+															transform: rotateY(0);
+															opacity: 1
+														}
+													}
+
+													.tilt-in-left-1 {
+														-webkit-animation: tilt-in-left-1 .6s cubic-bezier(.25, .46, .45, .94) 2s both;
+														animation: tilt-in-left-1 .6s cubic-bezier(.25, .46, .45, .94) 2s both
+													}
+
+													@-webkit-keyframes tilt-in-left-1 {
+														0% {
+															-webkit-transform: rotateX(-30deg) translateX(-300px) skewX(-30deg);
+															transform: rotateX(-30deg) translateX(-300px) skewX(-30deg);
+															opacity: 0
+														}
+
+														100% {
+															-webkit-transform: rotateX(0deg) translateX(0) skewX(0deg);
+															transform: rotateX(0deg) translateX(0) skewX(0deg);
+															opacity: 1
+														}
+													}
+
+													@keyframes tilt-in-left-1 {
+														0% {
+															-webkit-transform: rotateX(-30deg) translateX(-300px) skewX(-30deg);
+															transform: rotateX(-30deg) translateX(-300px) skewX(-30deg);
+															opacity: 0
+														}
+
+														100% {
+															-webkit-transform: rotateX(0deg) translateX(0) skewX(0deg);
+															transform: rotateX(0deg) translateX(0) skewX(0deg);
+															opacity: 1
+														}
+													}
+
+													.swing-in-left-bck {
+														-webkit-animation: swing-in-left-bck .6s cubic-bezier(.175, .885, .32, 1.275) 2s both;
+														animation: swing-in-left-bck .6s cubic-bezier(.175, .885, .32, 1.275) 2s both
+													}
+
+													@-webkit-keyframes swing-in-left-bck {
+														0% {
+															-webkit-transform: rotateY(-70deg);
+															transform: rotateY(-70deg);
+															-webkit-transform-origin: left;
+															transform-origin: left;
+															opacity: 0
+														}
+
+														100% {
+															-webkit-transform: rotateY(0);
+															transform: rotateY(0);
+															-webkit-transform-origin: left;
+															transform-origin: left;
+															opacity: 1
+														}
+													}
+
+													@keyframes swing-in-left-bck {
+														0% {
+															-webkit-transform: rotateY(-70deg);
+															transform: rotateY(-70deg);
+															-webkit-transform-origin: left;
+															transform-origin: left;
+															opacity: 0
+														}
+
+														100% {
+															-webkit-transform: rotateY(0);
+															transform: rotateY(0);
+															-webkit-transform-origin: left;
+															transform-origin: left;
+															opacity: 1
+														}
+													}
+
+													.fade-in {
+														-webkit-animation: fade-in 1.2s cubic-bezier(.39, .575, .565, 1.000) 2.5s both;
+														animation: fade-in 1.2s cubic-bezier(.39, .575, .565, 1.000) 2.5s both
+													}
+
+													@-webkit-keyframes fade-in {
+														0% {
+															opacity: 0
+														}
+
+														100% {
+															opacity: 1
+														}
+													}
+
+													@keyframes fade-in {
+														0% {
+															opacity: 0
+														}
+
+														100% {
+															opacity: 1
+														}
+													}
+												</style>
+												<div id="content_nom_activ_des" class="col-lg-10 estilo_caja_texto_ini">
+													<div id="div_content_texto_princ" class="content_texto_princ">
+														<p id="nom_activ_sem_esp" class="estilo_texto_activ_esp"></p>
+														<label id="det_activ_sem_esp" class="text_secundario_estilo"
+															for=""></label>
+
+													</div>
+													<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
+													<!-- <div class="home_buttons">
 													<div class="button home_button"><a href="lumbrera.php">Ver Más<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
 													<div class="button home_button"><a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">Ver Transmisiones<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
 												</div> -->
 
-												<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
-												<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
+													<!-- <div><label for="" style="font-size: 22px; color: #FFF;">Y esta es la vida eterna: que te conozcan a ti, el único Dios verdadero, <br> y a Jesucristo, a quien has enviado.</label></div> -->
+													<!-- <div><b style="font-size: 40px; color: rgba(255,255,255,0.3); border: border: rgba(0,0,0,0) 2px solid;">Juan 17:3</b></div> -->
 													<div class="content_proxima_transmision">
 														<br><br>
-														<label style="color: #ccc;" for="">PRÓXIMA TRANSMISIÓN:</label><br>
-														<b style="color: #ccc; font-size: 22px;" id="nombre_actividad"></b><br>
-														<p style="font-size: 20px; color: #ccc; line-height: 28px; margin: 0px 0px 15px 0px;" id="tema_actividad"></p>
+														<label style="color: #ccc;" for="">PRÓXIMA
+															TRANSMISIÓN:</label><br>
+														<b style="color: #ccc; font-size: 22px;"
+															id="nombre_actividad"></b><br>
+														<p style="font-size: 20px; color: #ccc; line-height: 28px; margin: 0px 0px 15px 0px;"
+															id="tema_actividad"></p>
 														<!-- <b style="color: #ccc;" id="nombre_actvidad">Culto de oración</b><br> -->
 														<label style="color: #ccc;" id="dia_sp"></label>
 														<label style="color: #ccc;" id="dia_sp_num"></label>
-														<label id="conector_nom_activ" style="color: #ccc;" for=""></label>
+														<label id="conector_nom_activ" style="color: #ccc;"
+															for=""></label>
 														<label style="color: #ccc;" id="mes_sp"></label>
 														<label style="color: #ccc;" id="hora_sp"></label><br><br><br>
-														<a id="enlace_redirect" target="_blank" href="https://www.youtube.com/@pibguadalajara/streams" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver transmisión</a>
-														
-													</div>
-							<div id="banner_custom_info" style="display:none; padding-top: 16px;"></div>
-												
-												<!-- <a id="enlace_redirect_local" href="" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none;">Ver Más</a> -->
+														<a id="enlace_redirect" target="_blank"
+															href="https://www.youtube.com/@pibguadalajara/streams"
+															style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none; width: 200px; text-align: center;">Ver
+															transmisión</a>
 
-												<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
-											</div>
-											<!-- <div style="width: 50%; overflow: scroll; position: absolute; height: 350px; margin-left: 50%;">
+													</div>
+													<div id="banner_custom_info"
+														style="display:none; padding-top: 16px;"></div>
+
+													<!-- <a id="enlace_redirect_local" href="" style="padding: 10px 30px; background-color: #d44c04; border-radius: 10px; border: #f7a037 1px solid; color: #fff; border: none;">Ver Más</a> -->
+
+													<!-- <label style="color: #ccc;" for=""> Domingo 12 de noviembre de 2023, 12:00 hrs.</label> -->
+												</div>
+												<!-- <div style="width: 50%; overflow: scroll; position: absolute; height: 350px; margin-left: 50%;">
 												<div id="content_actividades_destacadas" style="float: left; padding-top: 100px;  width: 1000px !important;">
 
 												</div>
 											</div> -->
-											<div id="content_actividades_destacadas" class="estilo_content_activ_dest">
+												<div id="content_actividades_destacadas"
+													class="estilo_content_activ_dest">
 
-												<!-- <div id="mini1" class="estilo_mini_princ1" style="
+													<!-- <div id="mini1" class="estilo_mini_princ1" style="
 													background-image: url('images/actividades_especiales/mayordomia.jpg'); 
 													background-repeat: no-repeat;
 													background-size: 400px 350px;
@@ -197,8 +351,8 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 														<p class="yanone-kaffeesatz">CONCIERTO <br> NAVIDEÑO</p>
 													</div>
 												</div> -->
-												
-												<!-- <div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
+
+													<!-- <div id="video_dia_oracion1" style="width: 100%; display: block; z-index: 5;">
 													<video  style="width: 100%; " controls muted autoplay loop>
 														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
 													</video>
@@ -209,25 +363,25 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 														<source src="https://res.cloudinary.com/ddcszcshl/video/upload/v1730389393/Pibg/videos/file_nwgjt3.mp4" type="video/mp4">	
 													</video>
 												</div> -->
-												
+
+												</div>
 											</div>
-										</div>
-										<!-- <div class="home_buttons">
+											<!-- <div class="home_buttons">
 											<div class="button home_button"><a href="#">learn more<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
 											<div class="button home_button"><a href="#">see all courses<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
 										</div> -->
+										</div>
 									</div>
 								</div>
+
 							</div>
-							
+
 						</div>
-						
+
 					</div>
-					
-				</div>
-				
-				<!-- Slider Item -->
-				<!-- <div class="owl-item">
+
+					<!-- Slider Item -->
+					<!-- <div class="owl-item">
 
 					<div class="home_slider_background" style="background-image:url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698043712/paginaWeb/fondos/qovhwpl1rlazcjwuveaf.png)"></div>
 					<div class="home_container">
@@ -250,8 +404,8 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 					</div>
 				</div> -->
 
-				<!-- Slider Item -->
-				<!-- <div class="owl-item">
+					<!-- Slider Item -->
+					<!-- <div class="owl-item">
 
 					<div class="home_slider_background" style="background-image:url(images/index.jpg)"></div>
 					<div class="home_container">
@@ -275,13 +429,13 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 					</div>
 				</div> -->
 
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- Featured Course -->
+		<!-- Featured Course -->
 
-	<!-- <div class="featured" style="margin-top: -450px;">
+		<!-- <div class="featured" style="margin-top: -450px;">
 		<div class="container">
 			<div class="row">
 				<div class="col">
@@ -309,139 +463,141 @@ function si_vis($clave) { global $_vis; return isset($_vis[$clave]) ? $_vis[$cla
 			</div>
 		</div>
 	</div> -->
-	
-	<!-- ── Actividades Semanales ──────────────────────────────────── -->
-	<?php if (si_vis('actividades')): ?>
-	<section class="actsem-section">
-		<div class="container">
 
-			<div class="actsem-header" data-aos="fade-up">
-				<p class="actsem-eyebrow">Te invitamos a nuestras</p>
-				<h2 class="actsem-title">Actividades Semanales</h2>
-				<div class="actsem-divider"></div>
+		<!-- ── Actividades Semanales ──────────────────────────────────── -->
+		<?php if (si_vis('actividades')): ?>
+			<section class="actsem-section">
+				<div class="container">
+
+					<div class="actsem-header" data-aos="fade-up">
+						<p class="actsem-eyebrow">Te invitamos a nuestras</p>
+						<h2 class="actsem-title">Actividades Semanales</h2>
+						<div class="actsem-divider"></div>
+					</div>
+
+					<div class="actsem-grid">
+
+						<div class="actsem-card" data-aos="fade-up" data-aos-delay="0">
+							<h4 class="actsem-name">Escuela Dominical</h4>
+							<span class="actsem-day">Domingo</span>
+							<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 10:30 hrs.</p>
+						</div>
+
+						<div class="actsem-card" data-aos="fade-up" data-aos-delay="80">
+							<h4 class="actsem-name">Culto de Adoración</h4>
+							<span class="actsem-day">Domingo</span>
+							<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 12:00 hrs.</p>
+						</div>
+
+						<div class="actsem-card" data-aos="fade-up" data-aos-delay="160">
+							<h4 class="actsem-name">Culto Adoración Vespertino</h4>
+							<span class="actsem-day">Domingo</span>
+							<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 18:00 hrs.</p>
+						</div>
+
+						<div class="actsem-card" data-aos="fade-up" data-aos-delay="240">
+							<h4 class="actsem-name">Culto de Oración</h4>
+							<span class="actsem-day">Miércoles</span>
+							<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 19:00 hrs.</p>
+						</div>
+
+						<div class="actsem-card" data-aos="fade-up" data-aos-delay="320">
+							<h4 class="actsem-name">Culto de Estudio Bíblico</h4>
+							<span class="actsem-day">Viernes</span>
+							<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 19:00 hrs.</p>
+						</div>
+
+					</div>
+
+					<div class="actsem-address-row" data-aos="fade-up">
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+						<span>C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.</span>
+						<button class="actsem-map-btn" onclick="abrirMaps()">
+							<i class="fa fa-location-arrow" aria-hidden="true"></i> Cómo llegar
+						</button>
+					</div>
+
+				</div>
+			</section>
+		<?php endif; /* actividades */ ?>
+		<!-- ── /Actividades Semanales ─────────────────────────────────── -->
+
+		<script>
+			function abrirMaps() {
+				var addr = encodeURIComponent('C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.');
+				var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+				if (esIOS) {
+					window.open('maps://maps.apple.com/?q=' + addr, '_blank');
+				} else {
+					window.open('https://www.google.com/maps/search/?api=1&query=' + addr, '_blank');
+				}
+			}
+		</script>
+
+		<!-- ── Jóvenes Lumbrera ───────────────────────────────────────── -->
+		<?php if (si_vis('jovenes_lumbrera')): ?>
+			<section class="lumb-section">
+
+				<div class="lumb-content" data-aos="fade-right">
+					<p class="lumb-eyebrow">Ministerio Juvenil</p>
+					<h2 class="lumb-title">Jóvenes Lumbrera</h2>
+					<p class="lumb-desc">
+						Jóven, te invitamos a estudiar con nosotros la Palabra de Dios.<br>
+						Te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.
+					</p>
+
+					<blockquote class="lumb-quote">
+						<p>«Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor,
+							espíritu, fe y pureza.»</p>
+						<cite>— 1 Timoteo 4:12</cite>
+					</blockquote>
+
+					<a href="lumbrera.php" class="lumb-btn">
+						Conoce el ministerio <i class="fa fa-arrow-right" aria-hidden="true"></i>
+					</a>
+				</div>
+
+				<div class="lumb-photo">
+					<img src="images/fondos/jovenes.jpeg" alt="Jóvenes Lumbrera">
+				</div>
+
+			</section>
+		<?php endif; /* jovenes_lumbrera */ ?>
+		<!-- ── /Jóvenes Lumbrera ──────────────────────────────────────── -->
+
+		<!-- ── Ministerio Infantil ───────────────────────────────────── -->
+		<section class="infantil-section">
+
+			<div class="infantil-photo">
+				<img src="images/ministerios/ninos.png" alt="Ministerio Infantil">
 			</div>
 
-			<div class="actsem-grid">
+			<div class="infantil-content" data-aos="fade-left">
+				<p class="infantil-eyebrow">Ministerio Infantil</p>
+				<h2 class="infantil-title">Los niños son<br>bienvenidos aquí</h2>
+				<p class="infantil-desc">
+					En el Ministerio Infantil sembramos la Palabra de Dios en los corazones más pequeños.<br>
+					Contamos con maestros comprometidos y un espacio seguro y alegre para que los niños
+					crezcan en la fe cada <strong>domingo</strong>.
+				</p>
 
-				<div class="actsem-card" data-aos="fade-up" data-aos-delay="0">
-						<h4 class="actsem-name">Escuela Dominical</h4>
-					<span class="actsem-day">Domingo</span>
-					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 10:30 hrs.</p>
-				</div>
+				<blockquote class="infantil-quote">
+					<p>«Dejad a los niños venir a mí, y no se lo impidáis;<br>porque de los tales es el reino de los
+						cielos.»</p>
+					<cite>— Mateo 19:14</cite>
+				</blockquote>
 
-				<div class="actsem-card" data-aos="fade-up" data-aos-delay="80">
-						<h4 class="actsem-name">Culto de Adoración</h4>
-					<span class="actsem-day">Domingo</span>
-					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 12:00 hrs.</p>
-				</div>
-
-				<div class="actsem-card" data-aos="fade-up" data-aos-delay="160">
-						<h4 class="actsem-name">Culto Adoración Vespertino</h4>
-					<span class="actsem-day">Domingo</span>
-					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 18:00 hrs.</p>
-				</div>
-
-				<div class="actsem-card" data-aos="fade-up" data-aos-delay="240">
-						<h4 class="actsem-name">Culto de Oración</h4>
-					<span class="actsem-day">Miércoles</span>
-					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 19:00 hrs.</p>
-				</div>
-
-				<div class="actsem-card" data-aos="fade-up" data-aos-delay="320">
-						<h4 class="actsem-name">Culto de Estudio Bíblico</h4>
-					<span class="actsem-day">Viernes</span>
-					<p class="actsem-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 19:00 hrs.</p>
-				</div>
-
+				<a href="infantil.php" class="infantil-btn">
+					Conoce el ministerio <i class="fa fa-arrow-right" aria-hidden="true"></i>
+				</a>
 			</div>
 
-			<div class="actsem-address-row" data-aos="fade-up">
-				<i class="fa fa-map-marker" aria-hidden="true"></i>
-				<span>C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.</span>
-				<button class="actsem-map-btn" onclick="abrirMaps()">
-					<i class="fa fa-location-arrow" aria-hidden="true"></i> Cómo llegar
-				</button>
-			</div>
+		</section>
+		<!-- ── /Ministerio Infantil ──────────────────────────────────── -->
 
-		</div>
-	</section>
-	<?php endif; /* actividades */ ?>
-	<!-- ── /Actividades Semanales ─────────────────────────────────── -->
 
-	<script>
-	function abrirMaps() {
-		var addr = encodeURIComponent('C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.');
-		var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-		if (esIOS) {
-			window.open('maps://maps.apple.com/?q=' + addr, '_blank');
-		} else {
-			window.open('https://www.google.com/maps/search/?api=1&query=' + addr, '_blank');
-		}
-	}
-	</script>
 
-	<!-- ── Jóvenes Lumbrera ───────────────────────────────────────── -->
-	<?php if (si_vis('jovenes_lumbrera')): ?>
-	<section class="lumb-section">
-
-		<div class="lumb-content" data-aos="fade-right">
-			<p class="lumb-eyebrow">Ministerio Juvenil</p>
-			<h2 class="lumb-title">Jóvenes Lumbrera</h2>
-			<p class="lumb-desc">
-				Jóven, te invitamos a estudiar con nosotros la Palabra de Dios.<br>
-				Te esperamos todos los <strong>domingos</strong> a las <strong>4:30 pm</strong>.
-			</p>
-
-			<blockquote class="lumb-quote">
-				<p>«Ninguno tenga en poco tu juventud, sino sé ejemplo de los creyentes en palabra, conducta, amor, espíritu, fe y pureza.»</p>
-				<cite>— 1 Timoteo 4:12</cite>
-			</blockquote>
-
-			<a href="lumbrera.php" class="lumb-btn">
-				Conoce el ministerio <i class="fa fa-arrow-right" aria-hidden="true"></i>
-			</a>
-		</div>
-
-		<div class="lumb-photo">
-			<img src="images/fondos/jovenes.jpeg" alt="Jóvenes Lumbrera">
-		</div>
-
-	</section>
-	<?php endif; /* jovenes_lumbrera */ ?>
-	<!-- ── /Jóvenes Lumbrera ──────────────────────────────────────── -->
-
-	<!-- ── Ministerio Infantil ───────────────────────────────────── -->
-	<section class="infantil-section">
-
-		<div class="infantil-photo">
-			<img src="images/ministerios/ninos.png" alt="Ministerio Infantil">
-		</div>
-
-		<div class="infantil-content" data-aos="fade-left">
-			<p class="infantil-eyebrow">Ministerio Infantil</p>
-			<h2 class="infantil-title">Los niños son<br>bienvenidos aquí</h2>
-			<p class="infantil-desc">
-				En el Ministerio Infantil sembramos la Palabra de Dios en los corazones más pequeños.<br>
-				Contamos con maestros comprometidos y un espacio seguro y alegre para que los niños
-				crezcan en la fe cada <strong>domingo</strong>.
-			</p>
-
-			<blockquote class="infantil-quote">
-				<p>«Dejad a los niños venir a mí, y no se lo impidáis;<br>porque de los tales es el reino de los cielos.»</p>
-				<cite>— Mateo 19:14</cite>
-			</blockquote>
-
-			<a href="infantil.php" class="infantil-btn">
-				Conoce el ministerio <i class="fa fa-arrow-right" aria-hidden="true"></i>
-			</a>
-		</div>
-
-	</section>
-	<!-- ── /Ministerio Infantil ──────────────────────────────────── -->
-
-	
-
-	<!-- <div class="featured" style="display: block; background-image: url(images/Lectura_diaria/fondo2.png); background-repeat: no-repeat; background-size: cover;  height: 400px; background-position-y: 40%;">
+		<!-- <div class="featured" style="display: block; background-image: url(images/Lectura_diaria/fondo2.png); background-repeat: no-repeat; background-size: cover;  height: 400px; background-position-y: 40%;">
 		<div style="height: 500px; height: 100%; background-color: rgba(255,255,255,0.8);">
 		<div class="container">
 				<div class="row">
@@ -464,205 +620,248 @@ Y todo lo que hace, prosperará</p>
 			</div>
 		</div>	
 	</div> -->
-	
-	<div class="featured" style="background-color: #FAF7F2; display: none;">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					
-					
-					<!-- <div style="width: 20%; height: 150px; float: left;"> -->
+
+		<div class="featured" style="background-color: #FAF7F2; display: none;">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+
+
+						<!-- <div style="width: 20%; height: 150px; float: left;"> -->
 						<!-- <div class="home_slider_nav_container d-flex flex-row align-items-start justify-content-between">
 							<div class="home_slider_nav home_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
 							<div class="home_slider_nav home_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
 						</div> -->
-					<!-- </div> -->
-					<div style="width: 100%; float: left; margin-top: 20px; margin-bottom: 20px;">
+						<!-- </div> -->
+						<div style="width: 100%; float: left; margin-top: 20px; margin-bottom: 20px;">
 
-						<div class="estilo_caja_about">
-							
-							<div class="estilo_subtitulo_about">
-								<h3>Conócenos</h3>
-								<h5 style="font-weight: 100; margin-top: 10px;">Introduccion a la PIB Guadalajara</h5>
+							<div class="estilo_caja_about">
+
+								<div class="estilo_subtitulo_about">
+									<h3>Conócenos</h3>
+									<h5 style="font-weight: 100; margin-top: 10px;">Introduccion a la PIB Guadalajara
+									</h5>
+								</div>
+								<div style="height: 50px;">
+									<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;"
+										href="about-us.php">
+										¿Quiénes somos?
+									</a>
+
+								</div>
 							</div>
-							<div style="height: 50px;">
-								<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;" href="about-us.php">
-									¿Quiénes somos?
-								</a>
-								
-							</div>	
+							<div class="estilo_caja_min">
+
+								<div class="estilo_subtitulo_about">
+									<h3>Ministerios</h3>
+									<h5 style="font-weight: 100; margin-top: 10px;">Efesios 4:11</h5>
+								</div>
+								<div style="height: 50px;">
+									<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;"
+										href="#">
+										Ver más
+									</a>
+
+								</div>
+
+							</div>
+							<div class="estilo_caja_transm">
+
+								<div class="estilo_subtitulo_about">
+									<h3>Transmisiones en vivo</h3>
+									<h5 style="font-weight: 100; margin-top: 10px;">Domingos a las 12:00 & 6:00 PM</h5>
+									<h5 style="font-weight: 100;">Miercoles y Viernes a las 7:00 PM </h5>
+								</div>
+								<div style="height: 50px;">
+									<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank"
+										style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A; cursor: pointer;">Ver
+										ahora</a>
+
+								</div>
+							</div>
 						</div>
-						<div class="estilo_caja_min">
-		
-							<div class="estilo_subtitulo_about">
-								<h3>Ministerios</h3>
-								<h5 style="font-weight: 100; margin-top: 10px;">Efesios 4:11</h5>
-							</div>
-							<div style="height: 50px;">
-								<a style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A;" href="#">
-									Ver más
-								</a>
-								
-							</div>	
-
-						</div>
-						<div class="estilo_caja_transm">
-							
-							<div class="estilo_subtitulo_about">
-								<h3>Transmisiones en vivo</h3>
-								<h5 style="font-weight: 100; margin-top: 10px;">Domingos a las 12:00 & 6:00 PM</h5>
-								<h5 style="font-weight: 100;">Miercoles y Viernes a las 7:00 PM	</h5>
-							</div>
-							<div style="height: 50px;">
-								<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank" style="padding: 5px 10px; background-color: transparent; border-radius: 10px; border: #A0812A 1px solid; color: #A0812A; cursor: pointer;">Ver ahora</a>
-								
-							</div>
-						</div>
-					</div>
-					<div class="featured_container" style="display: none;">
-						<div class="row">
-							<div class="col-lg-6 featured_col">
-								<div class="featured_content" style="background-color: #040A13; padding-top: 50px !important; height: 500px;">
-									<div style="width: 100%;">
-										<b>ACTIVIDADES SEMANALES</b>
-									</div>
-									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 75%; float: left;">
-											<b style="color: #fff;">Culto de Adoración</b><br>
-											<label id="eti_activ_dom" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo 12:00 hrs.</label>
+						<div class="featured_container" style="display: none;">
+							<div class="row">
+								<div class="col-lg-6 featured_col">
+									<div class="featured_content"
+										style="background-color: #040A13; padding-top: 50px !important; height: 500px;">
+										<div style="width: 100%;">
+											<b>ACTIVIDADES SEMANALES</b>
 										</div>
-										<div style="width: 25%; float: left; padding-top: 10px;">
-											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
-												<div class="estilo_caja_live" id="caja_live_dom">
-													<div class="estilo_content_punto_live">
-														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+										<div style="width: 100%; margin-top: 20px; float: left;">
+											<div style="width: 75%; float: left;">
+												<b style="color: #fff;">Culto de Adoración</b><br>
+												<label id="eti_activ_dom" for=""
+													style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo
+													12:00 hrs.</label>
+											</div>
+											<div style="width: 25%; float: left; padding-top: 10px;">
+												<a href="https://www.youtube.com/@pibguadalajara5203/streams"
+													target="_blank">
+													<div class="estilo_caja_live" id="caja_live_dom">
+														<div class="estilo_content_punto_live">
+															<div id="punto_live"
+																style="width: 12px; height: 12px; background-color: red; border-radius: 50%;">
+															</div>
+														</div>
+														<div class="estilo_text_live">
+															<b style="color: red; font-size: 15px;">LIVE</b>
+														</div>
 													</div>
-													<div class="estilo_text_live">
-														<b style="color: red; font-size: 15px;">LIVE</b>
-													</div>
-												</div>
-											</a>
-											
+												</a>
+
+
+											</div>
 
 										</div>
-										
-									</div>
-									
-									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 75%; float: left;">
-											<b style="color: #fff;">Culto de Adoración Vespertino</b><br>
-											<label id="eti_activ_dom2" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo 18:00 hrs.</label>
+
+										<div style="width: 100%; margin-top: 20px; float: left;">
+											<div style="width: 75%; float: left;">
+												<b style="color: #fff;">Culto de Adoración Vespertino</b><br>
+												<label id="eti_activ_dom2" for=""
+													style="padding: 5px 10px; color: #fff; margin-top: 5px;">Domingo
+													18:00 hrs.</label>
+											</div>
+											<div style="width: 25%; float: left; padding-top: 10px;">
+												<a href="https://www.youtube.com/@pibguadalajara5203/streams"
+													target="_blank">
+													<div class="estilo_caja_live" id="caja_live_dom2">
+														<div class="estilo_content_punto_live">
+															<div id="punto_live"
+																style="width: 12px; height: 12px; background-color: red; border-radius: 50%;">
+															</div>
+														</div>
+														<div class="estilo_text_live">
+															<b style="color: red; font-size: 15px;">LIVE</b>
+														</div>
+													</div>
+												</a>
+
+
+											</div>
 										</div>
-										<div style="width: 25%; float: left; padding-top: 10px;">
-											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
-												<div class="estilo_caja_live" id="caja_live_dom2">
-													<div class="estilo_content_punto_live">
-														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+										<div style="width: 100%; margin-top: 20px; float: left;">
+											<div style="width: 75%; float: left;">
+												<b style="color: #fff;">Culto de Oración</b><br>
+												<label id="eti_activ_mie" for=""
+													style="padding: 5px 10px; color: #fff; margin-top: 5px;">Miercoles
+													19:00 hrs.</label>
+											</div>
+											<div style="width: 25%; float: left; padding-top: 10px;">
+												<a href="https://www.youtube.com/@pibguadalajara5203/streams"
+													target="_blank">
+													<div class="estilo_caja_live" id="caja_live_mie">
+														<div class="estilo_content_punto_live">
+															<div id="punto_live"
+																style="width: 12px; height: 12px; background-color: red; border-radius: 50%;">
+															</div>
+														</div>
+														<div class="estilo_text_live">
+															<b style="color: red; font-size: 15px;">LIVE</b>
+														</div>
 													</div>
-													<div class="estilo_text_live">
-														<b style="color: red; font-size: 15px;">LIVE</b>
-													</div>
-												</div>
-											</a>
-											
+												</a>
 
-										</div>			
-									</div>
-									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 75%; float: left;">
-											<b style="color: #fff;">Culto de Oración</b><br>
-											<label id="eti_activ_mie" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Miercoles 19:00 hrs.</label>
+
+											</div>
 										</div>
-										<div style="width: 25%; float: left; padding-top: 10px;">
-											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
-												<div class="estilo_caja_live" id="caja_live_mie">
-													<div class="estilo_content_punto_live">
-														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
+										<div style="width: 100%; margin-top: 20px; float: left;">
+											<div style="width: 75%; float: left;">
+												<b style="color: #fff;">Culto de Estudio Bíblico</b><br>
+												<label id="eti_activ_vie" for=""
+													style="padding: 5px 10px; color: #fff; margin-top: 5px;">Viernes
+													19:00 hrs.</label>
+											</div>
+											<div style="width: 25%; float: left; padding-top: 10px;">
+												<a href="https://www.youtube.com/@pibguadalajara5203/streams"
+													target="_blank">
+													<div class="estilo_caja_live" id="caja_live_vie">
+														<div class="estilo_content_punto_live">
+															<div id="punto_live"
+																style="width: 12px; height: 12px; background-color: red; border-radius: 50%;">
+															</div>
+														</div>
+														<div class="estilo_text_live">
+															<b style="color: red; font-size: 15px;">LIVE</b>
+														</div>
 													</div>
-													<div class="estilo_text_live">
-														<b style="color: red; font-size: 15px;">LIVE</b>
-													</div>
-												</div>
-											</a>
-											
+												</a>
 
-										</div>	
-									</div>
-									<div style="width: 100%; margin-top: 20px; float: left;">
-										<div style="width: 75%; float: left;">
-											<b style="color: #fff;">Culto de Estudio Bíblico</b><br>
-											<label id="eti_activ_vie" for="" style="padding: 5px 10px; color: #fff; margin-top: 5px;">Viernes 19:00 hrs.</label>
+
+											</div>
 										</div>
-										<div style="width: 25%; float: left; padding-top: 10px;">
-											<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
-												<div class="estilo_caja_live" id="caja_live_vie">
-													<div class="estilo_content_punto_live">
-														<div id="punto_live" style="width: 12px; height: 12px; background-color: red; border-radius: 50%;"></div>
-													</div>
-													<div class="estilo_text_live">
-														<b style="color: red; font-size: 15px;">LIVE</b>
-													</div>
-												</div>
-											</a>
-											
-
-										</div>	
-									</div>
 
 
-									
-									<div class="featured_header d-flex flex-row align-items-center justify-content-start">
-										<div ><b>Próxima Transmisión</b></div>
-										
-									</div>
-									<!-- <div class="featured_title">
+
+										<div
+											class="featured_header d-flex flex-row align-items-center justify-content-start">
+											<div><b>Próxima Transmisión</b></div>
+
+										</div>
+										<!-- <div class="featured_title">
 										<h3><a href="#" style="color: #FFF;" id="nombre_actvidad"></a></h3>
 									</div> -->
-									<!-- <div style="margin-top: 15px;">
+										<!-- <div style="margin-top: 15px;">
 										<label style="color: #fff;" id="tema_actividad"></label>
 									</div> -->
-									<!-- <div style="margin-top: 15px;">
+										<!-- <div style="margin-top: 15px;">
 										<label id="dia_sp"></label>
 										<label id="dia_sp_num"></label>
 										<label for=""></label>
 										<label id="mes_sp"></label>
 										<label id="hora_sp"></label>
 									</div> -->
-									<div style="width: 100%; margin-top: 30px;">
-										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank" style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px;">Ver Transmisión</a>
-										
-									</div>
-									
-									<div class="featured_footer d-flex align-items-center justify-content-start">
-										<div class="featured_author_image"><img src="images/featured_author.jpg" alt=""></div>
-										
-										<button style="padding: 10px; background-color: rgba(0,0,0,0); color: #FFF; border: #ccc 1px solid;">Ver Transmisión</button>
-										<div class="featured_author_name">By <a href="#">James S. Morrison</a></div>
-										<div class="featured_sales ml-auto"><span>352</span> Sales</div>
+										<div style="width: 100%; margin-top: 30px;">
+											<a href="https://www.youtube.com/@pibguadalajara5203/streams"
+												target="_blank"
+												style="color: #fff; background-color: #F36905 !important; padding: 10px !important; border-radius: 10px;">Ver
+												Transmisión</a>
+
+										</div>
+
+										<div class="featured_footer d-flex align-items-center justify-content-start">
+											<div class="featured_author_image"><img src="images/featured_author.jpg"
+													alt=""></div>
+
+											<button
+												style="padding: 10px; background-color: rgba(0,0,0,0); color: #FFF; border: #ccc 1px solid;">Ver
+												Transmisión</button>
+											<div class="featured_author_name">By <a href="#">James S. Morrison</a></div>
+											<div class="featured_sales ml-auto"><span>352</span> Sales</div>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-lg-6 featured_col">
-							
-								<div class="featured_background" style="background-image:url(images//act_sem/culto_ador2.png)"></div>
-								<div style="width: 100%; position: absolute; margin-top: -450px; padding-left: 50px; padding-right: 50px;">
-									<div style="width: 150px; height: 50px; border: red 1px solid; border-radius: 10px;">
-										<div style="width: 40%; float: left; padding-top: 16px; padding-left: 25px;">
-											<div id="punto_live" style="width: 15px; height: 15px; background-color: red; border-radius: 50%;"></div>
-										</div>
-										<div style="width: 60%; float: left; padding-top: 5px; padding-left: 4px;">
-											<b style="color: red; font-size: 25px;">LIVE</b>
-										</div>
-									</div>
+								<div class="col-lg-6 featured_col">
 
-									<div style="width: 100%; margin-top: 50px;">
-										<p style="color: #fff; font-size: 18px;">Apert. Semana Jóvenes A / Coro Lumbrera</p>
-									</div>
-									<div style="width: 100%; margin-top: 50px;">
-										<a href="https://www.youtube.com/@pibguadalajara5203/streams" target="_blank">
-											<button style="cursor: pointer; padding: 10px 50px; border-radius: 10px; background-color: #FF5C00; color: #fff; border: none;"><b>Entrar</b></button>	
-										</a>
-										
+									<div class="featured_background"
+										style="background-image:url(images//act_sem/culto_ador2.png)"></div>
+									<div
+										style="width: 100%; position: absolute; margin-top: -450px; padding-left: 50px; padding-right: 50px;">
+										<div
+											style="width: 150px; height: 50px; border: red 1px solid; border-radius: 10px;">
+											<div
+												style="width: 40%; float: left; padding-top: 16px; padding-left: 25px;">
+												<div id="punto_live"
+													style="width: 15px; height: 15px; background-color: red; border-radius: 50%;">
+												</div>
+											</div>
+											<div style="width: 60%; float: left; padding-top: 5px; padding-left: 4px;">
+												<b style="color: red; font-size: 25px;">LIVE</b>
+											</div>
+										</div>
+
+										<div style="width: 100%; margin-top: 50px;">
+											<p style="color: #fff; font-size: 18px;">Apert. Semana Jóvenes A / Coro
+												Lumbrera</p>
+										</div>
+										<div style="width: 100%; margin-top: 50px;">
+											<a href="https://www.youtube.com/@pibguadalajara5203/streams"
+												target="_blank">
+												<button
+													style="cursor: pointer; padding: 10px 50px; border-radius: 10px; background-color: #FF5C00; color: #fff; border: none;"><b>Entrar</b></button>
+											</a>
+
+										</div>
 									</div>
 								</div>
 							</div>
@@ -671,16 +870,15 @@ Y todo lo que hace, prosperará</p>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- <div class="about" style="
+		<!-- <div class="about" style="
 	background-image: url(https://res.cloudinary.com/dmtvvrw4s/image/upload/v1740445635/paginaWeb/Jovenes/img_jovenespibg2_erz9ti.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	">
 		<div class="container">
 		<div class="row about_row row-lg-eq-height">
-                
+				
 				<div class="col-lg-8" style=" margin-top: 50px; margin-bottom: 50px;">
 					<div class="about_content" >
 						
@@ -705,8 +903,8 @@ Y todo lo que hace, prosperará</p>
 								</div>
 							</div> 
 							
-                             
-                            
+							 
+							
 						</div>
 					</div>
 				</div>
@@ -717,53 +915,54 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	
-	
 
-	<!-- ── Grupos de Estudio Bíblico ─────────────────────────────── -->
-	<?php if (si_vis('estudio_biblico')): ?>
-	<section class="estbib-section">
 
-		<div class="estbib-photo">
-			<img src="images/estudio_b.jpg" alt="Grupos de Estudio Bíblico">
-		</div>
 
-		<div class="estbib-content" data-aos="fade-left">
-			<p class="estbib-eyebrow">Formación espiritual</p>
-			<h2 class="estbib-title">Grupos de Estudio Bíblico</h2>
+		<!-- ── Grupos de Estudio Bíblico ─────────────────────────────── -->
+		<?php if (si_vis('estudio_biblico')): ?>
+			<section class="estbib-section">
 
-			<div class="estbib-cards">
-				<div class="estbib-card">
-					<div class="estbib-card-icon"><i class="fa fa-laptop" aria-hidden="true"></i></div>
-					<div>
-						<p class="estbib-card-name">Estudio bíblico en línea</p>
-						<p class="estbib-card-time">Martes 22:00 hrs. &nbsp;·&nbsp; Miércoles 21:00 hrs.</p>
-					</div>
+				<div class="estbib-photo">
+					<img src="images/estudio_b.jpg" alt="Grupos de Estudio Bíblico">
 				</div>
-				<div class="estbib-card">
-					<div class="estbib-card-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
-					<div>
-						<p class="estbib-card-name">Estudio bíblico en casas</p>
-						<p class="estbib-card-time">Viernes 21:00 hrs.</p>
+
+				<div class="estbib-content" data-aos="fade-left">
+					<p class="estbib-eyebrow">Formación espiritual</p>
+					<h2 class="estbib-title">Grupos de Estudio Bíblico</h2>
+
+					<div class="estbib-cards">
+						<div class="estbib-card">
+							<div class="estbib-card-icon"><i class="fa fa-laptop" aria-hidden="true"></i></div>
+							<div>
+								<p class="estbib-card-name">Estudio bíblico en línea</p>
+								<p class="estbib-card-time">Martes 22:00 hrs. &nbsp;·&nbsp; Miércoles 21:00 hrs.</p>
+							</div>
+						</div>
+						<div class="estbib-card">
+							<div class="estbib-card-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+							<div>
+								<p class="estbib-card-name">Estudio bíblico en casas</p>
+								<p class="estbib-card-time">Viernes 21:00 hrs.</p>
+							</div>
+						</div>
 					</div>
+
+					<blockquote class="estbib-quote">
+						<p>«Encamíname en tu verdad, y enséñame, porque tú eres el Dios de mi salvación; en ti he esperado
+							todo el día.»</p>
+						<cite>— Salmos 25:5</cite>
+					</blockquote>
+
+					<a class="estbib-btn" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">
+						<i class="fa fa-whatsapp" aria-hidden="true"></i> Deseo reunirme
+					</a>
 				</div>
-			</div>
 
-			<blockquote class="estbib-quote">
-				<p>«Encamíname en tu verdad, y enséñame, porque tú eres el Dios de mi salvación; en ti he esperado todo el día.»</p>
-				<cite>— Salmos 25:5</cite>
-			</blockquote>
+			</section>
+		<?php endif; /* estudio_biblico */ ?>
+		<!-- ── /Grupos de Estudio Bíblico ────────────────────────────── -->
 
-			<a class="estbib-btn" id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();">
-				<i class="fa fa-whatsapp" aria-hidden="true"></i> Deseo reunirme
-			</a>
-		</div>
-
-	</section>
-	<?php endif; /* estudio_biblico */ ?>
-	<!-- ── /Grupos de Estudio Bíblico ────────────────────────────── -->
-
-	<!-- <div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
+		<!-- <div class="featured" style="background-color: #24344B; margin-top: -5px; display: none;">
 		<div class="container">
 			<div class="row">
 				
@@ -788,57 +987,63 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	
 
-	<?php if (si_vis('lecturas')): ?>
-	<div class="milestones" style="padding-bottom: 70px; padding-top: 120px;">
 
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1706298697/paginaWeb/Lectura%20diaria/qgjdezvpsauzsxn9lw4s.png" data-speed="0.8"></div>
-		<div class="container" style="margin-top: -70px;">
-			<div class="row milestones_container">
-				<div class="row">
+		<?php if (si_vis('lecturas')): ?>
+			<div class="milestones" style="padding-bottom: 70px; padding-top: 120px;">
 
-					<div class="col-lg-12" style="padding-left: 30px; text-align: center;">
-						<h2 style="color: #fff; font-weight: 300;">Lecturas del dia</h2>
-						<label style="color: #fff;" id="citasdia_resumen"></label>
-						<!-- <p id="p_lecturas_dia"></p> -->
-					</div>
-					<div class="col-lg-12">
-						<div style="float: left; text-align: center; padding: 20px; height: 320px; overflow-y: scroll;" class="col-lg-4 barra_lecturas" id="box_citas_lecturas">
-						</div>
-						<div style="float: left; padding: 20px;" class="col-lg-8">
-							<div class="col-lg-12 barra_lecturas" id="p_lecturas_dia" style="height: 300px; overflow-y: scroll;">
+				<div class="parallax_background parallax-window" data-parallax="scroll"
+					data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1706298697/paginaWeb/Lectura%20diaria/qgjdezvpsauzsxn9lw4s.png"
+					data-speed="0.8"></div>
+				<div class="container" style="margin-top: -70px;">
+					<div class="row milestones_container">
+						<div class="row">
+
+							<div class="col-lg-12" style="padding-left: 30px; text-align: center;">
+								<h2 style="color: #fff; font-weight: 300;">Lecturas del dia</h2>
+								<label style="color: #fff;" id="citasdia_resumen"></label>
+								<!-- <p id="p_lecturas_dia"></p> -->
+							</div>
+							<div class="col-lg-12">
+								<div style="float: left; text-align: center; padding: 20px; height: 320px; overflow-y: scroll;"
+									class="col-lg-4 barra_lecturas" id="box_citas_lecturas">
+								</div>
+								<div style="float: left; padding: 20px;" class="col-lg-8">
+									<div class="col-lg-12 barra_lecturas" id="p_lecturas_dia"
+										style="height: 300px; overflow-y: scroll;">
+
+									</div>
+								</div>
+
+
 
 							</div>
 						</div>
-						
-						
+						<div class="col-lg-12" style="text-align: center; margin-top: 20px;">
+
+							<p style="color: #fff;">Descarga el plan de lectura anual&nbsp;&nbsp;<a
+									href="files/Lectura_biblica_anual_2025.pdf" download="Lectura_biblica_anual_2025.pdf"
+									class="estilo_btn_plan_anual">AQUÍ</a></p>
+						</div>
 
 					</div>
 				</div>
-				<div class="col-lg-12" style="text-align: center; margin-top: 20px;">
-						
-					<p style="color: #fff;">Descarga el plan de lectura anual&nbsp;&nbsp;<a href="files/Lectura_biblica_anual_2025.pdf" download="Lectura_biblica_anual_2025.pdf" class="estilo_btn_plan_anual">AQUÍ</a></p>
-				</div>
-
 			</div>
-		</div>
-	</div>
-	<?php endif; /* lecturas */ ?>
+		<?php endif; /* lecturas */ ?>
 
 
 
 
 
-			
 
-	
 
-	
 
-	<!--  -->
 
-	<!-- <div class="courses" style="padding-bottom: 50px;">
+
+
+		<!--  -->
+
+		<!-- <div class="courses" style="padding-bottom: 50px;">
 		<div class="container">
 			<div class="row featured_row" style="padding: 20px; display: flex; justify-content: center;">
 				<b style="font-size: 35px;">Ministerios</b>
@@ -971,123 +1176,142 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	<div class="courses" style="display: none;">
-		<div class="container">
-			 <div class="row">
-				<div class="col-lg-10 offset-lg-1">
-					<div class="section_title text-center"><h2>Grupos de Estudio Bíblico</h2></div>
-					<div class="section_subtitle" style="font-size: 20px; margin-top: 30px;">Encamíname en tu verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.</div>
-					<div style="text-align: center;">
-						<b style="font-size: 25px;">Salmos 25:5</b>
-					</div>
-					<div style="width: 100%; margin-top: 50px;">
-						<div style="float: left; width: 50%; text-align: center;">
-							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid; padding-left: 10px; padding-right: 10px;">
-								<div class="news_post_date" style="font-size: 18px;">Miercoles</div>
-								<div class="news_post_title"><a href="#">Estudio biblico en linea</a></div>
-								<div class="news_post_author">21:00 hrs.</div>
+		<div class="courses" style="display: none;">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 offset-lg-1">
+						<div class="section_title text-center">
+							<h2>Grupos de Estudio Bíblico</h2>
+						</div>
+						<div class="section_subtitle" style="font-size: 20px; margin-top: 30px;">Encamíname en tu
+							verdad, y enséñame, Porque tú eres el Dios de mi salvación; En ti he esperado todo el día.
+						</div>
+						<div style="text-align: center;">
+							<b style="font-size: 25px;">Salmos 25:5</b>
+						</div>
+						<div style="width: 100%; margin-top: 50px;">
+							<div style="float: left; width: 50%; text-align: center;">
+								<div class="news_post_body"
+									style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid; padding-left: 10px; padding-right: 10px;">
+									<div class="news_post_date" style="font-size: 18px;">Miercoles</div>
+									<div class="news_post_title"><a href="#">Estudio biblico en linea</a></div>
+									<div class="news_post_author">21:00 hrs.</div>
+								</div>
+							</div>
+							<div style="float: left; width: 50%; text-align: center;">
+								<div class="news_post_body"
+									style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid; padding-left: 10px; padding-right: 10px;">
+									<div class="news_post_date" style="font-size: 18px;">Viernes</div>
+									<div class="news_post_title"><a href="#">Estudio biblico en casa</a></div>
+									<div class="news_post_author">21:00 hrs.</div>
+								</div>
 							</div>
 						</div>
-						<div style="float: left; width: 50%; text-align: center;">
-							<div class="news_post_body" style="background-color: #F1F3F5; padding-top: 30px; padding-bottom: 30px; border: #fff 10px solid; padding-left: 10px; padding-right: 10px;">
-								<div class="news_post_date" style="font-size: 18px;">Viernes</div>
-								<div class="news_post_title"><a href="#">Estudio biblico en casa</a></div>
-								<div class="news_post_author">21:00 hrs.</div>
-							</div>
-						</div>
+
 					</div>
-					
 				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<div class="course_search" style="text-align: center;">
-					<a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button  class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>
-					
-						<!-- <form action="#" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between" style="text-align: center !important;"> -->
-							
+				<div class="row">
+					<div class="col">
+						<div class="course_search" style="text-align: center;">
+							<a id="a_enviar_mensaje_est" href="" target="_blank" onclick="enviar_mensaje();"><button
+									class="course_button"><span>Quiero reunirme</span><span class="button_arrow"><i
+											class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>
+
+							<!-- <form action="#" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between" style="text-align: center !important;"> -->
+
 							<!-- <div><input type="text" class="course_input" placeholder="Course" required="required"></div>
 							<div><input type="text" class="course_input" placeholder="Level" required="required"></div> -->
-							
-						<!-- </form> -->
+
+							<!-- </form> -->
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col">
+				<div class="row">
+					<div class="col">
 
-					<!-- Courses Slider -->
-					<div class="courses_slider_container">
-						<div class="owl-carousel owl-theme courses_slider">
+						<!-- Courses Slider -->
+						<div class="courses_slider_container">
+							<div class="owl-carousel owl-theme courses_slider">
 
-							<!-- Slider Item -->
-							<div class="owl-item">
-								<div class="course">
-									<div class="course_image"><img src="images/destacados/2.png" alt=""></div>
-									<div class="course_body" style="height: 200px; padding-top: 15px;">
+								<!-- Slider Item -->
+								<div class="owl-item">
+									<div class="course">
+										<div class="course_image"><img src="images/destacados/2.png" alt=""></div>
+										<div class="course_body" style="height: 200px; padding-top: 15px;">
 
-										<div class="course_title"><h3><a href="#">Escuela Bíblica Dominical</a></h3></div>
-										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="">Todos los domingos</label><br>
-											<label for="">Hora: 10:30 am</label>
-										</div>
-										
-										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											
-										</div>
-									</div>
-								</div>
-							</div>
+											<div class="course_title">
+												<h3><a href="#">Escuela Bíblica Dominical</a></h3>
+											</div>
+											<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+												<label for="">Todos los domingos</label><br>
+												<label for="">Hora: 10:30 am</label>
+											</div>
 
-							<div class="owl-item">
-								<div class="course">
-									<div class="course_image"><img src="images/destacados/1.png" alt=""></div>
-									<div class="course_body" style="height: 200px; padding-top: 15px;">
+											<div class="course_header d-flex flex-row align-items-center justify-content-start"
+												style="margin-top: 50px;">
 
-										<div class="course_title"><h3><a href="#" id="nom_activ_esp_1">Unión de Jóvenes</a></h3></div>
-										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="" id="detalle_activ_esp1">Todos los domingos</label><br>
-											<label for="">Hora: 05:00 pm</label>
-										</div>
-										
-										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
-							<div class="owl-item">
-								<div class="course">
-									<div class="course_image"><img src="images/destacados/3.png" alt=""></div>
-									<div class="course_body" style="height: 200px; padding-top: 15px;">
+								<div class="owl-item">
+									<div class="course">
+										<div class="course_image"><img src="images/destacados/1.png" alt=""></div>
+										<div class="course_body" style="height: 200px; padding-top: 15px;">
 
-										<div class="course_title"><h3><a href="#">Unión Femenil</a></h3></div>
-										<div class="course_text" style="line-height : 15px; margin-top: 40px;">
-											<label for="">Todos los viernes</label><br>
-											<!-- <label for="">Hora: 19:00 hrs.</label> -->
-										</div>
-										
-										<div class="course_header d-flex flex-row align-items-center justify-content-start" style="margin-top: 50px;">
-											
+											<div class="course_title">
+												<h3><a href="#" id="nom_activ_esp_1">Unión de Jóvenes</a></h3>
+											</div>
+											<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+												<label for="" id="detalle_activ_esp1">Todos los domingos</label><br>
+												<label for="">Hora: 05:00 pm</label>
+											</div>
+
+											<div class="course_header d-flex flex-row align-items-center justify-content-start"
+												style="margin-top: 50px;">
+
+											</div>
 										</div>
 									</div>
 								</div>
+
+								<div class="owl-item">
+									<div class="course">
+										<div class="course_image"><img src="images/destacados/3.png" alt=""></div>
+										<div class="course_body" style="height: 200px; padding-top: 15px;">
+
+											<div class="course_title">
+												<h3><a href="#">Unión Femenil</a></h3>
+											</div>
+											<div class="course_text" style="line-height : 15px; margin-top: 40px;">
+												<label for="">Todos los viernes</label><br>
+												<!-- <label for="">Hora: 19:00 hrs.</label> -->
+											</div>
+
+											<div class="course_header d-flex flex-row align-items-center justify-content-start"
+												style="margin-top: 50px;">
+
+											</div>
+										</div>
+									</div>
+								</div>
+
 							</div>
+
+							<!-- Courses Slider Nav -->
+							<div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left"
+									aria-hidden="true"></i></div>
+							<div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right"
+									aria-hidden="true"></i></div>
 
 						</div>
-
-						<!-- Courses Slider Nav -->
-						<div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-						<div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- <div class="courses">
+		<!-- <div class="courses">
 		<div class="container">
 			 <div class="row">
 				<div class="col-lg-10 offset-lg-1">
@@ -1111,9 +1335,9 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	<!-- Milestones -->
+		<!-- Milestones -->
 
-	<!-- <div class="video" style="padding-top: 50px;">
+		<!-- <div class="video" style="padding-top: 50px;">
 		<div class="container">
 			<div class="row" style="padding-left: 20px;">
 				<b style="font-size: 30px;">Ultima Transmisión</b>
@@ -1138,24 +1362,24 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	
 
 
 
 
-	
 
-	
 
-	<!-- Sections -->
-	<?php if (si_vis('calendario')): ?>
-	<div class="grouped_sections">
-		<div class="container">
-			<div class="row">
 
-				<!-- Why Choose Us -->
 
-				<!-- <div class="col-lg-4 grouped_col">
+
+		<!-- Sections -->
+		<?php if (si_vis('calendario')): ?>
+			<div class="grouped_sections">
+				<div class="container">
+					<div class="row">
+
+						<!-- Why Choose Us -->
+
+						<!-- <div class="col-lg-4 grouped_col">
 					<div class="grouped_title">Why Choose Us?</div>
 					<div class="accordions">
 
@@ -1199,63 +1423,58 @@ Y todo lo que hace, prosperará</p>
 
 				</div> -->
 
-				<!-- Events -->
+						<!-- Events -->
 
-				<div class="col-lg-6 grouped_col">
-					<div class="grouped_title">Calendario 2026</div>
-					<div class="events" id="box_calendario">
+						<div class="col-lg-6 grouped_col">
+							<div class="grouped_title">Calendario 2026</div>
+							<div class="events" id="box_calendario">
 
-						
 
-					</div>
-				</div>
 
-				<!-- News -->
+							</div>
+						</div>
 
-				<div class="col-lg-6 grouped_col">
-					<div class="grouped_title">Predicaciones</div>
-					<div class="news">
+						<!-- News -->
 
-						<!-- Mostrar las últimas dos predicacines -->
-						<?php
-							//info del servidor
-							require_once('config/global.php');
-							$connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+						<div class="col-lg-6 grouped_col">
+							<div class="grouped_title">Predicaciones</div>
+							<div class="news">
 
-							//verificamos la conexion
-							if(!$connection) 
-							{
-								echo "<p>Error al conectarse a la base de datos. Código de error: " .  mysqli_connect_errno() . " " .  mysqli_connect_error() . "</p>";
-							}
-							else
-							{
-								//consulta
-								$consulta = "SELECT * FROM sermones ORDER BY idsermones DESC LIMIT 2;";
-								$result = mysqli_query($connection,$consulta);
-								$error_message = mysqli_error($connection);
-								if(!$result) 
-								{
-									echo "<p>No se ha podido realizar la consulta</p>" . " " . $error_message;
-								}else{
-									while ($colum = mysqli_fetch_array($result))
-									{
-										echo "<div class='news_post d-flex flex-row align-items-start justify-content-start'>";
-										echo "<div><div class='news_post_image'><img src='" . $colum['imagen'] . "' alt=''></div></div>";
-										echo "<div class='news_post_body'>";
-										echo "<div class='news_post_date'>" . $colum['fecha_eti'] . "</div>";
-										echo "<div class='news_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "'>" . $colum['nom_sermon'] . "</a></div>";
-										echo "<div class='news_post_author'>" . $colum['predicador'] . "</div>";
-										echo "</div></div>";
+								<!-- Mostrar las últimas dos predicacines -->
+								<?php
+								//info del servidor
+								require_once('config/global.php');
+								$connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+								//verificamos la conexion
+								if (!$connection) {
+									echo "<p>Error al conectarse a la base de datos. Código de error: " . mysqli_connect_errno() . " " . mysqli_connect_error() . "</p>";
+								} else {
+									//consulta
+									$consulta = "SELECT * FROM sermones ORDER BY idsermones DESC LIMIT 2;";
+									$result = mysqli_query($connection, $consulta);
+									$error_message = mysqli_error($connection);
+									if (!$result) {
+										echo "<p>No se ha podido realizar la consulta</p>" . " " . $error_message;
+									} else {
+										while ($colum = mysqli_fetch_array($result)) {
+											echo "<div class='news_post d-flex flex-row align-items-start justify-content-start'>";
+											echo "<div><div class='news_post_image'><img src='" . $colum['imagen'] . "' alt=''></div></div>";
+											echo "<div class='news_post_body'>";
+											echo "<div class='news_post_date'>" . $colum['fecha_eti'] . "</div>";
+											echo "<div class='news_post_title'><a href='blog.php?id=" . $colum['idsermones'] . "'>" . $colum['nom_sermon'] . "</a></div>";
+											echo "<div class='news_post_author'>" . $colum['predicador'] . "</div>";
+											echo "</div></div>";
+										}
 									}
+
+									//cerrar la conexion con la base de datos
+									mysqli_close($connection);
 								}
+								?>
 
-								//cerrar la conexion con la base de datos
-								mysqli_close( $connection );
-							}
-						?>
-
-						<!-- News Post -->
-						<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
+								<!-- News Post -->
+								<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
 							<div><div class="news_post_image"><img src="images/predicaciones/1.png" alt=""></div></div>
 							<div class="news_post_body">
 								<div class="news_post_date">Enero 06, 2022</div>
@@ -1264,8 +1483,8 @@ Y todo lo que hace, prosperará</p>
 							</div>
 						</div> -->
 
-						<!-- News Post -->
-						<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
+								<!-- News Post -->
+								<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
 							<div><div class="news_post_image"><img src="images/predicaciones/2.png" alt=""></div></div>
 							<div class="news_post_body">
 								<div class="news_post_date">Diciembre 29, 2021</div>
@@ -1275,7 +1494,7 @@ Y todo lo que hace, prosperará</p>
 						</div> -->
 
 
-						<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
+								<!-- <div class="news_post d-flex flex-row align-items-start justify-content-start">
 							<div><div class="news_post_image"><img src="images/news_3.jpg" alt="https://unsplash.com/@rawpixel"></div></div>
 							<div class="news_post_body">
 								<div class="news_post_date">April 02, 2018</div>
@@ -1294,47 +1513,51 @@ Y todo lo que hace, prosperará</p>
 							</div>
 						</div> -->
 
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<?php endif; /* calendario */ ?>
+		<?php endif; /* calendario */ ?>
 
-	<?php if (si_vis('oracion')): ?>
-	<section class="orar-section">
-		<div class="container orar-container">
-			<div class="orar-info">
-				<div class="orar-eyebrow">Ministerio de Oración</div>
-				<h2 class="orar-title">Nos gustaría orar<br>por usted</h2>
-				<div class="orar-divider"></div>
-				<p class="orar-desc">Querido hermano, si tiene algún motivo de oración, con todo cariño le invitamos a dejarnos su petición. Estaremos orando por usted con fe y amor.</p>
-				<p class="orar-verse">"Oren en todo momento en el Espíritu,<br>con toda oración y súplica."<br><em>— Efesios 6:18</em></p>
-			</div>
-			<div class="orar-form-panel">
-				<form class="orar-form">
-					<div class="orar-field">
-						<input id="nombre_peticion" type="text" class="orar-input" placeholder="Su nombre" required>
+		<?php if (si_vis('oracion')): ?>
+			<section class="orar-section">
+				<div class="container orar-container">
+					<div class="orar-info">
+						<div class="orar-eyebrow">Ministerio de Oración</div>
+						<h2 class="orar-title">Nos gustaría orar<br>por usted</h2>
+						<div class="orar-divider"></div>
+						<p class="orar-desc">Querido hermano, si tiene algún motivo de oración, con todo cariño le invitamos
+							a dejarnos su petición. Estaremos orando por usted con fe y amor.</p>
+						<p class="orar-verse">"Oren en todo momento en el Espíritu,<br>con toda oración y súplica."<br><em>—
+								Efesios 6:18</em></p>
 					</div>
-					<div class="orar-field">
-						<input id="telefono_peticion" type="text" class="orar-input" placeholder="Teléfono (opcional)">
+					<div class="orar-form-panel">
+						<form class="orar-form">
+							<div class="orar-field">
+								<input id="nombre_peticion" type="text" class="orar-input" placeholder="Su nombre" required>
+							</div>
+							<div class="orar-field">
+								<input id="telefono_peticion" type="text" class="orar-input"
+									placeholder="Teléfono (opcional)">
+							</div>
+							<div class="orar-field">
+								<textarea id="motivo_peticion" class="orar-input orar-textarea"
+									placeholder="Motivo de oración" required></textarea>
+							</div>
+							<div class="orar-field orar-submit-row">
+								<button type="button" class="orar-btn" onclick="guardar_motivo();">
+									<span>Enviar petición</span>
+									<i class="fa fa-paper-plane" aria-hidden="true"></i>
+								</button>
+							</div>
+						</form>
 					</div>
-					<div class="orar-field">
-						<textarea id="motivo_peticion" class="orar-input orar-textarea" placeholder="Motivo de oración" required></textarea>
-					</div>
-					<div class="orar-field orar-submit-row">
-						<button type="button" class="orar-btn" onclick="guardar_motivo();">
-							<span>Enviar petición</span>
-							<i class="fa fa-paper-plane" aria-hidden="true"></i>
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</section>
-	<?php endif; /* oracion */ ?>
+				</div>
+			</section>
+		<?php endif; /* oracion */ ?>
 
-	<!-- <div class="milestones">
+		<!-- <div class="milestones">
 		
 		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="https://res.cloudinary.com/dmtvvrw4s/image/upload/v1698130035/paginaWeb/Inicial/lsuiguuvwbvynfqlrf1c.png" data-speed="0.8"></div>
 		<div class="container">
@@ -1369,10 +1592,10 @@ Y todo lo que hace, prosperará</p>
 		</div>
 	</div> -->
 
-	
 
-	<!-- Join -->
-<!-- 
+
+		<!-- Join -->
+		<!-- 
 	<div class="join" style="padding-bottom: 20px;" id="notif">
 		<div class="container">
 			<div class="row">
@@ -1408,301 +1631,325 @@ Y todo lo que hace, prosperará</p>
 
 	
 		 -->
-		
-	
 
-<!-- ── Secciones personalizadas ───────────────────────────────── -->
-<?php if (!empty($_secciones_custom)): ?>
-<?php foreach ($_secciones_custom as $_sc):
-    $sc_oscuro  = (bool)$_sc['fondo_oscuro'];
-    $sc_bg      = $sc_oscuro ? '#0d1b2a' : '#f8f7f4';
-    $sc_color   = $sc_oscuro ? '#fff'    : '#333';
-    $sc_eyecolor= '#e07b39';
-    $sc_estilo  = htmlspecialchars($_sc['estilo'] ?: 'centrado');
-    $sc_img     = htmlspecialchars($_sc['imagen_url'] ?? '');
-    $sc_eyebrow = htmlspecialchars($_sc['eyebrow']   ?? '');
-    $sc_titulo  = htmlspecialchars($_sc['titulo']    ?? '');
-    $sc_texto   = nl2br(htmlspecialchars($_sc['texto'] ?? ''));
-    $sc_btn_t   = htmlspecialchars($_sc['btn_texto'] ?? '');
-    $sc_btn_u   = htmlspecialchars($_sc['btn_url']   ?? '');
-?>
-<section class="sc-custom sc-custom--<?php echo $sc_estilo; ?>"
-         style="background:<?php echo $sc_bg; ?>;color:<?php echo $sc_color; ?>;">
-<?php if ($sc_estilo === 'centrado'): ?>
-    <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-                <?php if ($sc_eyebrow): ?><p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;"><?php echo $sc_eyebrow; ?></p><?php endif; ?>
-                <?php if ($sc_titulo):  ?><h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
-                <?php if ($sc_img):     ?><img src="<?php echo $sc_img; ?>" class="sc-custom__img--centrado" alt=""><?php endif; ?>
-                <?php if ($sc_texto):   ?><p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
-                <?php if ($sc_btn_t):   ?><a href="<?php echo $sc_btn_u ?: '#'; ?>" class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
-            </div>
-        </div>
-    </div>
-<?php elseif ($sc_estilo === 'split-izq'): ?>
-    <div class="container">
-        <div class="sc-custom__split">
-            <div class="sc-custom__split-img">
-                <?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" alt=""><?php endif; ?>
-            </div>
-            <div class="sc-custom__split-body">
-                <?php if ($sc_eyebrow): ?><p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;"><?php echo $sc_eyebrow; ?></p><?php endif; ?>
-                <?php if ($sc_titulo):  ?><h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
-                <?php if ($sc_texto):   ?><p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
-                <?php if ($sc_btn_t):   ?><a href="<?php echo $sc_btn_u ?: '#'; ?>" class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
-            </div>
-        </div>
-    </div>
-<?php else: /* split-der */ ?>
-    <div class="container">
-        <div class="sc-custom__split sc-custom__split--rev">
-            <div class="sc-custom__split-body">
-                <?php if ($sc_eyebrow): ?><p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;"><?php echo $sc_eyebrow; ?></p><?php endif; ?>
-                <?php if ($sc_titulo):  ?><h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
-                <?php if ($sc_texto):   ?><p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
-                <?php if ($sc_btn_t):   ?><a href="<?php echo $sc_btn_u ?: '#'; ?>" class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
-            </div>
-            <div class="sc-custom__split-img">
-                <?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" alt=""><?php endif; ?>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-</section>
-<?php endforeach; endif; ?>
 
-<!-- ── Banner: instalar la app ────────────────────────────────── -->
-<section class="app-promo-banner">
-	<div class="container">
-		<div class="app-promo-inner">
-			<img src="images/icons/icon-192.png" alt="Ícono de la app PIBG" class="app-promo-icon">
-			<div class="app-promo-text">
-				<div class="app-promo-title">Lleva la Iglesia en tu bolsillo</div>
-				<div class="app-promo-desc">Instala nuestra app gratis y ten a la mano predicaciones, el calendario de actividades y todas las noticias, directo desde tu celular.</div>
+
+		<!-- ── Secciones personalizadas ───────────────────────────────── -->
+		<?php if (!empty($_secciones_custom)): ?>
+			<?php foreach ($_secciones_custom as $_sc):
+				$sc_oscuro = (bool) $_sc['fondo_oscuro'];
+				$sc_bg = $sc_oscuro ? '#0d1b2a' : '#f8f7f4';
+				$sc_color = $sc_oscuro ? '#fff' : '#333';
+				$sc_eyecolor = '#e07b39';
+				$sc_estilo = htmlspecialchars($_sc['estilo'] ?: 'centrado');
+				$sc_img = htmlspecialchars($_sc['imagen_url'] ?? '');
+				$sc_eyebrow = htmlspecialchars($_sc['eyebrow'] ?? '');
+				$sc_titulo = htmlspecialchars($_sc['titulo'] ?? '');
+				$sc_texto = nl2br(htmlspecialchars($_sc['texto'] ?? ''));
+				$sc_btn_t = htmlspecialchars($_sc['btn_texto'] ?? '');
+				$sc_btn_u = htmlspecialchars($_sc['btn_url'] ?? '');
+				?>
+				<section class="sc-custom sc-custom--<?php echo $sc_estilo; ?>"
+					style="background:<?php echo $sc_bg; ?>;color:<?php echo $sc_color; ?>;">
+					<?php if ($sc_estilo === 'centrado'): ?>
+						<div class="container">
+							<div class="row justify-content-center text-center">
+								<div class="col-lg-8">
+									<?php if ($sc_eyebrow): ?>
+										<p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;">
+											<?php echo $sc_eyebrow; ?></p><?php endif; ?>
+									<?php if ($sc_titulo): ?>
+										<h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
+									<?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" class="sc-custom__img--centrado"
+											alt=""><?php endif; ?>
+									<?php if ($sc_texto): ?>
+										<p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
+									<?php if ($sc_btn_t): ?><a href="<?php echo $sc_btn_u ?: '#'; ?>"
+											class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
+								</div>
+							</div>
+						</div>
+					<?php elseif ($sc_estilo === 'split-izq'): ?>
+						<div class="container">
+							<div class="sc-custom__split">
+								<div class="sc-custom__split-img">
+									<?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" alt=""><?php endif; ?>
+								</div>
+								<div class="sc-custom__split-body">
+									<?php if ($sc_eyebrow): ?>
+										<p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;">
+											<?php echo $sc_eyebrow; ?></p><?php endif; ?>
+									<?php if ($sc_titulo): ?>
+										<h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
+									<?php if ($sc_texto): ?>
+										<p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
+									<?php if ($sc_btn_t): ?><a href="<?php echo $sc_btn_u ?: '#'; ?>"
+											class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
+								</div>
+							</div>
+						</div>
+					<?php else: /* split-der */ ?>
+						<div class="container">
+							<div class="sc-custom__split sc-custom__split--rev">
+								<div class="sc-custom__split-body">
+									<?php if ($sc_eyebrow): ?>
+										<p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;">
+											<?php echo $sc_eyebrow; ?></p><?php endif; ?>
+									<?php if ($sc_titulo): ?>
+										<h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
+									<?php if ($sc_texto): ?>
+										<p class="sc-custom__text"><?php echo $sc_texto; ?></p><?php endif; ?>
+									<?php if ($sc_btn_t): ?><a href="<?php echo $sc_btn_u ?: '#'; ?>"
+											class="sc-custom__btn"><?php echo $sc_btn_t; ?></a><?php endif; ?>
+								</div>
+								<div class="sc-custom__split-img">
+									<?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" alt=""><?php endif; ?>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+				</section>
+			<?php endforeach; endif; ?>
+
+		<!-- ── Banner: instalar la app ────────────────────────────────── -->
+		<section class="app-promo-banner">
+			<div class="container">
+				<div class="app-promo-inner">
+					<img src="images/icons/icon-192.png" alt="Ícono de la app PIBG" class="app-promo-icon">
+					<div class="app-promo-text">
+						<div class="app-promo-title">Mantente actualizado en todo momento</div>
+						<div class="app-promo-desc">Instala nuestra app gratis y ten a la mano predicaciones, el
+							calendario de actividades y todas las noticias, directo desde tu celular.</div>
+					</div>
+					<a href="descarga-app.php" class="app-promo-btn">
+						<i class="fa fa-download" aria-hidden="true"></i> Instalar la App
+					</a>
+				</div>
 			</div>
-			<a href="descarga-app.php" class="app-promo-btn">
-				<i class="fa fa-download" aria-hidden="true"></i> Instalar la App
-			</a>
+		</section>
+		<!-- ── /Banner: instalar la app ───────────────────────────────── -->
+
+		<!-- Footer -->
+		<!-- <button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button> -->
+		<?php
+		require('footer.php');
+		?>
+
+	</div>
+	<?php
+	if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
+		$mbv_tiene_sel = (int) ($_mbv_cfg['tiene_selector'] ?? 0);
+		$mbv_tipo_dir = $_mbv_cfg['tipo_directo'] ?? '';
+		$mbv_url_dir = $_mbv_cfg['url_directo'] ?? '';
+		$mbv_opciones = @json_decode($_mbv_cfg['opciones'] ?? '[]', true) ?: [];
+		?>
+		<!-- ===================== MODAL BIENVENIDA ===================== -->
+
+
+		<div id="mbv_overlay">
+			<div id="mbv_box">
+				<div id="mbv_header">
+					<button id="mbv_close_btn" title="Cerrar">&times;</button>
+					<h3><?php echo htmlspecialchars($_mbv_cfg['titulo'] ?? ''); ?></h3>
+				</div>
+
+				<?php if (!empty($_mbv_cfg['mensaje'])): ?>
+					<p id="mbv_mensaje"><?php echo htmlspecialchars($_mbv_cfg['mensaje']); ?></p>
+				<?php endif; ?>
+
+				<?php if ($mbv_tiene_sel && !empty($mbv_opciones)): ?>
+					<div id="mbv_selector">
+						<div class="mbv_lang_grid">
+							<?php foreach ($mbv_opciones as $op):
+								$op_tipo = htmlspecialchars($op['tipo'] ?? 'texto');
+								$op_url = htmlspecialchars($op['url'] ?? '');
+								$op_label = htmlspecialchars($op['label'] ?? '');
+								$op_emoji = htmlspecialchars($op['emoji'] ?? '');
+								?>
+								<button class="mbv_lang_btn" data-tipo="<?php echo $op_tipo; ?>" data-url="<?php echo $op_url; ?>"
+									data-label="<?php echo $op_label; ?>">
+									<?php if ($op_emoji): ?><span><?php echo $op_emoji; ?></span><?php endif; ?>
+									<?php echo $op_label; ?>
+								</button>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<div id="mbv_topbar">
+					<button id="mbv_back_btn">&#8592; Volver</button>
+					<span id="mbv_sel_label"></span>
+				</div>
+
+				<div id="mbv_video_wrap">
+					<iframe id="mbv_iframe" allowfullscreen allow="autoplay;encrypted-media"></iframe>
+					<video id="mbv_video_el" controls></video>
+					<div id="mbv_vid_overlay" class="mbv_vid_hidden">
+						<div class="mbv_play_icon">
+							<div class="mbv_play_triangle"></div>
+						</div>
+					</div>
+				</div>
+
+				<div id="mbv_img_area">
+					<img id="mbv_img" src="" alt="">
+				</div>
+
+				<div id="mbv_no_media">
+					<p style="margin:0;">Contenido próximamente disponible.</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="mbv_float_btn">
+			<span id="mbv_click_hint">Click here</span>
+			<button onclick="mbv_open();"><i class="fa fa-globe"></i> Welcome</button>
+		</div>
+
+		<script>
+			(function () {
+				var MBV = {
+					tiene_sel: <?php echo $mbv_tiene_sel; ?>,
+					tipo_dir: <?php echo json_encode($mbv_tipo_dir); ?>,
+					url_dir: <?php echo json_encode($mbv_url_dir); ?>
+				};
+
+				var overlay = document.getElementById('mbv_overlay');
+				var iframe = document.getElementById('mbv_iframe');
+				var videoEl = document.getElementById('mbv_video_el');
+				var videoWrap = document.getElementById('mbv_video_wrap');
+				var imgArea = document.getElementById('mbv_img_area');
+				var imgEl = document.getElementById('mbv_img');
+				var noMedia = document.getElementById('mbv_no_media');
+				var vidOverlay = document.getElementById('mbv_vid_overlay');
+				var topbar = document.getElementById('mbv_topbar');
+				var selector = document.getElementById('mbv_selector');
+				var mensaje = document.getElementById('mbv_mensaje');
+				var selLabel = document.getElementById('mbv_sel_label');
+				var mbv_pending = null;
+
+				function mbv_resolve(url) {
+					url = (url || '').trim();
+					if (!url) return null;
+					var yt = url.match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+					if (yt) return { type: 'iframe', src: 'https://www.youtube.com/embed/' + yt[1] + '?rel=0' };
+					if (/youtube(?:-nocookie)?\.com\/embed\//.test(url)) return { type: 'iframe', src: url };
+					var vim = url.match(/vimeo\.com\/(\d+)/);
+					if (vim) return { type: 'iframe', src: 'https://player.vimeo.com/video/' + vim[1] };
+					if (/player\.vimeo\.com\/video\//.test(url)) return { type: 'iframe', src: url };
+					if (/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(url)) return { type: 'video', src: url };
+					return { type: 'iframe', src: url };
+				}
+
+				function mbv_reset_media() {
+					mbv_pending = null;
+					iframe.src = ''; iframe.style.display = 'none';
+					videoEl.pause(); videoEl.removeAttribute('src'); videoEl.style.display = 'none';
+					videoWrap.style.display = 'none';
+					imgEl.src = ''; imgArea.style.display = 'none';
+					noMedia.style.display = 'none';
+					vidOverlay.classList.add('mbv_vid_hidden');
+				}
+
+				function mbv_show_content(tipo, url) {
+					mbv_reset_media();
+					if (tipo === 'video') {
+						var r = mbv_resolve(url);
+						if (r) {
+							mbv_pending = r;
+							videoWrap.style.display = 'block';
+							if (r.type === 'video') { videoEl.src = r.src; videoEl.style.display = 'block'; }
+							else { iframe.style.display = 'block'; }
+							vidOverlay.classList.remove('mbv_vid_hidden');
+						} else { noMedia.style.display = 'block'; }
+					} else if (tipo === 'imagen') {
+						if (url) { imgEl.src = url; imgArea.style.display = 'block'; }
+						else { noMedia.style.display = 'block'; }
+					}
+					// tipo '' o 'texto': no muestra media
+				}
+
+				vidOverlay.addEventListener('click', function () {
+					vidOverlay.classList.add('mbv_vid_hidden');
+					if (!mbv_pending) return;
+					if (mbv_pending.type === 'video') {
+						videoEl.play();
+					} else {
+						var sep = mbv_pending.src.indexOf('?') !== -1 ? '&' : '?';
+						iframe.src = mbv_pending.src + sep + 'autoplay=1';
+					}
+				});
+
+				function mbv_open() {
+					if (topbar) topbar.style.display = 'none';
+					if (selector) selector.style.display = 'block';
+					if (mensaje) mensaje.style.display = 'block';
+					mbv_reset_media();
+					if (!MBV.tiene_sel && MBV.tipo_dir) mbv_show_content(MBV.tipo_dir, MBV.url_dir);
+					overlay.classList.add('mbv_active');
+				}
+				window.mbv_open = mbv_open;
+
+				function mbv_close() {
+					overlay.classList.remove('mbv_active');
+					mbv_reset_media();
+				}
+
+				document.getElementById('mbv_close_btn').addEventListener('click', mbv_close);
+				overlay.addEventListener('click', function (e) { if (e.target === overlay) mbv_close(); });
+				document.addEventListener('keydown', function (e) { if (e.key === 'Escape') mbv_close(); });
+
+				document.querySelectorAll('.mbv_lang_btn').forEach(function (btn) {
+					btn.addEventListener('click', function () {
+						var tipo = this.getAttribute('data-tipo') || 'texto';
+						var url = this.getAttribute('data-url') || '';
+						var label = this.getAttribute('data-label') || '';
+						if (selector) selector.style.display = 'none';
+						if (mensaje) mensaje.style.display = 'none';
+						if (topbar) topbar.style.display = 'flex';
+						if (selLabel) selLabel.textContent = label;
+						mbv_show_content(tipo, url);
+					});
+				});
+
+				var backBtn = document.getElementById('mbv_back_btn');
+				if (backBtn) backBtn.addEventListener('click', function () {
+					mbv_reset_media();
+					if (topbar) topbar.style.display = 'none';
+					if (selector) selector.style.display = 'block';
+					if (mensaje) mensaje.style.display = 'block';
+				});
+
+				window.addEventListener('load', mbv_open);
+			}());
+		</script>
+		<!-- =================== FIN MODAL BIENVENIDA =================== -->
+	<?php endif; ?>
+
+	<!-- Modal: video del banner -->
+	<div class="modal fade" id="modal_video_banner" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+			<div class="modal-content" style="background:#000;border:none;">
+				<div class="modal-header" style="border:none;padding:8px 16px;">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"
+						style="color:#fff;opacity:1;font-size:28px;">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="padding:0;">
+					<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+						<iframe id="modal_video_banner_src" src="" frameborder="0"
+							allow="autoplay; encrypted-media; fullscreen" allowfullscreen
+							style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-</section>
-<!-- ── /Banner: instalar la app ───────────────────────────────── -->
 
-<!-- Footer -->
-<!-- <button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button> -->
-<?php
-	require('footer.php');
-?>
-
-</div>
-<?php
-if (!empty($_mbv_cfg) && $_mbv_cfg['habilitado'] == 1):
-    $mbv_tiene_sel = (int)($_mbv_cfg['tiene_selector'] ?? 0);
-    $mbv_tipo_dir  = $_mbv_cfg['tipo_directo'] ?? '';
-    $mbv_url_dir   = $_mbv_cfg['url_directo']  ?? '';
-    $mbv_opciones  = @json_decode($_mbv_cfg['opciones'] ?? '[]', true) ?: [];
-?>
-<!-- ===================== MODAL BIENVENIDA ===================== -->
-
-
-<div id="mbv_overlay">
-  <div id="mbv_box">
-    <div id="mbv_header">
-      <button id="mbv_close_btn" title="Cerrar">&times;</button>
-      <h3><?php echo htmlspecialchars($_mbv_cfg['titulo'] ?? ''); ?></h3>
-    </div>
-
-    <?php if (!empty($_mbv_cfg['mensaje'])): ?>
-    <p id="mbv_mensaje"><?php echo htmlspecialchars($_mbv_cfg['mensaje']); ?></p>
-    <?php endif; ?>
-
-    <?php if ($mbv_tiene_sel && !empty($mbv_opciones)): ?>
-    <div id="mbv_selector">
-      <div class="mbv_lang_grid">
-        <?php foreach ($mbv_opciones as $op):
-            $op_tipo  = htmlspecialchars($op['tipo']  ?? 'texto');
-            $op_url   = htmlspecialchars($op['url']   ?? '');
-            $op_label = htmlspecialchars($op['label'] ?? '');
-            $op_emoji = htmlspecialchars($op['emoji'] ?? '');
-        ?>
-        <button class="mbv_lang_btn" data-tipo="<?php echo $op_tipo; ?>" data-url="<?php echo $op_url; ?>" data-label="<?php echo $op_label; ?>">
-            <?php if ($op_emoji): ?><span><?php echo $op_emoji; ?></span><?php endif; ?>
-            <?php echo $op_label; ?>
-        </button>
-        <?php endforeach; ?>
-      </div>
-    </div>
-    <?php endif; ?>
-
-    <div id="mbv_topbar">
-      <button id="mbv_back_btn">&#8592; Volver</button>
-      <span id="mbv_sel_label"></span>
-    </div>
-
-    <div id="mbv_video_wrap">
-      <iframe id="mbv_iframe" allowfullscreen allow="autoplay;encrypted-media"></iframe>
-      <video id="mbv_video_el" controls></video>
-      <div id="mbv_vid_overlay" class="mbv_vid_hidden">
-        <div class="mbv_play_icon"><div class="mbv_play_triangle"></div></div>
-      </div>
-    </div>
-
-    <div id="mbv_img_area">
-      <img id="mbv_img" src="" alt="">
-    </div>
-
-    <div id="mbv_no_media"><p style="margin:0;">Contenido próximamente disponible.</p></div>
-  </div>
-</div>
-
-<div id="mbv_float_btn">
-  <span id="mbv_click_hint">Click here</span>
-  <button onclick="mbv_open();"><i class="fa fa-globe"></i> Welcome</button>
-</div>
-
-<script>
-(function () {
-    var MBV = {
-        tiene_sel: <?php echo $mbv_tiene_sel; ?>,
-        tipo_dir:  <?php echo json_encode($mbv_tipo_dir); ?>,
-        url_dir:   <?php echo json_encode($mbv_url_dir); ?>
-    };
-
-    var overlay    = document.getElementById('mbv_overlay');
-    var iframe     = document.getElementById('mbv_iframe');
-    var videoEl    = document.getElementById('mbv_video_el');
-    var videoWrap  = document.getElementById('mbv_video_wrap');
-    var imgArea    = document.getElementById('mbv_img_area');
-    var imgEl      = document.getElementById('mbv_img');
-    var noMedia    = document.getElementById('mbv_no_media');
-    var vidOverlay = document.getElementById('mbv_vid_overlay');
-    var topbar     = document.getElementById('mbv_topbar');
-    var selector   = document.getElementById('mbv_selector');
-    var mensaje    = document.getElementById('mbv_mensaje');
-    var selLabel   = document.getElementById('mbv_sel_label');
-    var mbv_pending = null;
-
-    function mbv_resolve(url) {
-        url = (url || '').trim();
-        if (!url) return null;
-        var yt = url.match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-        if (yt) return { type:'iframe', src:'https://www.youtube.com/embed/'+yt[1]+'?rel=0' };
-        if (/youtube(?:-nocookie)?\.com\/embed\//.test(url)) return { type:'iframe', src:url };
-        var vim = url.match(/vimeo\.com\/(\d+)/);
-        if (vim) return { type:'iframe', src:'https://player.vimeo.com/video/'+vim[1] };
-        if (/player\.vimeo\.com\/video\//.test(url)) return { type:'iframe', src:url };
-        if (/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(url)) return { type:'video', src:url };
-        return { type:'iframe', src:url };
-    }
-
-    function mbv_reset_media() {
-        mbv_pending = null;
-        iframe.src = ''; iframe.style.display = 'none';
-        videoEl.pause(); videoEl.removeAttribute('src'); videoEl.style.display = 'none';
-        videoWrap.style.display = 'none';
-        imgEl.src = ''; imgArea.style.display = 'none';
-        noMedia.style.display = 'none';
-        vidOverlay.classList.add('mbv_vid_hidden');
-    }
-
-    function mbv_show_content(tipo, url) {
-        mbv_reset_media();
-        if (tipo === 'video') {
-            var r = mbv_resolve(url);
-            if (r) {
-                mbv_pending = r;
-                videoWrap.style.display = 'block';
-                if (r.type === 'video') { videoEl.src = r.src; videoEl.style.display = 'block'; }
-                else { iframe.style.display = 'block'; }
-                vidOverlay.classList.remove('mbv_vid_hidden');
-            } else { noMedia.style.display = 'block'; }
-        } else if (tipo === 'imagen') {
-            if (url) { imgEl.src = url; imgArea.style.display = 'block'; }
-            else { noMedia.style.display = 'block'; }
-        }
-        // tipo '' o 'texto': no muestra media
-    }
-
-    vidOverlay.addEventListener('click', function () {
-        vidOverlay.classList.add('mbv_vid_hidden');
-        if (!mbv_pending) return;
-        if (mbv_pending.type === 'video') {
-            videoEl.play();
-        } else {
-            var sep = mbv_pending.src.indexOf('?') !== -1 ? '&' : '?';
-            iframe.src = mbv_pending.src + sep + 'autoplay=1';
-        }
-    });
-
-    function mbv_open() {
-        if (topbar)   topbar.style.display   = 'none';
-        if (selector) selector.style.display = 'block';
-        if (mensaje)  mensaje.style.display  = 'block';
-        mbv_reset_media();
-        if (!MBV.tiene_sel && MBV.tipo_dir) mbv_show_content(MBV.tipo_dir, MBV.url_dir);
-        overlay.classList.add('mbv_active');
-    }
-    window.mbv_open = mbv_open;
-
-    function mbv_close() {
-        overlay.classList.remove('mbv_active');
-        mbv_reset_media();
-    }
-
-    document.getElementById('mbv_close_btn').addEventListener('click', mbv_close);
-    overlay.addEventListener('click', function (e) { if (e.target === overlay) mbv_close(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') mbv_close(); });
-
-    document.querySelectorAll('.mbv_lang_btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var tipo  = this.getAttribute('data-tipo')  || 'texto';
-            var url   = this.getAttribute('data-url')   || '';
-            var label = this.getAttribute('data-label') || '';
-            if (selector) selector.style.display = 'none';
-            if (mensaje)  mensaje.style.display  = 'none';
-            if (topbar)   topbar.style.display   = 'flex';
-            if (selLabel) selLabel.textContent   = label;
-            mbv_show_content(tipo, url);
-        });
-    });
-
-    var backBtn = document.getElementById('mbv_back_btn');
-    if (backBtn) backBtn.addEventListener('click', function () {
-        mbv_reset_media();
-        if (topbar)   topbar.style.display   = 'none';
-        if (selector) selector.style.display = 'block';
-        if (mensaje)  mensaje.style.display  = 'block';
-    });
-
-    window.addEventListener('load', mbv_open);
-}());
-</script>
-<!-- =================== FIN MODAL BIENVENIDA =================== -->
-<?php endif; ?>
-
-<!-- Modal: video del banner -->
-<div class="modal fade" id="modal_video_banner" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content" style="background:#000;border:none;">
-      <div class="modal-header" style="border:none;padding:8px 16px;">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" style="color:#fff;opacity:1;font-size:28px;">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="padding:0;">
-        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-          <iframe id="modal_video_banner_src" src="" frameborder="0"
-            allow="autoplay; encrypted-media; fullscreen" allowfullscreen
-            style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script type="text/javascript" src="scripts/index.js?v=<?php echo(rand()); ?>"></script>
-<script src="js/bootbox.js"></script>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script type="text/javascript" src="scripts/index.js?v=<?php echo (rand()); ?>"></script>
+	<script src="js/bootbox.js"></script>
 </body>
+
 </html>
