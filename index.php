@@ -526,7 +526,8 @@ function si_vis($clave)
 		<section class="app-notif-browser-banner" id="app_notif_browser_banner">
 			<div class="app-notif-browser-inner">
 				<p class="app-notif-browser-text">No te pierdas ningún anuncio, actividad o predicación nueva.</p>
-				<button type="button" class="app-notif-browser-btn" onclick="app_notif_browser_click()">
+				<button style="margin-top: 30px;" type="button" class="app-notif-browser-btn"
+					onclick="app_notif_browser_click()">
 					<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
 				</button>
 			</div>
@@ -1676,7 +1677,8 @@ Y todo lo que hace, prosperará</p>
 								<div class="col-lg-8">
 									<?php if ($sc_eyebrow): ?>
 										<p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;">
-											<?php echo $sc_eyebrow; ?></p><?php endif; ?>
+											<?php echo $sc_eyebrow; ?>
+										</p><?php endif; ?>
 									<?php if ($sc_titulo): ?>
 										<h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
 									<?php if ($sc_img): ?><img src="<?php echo $sc_img; ?>" class="sc-custom__img--centrado"
@@ -1697,7 +1699,8 @@ Y todo lo que hace, prosperará</p>
 								<div class="sc-custom__split-body">
 									<?php if ($sc_eyebrow): ?>
 										<p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;">
-											<?php echo $sc_eyebrow; ?></p><?php endif; ?>
+											<?php echo $sc_eyebrow; ?>
+										</p><?php endif; ?>
 									<?php if ($sc_titulo): ?>
 										<h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
 									<?php if ($sc_texto): ?>
@@ -1713,7 +1716,8 @@ Y todo lo que hace, prosperará</p>
 								<div class="sc-custom__split-body">
 									<?php if ($sc_eyebrow): ?>
 										<p class="sc-custom__eyebrow" style="color:<?php echo $sc_eyecolor; ?>;">
-											<?php echo $sc_eyebrow; ?></p><?php endif; ?>
+											<?php echo $sc_eyebrow; ?>
+										</p><?php endif; ?>
 									<?php if ($sc_titulo): ?>
 										<h2 class="sc-custom__title"><?php echo $sc_titulo; ?></h2><?php endif; ?>
 									<?php if ($sc_texto): ?>
@@ -1757,7 +1761,8 @@ Y todo lo que hace, prosperará</p>
 					</div>
 					<div class="app-promo-text">
 						<div class="app-promo-title">No te pierdas ningún anuncio</div>
-						<div class="app-promo-desc">Activa las notificaciones y entérate al instante de nuevas actividades, predicaciones y avisos importantes.</div>
+						<div class="app-promo-desc">Activa las notificaciones y entérate al instante de nuevas
+							actividades, predicaciones y avisos importantes.</div>
 					</div>
 					<button type="button" class="app-notif-btn" id="app_notif_btn" onclick="app_notif_activar_click()">
 						<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
