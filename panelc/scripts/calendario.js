@@ -123,6 +123,145 @@ function guardar_dia_calendario()
 	
 }
 
+var cal_pdf_eventos = [];
+
+function cal_analizar_pdf() {
+	var input = document.getElementById('cal_pdf_input');
+	if (!input.files || !input.files[0]) {
+		bootbox.alert('Selecciona primero un archivo PDF.');
+		return;
+	}
+
+	var fd = new FormData();
+	fd.append('pdf', input.files[0]);
+
+	document.getElementById('cal_pdf_btn_analizar').disabled = true;
+	document.getElementById('cal_pdf_estado').textContent = 'Analizando PDF, esto puede tardar unos segundos…';
+
+	$.ajax({
+		url: 'ajax/calendario.php?op=analizar_pdf',
+		type: 'POST',
+		data: fd,
+		processData: false,
+		contentType: false,
+		dataType: 'json',
+		success: function (res) {
+			document.getElementById('cal_pdf_btn_analizar').disabled = false;
+			if (!res || !res.ok) {
+				document.getElementById('cal_pdf_estado').textContent = '';
+				bootbox.alert((res && res.msg) ? res.msg : 'No se pudo analizar el PDF.');
+				return;
+			}
+			cal_pdf_eventos = res.eventos.map(function (e) {
+				e.seleccionado = e.fecha >= moment().format('YYYY-MM-DD');
+				return e;
+			});
+			document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Revísalas antes de registrar.';
+			cal_pdf_render_tabla();
+		},
+		error: function () {
+			document.getElementById('cal_pdf_btn_analizar').disabled = false;
+			document.getElementById('cal_pdf_estado').textContent = '';
+			bootbox.alert('Ocurrió un error al subir o analizar el PDF.');
+		}
+	});
+}
+
+function cal_pdf_render_tabla() {
+	document.getElementById('cal_pdf_revision').style.display = cal_pdf_eventos.length ? 'block' : 'none';
+	var tbody = document.getElementById('cal_pdf_tabla');
+	var html = cal_pdf_eventos.map(function (e, i) {
+		return '<tr>' +
+			'<td><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
+			'<td><input type="date" class="form-control form-control-sm" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" style="width:80px;" value="' + e.hora + '" onchange="cal_pdf_actualizar(' + i + ',\'hora\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" value="' + cal_pdf_escapar(e.nom_activ) + '" onchange="cal_pdf_actualizar(' + i + ',\'nom_activ\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" value="' + cal_pdf_escapar(e.tema) + '" onchange="cal_pdf_actualizar(' + i + ',\'tema\',this.value)"></td>' +
+			'<td><select class="form-control form-control-sm" onchange="cal_pdf_actualizar(' + i + ',\'tipo\',this.value)">' +
+				'<option value="0" ' + (e.tipo == 0 ? 'selected' : '') + '>No</option>' +
+				'<option value="1" ' + (e.tipo == 1 ? 'selected' : '') + '>Si</option>' +
+			'</select></td>' +
+			'<td><button type="button" class="btn btn-sm btn-outline-danger" onclick="cal_pdf_quitar_fila(' + i + ')">&times;</button></td>' +
+			'</tr>';
+	}).join('');
+	tbody.innerHTML = html;
+	cal_pdf_actualizar_contador();
+}
+
+function cal_pdf_escapar(s) {
+	return (s || '').replace(/"/g, '&quot;');
+}
+
+function cal_pdf_actualizar(i, campo, valor) {
+	cal_pdf_eventos[i][campo] = valor;
+	if (campo === 'fecha') {
+		var dia = moment(valor).format('dddd');
+		var mapa = { Monday: 'Lunes', Tuesday: 'Martes', Wednesday: 'Miercoles', Thursday: 'Jueves', Friday: 'Viernes', Saturday: 'Sabado', Sunday: 'Domingo' };
+		cal_pdf_eventos[i].dia_nom = mapa[dia] || dia;
+	}
+	if (campo === 'seleccionado') cal_pdf_actualizar_contador();
+}
+
+function cal_pdf_actualizar_contador() {
+	var total = cal_pdf_eventos.filter(function (e) { return e.seleccionado; }).length;
+	document.getElementById('cal_pdf_contador').textContent = total;
+}
+
+function cal_pdf_quitar_fila(i) {
+	cal_pdf_eventos.splice(i, 1);
+	cal_pdf_render_tabla();
+}
+
+function cal_pdf_agregar_fila() {
+	cal_pdf_eventos.push({
+		fecha: moment().format('YYYY-MM-DD'),
+		hora: '12:00:00',
+		dia_nom: '',
+		nom_activ: '',
+		tema: '',
+		tipo: 0,
+		seleccionado: true
+	});
+	cal_pdf_render_tabla();
+}
+
+function cal_pdf_marcar_todas(valor) {
+	cal_pdf_eventos.forEach(function (e) { e.seleccionado = valor; });
+	cal_pdf_render_tabla();
+}
+
+function cal_pdf_registrar_seleccionadas() {
+	var seleccionados = cal_pdf_eventos.filter(function (e) { return e.seleccionado; });
+	if (!seleccionados.length) {
+		bootbox.alert('No has seleccionado ninguna actividad.');
+		return;
+	}
+	var vacias = seleccionados.filter(function (e) { return !e.fecha || !e.nom_activ; });
+	if (vacias.length) {
+		bootbox.alert('Hay actividades seleccionadas sin fecha o sin nombre. Corrígelas o desmárcalas.');
+		return;
+	}
+
+	bootbox.confirm({
+		message: '¿Registrar ' + seleccionados.length + ' actividades en el calendario?',
+		buttons: { confirm: { label: 'Si', className: 'btn-success' }, cancel: { label: 'No', className: 'btn-danger' } },
+		callback: function (result) {
+			if (!result) return;
+			$.post('ajax/calendario.php?op=guardar_multiples', { eventos: JSON.stringify(seleccionados) }, function (data) {
+				data = JSON.parse(data);
+				if (data && data.ok) {
+					bootbox.alert('Se registraron ' + data.guardados + ' actividades.');
+					cal_pdf_eventos = cal_pdf_eventos.filter(function (e) { return !e.seleccionado; });
+					cal_pdf_render_tabla();
+					listar_dias();
+				} else {
+					bootbox.alert((data && data.msg) ? data.msg : 'No se pudieron guardar las actividades.');
+				}
+			});
+		}
+	});
+}
+
 function borrar_dia(idcal){
     bootbox.confirm({
         message: "¿Confirmar eliminacion de registro?",

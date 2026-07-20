@@ -1,11 +1,65 @@
 <?php
-session_start(); 
+session_start();
 require_once "../modelos/Calendario.php";
 
 $calendario=new Calendario();
 
 
 switch ($_GET["op"]){
+
+		case 'analizar_pdf':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			if (!isset($_FILES['pdf']) || $_FILES['pdf']['error'] !== UPLOAD_ERR_OK) {
+				echo json_encode(['ok' => false, 'msg' => 'No se recibió el archivo PDF.']);
+				break;
+			}
+			require_once "../config/calendario_pdf_parser.php";
+			try {
+				$res = calendario_extraer_filas_pdf($_FILES['pdf']['tmp_name']);
+				$eventos = [];
+				foreach ($res['filas'] as $fila) {
+					foreach (calendario_expandir_fila($res['anio'], $fila) as $ev) {
+						$eventos[] = $ev;
+					}
+				}
+				echo json_encode(['ok' => true, 'anio' => $res['anio'], 'eventos' => $eventos]);
+			} catch (\Throwable $e) {
+				echo json_encode(['ok' => false, 'msg' => 'No se pudo leer el PDF: ' . $e->getMessage()]);
+			}
+		break;
+
+		case 'guardar_multiples':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			$eventos = json_decode($_POST['eventos'] ?? '[]', true);
+			if (!is_array($eventos) || empty($eventos)) {
+				echo json_encode(['ok' => false, 'msg' => 'No se recibieron actividades para guardar.']);
+				break;
+			}
+			$guardados = 0;
+			foreach ($eventos as $ev) {
+				$fecha = trim($ev['fecha'] ?? '');
+				$hora = trim($ev['hora'] ?? '00:00:00');
+				$nombre = trim($ev['nom_activ'] ?? '');
+				$tema = trim($ev['tema'] ?? '');
+				$tipo = intval($ev['tipo'] ?? 0);
+				$diaNom = trim($ev['dia_nom'] ?? '');
+				if ($fecha === '' || $nombre === '') continue;
+				$fechaHora = $fecha . ' ' . ($hora !== '' ? $hora : '00:00:00');
+				$calendario->insertar_seguro($fechaHora, $diaNom, $nombre, $tema, $tipo);
+				$guardados++;
+			}
+			echo json_encode(['ok' => true, 'guardados' => $guardados]);
+		break;
 
 		case 'listar_dias':
 		

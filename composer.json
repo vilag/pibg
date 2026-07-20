@@ -2,6 +2,7 @@
     "name": "pibg/backend",
     "require": {
         "minishlink/web-push": "^9.0",
-        "google/auth": "^1.35"
+        "google/auth": "^1.35",
+        "smalot/pdfparser": "^2.12"
     }
 }

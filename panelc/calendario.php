@@ -100,6 +100,46 @@ if ($_SESSION['administrador']==1)
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <h4 class="card-title mb-3">Cargar actividades desde PDF</h4>
+                        <p class="text-muted" style="font-size: 13px;">Sube el PDF del calendario anual (una página por mes, tabla de Fecha/Actividad/Horario/Encargados). Se analiza y te muestra la lista antes de guardar nada — puedes editar, quitar o agregar actividades y seleccionar solo las que quieras registrar.</p>
+                        <div class="form-inline" style="gap: 10px;">
+                            <input type="file" id="cal_pdf_input" accept="application/pdf" class="form-control" style="max-width: 320px; display: inline-block;">
+                            <button type="button" class="btn btn-primary" onclick="cal_analizar_pdf();" id="cal_pdf_btn_analizar">Analizar PDF</button>
+                            <span id="cal_pdf_estado" style="margin-left: 10px; color: #6c757d;"></span>
+                        </div>
+
+                        <div id="cal_pdf_revision" style="display: none; margin-top: 24px;">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+                                <div>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_agregar_fila();">+ Agregar actividad</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_todas(true);">Marcar todas</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_todas(false);">Desmarcar todas</button>
+                                </div>
+                                <button type="button" class="btn btn-success" onclick="cal_pdf_registrar_seleccionadas();">Registrar seleccionadas (<span id="cal_pdf_contador">0</span>)</button>
+                            </div>
+                            <div class="table-responsive" style="max-height: 500px; overflow: auto;">
+                                <table class="table table-sm table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
+                                            <th>Nombre de actividad</th>
+                                            <th>Tema / Encargados</th>
+                                            <th>Transmisión</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cal_pdf_tabla"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
                     <h4 class="card-title">Calendario</h4>
                     <!-- <p class="card-description">
                         Add class <code>.table-striped</code>

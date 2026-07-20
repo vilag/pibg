@@ -41,8 +41,19 @@ Class Calendario
 
 	public function borrar_dia($idcal)
     {
-    	$sql="DELETE FROM calendario WHERE idcal='$idcal'"; 
-    	return ejecutarConsulta($sql);  
+    	$sql="DELETE FROM calendario WHERE idcal='$idcal'";
+    	return ejecutarConsulta($sql);
+    }
+
+	// Insercion segura (prepared statement) usada por la carga masiva desde PDF.
+	public function insertar_seguro($fecha_hora, $dia_nom, $nom_activ, $tema, $tipo)
+    {
+    	global $conexion;
+    	$stmt = $conexion->prepare("INSERT INTO calendario (fecha_hora, dia_nom, nom_activ, tema, tipo) VALUES (?, ?, ?, ?, ?)");
+    	$tipoInt = intval($tipo);
+    	$stmt->bind_param('ssssi', $fecha_hora, $dia_nom, $nom_activ, $tema, $tipoInt);
+    	$stmt->execute();
+    	return $stmt->insert_id;
     }
 
 }

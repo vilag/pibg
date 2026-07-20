@@ -11,6 +11,7 @@ class ComposerStaticInit670ab892da6e62a2ee463fde35f4739e
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '5897ea0ac4cccf14d323035e65887801' => __DIR__ . '/..' . '/symfony/polyfill-php82/bootstrap.php',
     );
 
@@ -19,6 +20,7 @@ class ComposerStaticInit670ab892da6e62a2ee463fde35f4739e
         array (
             'Symfony\\Polyfill\\Php82\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'SpomkyLabs\\Pki\\' => 15,
         ),
         'P' => 
@@ -64,6 +66,10 @@ class ComposerStaticInit670ab892da6e62a2ee463fde35f4739e
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
         'SpomkyLabs\\Pki\\' => 
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/pki-framework/src',
@@ -74,8 +80,8 @@ class ComposerStaticInit670ab892da6e62a2ee463fde35f4739e
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -127,6 +133,16 @@ class ComposerStaticInit670ab892da6e62a2ee463fde35f4739e
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'Smalot\\PdfParser\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/smalot/pdfparser/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'AllowDynamicProperties' => __DIR__ . '/..' . '/symfony/polyfill-php82/Resources/stubs/AllowDynamicProperties.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -150,6 +166,7 @@ class ComposerStaticInit670ab892da6e62a2ee463fde35f4739e
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit670ab892da6e62a2ee463fde35f4739e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit670ab892da6e62a2ee463fde35f4739e::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit670ab892da6e62a2ee463fde35f4739e::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit670ab892da6e62a2ee463fde35f4739e::$classMap;
 
         }, null, ClassLoader::class);
