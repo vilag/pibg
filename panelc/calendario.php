@@ -114,6 +114,7 @@ if ($_SESSION['administrador']==1)
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_agregar_fila();">+ Agregar actividad</button>
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_todas(true);">Marcar todas</button>
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_todas(false);">Desmarcar todas</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_desde_hoy();">Marcar desde hoy</button>
                                 </div>
                                 <button type="button" class="btn btn-success" id="cal_pdf_btn_registrar" onclick="cal_pdf_registrar_seleccionadas();">Registrar seleccionadas (<span id="cal_pdf_contador">0</span>)</button>
                             </div>

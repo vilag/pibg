@@ -153,10 +153,10 @@ function cal_analizar_pdf() {
 				return;
 			}
 			cal_pdf_eventos = res.eventos.map(function (e) {
-				e.seleccionado = e.fecha >= moment().format('YYYY-MM-DD');
+				e.seleccionado = false;
 				return e;
 			});
-			document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Revísalas antes de registrar.';
+			document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Marca con el check las que quieras registrar (o usa "Marcar todas").';
 			cal_pdf_render_tabla();
 		},
 		error: function () {
@@ -227,6 +227,12 @@ function cal_pdf_agregar_fila() {
 
 function cal_pdf_marcar_todas(valor) {
 	cal_pdf_eventos.forEach(function (e) { e.seleccionado = valor; });
+	cal_pdf_render_tabla();
+}
+
+function cal_pdf_marcar_desde_hoy() {
+	var hoy = moment().format('YYYY-MM-DD');
+	cal_pdf_eventos.forEach(function (e) { e.seleccionado = e.fecha >= hoy; });
 	cal_pdf_render_tabla();
 }
 
