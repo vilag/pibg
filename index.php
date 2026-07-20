@@ -80,7 +80,7 @@ function si_vis($clave)
 	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 	<link rel="stylesheet" type="text/css" href="styles/respindex.css">
-	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=27">
+	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=28">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -1975,6 +1975,7 @@ Y todo lo que hace, prosperará</p>
 		(function () {
 			var banner = document.getElementById('app_notif_banner');
 			if (!banner) return;
+			if (!document.documentElement.classList.contains('pibg-app-instalada')) return;
 			if (typeof push_soportado !== 'function' || !push_soportado()) return;
 
 			push_yaActivo(function (activo) {

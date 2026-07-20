@@ -1574,7 +1574,7 @@ html.pibg-app-instalada .app-promo-banner {
 	background: linear-gradient(100deg, #1D4268 0%, #0b1c30 100%);
 	padding: 34px 0;
 }
-.app-notif-banner.app-notif-banner--visible {
+html.pibg-app-instalada .app-notif-banner.app-notif-banner--visible {
 	display: block !important;
 }
 .app-notif-icon-wrap {
