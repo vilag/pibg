@@ -230,7 +230,11 @@ function cal_pdf_marcar_todas(valor) {
 	cal_pdf_render_tabla();
 }
 
+var cal_pdf_guardando = false;
+
 function cal_pdf_registrar_seleccionadas() {
+	if (cal_pdf_guardando) return; // evita doble envio por clics repetidos
+
 	var seleccionados = cal_pdf_eventos.filter(function (e) { return e.seleccionado; });
 	if (!seleccionados.length) {
 		bootbox.alert('No has seleccionado ninguna actividad.');
@@ -242,12 +246,19 @@ function cal_pdf_registrar_seleccionadas() {
 		return;
 	}
 
+	var btn = document.getElementById('cal_pdf_btn_registrar');
+
 	bootbox.confirm({
 		message: '¿Registrar ' + seleccionados.length + ' actividades en el calendario?',
 		buttons: { confirm: { label: 'Si', className: 'btn-success' }, cancel: { label: 'No', className: 'btn-danger' } },
 		callback: function (result) {
-			if (!result) return;
+			if (!result || cal_pdf_guardando) return;
+			cal_pdf_guardando = true;
+			if (btn) btn.disabled = true;
+
 			$.post('ajax/calendario.php?op=guardar_multiples', { eventos: JSON.stringify(seleccionados) }, function (data) {
+				cal_pdf_guardando = false;
+				if (btn) btn.disabled = false;
 				if (data && data.ok) {
 					bootbox.alert('Se registraron ' + data.guardados + ' actividades.');
 					cal_pdf_eventos = cal_pdf_eventos.filter(function (e) { return !e.seleccionado; });
@@ -256,6 +267,10 @@ function cal_pdf_registrar_seleccionadas() {
 				} else {
 					bootbox.alert((data && data.msg) ? data.msg : 'No se pudieron guardar las actividades.');
 				}
+			}).fail(function () {
+				cal_pdf_guardando = false;
+				if (btn) btn.disabled = false;
+				bootbox.alert('Ocurrió un error de conexión al guardar.');
 			});
 		}
 	});

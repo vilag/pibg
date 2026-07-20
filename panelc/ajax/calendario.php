@@ -45,6 +45,15 @@ switch ($_GET["op"]){
 				echo json_encode(['ok' => false, 'msg' => 'No se recibieron actividades para guardar.']);
 				break;
 			}
+			// Evita duplicados exactos (misma fecha_hora + nombre), por ejemplo
+			// si la peticion llega repetida por un doble clic o un reintento.
+			global $conexion;
+			$existentes = [];
+			$rExist = $conexion->query("SELECT fecha_hora, nom_activ FROM calendario");
+			while ($rExist && ($row = $rExist->fetch_assoc())) {
+				$existentes[$row['fecha_hora'] . '|' . $row['nom_activ']] = true;
+			}
+
 			$guardados = 0;
 			foreach ($eventos as $ev) {
 				$fecha = trim($ev['fecha'] ?? '');
@@ -55,7 +64,12 @@ switch ($_GET["op"]){
 				$diaNom = trim($ev['dia_nom'] ?? '');
 				if ($fecha === '' || $nombre === '') continue;
 				$fechaHora = $fecha . ' ' . ($hora !== '' ? $hora : '00:00:00');
+
+				$clave = $fechaHora . '|' . $nombre;
+				if (isset($existentes[$clave])) continue; // ya existe, se omite
+
 				$calendario->insertar_seguro($fechaHora, $diaNom, $nombre, $tema, $tipo);
+				$existentes[$clave] = true;
 				$guardados++;
 			}
 			echo json_encode(['ok' => true, 'guardados' => $guardados]);

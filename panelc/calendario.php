@@ -115,7 +115,7 @@ if ($_SESSION['administrador']==1)
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_todas(true);">Marcar todas</button>
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_marcar_todas(false);">Desmarcar todas</button>
                                 </div>
-                                <button type="button" class="btn btn-success" onclick="cal_pdf_registrar_seleccionadas();">Registrar seleccionadas (<span id="cal_pdf_contador">0</span>)</button>
+                                <button type="button" class="btn btn-success" id="cal_pdf_btn_registrar" onclick="cal_pdf_registrar_seleccionadas();">Registrar seleccionadas (<span id="cal_pdf_contador">0</span>)</button>
                             </div>
                             <div class="table-responsive" style="max-height: 500px; overflow: auto;">
                                 <table class="table table-sm table-striped">
