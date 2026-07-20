@@ -9,9 +9,9 @@ self.addEventListener('activate', function (event) {
     self.clients.claim();
 });
 
-self.addEventListener('fetch', function (event) {
-    event.respondWith(fetch(event.request));
-});
+// Nota: no se intercepta 'fetch' — reenviar las peticiones desde aquí puede
+// romper llamadas AJAX del sitio (ej. "Failed to fetch" al enviar
+// notificaciones) y no es necesario para que la app sea instalable.
 
 // Notificaciones push (Web Push — iOS agregado a inicio, Chrome/escritorio)
 self.addEventListener('push', function (event) {
