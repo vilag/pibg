@@ -1637,3 +1637,30 @@ html.pibg-app-instalada .app-notif-banner.app-notif-banner--visible {
 		justify-content: center;
 	}
 }
+
+/* ── Boton: activar notificaciones (solo navegador, no instalado) ── */
+.app-notif-browser-banner {
+	padding: 10px 0 40px;
+}
+html.pibg-app-instalada .app-notif-browser-banner {
+	display: none !important;
+}
+.app-notif-browser-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	background: #F2125E;
+	color: #fff !important;
+	font-weight: 700;
+	font-size: 15px;
+	padding: 14px 28px;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	box-shadow: 0 6px 16px rgba(242, 18, 94, .25);
+	transition: transform .15s, opacity .15s;
+}
+.app-notif-browser-btn:hover {
+	transform: translateY(-2px);
+	opacity: .92;
+}

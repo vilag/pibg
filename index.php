@@ -80,7 +80,7 @@ function si_vis($clave)
 	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 	<link rel="stylesheet" type="text/css" href="styles/respindex.css">
-	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=28">
+	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=29">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -522,7 +522,25 @@ function si_vis($clave)
 		<?php endif; /* actividades */ ?>
 		<!-- ── /Actividades Semanales ─────────────────────────────────── -->
 
+		<!-- ── Boton: activar notificaciones (solo navegador) ─────────── -->
+		<section class="app-notif-browser-banner" id="app_notif_browser_banner">
+			<div class="container text-center">
+				<button type="button" class="app-notif-browser-btn" onclick="app_notif_browser_click()">
+					<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
+				</button>
+			</div>
+		</section>
+		<!-- ── /Boton: activar notificaciones (solo navegador) ────────── -->
+
 		<script>
+			function app_notif_browser_click() {
+				bootbox.alert({
+					title: '¿Quieres recibir notificaciones?',
+					message: 'Para poder enviarte notificaciones, primero necesitas instalar la app (o agregarla a tu pantalla de inicio si usas iPhone). Es rápido y gratis.<br><br><a href="descarga-app.php" class="app-notif-browser-btn" style="text-decoration:none;display:inline-block;margin-top:6px;">Ver cómo instalarla</a>',
+					className: 'app-notif-modal'
+				});
+			}
+
 			function abrirMaps() {
 				var addr = encodeURIComponent('C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.');
 				var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
