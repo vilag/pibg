@@ -248,7 +248,6 @@ function cal_pdf_registrar_seleccionadas() {
 		callback: function (result) {
 			if (!result) return;
 			$.post('ajax/calendario.php?op=guardar_multiples', { eventos: JSON.stringify(seleccionados) }, function (data) {
-				data = JSON.parse(data);
 				if (data && data.ok) {
 					bootbox.alert('Se registraron ' + data.guardados + ' actividades.');
 					cal_pdf_eventos = cal_pdf_eventos.filter(function (e) { return !e.seleccionado; });

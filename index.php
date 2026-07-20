@@ -80,7 +80,7 @@ function si_vis($clave)
 	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 	<link rel="stylesheet" type="text/css" href="styles/respindex.css">
-	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=30">
+	<link rel="stylesheet" type="text/css" href="styles/index_custom.css?v=31">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -524,7 +524,7 @@ function si_vis($clave)
 
 		<!-- ── Boton: activar notificaciones (solo navegador) ─────────── -->
 		<section class="app-notif-browser-banner" id="app_notif_browser_banner">
-			<div class="container text-center">
+			<div class="app-notif-browser-inner">
 				<p class="app-notif-browser-text">No te pierdas ningún anuncio, actividad o predicación nueva.</p>
 				<button type="button" class="app-notif-browser-btn" onclick="app_notif_browser_click()">
 					<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
