@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     cargar_conteos();
     cargar_historial();
+    cargar_suscripciones();
 });
 
 function cargar_conteos() {
@@ -31,6 +32,40 @@ function cargar_historial() {
     }, 'json');
 }
 
+function push_dispositivo_legible(userAgent) {
+    userAgent = userAgent || '';
+    var plataforma = /iPhone|iPad/i.test(userAgent) ? 'iOS' :
+        /Android/i.test(userAgent) ? 'Android' :
+        /Windows/i.test(userAgent) ? 'Windows' :
+        /Macintosh/i.test(userAgent) ? 'Mac' : 'Desconocido';
+    var navegador = /CriOS|Chrome/i.test(userAgent) ? 'Chrome' :
+        /Safari/i.test(userAgent) ? 'Safari' :
+        /Firefox/i.test(userAgent) ? 'Firefox' : '';
+    return navegador ? (plataforma + ' · ' + navegador) : plataforma;
+}
+
+function cargar_suscripciones() {
+    $.get('ajax/push_notificaciones.php', { op: 'suscripciones' }, function (res) {
+        if (!res || !res.ok || !res.suscripciones.length) {
+            $('#push_tabla_suscripciones').html('<tr><td colspan="4" class="text-center text-muted">Sin suscripciones todavía.</td></tr>');
+            return;
+        }
+        var html = res.suscripciones.map(function (s) {
+            var plataforma = s.tipo === 'fcm' ? 'Android' : 'iOS / Web';
+            var estado = s.activo == 1
+                ? '<span class="push-badge push-badge-activo">Activa</span>'
+                : '<span class="push-badge push-badge-inactivo">Inactiva</span>';
+            return '<tr>' +
+                '<td>' + s.fecha_creacion + '</td>' +
+                '<td>' + plataforma + '</td>' +
+                '<td>' + push_dispositivo_legible(s.user_agent) + '</td>' +
+                '<td>' + estado + '</td>' +
+                '</tr>';
+        }).join('');
+        $('#push_tabla_suscripciones').html(html);
+    }, 'json');
+}
+
 function push_enviar_notificacion() {
     var titulo = $('#push_titulo').val().trim();
     var mensaje = $('#push_mensaje').val().trim();
@@ -57,5 +92,7 @@ function push_enviar_notificacion() {
         $('#push_mensaje').val('');
         $('#push_url').val('');
         cargar_historial();
+        cargar_suscripciones();
+        cargar_conteos();
     }, 'json');
 }

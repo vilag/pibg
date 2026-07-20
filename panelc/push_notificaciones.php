@@ -20,6 +20,9 @@ if (!isset($_SESSION["nombre"])) {
   .push-aviso { background: #fff3cd; border: 1px solid #ffe08a; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-top: 14px; }
   .push-tabla-hist { width: 100%; margin-top: 10px; }
   .push-tabla-hist th, .push-tabla-hist td { padding: 8px 10px; font-size: 13px; border-bottom: 1px solid #eee; }
+  .push-badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .push-badge-activo { background: #d4edda; color: #155724; }
+  .push-badge-inactivo { background: #f1f1f1; color: #888; }
 </style>
 
 <div class="content-wrapper">
@@ -67,6 +70,18 @@ if (!isset($_SESSION["nombre"])) {
               </thead>
               <tbody id="push_tabla_historial">
                 <tr><td colspan="5" class="text-center text-muted">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="push-card" style="margin-top: 24px;">
+            <h5>Reporte de suscripciones</h5>
+            <table class="push-tabla-hist">
+              <thead>
+                <tr><th>Fecha</th><th>Plataforma</th><th>Dispositivo</th><th>Estado</th></tr>
+              </thead>
+              <tbody id="push_tabla_suscripciones">
+                <tr><td colspan="4" class="text-center text-muted">Cargando…</td></tr>
               </tbody>
             </table>
           </div>

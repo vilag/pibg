@@ -50,6 +50,19 @@ Class Push_suscripciones
         return $out;
     }
 
+    public function listar_todas($limite = 200)
+    {
+        $limite = intval($limite);
+        $sql = "SELECT id, tipo, user_agent, activo, fecha_creacion
+                FROM push_suscripciones
+                ORDER BY fecha_creacion DESC
+                LIMIT $limite";
+        $res = ejecutarConsulta($sql);
+        $filas = [];
+        while ($row = $res->fetch_assoc()) { $filas[] = $row; }
+        return $filas;
+    }
+
     public function desactivar($id)
     {
         $id = intval($id);

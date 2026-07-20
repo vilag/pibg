@@ -24,6 +24,10 @@ switch ($op) {
         echo json_encode(['ok' => true, 'envios' => $modelo->listar_envios(20)]);
         break;
 
+    case 'suscripciones':
+        echo json_encode(['ok' => true, 'suscripciones' => $modelo->listar_todas(200)]);
+        break;
+
     case 'enviar':
         $titulo  = trim($_POST['titulo']  ?? '');
         $mensaje = trim($_POST['mensaje'] ?? '');
