@@ -100,16 +100,16 @@
 
 			<div class="app-download-card text-center">
 				<p>Descarga la app oficial de la Primera Iglesia Bautista de Guadalajara para Android. Muestra el mismo contenido de este sitio web, directo en tu celular.</p>
-				<a href="descargas/pibg-v1.0.apk" class="app-download-btn" download>
-					<i class="fa fa-android" aria-hidden="true"></i> Descargar APK (v1.0)
+				<a href="descargas/pibg-v1.1.apk" class="app-download-btn" download>
+					<i class="fa fa-android" aria-hidden="true"></i> Descargar APK (v1.1)
 				</a>
 				<div class="app-meta">
-					Versión 1.0 &middot; 3.1 MB &middot; Requiere Android 7.0 o superior<br>
-					Publicado: 18 de julio de 2026
+					Versión 1.1 &middot; 4.4 MB &middot; Requiere Android 7.0 o superior<br>
+					Publicado: 20 de julio de 2026
 				</div>
 				<div class="app-meta" style="margin-top:18px;">
 					Huella digital SHA-256 del archivo (para verificar que no fue alterado):
-					<div class="app-checksum">11f2b5000d08b0c6eb4bc2e26e90a12194e50794ffd8f350b4cfc07fa2b46977</div>
+					<div class="app-checksum">1f9458fdd7769c16dfb810839948ef73709b1a1181fd6536b34e260cb6a91157</div>
 				</div>
 			</div>
 

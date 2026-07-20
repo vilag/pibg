@@ -1,3 +1,4 @@
 # Archivos con secretos — NUNCA subir a git
 panelc/config/secrets.php
+panelc/config/firebase-service-account.json
 
