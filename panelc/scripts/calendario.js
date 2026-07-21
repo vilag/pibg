@@ -1,12 +1,33 @@
 document.addEventListener("DOMContentLoaded", function() {
-    listar_dias();
+    cal_cargar_filtro_anios();
     listar_activ_sem();
 });
 
+function cal_cargar_filtro_anios() {
+	$.post("ajax/calendario.php?op=listar_anios_disponibles", function (res) {
+		if (!res || !res.ok) { listar_dias(); return; }
+		var selectAnio = document.getElementById('cal_filtro_anio');
+		selectAnio.innerHTML = '<option value="">Todos</option>' + res.anios.map(function (a) {
+			return '<option value="' + a + '">' + a + '</option>';
+		}).join('');
+		selectAnio.value = res.anio_actual;
+		document.getElementById('cal_filtro_mes').value = res.mes_actual;
+		listar_dias();
+	}, 'json');
+}
+
+function cal_filtro_limpiar() {
+	document.getElementById('cal_filtro_mes').value = '';
+	document.getElementById('cal_filtro_anio').value = '';
+	listar_dias();
+}
+
 function listar_dias()
 {
-	$.post("ajax/calendario.php?op=listar_dias",function(r){
-		$("#dias_calendario").html(r);					
+	var mes = document.getElementById('cal_filtro_mes') ? document.getElementById('cal_filtro_mes').value : '';
+	var anio = document.getElementById('cal_filtro_anio') ? document.getElementById('cal_filtro_anio').value : '';
+	$.post("ajax/calendario.php?op=listar_dias", { mes: mes, anio: anio }, function(r){
+		$("#dias_calendario").html(r);
 	});
 }
 

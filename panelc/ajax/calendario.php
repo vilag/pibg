@@ -7,6 +7,19 @@ $calendario=new Calendario();
 
 switch ($_GET["op"]){
 
+		case 'listar_anios_disponibles':
+
+			header('Content-Type: application/json; charset=utf-8');
+			$anioActual = (int) date('Y');
+			$anios = [$anioActual - 1, $anioActual, $anioActual + 1, $anioActual + 2];
+			$rspta = $calendario->listar_anios_disponibles();
+			while ($reg = $rspta->fetch_object()) {
+				if (!in_array((int) $reg->anio, $anios, true)) $anios[] = (int) $reg->anio;
+			}
+			sort($anios);
+			echo json_encode(['ok' => true, 'anios' => array_values($anios), 'anio_actual' => $anioActual, 'mes_actual' => (int) date('n')]);
+		break;
+
 		case 'analizar_pdf':
 
 			header('Content-Type: application/json; charset=utf-8');
@@ -77,9 +90,10 @@ switch ($_GET["op"]){
 		break;
 
 		case 'listar_dias':
-		
 
-			$rspta = $calendario->listar_dias();
+			$mes = isset($_POST['mes']) && $_POST['mes'] !== '' ? intval($_POST['mes']) : null;
+			$anio = isset($_POST['anio']) && $_POST['anio'] !== '' ? intval($_POST['anio']) : null;
+			$rspta = $calendario->listar_dias($mes, $anio);
 			while ($reg = $rspta->fetch_object())
 					{
 						if ($reg->tipo==1) {

@@ -10,10 +10,19 @@ Class Calendario
 
 	}
 
-	public function listar_dias()
+	public function listar_dias($mes = null, $anio = null)
     {
-    	$sql="SELECT idcal, DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ, tipo, tema FROM calendario WHERE DATE(fecha_hora)>=NOW() ORDER BY fecha_hora DESC"; 
-    	return ejecutarConsulta($sql);  
+    	$where = "1=1";
+    	if ($mes)  { $where .= " AND MONTH(fecha_hora) = " . intval($mes); }
+    	if ($anio) { $where .= " AND YEAR(fecha_hora) = " . intval($anio); }
+    	$sql="SELECT idcal, DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ, tipo, tema FROM calendario WHERE $where ORDER BY fecha_hora ASC";
+    	return ejecutarConsulta($sql);
+    }
+
+	public function listar_anios_disponibles()
+    {
+    	$sql = "SELECT DISTINCT YEAR(fecha_hora) as anio FROM calendario ORDER BY anio DESC";
+    	return ejecutarConsulta($sql);
     }
 	public function listar_horas()
     {

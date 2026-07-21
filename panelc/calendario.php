@@ -142,9 +142,27 @@ if ($_SESSION['administrador']==1)
                 <div class="card">
                     <div class="card-body">
                     <h4 class="card-title">Calendario</h4>
-                    <!-- <p class="card-description">
-                        Add class <code>.table-striped</code>
-                    </p> -->
+                    <div class="d-flex flex-wrap align-items-center" style="gap: 10px; margin-bottom: 16px;">
+                        <label class="mb-0" style="font-size: 13px; color: #6c757d;">Mes:</label>
+                        <select id="cal_filtro_mes" class="form-control form-control-sm" style="width: auto;" onchange="listar_dias();">
+                            <option value="">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                        <label class="mb-0" style="font-size: 13px; color: #6c757d;">Año:</label>
+                        <select id="cal_filtro_anio" class="form-control form-control-sm" style="width: auto;" onchange="listar_dias();"></select>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_filtro_limpiar();">Ver todo</button>
+                    </div>
                     <div class="table-responsive" style="height: 400px; overflow: scroll;">
                         <table class="table table-striped">
                         <thead>
