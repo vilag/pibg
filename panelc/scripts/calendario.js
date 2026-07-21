@@ -266,7 +266,11 @@ function cal_pdf_registrar_seleccionadas() {
 				cal_pdf_guardando = false;
 				if (btn) btn.disabled = false;
 				if (data && data.ok) {
-					bootbox.alert('Se registraron ' + data.guardados + ' actividades.');
+					var msg = 'Se registraron ' + data.guardados + ' actividades.';
+					if (data.omitidos > 0) {
+						msg += ' (' + data.omitidos + ' ya existían con la misma fecha, hora y nombre, así que no se duplicaron.)';
+					}
+					bootbox.alert(msg);
 					cal_pdf_eventos = cal_pdf_eventos.filter(function (e) { return !e.seleccionado; });
 					cal_pdf_render_tabla();
 					listar_dias();

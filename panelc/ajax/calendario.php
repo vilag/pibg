@@ -55,6 +55,7 @@ switch ($_GET["op"]){
 			}
 
 			$guardados = 0;
+			$omitidos = 0;
 			foreach ($eventos as $ev) {
 				$fecha = trim($ev['fecha'] ?? '');
 				$hora = trim($ev['hora'] ?? '00:00:00');
@@ -66,13 +67,13 @@ switch ($_GET["op"]){
 				$fechaHora = $fecha . ' ' . ($hora !== '' ? $hora : '00:00:00');
 
 				$clave = $fechaHora . '|' . $nombre;
-				if (isset($existentes[$clave])) continue; // ya existe, se omite
+				if (isset($existentes[$clave])) { $omitidos++; continue; } // ya existe, se omite
 
 				$calendario->insertar_seguro($fechaHora, $diaNom, $nombre, $tema, $tipo);
 				$existentes[$clave] = true;
 				$guardados++;
 			}
-			echo json_encode(['ok' => true, 'guardados' => $guardados]);
+			echo json_encode(['ok' => true, 'guardados' => $guardados, 'omitidos' => $omitidos]);
 		break;
 
 		case 'listar_dias':
