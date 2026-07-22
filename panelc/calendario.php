@@ -109,6 +109,29 @@ if ($_SESSION['administrador']==1)
                         </div>
 
                         <div id="cal_pdf_revision" style="display: none; margin-top: 24px;">
+                            <div class="d-flex flex-wrap align-items-center mb-2" style="gap: 10px;">
+                                <label class="mb-0" style="font-size: 13px; color: #6c757d;">Mes:</label>
+                                <select id="cal_pdf_filtro_mes" class="form-control form-control-sm" style="width: auto;" onchange="cal_pdf_render_tabla();">
+                                    <option value="">Todos</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                                <label class="mb-0" style="font-size: 13px; color: #6c757d;">Año:</label>
+                                <select id="cal_pdf_filtro_anio" class="form-control form-control-sm" style="width: auto;" onchange="cal_pdf_render_tabla();">
+                                    <option value="">Todos</option>
+                                </select>
+                                <span class="text-muted" style="font-size: 12px;">(los botones de marcar aplican solo a lo que se ve con este filtro)</span>
+                            </div>
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <div>
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="cal_pdf_agregar_fila();">+ Agregar actividad</button>

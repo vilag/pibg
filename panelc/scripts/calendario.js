@@ -178,6 +178,7 @@ function cal_analizar_pdf() {
 				return e;
 			});
 			document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Marca con el check las que quieras registrar (o usa "Marcar todas").';
+			cal_pdf_poblar_filtro_anios();
 			cal_pdf_render_tabla();
 		},
 		error: function () {
@@ -188,10 +189,31 @@ function cal_analizar_pdf() {
 	});
 }
 
+function cal_pdf_poblar_filtro_anios() {
+	var anios = Array.from(new Set(cal_pdf_eventos.map(function (e) { return (e.fecha || '').substring(0, 4); }))).filter(Boolean).sort();
+	var select = document.getElementById('cal_pdf_filtro_anio');
+	select.innerHTML = '<option value="">Todos</option>' + anios.map(function (a) {
+		return '<option value="' + a + '">' + a + '</option>';
+	}).join('');
+}
+
+function cal_pdf_visibles() {
+	var mes = document.getElementById('cal_pdf_filtro_mes').value;
+	var anio = document.getElementById('cal_pdf_filtro_anio').value;
+	var out = [];
+	cal_pdf_eventos.forEach(function (e, i) {
+		if (mes && parseInt(e.fecha.substring(5, 7), 10) !== parseInt(mes, 10)) return;
+		if (anio && e.fecha.substring(0, 4) !== anio) return;
+		out.push({ e: e, i: i });
+	});
+	return out;
+}
+
 function cal_pdf_render_tabla() {
 	document.getElementById('cal_pdf_revision').style.display = cal_pdf_eventos.length ? 'block' : 'none';
 	var tbody = document.getElementById('cal_pdf_tabla');
-	var html = cal_pdf_eventos.map(function (e, i) {
+	var html = cal_pdf_visibles().map(function (par) {
+		var e = par.e, i = par.i;
 		return '<tr>' +
 			'<td><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
 			'<td><input type="date" class="form-control form-control-sm" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
@@ -234,8 +256,16 @@ function cal_pdf_quitar_fila(i) {
 }
 
 function cal_pdf_agregar_fila() {
+	var mes = document.getElementById('cal_pdf_filtro_mes').value;
+	var anio = document.getElementById('cal_pdf_filtro_anio').value;
+	var fecha = moment().format('YYYY-MM-DD');
+	if (mes || anio) {
+		var a = anio || moment().format('YYYY');
+		var m = mes ? ('0' + mes).slice(-2) : '01';
+		fecha = a + '-' + m + '-01';
+	}
 	cal_pdf_eventos.push({
-		fecha: moment().format('YYYY-MM-DD'),
+		fecha: fecha,
 		hora: '12:00:00',
 		dia_nom: '',
 		nom_activ: '',
@@ -246,14 +276,16 @@ function cal_pdf_agregar_fila() {
 	cal_pdf_render_tabla();
 }
 
+// Los botones de marcar/desmarcar solo afectan las filas visibles segun
+// el filtro de mes/año activo (no todo el conjunto de datos).
 function cal_pdf_marcar_todas(valor) {
-	cal_pdf_eventos.forEach(function (e) { e.seleccionado = valor; });
+	cal_pdf_visibles().forEach(function (par) { par.e.seleccionado = valor; });
 	cal_pdf_render_tabla();
 }
 
 function cal_pdf_marcar_desde_hoy() {
 	var hoy = moment().format('YYYY-MM-DD');
-	cal_pdf_eventos.forEach(function (e) { e.seleccionado = e.fecha >= hoy; });
+	cal_pdf_visibles().forEach(function (par) { par.e.seleccionado = par.e.fecha >= hoy; });
 	cal_pdf_render_tabla();
 }
 
