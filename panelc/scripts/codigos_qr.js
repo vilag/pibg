@@ -102,8 +102,9 @@ function getQROptions() {
         }
     };
     if (logoDataUrl) {
+        var logoSize = (parseInt($('#qr_logo_size').val()) || 30) / 100;
         opts.image = logoDataUrl;
-        opts.imageOptions = { crossOrigin: 'anonymous', margin: 6, imageSize: 0.3 };
+        opts.imageOptions = { crossOrigin: 'anonymous', margin: 6, imageSize: logoSize };
     }
     return opts;
 }
@@ -265,6 +266,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateQR();
     });
 
+    $('#qr_logo_size').on('input', function() {
+        $('#qr_logo_size_val').text($(this).val());
+        updateQR();
+    });
+
     // ── Logo ──
     $('#qr_logo').on('change', function(e) {
         var file = e.target.files[0];
@@ -287,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#qr_logo').val('');
         $('#qr_logo_preview').hide().attr('src', '');
         $('#qr_logo_edit').hide();
+        $('#qr_logo_size_wrap').hide();
         $(this).hide();
         updateQR();
     });
@@ -344,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#qr_logo_preview').attr('src', logoDataUrl).show();
         $('#qr_logo_clear').show();
         $('#qr_logo_edit').show();
+        $('#qr_logo_size_wrap').show();
         updateQR();
         $('#modal_crop_logo').modal('hide');
     });

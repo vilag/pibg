@@ -146,6 +146,10 @@ if (!isset($_SESSION["nombre"])) {
                     <button type="button" id="qr_logo_clear" style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;">✕</button>
                   </div>
                   <p style="font-size:11px;color:#aaa;margin-top:6px;margin-bottom:0;">Al subir la imagen podrás recortar la parte que se mostrará en el centro del QR.</p>
+                  <div id="qr_logo_size_wrap" style="display:none;margin-top:12px;">
+                    <label class="qr-opt-label">Tamaño del logo: <span id="qr_logo_size_val">30</span>%</label>
+                    <input type="range" class="qr-range" id="qr_logo_size" min="10" max="50" value="30" step="5">
+                  </div>
                 </div>
 
                 <!-- Botones -->
