@@ -149,6 +149,7 @@ if (!isset($_SESSION["nombre"])) {
                   <div id="qr_logo_size_wrap" style="display:none;margin-top:12px;">
                     <label class="qr-opt-label">Tamaño del logo: <span id="qr_logo_size_val">30</span>%</label>
                     <input type="range" class="qr-range" id="qr_logo_size" min="10" max="50" value="30" step="5">
+                    <p style="font-size:11px;color:#aaa;margin-top:4px;margin-bottom:0;">Límite según el nivel de corrección de error actual: <span id="qr_logo_size_max_label">50</span>%. Sube el nivel a "Q" o "H" para permitir un logo más grande sin afectar el escaneo.</p>
                   </div>
                 </div>
 

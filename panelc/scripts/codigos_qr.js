@@ -12,6 +12,21 @@ var cropDragging = false, cropLastX = 0, cropLastY = 0;
 var CROP_VIEWPORT = 280;
 var CROP_OUTPUT   = 500;
 
+// Tamaño máximo recomendado del logo (%) según el nivel de corrección de error,
+// para no comprometer la capacidad de escaneo del QR.
+var LOGO_SIZE_MAX_BY_LEVEL = { L: 15, M: 20, Q: 35, H: 50 };
+
+function actualizarLimiteLogoSize() {
+    var nivel = $('#qr_error_correction').val();
+    var max = LOGO_SIZE_MAX_BY_LEVEL[nivel] || 20;
+    $('#qr_logo_size').attr('max', max);
+    $('#qr_logo_size_max_label').text(max);
+    if (parseInt($('#qr_logo_size').val()) > max) {
+        $('#qr_logo_size').val(max);
+        $('#qr_logo_size_val').text(max);
+    }
+}
+
 function aplicarTransformCrop() {
     var img = document.getElementById('crop_image');
     img.style.transform = 'scale(' + cropState.scale + ')';
@@ -172,6 +187,7 @@ function editar_qr_guardado(id) {
         $('#qr_color_dots').val(data.color_frente || '#042C49');
         $('#qr_color_bg').val(data.color_fondo || '#ffffff');
         $('#qr_error_correction').val(data.nivel_correccion || 'M');
+        actualizarLimiteLogoSize();
 
         $('#qr_dots_style').val(data.estilo_puntos || 'rounded');
         $('#dots_style_group .qr-dot-btn').removeClass('active');
@@ -254,7 +270,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ── Controles directos ──
-    $('#qr_contenido, #qr_color_dots, #qr_color_bg, #qr_error_correction').on('input change', updateQR);
+    $('#qr_contenido, #qr_color_dots, #qr_color_bg').on('input change', updateQR);
+
+    $('#qr_error_correction').on('change', function() {
+        actualizarLimiteLogoSize();
+        updateQR();
+    });
+    actualizarLimiteLogoSize();
 
     $('#qr_size').on('input', function() {
         $('#qr_size_val').text($(this).val());
@@ -352,6 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#qr_logo_clear').show();
         $('#qr_logo_edit').show();
         $('#qr_logo_size_wrap').show();
+        actualizarLimiteLogoSize();
         updateQR();
         $('#modal_crop_logo').modal('hide');
     });
