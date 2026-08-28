@@ -44,6 +44,12 @@ if (!isset($_SESSION["nombre"])) {
   .qr-section-title { font-size: 13px; font-weight: 700; color: #042C49; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 8px; }
   .logo-preview { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; border: 1px solid #dee2e6; display: none; vertical-align: middle; }
   .qr-table-img { width: 56px; height: 56px; object-fit: contain; border-radius: 6px; border: 1px solid #ddd; background: #fff; }
+  .crop-viewport {
+    width: 280px; height: 280px; overflow: hidden; position: relative;
+    background: #f1f3f5; border-radius: 10px; border: 2px dashed #042C49;
+    cursor: move; touch-action: none;
+  }
+  .crop-viewport img { position: absolute; top: 0; left: 0; transform-origin: 0 0; user-select: none; pointer-events: none; }
 </style>
 
 <div class="main-panel">
@@ -136,8 +142,10 @@ if (!isset($_SESSION["nombre"])) {
                   <div style="display:flex;align-items:center;gap:10px;">
                     <input type="file" class="form-control-file" id="qr_logo" accept="image/*" style="flex:1;">
                     <img id="qr_logo_preview" class="logo-preview" src="" alt="logo">
+                    <button type="button" id="qr_logo_edit" style="display:none;background:#042C49;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;" title="Ajustar recorte">✎</button>
                     <button type="button" id="qr_logo_clear" style="display:none;background:#dc3545;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;">✕</button>
                   </div>
+                  <p style="font-size:11px;color:#aaa;margin-top:6px;margin-bottom:0;">Al subir la imagen podrás recortar la parte que se mostrará en el centro del QR.</p>
                 </div>
 
                 <!-- Botones -->
@@ -191,6 +199,32 @@ if (!isset($_SESSION["nombre"])) {
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Modal recorte de logo ===== -->
+    <div class="modal fade" id="modal_crop_logo" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius:14px;">
+          <div class="modal-header">
+            <h5 class="modal-title" style="color:#042C49;">Ajustar imagen del logo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body" style="display:flex;flex-direction:column;align-items:center;">
+            <div class="crop-viewport" id="crop_viewport">
+              <img id="crop_image" src="" alt="logo">
+            </div>
+            <div style="width:280px;margin-top:16px;">
+              <label class="qr-opt-label">Zoom</label>
+              <input type="range" class="qr-range" id="crop_zoom" min="1" max="4" step="0.01" value="1">
+            </div>
+            <p style="font-size:12px;color:#888;margin-top:10px;text-align:center;">Arrastra la imagen para posicionarla y usa el zoom para acercar la parte que quieres mostrar en el centro del QR.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="qr-action-btn" style="background:#e9ecef;color:#333;" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="qr-action-btn qr-btn-save" id="btn_aplicar_crop">Aplicar recorte</button>
           </div>
         </div>
       </div>

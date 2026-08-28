@@ -4,6 +4,75 @@ var qrCode      = null;
 var logoDataUrl = null;
 var qr_editando_id = null;
 
+// ── Recorte de logo ──
+var cropOriginalDataUrl = null;
+var cropImgNatural = { w: 0, h: 0 };
+var cropState = { scale: 1, baseScale: 1, tx: 0, ty: 0 };
+var cropDragging = false, cropLastX = 0, cropLastY = 0;
+var CROP_VIEWPORT = 280;
+var CROP_OUTPUT   = 500;
+
+function aplicarTransformCrop() {
+    var img = document.getElementById('crop_image');
+    img.style.transform = 'scale(' + cropState.scale + ')';
+    img.style.left = cropState.tx + 'px';
+    img.style.top  = cropState.ty + 'px';
+}
+
+function clampCrop() {
+    var dw = cropImgNatural.w * cropState.scale;
+    var dh = cropImgNatural.h * cropState.scale;
+    var minTx = Math.min(0, CROP_VIEWPORT - dw);
+    var minTy = Math.min(0, CROP_VIEWPORT - dh);
+    cropState.tx = Math.max(minTx, Math.min(0, cropState.tx));
+    cropState.ty = Math.max(minTy, Math.min(0, cropState.ty));
+}
+
+function abrir_crop_logo(dataUrl, resetView) {
+    var tempImg = new Image();
+    tempImg.onload = function() {
+        var isNewImage = (cropImgNatural.w !== tempImg.naturalWidth || cropImgNatural.h !== tempImg.naturalHeight);
+        cropImgNatural.w = tempImg.naturalWidth;
+        cropImgNatural.h = tempImg.naturalHeight;
+
+        if (resetView || isNewImage) {
+            cropState.baseScale = Math.max(CROP_VIEWPORT / cropImgNatural.w, CROP_VIEWPORT / cropImgNatural.h);
+            cropState.scale = cropState.baseScale;
+            cropState.tx = (CROP_VIEWPORT - cropImgNatural.w * cropState.scale) / 2;
+            cropState.ty = (CROP_VIEWPORT - cropImgNatural.h * cropState.scale) / 2;
+            $('#crop_zoom').val(1);
+        }
+
+        var img = document.getElementById('crop_image');
+        img.src = dataUrl;
+        img.style.width  = cropImgNatural.w + 'px';
+        img.style.height = cropImgNatural.h + 'px';
+        aplicarTransformCrop();
+        $('#modal_crop_logo').modal('show');
+    };
+    tempImg.src = dataUrl;
+}
+
+function cropPointerDown(x, y) {
+    cropDragging = true;
+    cropLastX = x;
+    cropLastY = y;
+}
+
+function cropPointerMove(x, y) {
+    if (!cropDragging) return;
+    cropState.tx += (x - cropLastX);
+    cropState.ty += (y - cropLastY);
+    cropLastX = x;
+    cropLastY = y;
+    clampCrop();
+    aplicarTransformCrop();
+}
+
+function cropPointerUp() {
+    cropDragging = false;
+}
+
 function getQROptions() {
     var data = $('#qr_contenido').val().trim() || 'https://pibg.mx';
     var size   = parseInt($('#qr_size').val())   || 300;
@@ -202,19 +271,80 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!file) { return; }
         var reader = new FileReader();
         reader.onloadend = function() {
-            logoDataUrl = reader.result;
-            $('#qr_logo_preview').attr('src', logoDataUrl).show();
-            $('#qr_logo_clear').show();
-            updateQR();
+            cropOriginalDataUrl = reader.result;
+            abrir_crop_logo(cropOriginalDataUrl, true);
         };
         reader.readAsDataURL(file);
     });
 
+    $('#qr_logo_edit').on('click', function() {
+        if (cropOriginalDataUrl) { abrir_crop_logo(cropOriginalDataUrl, false); }
+    });
+
     $('#qr_logo_clear').on('click', function() {
         logoDataUrl = null;
+        cropOriginalDataUrl = null;
         $('#qr_logo').val('');
         $('#qr_logo_preview').hide().attr('src', '');
+        $('#qr_logo_edit').hide();
         $(this).hide();
         updateQR();
+    });
+
+    // ── Modal de recorte ──
+    $('#crop_zoom').on('input', function() {
+        var z = parseFloat($(this).val());
+        var oldScale = cropState.scale;
+        var newScale = cropState.baseScale * z;
+        var cx = CROP_VIEWPORT / 2, cy = CROP_VIEWPORT / 2;
+        var nx = (cx - cropState.tx) / oldScale;
+        var ny = (cy - cropState.ty) / oldScale;
+        cropState.scale = newScale;
+        cropState.tx = cx - nx * newScale;
+        cropState.ty = cy - ny * newScale;
+        clampCrop();
+        aplicarTransformCrop();
+    });
+
+    $('#crop_viewport').on('mousedown', function(e) {
+        cropPointerDown(e.clientX, e.clientY);
+        e.preventDefault();
+    });
+    $(document).on('mousemove', function(e) { cropPointerMove(e.clientX, e.clientY); });
+    $(document).on('mouseup', function() { cropPointerUp(); });
+
+    $('#crop_viewport').on('touchstart', function(e) {
+        var t = e.originalEvent.touches[0];
+        cropPointerDown(t.clientX, t.clientY);
+    });
+    $('#crop_viewport').on('touchmove', function(e) {
+        var t = e.originalEvent.touches[0];
+        cropPointerMove(t.clientX, t.clientY);
+        e.preventDefault();
+    });
+    $('#crop_viewport').on('touchend', function() { cropPointerUp(); });
+
+    $('#btn_aplicar_crop').on('click', function() {
+        var sSize = CROP_VIEWPORT / cropState.scale;
+        var sx = -cropState.tx / cropState.scale;
+        var sy = -cropState.ty / cropState.scale;
+        sx = Math.max(0, Math.min(sx, cropImgNatural.w - sSize));
+        sy = Math.max(0, Math.min(sy, cropImgNatural.h - sSize));
+
+        var canvas = document.createElement('canvas');
+        canvas.width  = CROP_OUTPUT;
+        canvas.height = CROP_OUTPUT;
+        canvas.getContext('2d').drawImage(
+            document.getElementById('crop_image'),
+            sx, sy, sSize, sSize,
+            0, 0, CROP_OUTPUT, CROP_OUTPUT
+        );
+
+        logoDataUrl = canvas.toDataURL('image/png');
+        $('#qr_logo_preview').attr('src', logoDataUrl).show();
+        $('#qr_logo_clear').show();
+        $('#qr_logo_edit').show();
+        updateQR();
+        $('#modal_crop_logo').modal('hide');
     });
 });
