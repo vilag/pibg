@@ -3,6 +3,7 @@
 var qrCode      = null;
 var logoDataUrl = null;
 var qr_editando_id = null;
+var qr_guardando   = false;
 
 // ── Recorte de logo ──
 var cropOriginalDataUrl = null;
@@ -140,12 +141,25 @@ function descargar_qr() {
 }
 
 function guardar_qr() {
+    if (qr_guardando) { return; }
+
     var nombre    = $('#qr_nombre').val().trim();
     var contenido = $('#qr_contenido').val().trim();
     if (!nombre || !contenido) {
         bootbox.alert('Es necesario ingresar el nombre y el contenido del código QR.');
         return;
     }
+
+    // Se toma una copia del id que se está editando al momento del clic: si no se
+    // hiciera así, un doble clic (o una generación de imagen lenta) podía dejar que
+    // la primera petición terminara, limpiara qr_editando_id, y que la segunda
+    // petición ya en curso leyera ese id en null y creara un registro nuevo en
+    // lugar de actualizar.
+    var editando_id = qr_editando_id;
+
+    qr_guardando = true;
+    $('#qr_btn_guardar').prop('disabled', true);
+
     qrCode.getRawData('png').then(function(blob) {
         var reader = new FileReader();
         reader.onloadend = function() {
@@ -159,19 +173,25 @@ function guardar_qr() {
                 imagen_base64:    reader.result
             };
             var op = 'guardar_qr';
-            if (qr_editando_id) {
-                datos.id = qr_editando_id;
+            if (editando_id) {
+                datos.id = editando_id;
                 op = 'editar_qr';
             }
             $.post('ajax/codigos_qr.php?op=' + op, datos, function(data) {
                 data = JSON.parse(data);
-                var editando = !!qr_editando_id;
                 cancelar_edicion_qr();
                 listar_qr_codes();
-                bootbox.alert(editando ? '✓ Código QR actualizado.' : '✓ Código QR guardado exitosamente.');
+                bootbox.alert(editando_id ? '✓ Código QR actualizado.' : '✓ Código QR guardado exitosamente.');
+            }).always(function() {
+                qr_guardando = false;
+                $('#qr_btn_guardar').prop('disabled', false);
             });
         };
         reader.readAsDataURL(blob);
+    }).catch(function() {
+        qr_guardando = false;
+        $('#qr_btn_guardar').prop('disabled', false);
+        bootbox.alert('Ocurrió un error al generar la imagen del código QR.');
     });
 }
 
