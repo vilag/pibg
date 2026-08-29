@@ -29,27 +29,6 @@
   padding: 130px 20px 70px;
   width: 100%;
 }
-.aca-hero__tag {
-  display: inline-block;
-  background: var(--aca-dorado);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 5px 16px;
-  border-radius: 20px;
-  margin-bottom: 18px;
-}
-.aca-hero__title {
-  font-family: 'Libre Baskerville', serif !important;
-  font-size: clamp(36px, 7vw, 68px);
-  color: #fff;
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 16px;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
 .aca-hero__logo {
   display: block;
   width: 100%;
@@ -339,7 +318,6 @@
 }
 
 @media (max-width: 991px) {
-  .aca-hero__title { font-size: 44px; }
   .aca-sec { padding: 60px 0; }
   .aca-instrumentos-sec { padding: 60px 0; }
   .aca-versiculo { padding: 60px 0; }
@@ -347,11 +325,11 @@
   .aca-cta { padding: 60px 0; }
 }
 @media (max-width: 767px) {
-  .aca-hero__title { font-size: 32px; }
+  .aca-hero__logo { max-width: 300px; }
   .aca-hero__content { padding: 110px 16px 56px; }
   .aca-sec__img { max-height: 280px; margin-top: 32px; }
 }
 @media (max-width: 480px) {
-  .aca-hero__title { font-size: 26px; }
+  .aca-hero__logo { max-width: 240px; }
   .aca-card { padding: 28px 18px; }
 }
