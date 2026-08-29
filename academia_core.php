@@ -141,6 +141,53 @@
         <a href="tel:+523336144120"><i class="fa fa-phone"></i> (33) 36144120</a>
         <a href="mailto:pibgdlar@gmail.com"><i class="fa fa-envelope"></i> pibgdlar@gmail.com</a>
       </div>
+
+      <!-- Formulario: solicitar informes -->
+      <div class="aca-form-wrap">
+        <h3 class="aca-form__title">Solicita informes</h3>
+        <p class="aca-form__subtitle">Déjanos tus datos y el instrumento que te interesa; te contactaremos con gusto.</p>
+
+        <!-- Honeypot anti-spam: campo oculto que un humano nunca llena -->
+        <input type="text" id="aca_web" name="aca_web" class="aca-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="aca-form__row">
+          <div class="aca-form__group">
+            <label for="aca_nombre">Nombre</label>
+            <input type="text" id="aca_nombre" class="aca-form__input" placeholder="Tu nombre">
+          </div>
+          <div class="aca-form__group">
+            <label for="aca_correo">Correo</label>
+            <input type="email" id="aca_correo" class="aca-form__input" placeholder="tu@correo.com">
+          </div>
+        </div>
+        <div class="aca-form__row">
+          <div class="aca-form__group aca-form__group--half">
+            <label for="aca_telefono">Teléfono</label>
+            <input type="tel" id="aca_telefono" class="aca-form__input" placeholder="10 dígitos">
+          </div>
+        </div>
+
+        <div class="aca-form__group">
+          <label>¿Qué instrumento(s) te interesa aprender?</label>
+          <div class="aca-form__checks">
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Violín"> Violín</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Piano"> Piano</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Clarinete"> Clarinete</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Trompeta"> Trompeta</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Guitarra"> Guitarra</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Cello"> Cello</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Canto"> Canto</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Saxofón"> Saxofón</label>
+            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Flauta transversal"> Flauta transversal</label>
+          </div>
+        </div>
+
+        <button type="button" class="aca-btn aca-btn--solid" id="aca_form_btn" onclick="academia_enviar_solicitud();">
+          <i class="fa fa-paper-plane"></i> Solicitar informes
+        </button>
+        <div id="aca_form_resultado" class="aca-form__resultado"></div>
+      </div>
+
       <div style="margin-top:24px;">
         <a href="./" class="aca-btn aca-btn--outline">Ir al inicio</a>
       </div>
@@ -148,6 +195,7 @@
   </div>
 
   <?php require 'footer.php'; ?>
+  <script src="scripts/academia_core.js?v=<?php echo(rand()); ?>"></script>
 
 </div><!-- /super_container -->
 

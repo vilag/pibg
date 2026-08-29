@@ -152,9 +152,6 @@
   margin-left: 12px;
   color: var(--aca-dorado);
 }
-@media (max-width: 480px) {
-  .aca-instrumentos-box { padding: 26px 18px; }
-}
 
 .aca-card {
   background: #fff;
@@ -290,6 +287,101 @@
 }
 .aca-contacto a:hover { opacity: .88; }
 
+.aca-form-wrap {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 30px;
+  margin-top: 30px;
+  text-align: left;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.aca-form__title {
+  font-family: 'Libre Baskerville', serif !important;
+  font-size: 22px;
+  color: var(--aca-azul);
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.aca-form__subtitle {
+  font-size: 14px;
+  color: var(--aca-gris-texto);
+  text-align: center;
+  margin-bottom: 24px;
+}
+.aca-form__row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.aca-form__group {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 18px;
+}
+.aca-form__group--half { max-width: 260px; }
+.aca-form__group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--aca-azul);
+  margin-bottom: 6px;
+}
+.aca-form__input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #dde1e7;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+}
+.aca-form__input:focus {
+  outline: none;
+  border-color: var(--aca-dorado);
+}
+.aca-form__checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+.aca-form__check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--aca-gris-texto);
+  cursor: pointer;
+}
+.aca-form__check input { cursor: pointer; }
+.aca-form-wrap .aca-btn {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 10px 0 0;
+}
+.aca-form__resultado {
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--aca-dorado-dark);
+  margin-top: 14px;
+}
+.aca-form__resultado--error { color: #c0392b; }
+.aca-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .aca-cta {
   background: var(--aca-gris-claro);
   padding: 80px 0;
@@ -332,4 +424,6 @@
 @media (max-width: 480px) {
   .aca-hero__logo { max-width: 240px; }
   .aca-card { padding: 28px 18px; }
+  .aca-instrumentos-box { padding: 26px 18px; }
+  .aca-form-wrap { padding: 26px 20px; }
 }
