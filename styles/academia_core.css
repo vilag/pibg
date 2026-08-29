@@ -17,9 +17,9 @@
 .aca-hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('../images/ministerios/coros.png');
+  background-image: url('../images/ministerios/academia_core_hero.png');
   background-size: cover;
-  background-position: center 30%;
+  background-position: center 65%;
   filter: brightness(0.38);
 }
 .aca-hero__content {
