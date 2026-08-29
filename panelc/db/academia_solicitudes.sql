@@ -13,5 +13,3 @@ CREATE TABLE IF NOT EXISTS academia_solicitudes (
     fecha_hora   DATETIME     DEFAULT CURRENT_TIMESTAMP,
     atendida     TINYINT(1)   DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-ALTER TABLE academia_solicitudes ADD COLUMN IF NOT EXISTS ip VARCHAR(45) DEFAULT NULL AFTER telefono;

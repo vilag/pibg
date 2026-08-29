@@ -1,3 +1,4 @@
+<?php $academia_instrumentos = require 'config/academia_instrumentos.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -85,15 +86,9 @@
 
       <div class="aca-instrumentos-box">
         <div class="aca-instrumentos">
-          <span class="aca-instrumento">Violín</span>
-          <span class="aca-instrumento">Piano</span>
-          <span class="aca-instrumento">Clarinete</span>
-          <span class="aca-instrumento">Trompeta</span>
-          <span class="aca-instrumento">Guitarra</span>
-          <span class="aca-instrumento">Cello</span>
-          <span class="aca-instrumento">Canto</span>
-          <span class="aca-instrumento">Saxofón</span>
-          <span class="aca-instrumento">Flauta transversal</span>
+          <?php foreach ($academia_instrumentos as $aca_inst): ?>
+            <span class="aca-instrumento"><?php echo htmlspecialchars($aca_inst); ?></span>
+          <?php endforeach; ?>
         </div>
       </div>
 
@@ -170,15 +165,12 @@
         <div class="aca-form__group">
           <label>¿Qué instrumento(s) te interesa aprender?</label>
           <div class="aca-form__checks">
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Violín"> Violín</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Piano"> Piano</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Clarinete"> Clarinete</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Trompeta"> Trompeta</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Guitarra"> Guitarra</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Cello"> Cello</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Canto"> Canto</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Saxofón"> Saxofón</label>
-            <label class="aca-form__check"><input type="checkbox" name="aca_instrumento" value="Flauta transversal"> Flauta transversal</label>
+            <?php foreach ($academia_instrumentos as $aca_inst): ?>
+              <label class="aca-form__check">
+                <input type="checkbox" name="aca_instrumento" value="<?php echo htmlspecialchars($aca_inst); ?>">
+                <?php echo htmlspecialchars($aca_inst); ?>
+              </label>
+            <?php endforeach; ?>
           </div>
         </div>
 

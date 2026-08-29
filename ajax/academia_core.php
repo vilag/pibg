@@ -6,11 +6,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $academia = new Academia_core();
 $op = $_GET['op'] ?? '';
-
-const ACADEMIA_INSTRUMENTOS_VALIDOS = [
-    'Violín', 'Piano', 'Clarinete', 'Trompeta', 'Guitarra',
-    'Cello', 'Canto', 'Saxofón', 'Flauta transversal',
-];
+$ACADEMIA_INSTRUMENTOS_VALIDOS = require '../config/academia_instrumentos.php';
 
 switch ($op) {
 
@@ -26,7 +22,7 @@ switch ($op) {
         $correo   = trim($_POST['correo']   ?? '');
         $telefono = trim($_POST['telefono'] ?? '');
         $instrumentos_arr = isset($_POST['instrumentos']) && is_array($_POST['instrumentos'])
-            ? array_values(array_intersect($_POST['instrumentos'], ACADEMIA_INSTRUMENTOS_VALIDOS))
+            ? array_values(array_intersect($_POST['instrumentos'], $ACADEMIA_INSTRUMENTOS_VALIDOS))
             : [];
 
         if ($nombre === '' || $correo === '' || $telefono === '' || empty($instrumentos_arr)) {
@@ -39,13 +35,14 @@ switch ($op) {
         }
 
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
-        if ($ip !== '' && $academia->ya_solicito_recientemente($ip)) {
+        $instrumentos_txt = implode(', ', $instrumentos_arr);
+        $guardado = $academia->guardar_solicitud($nombre, $correo, $telefono, $instrumentos_txt, $ip);
+        $id = $guardado['id'];
+
+        if ($id === 0 && $guardado['limitado']) {
             echo json_encode(['ok' => false, 'msg' => 'Ya recibimos tu solicitud. Espera un momento antes de enviar otra.']);
             break;
         }
-
-        $instrumentos_txt = implode(', ', $instrumentos_arr);
-        $id = $academia->guardar_solicitud($nombre, $correo, $telefono, $instrumentos_txt, $ip);
 
         // Responder antes de enviar los correos: mail() puede tardar (o
         // colgarse) si el servidor de correo es lento, y no debe hacer
