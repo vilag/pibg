@@ -34,21 +34,28 @@ self.addEventListener('notificationclick', function (event) {
     event.notification.close();
     var url = (event.notification.data && event.notification.data.url) || '/';
     var urlCompleta = new URL(url, self.location.origin).href;
+    var esIOS = /iPad|iPhone|iPod/.test(self.navigator.userAgent);
 
     event.waitUntil(
         self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
-            // WindowClient.navigate() no es confiable en Safari/iOS (la PWA
-            // agregada a pantalla de inicio se queda donde ya estaba, aunque
-            // "funcione" en Chrome/Android): en vez de navegar una ventana ya
-            // abierta, solo se reutiliza si YA está en la URL exacta de la
-            // notificación; para cualquier otro caso (o si no hay ventana
-            // abierta) se abre una nueva directamente ahí, que es el patrón
-            // que sí funciona en todas las plataformas.
             for (var i = 0; i < clientList.length; i++) {
                 var cliente = clientList[i];
-                if (cliente.url === urlCompleta && 'focus' in cliente) {
-                    return cliente.focus();
+                if (!('focus' in cliente)) { continue; }
+
+                // WindowClient.navigate() no es confiable en Safari/iOS (la PWA
+                // agregada a pantalla de inicio se queda donde ya estaba): ahí
+                // solo se reutiliza la ventana si ya está exactamente en la URL
+                // de destino; para cualquier otro caso se abre una nueva más
+                // abajo. En el resto de plataformas sí se puede navegar la
+                // ventana ya abierta, como antes.
+                if (esIOS) {
+                    if (cliente.url === urlCompleta) { return cliente.focus(); }
+                    continue;
                 }
+                if ('navigate' in cliente) {
+                    cliente.navigate(urlCompleta).catch(function () {});
+                }
+                return cliente.focus();
             }
             if (self.clients.openWindow) { return self.clients.openWindow(urlCompleta); }
         })
