@@ -248,7 +248,16 @@ switch ($_GET["op"] ?? '') {
             flush();
         }
 
-        if ($id > 0 && ($_SESSION['administrador'] ?? 0) == 1) {
+        // Liberar el lock de sesión (PHP lo mantiene abierto hasta que el script
+        // termina) para que otras peticiones que dependen de la misma sesión,
+        // como listar las predicaciones, no se queden esperando a que termine
+        // el envío de notificaciones.
+        $es_admin = ($_SESSION['administrador'] ?? 0) == 1;
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+
+        if ($id > 0 && $es_admin) {
             require_once "../config/push_helpers.php";
             try {
                 push_notificar_suscriptores(
