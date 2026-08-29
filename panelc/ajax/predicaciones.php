@@ -237,7 +237,18 @@ switch ($_GET["op"] ?? '') {
             $_POST['archivo_pred'] ?? ''
         );
 
-        if ($id > 0) {
+        echo json_encode(['ok' => $id > 0, 'id' => $id]);
+
+        // Responder antes de notificar: el envío a todos los suscriptores puede
+        // tardar (WebPush + FCM), y no debe hacer esperar al admin por eso.
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif (ob_get_level() > 0) {
+            ob_end_flush();
+            flush();
+        }
+
+        if ($id > 0 && ($_SESSION['administrador'] ?? 0) == 1) {
             require_once "../config/push_helpers.php";
             try {
                 push_notificar_suscriptores(
@@ -246,11 +257,9 @@ switch ($_GET["op"] ?? '') {
                     '/blog.php?id=' . $id
                 );
             } catch (\Throwable $e) {
-                // no interrumpir el guardado de la predicación si falla el envío de la notificación
+                error_log('push_notificar_suscriptores (nueva predicación #' . $id . '): ' . $e->getMessage());
             }
         }
-
-        echo json_encode(['ok' => $id > 0, 'id' => $id]);
         break;
 
     case 'actualizar':
