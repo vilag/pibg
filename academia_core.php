@@ -78,34 +78,29 @@
   </div>
 
   <!-- Lo que ofrecemos -->
-  <div class="aca-sec aca-sec--gray">
+  <div class="aca-instrumentos-sec">
+    <div class="aca-instrumentos-sec__bg"></div>
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-5 mb-4 mb-lg-0 text-center">
-          <img src="images/ministerios/academia_core_banner.png" alt="Academia Coré - instrumentos que enseñamos" class="aca-sec__img aca-sec__img--poster">
-        </div>
-        <div class="col-lg-7">
-          <div class="aca-sec__tag">Lo que ofrecemos</div>
-          <h2 class="aca-sec__title">Instrumentos y clases disponibles</h2>
-          <p class="aca-sec__text">
-            Contamos con clases para los siguientes instrumentos y disciplinas musicales:
-          </p>
-          <div class="aca-instrumentos">
-            <span class="aca-instrumento">Violín</span>
-            <span class="aca-instrumento">Piano</span>
-            <span class="aca-instrumento">Clarinete</span>
-            <span class="aca-instrumento">Trompeta</span>
-            <span class="aca-instrumento">Guitarra</span>
-            <span class="aca-instrumento">Cello</span>
-            <span class="aca-instrumento">Canto</span>
-            <span class="aca-instrumento">Saxofón</span>
-            <span class="aca-instrumento">Flauta transversal</span>
-          </div>
-          <p class="aca-sec__text" style="margin-top:20px;">
-            Además de las clases individuales, los alumnos tienen la oportunidad de formar parte de nuestro <strong>coro</strong>, acompañados siempre por <strong>maestros dedicados</strong> a su proceso de aprendizaje.
-          </p>
+      <p class="aca-sec__tag aca-instrumentos-sec__tag">Lo que ofrecemos</p>
+      <h2 class="aca-sec__title aca-instrumentos-sec__title">Instrumentos y clases disponibles</h2>
+
+      <div class="aca-instrumentos-box">
+        <div class="aca-instrumentos">
+          <span class="aca-instrumento">Violín</span>
+          <span class="aca-instrumento">Piano</span>
+          <span class="aca-instrumento">Clarinete</span>
+          <span class="aca-instrumento">Trompeta</span>
+          <span class="aca-instrumento">Guitarra</span>
+          <span class="aca-instrumento">Cello</span>
+          <span class="aca-instrumento">Canto</span>
+          <span class="aca-instrumento">Saxofón</span>
+          <span class="aca-instrumento">Flauta transversal</span>
         </div>
       </div>
+
+      <p class="aca-instrumentos-sec__text">
+        Además de las clases individuales, los alumnos tienen la oportunidad de formar parte de nuestro <strong>coro</strong>, acompañados siempre por <strong>maestros dedicados</strong> a su proceso de aprendizaje.
+      </p>
     </div>
   </div>
 
