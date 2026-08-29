@@ -276,7 +276,6 @@
   .aca-hero__title { font-size: 32px; }
   .aca-hero__content { padding: 110px 16px 56px; }
   .aca-sec__img { max-height: 280px; margin-top: 32px; }
-  .aca-ig-sec__btns { flex-direction: column; align-items: center; }
 }
 @media (max-width: 480px) {
   .aca-hero__title { font-size: 26px; }

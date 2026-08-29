@@ -202,12 +202,13 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ── Responsive header — aplica en todas las páginas ─────────────────
-   Hamburguesa activa hasta 1280px.
+   Hamburguesa activa hasta 1360px.
    El container Bootstrap pasa de 960px (lg) a 1140px (xl) en 1200px,
-   y el nav completo cabe sin wrapping solo a partir de ~1280px.
+   y el nav completo (7 items desde que se agregó "Academia Coré") cabe
+   sin wrapping solo a partir de ~1360px.
 ──────────────────────────────────────────────────────────────────── */
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1360px) {
     .top_bar        { display: none !important; }
     .main_nav       { display: none !important; }
     .search_button  { display: none !important; }
@@ -231,8 +232,8 @@ h1, h2, h3, h4, h5, h6,
     }
 }
 
-/* ── Desktop completo (≥1281px) ───────────────────────────────────── */
-@media only screen and (min-width: 1281px) {
+/* ── Desktop completo (≥1361px) ───────────────────────────────────── */
+@media only screen and (min-width: 1361px) {
     .hamburger { display: none !important; }
 
     /* Logo compacto para que quepan los items del nav */

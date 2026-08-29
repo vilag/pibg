@@ -130,6 +130,13 @@
                     'icono'    => 'fa-child',
                     'keywords' => ['niños','ninos','niño','nino','infantil','niñez','ninez','ebv','escuela dominical','niñas'],
                 ],
+                [
+                    'titulo'   => 'Academia Coré',
+                    'desc'     => 'Academia de música de la PIBG, abierta a cualquier persona interesada en aprender música. Clases y coro con maestros dedicados.',
+                    'url'      => 'academia_core.php',
+                    'icono'    => 'fa-music',
+                    'keywords' => ['academia core','academia coré','academia de música','academia de musica','clases de música','clases de musica','academia musical'],
+                ],
             ];
             $q_lower = mb_strtolower($q_raw, 'UTF-8');
             foreach ($paginas_catalogo as $pag) {
