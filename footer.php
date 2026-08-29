@@ -1,3 +1,65 @@
+<?php if (empty($ocultar_aviso_notif)): ?>
+<!-- ── Aviso: activar notificaciones (suscripción directa, cuando el navegador la soporta sin instalar la app) ── -->
+<style>
+.app-notif-banner { display: none; background: linear-gradient(100deg, #1D4268 0%, #0b1c30 100%); padding: 34px 0; }
+.app-notif-banner.app-notif-banner--visible { display: block !important; }
+.app-notif-banner .app-promo-inner { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.app-notif-banner .app-promo-text { flex: 1; min-width: 240px; }
+.app-notif-banner .app-promo-title { color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.app-notif-banner .app-promo-desc { color: rgba(255,255,255,.88); font-size: 14px; line-height: 1.6; max-width: 560px; }
+.app-notif-icon-wrap { width: 68px; height: 68px; border-radius: 18px; background: rgba(255, 255, 255, .12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.app-notif-icon-wrap i { font-size: 30px; color: #fff; }
+.app-notif-btn { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #1D4268 !important; font-weight: 700; font-size: 15px; padding: 14px 28px; border: none; border-radius: 10px; cursor: pointer; white-space: nowrap; box-shadow: 0 6px 16px rgba(0, 0, 0, .18); animation: app-notif-pulse 2.2s infinite; transition: transform .15s; }
+.app-notif-btn:hover { transform: translateY(-2px); }
+.app-notif-btn:disabled { opacity: .6; cursor: default; animation: none; }
+@keyframes app-notif-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, .55); }
+    70%  { box-shadow: 0 0 0 14px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+.app-notif-resultado { text-align: center; color: #fff; font-size: 13px; margin-top: 12px; }
+.app-notif-browser-banner { padding: 56px 20px; text-align: center; background: linear-gradient(180deg, #1c2e42 0%, #24344B 100%); }
+html.pibg-app-instalada .app-notif-browser-banner { display: none !important; }
+.app-notif-browser-inner { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+.app-notif-browser-btn { display: inline-flex; align-items: center; gap: 10px; background: #F2125E; color: #fff !important; font-weight: 700; font-size: 15px; padding: 15px 32px; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 8px 20px rgba(242, 18, 94, .3); transition: transform .15s, opacity .15s; }
+.app-notif-browser-btn:hover { transform: translateY(-2px); opacity: .92; }
+.app-notif-browser-text { color: #cfd8e3; font-size: 15px; line-height: 1.6; margin: 0 0 22px; }
+@media only screen and (max-width: 767px) {
+    .app-notif-banner .app-promo-inner { flex-direction: column; text-align: center; }
+    .app-notif-btn { width: 100%; justify-content: center; }
+}
+</style>
+
+<section class="app-notif-banner" id="app_notif_banner">
+	<div class="container">
+		<div class="app-promo-inner">
+			<div class="app-notif-icon-wrap">
+				<i class="fa fa-bell" aria-hidden="true"></i>
+			</div>
+			<div class="app-promo-text">
+				<div class="app-promo-title">No te pierdas ningún anuncio</div>
+				<div class="app-promo-desc">Activa las notificaciones y entérate al instante de nuevas
+					actividades, predicaciones y avisos importantes.</div>
+			</div>
+			<button type="button" class="app-notif-btn" id="app_notif_btn" onclick="app_notif_activar_click()">
+				<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
+			</button>
+		</div>
+		<div id="app_notif_resultado" class="app-notif-resultado"></div>
+	</div>
+</section>
+
+<!-- ── Aviso: invitar a instalar la app (solo cuando el navegador no puede recibir push sin instalarla, ej. Safari iOS) ── -->
+<section class="app-notif-browser-banner" id="app_notif_browser_banner">
+	<div class="app-notif-browser-inner">
+		<p class="app-notif-browser-text">No te pierdas ningún anuncio, actividad o predicación nueva.</p>
+		<button style="margin-top: 30px;" type="button" class="app-notif-browser-btn" onclick="app_notif_browser_click()">
+			<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
+		</button>
+	</div>
+</section>
+<?php endif; ?>
+
 <!-- Footer -->
 <footer class="footer pibg-footer">
 	<div class="container">
@@ -75,6 +137,58 @@
 <script src="plugins/video-js/Youtube.min.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
+
+<?php if (empty($ocultar_aviso_notif)): ?>
+<script src="js/bootbox.js"></script>
+<script src="js/push_cliente.js"></script>
+<script>
+(function () {
+	var directBanner  = document.getElementById('app_notif_banner');
+	var browserBanner = document.getElementById('app_notif_browser_banner');
+	if (typeof push_soportado !== 'function' || !push_soportado()) { return; }
+
+	// Este navegador puede recibir push sin necesidad de instalar la app
+	// (ej. Chrome/Firefox de escritorio o Android): no tiene sentido pedirle
+	// que la instale, se le ofrece activar las notificaciones directamente.
+	if (browserBanner) { browserBanner.style.display = 'none'; }
+
+	// La app nativa (Capacitor) aún no puede saber de forma confiable si ya
+	// está suscrita (push_yaActivo() siempre devuelve "no activo" en ese caso),
+	// así que por ahora no se le muestra este aviso para evitar que aparezca
+	// en cada pantalla aunque el usuario ya haya activado las notificaciones.
+	if (typeof push_esNativo === 'function' && push_esNativo()) { return; }
+
+	if (!directBanner) { return; }
+	push_yaActivo(function (activo) {
+		if (!activo) { directBanner.classList.add('app-notif-banner--visible'); }
+	});
+})();
+
+function app_notif_activar_click() {
+	var btn = document.getElementById('app_notif_btn');
+	var resultado = document.getElementById('app_notif_resultado');
+	btn.disabled = true;
+	resultado.textContent = 'Activando…';
+	push_activar(function () {
+		resultado.textContent = '¡Listo! Ya recibirás notificaciones. 🔔';
+		setTimeout(function () {
+			document.getElementById('app_notif_banner').style.display = 'none';
+		}, 2200);
+	}, function (msg) {
+		btn.disabled = false;
+		resultado.textContent = msg;
+	});
+}
+
+function app_notif_browser_click() {
+	bootbox.alert({
+		title: '¿Quieres recibir notificaciones?',
+		message: 'Para poder enviarte notificaciones, primero necesitas instalar la app (o agregarla a tu pantalla de inicio si usas iPhone). Es rápido y gratis.<br><br><a href="descarga-app.php" class="app-notif-browser-btn" style="text-decoration:none;display:inline-block;margin-top:6px;">Ver cómo instalarla</a>',
+		className: 'app-notif-modal'
+	});
+}
+</script>
+<?php endif; ?>
 
 </body>
 </html>

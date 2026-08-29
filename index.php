@@ -522,27 +522,10 @@ function si_vis($clave)
 		<?php endif; /* actividades */ ?>
 		<!-- ── /Actividades Semanales ─────────────────────────────────── -->
 
-		<!-- ── Boton: activar notificaciones (solo navegador) ─────────── -->
-		<section class="app-notif-browser-banner" id="app_notif_browser_banner">
-			<div class="app-notif-browser-inner">
-				<p class="app-notif-browser-text">No te pierdas ningún anuncio, actividad o predicación nueva.</p>
-				<button style="margin-top: 30px;" type="button" class="app-notif-browser-btn"
-					onclick="app_notif_browser_click()">
-					<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
-				</button>
-			</div>
-		</section>
-		<!-- ── /Boton: activar notificaciones (solo navegador) ────────── -->
+		<!-- El aviso de "activar notificaciones" / "instalar la app" ahora vive en
+		     footer.php, compartido por todas las páginas públicas del sitio. -->
 
 		<script>
-			function app_notif_browser_click() {
-				bootbox.alert({
-					title: '¿Quieres recibir notificaciones?',
-					message: 'Para poder enviarte notificaciones, primero necesitas instalar la app (o agregarla a tu pantalla de inicio si usas iPhone). Es rápido y gratis.<br><br><a href="descarga-app.php" class="app-notif-browser-btn" style="text-decoration:none;display:inline-block;margin-top:6px;">Ver cómo instalarla</a>',
-					className: 'app-notif-modal'
-				});
-			}
-
 			function abrirMaps() {
 				var addr = encodeURIComponent('C. Independencia 657, Zona Centro, 44100 Guadalajara, Jal.');
 				var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -1752,26 +1735,8 @@ Y todo lo que hace, prosperará</p>
 		</section>
 		<!-- ── /Banner: instalar la app ───────────────────────────────── -->
 
-		<!-- ── Banner: activar notificaciones ─────────────────────────── -->
-		<section class="app-notif-banner" id="app_notif_banner">
-			<div class="container">
-				<div class="app-promo-inner">
-					<div class="app-notif-icon-wrap">
-						<i class="fa fa-bell" aria-hidden="true"></i>
-					</div>
-					<div class="app-promo-text">
-						<div class="app-promo-title">No te pierdas ningún anuncio</div>
-						<div class="app-promo-desc">Activa las notificaciones y entérate al instante de nuevas
-							actividades, predicaciones y avisos importantes.</div>
-					</div>
-					<button type="button" class="app-notif-btn" id="app_notif_btn" onclick="app_notif_activar_click()">
-						<i class="fa fa-bell" aria-hidden="true"></i> Activar notificaciones
-					</button>
-				</div>
-				<div id="app_notif_resultado" class="app-notif-resultado"></div>
-			</div>
-		</section>
-		<!-- ── /Banner: activar notificaciones ────────────────────────── -->
+		<!-- El aviso de "activar notificaciones" ahora vive en footer.php,
+		     compartido por todas las páginas públicas del sitio. -->
 
 		<!-- Footer -->
 		<!-- <button id="boton_prueba_notif" onclick="prueba_notif()">Prueba notif</button> -->
@@ -1993,36 +1958,9 @@ Y todo lo que hace, prosperará</p>
 
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script type="text/javascript" src="scripts/index.js?v=<?php echo (rand()); ?>"></script>
-	<script src="js/bootbox.js"></script>
-	<script src="js/push_cliente.js"></script>
-	<script>
-		(function () {
-			var banner = document.getElementById('app_notif_banner');
-			if (!banner) return;
-			if (!document.documentElement.classList.contains('pibg-app-instalada')) return;
-			if (typeof push_soportado !== 'function' || !push_soportado()) return;
-
-			push_yaActivo(function (activo) {
-				if (!activo) { banner.classList.add('app-notif-banner--visible'); }
-			});
-		})();
-
-		function app_notif_activar_click() {
-			var btn = document.getElementById('app_notif_btn');
-			var resultado = document.getElementById('app_notif_resultado');
-			btn.disabled = true;
-			resultado.textContent = 'Activando…';
-			push_activar(function () {
-				resultado.textContent = '¡Listo! Ya recibirás notificaciones. 🔔';
-				setTimeout(function () {
-					document.getElementById('app_notif_banner').style.display = 'none';
-				}, 2200);
-			}, function (msg) {
-				btn.disabled = false;
-				resultado.textContent = msg;
-			});
-		}
-	</script>
+	<!-- js/bootbox.js, js/push_cliente.js y la lógica de activar/invitar a
+	     notificaciones ahora se cargan desde footer.php, compartido por todas
+	     las páginas públicas (footer.php ya se incluyó más arriba). -->
 </body>
 
 </html>

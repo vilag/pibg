@@ -204,6 +204,10 @@
 	</script>
 
 <?php
+	// Esta página ya tiene su propia caja para activar notificaciones (arriba,
+	// con instrucciones por plataforma) y ya carga js/push_cliente.js: se le pide
+	// a footer.php que no repita el aviso genérico ni ese script.
+	$ocultar_aviso_notif = true;
 	require('footer.php');
 ?>
 
