@@ -23,7 +23,7 @@ class Predicaciones
         $sql = "SELECT s.*,
                     (SELECT GROUP_CONCAT(c.nombre ORDER BY c.nombre SEPARATOR ', ')
                      FROM sermon_categorias sc
-                     LEFT JOIN cat_sermones c ON sc.idcat = c.idcat_sermones
+                     LEFT JOIN cat_sermones c ON sc.idcat = c.id_cat
                      WHERE sc.idsermones = s.idsermones) AS categorias_nombres
                 FROM sermones s
                 ORDER BY s.idsermones DESC";
@@ -131,7 +131,7 @@ class Predicaciones
     {
         $idcat = (int)$idcat;
         ejecutarConsulta("DELETE FROM sermon_categorias WHERE idcat = $idcat");
-        return ejecutarConsulta("DELETE FROM cat_sermones WHERE idcat_sermones = $idcat");
+        return ejecutarConsulta("DELETE FROM cat_sermones WHERE id_cat = $idcat");
     }
 
     public function listar_series_activas()
