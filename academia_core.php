@@ -44,8 +44,7 @@
   <div class="aca-hero">
     <div class="aca-hero__bg"></div>
     <div class="aca-hero__content">
-      <span class="aca-hero__tag">PIBG &bull; Academia de Música</span>
-      <div class="aca-hero__title">Academia Coré</div>
+      <img src="images/logos/academia_core_logo_blanco.png" alt="Academia Coré - Academia de Música de la Primera Iglesia Bautista de Guadalajara" class="aca-hero__logo">
       <p class="aca-hero__subtitle">
         Academia de música de la Primera Iglesia Bautista de Guadalajara, para cualquier persona que le interese aprender música.
       </p>
@@ -131,6 +130,7 @@
   <!-- CTA final -->
   <div class="aca-cta">
     <div class="container">
+      <img src="images/logos/academia_core_logo.png" alt="Academia Coré" class="aca-cta__logo">
       <div class="aca-sec__tag" style="text-align:center; display:block;">¿Te gustaría aprender música?</div>
       <div class="aca-cta__title">Inscríbete a Academia Coré</div>
       <p class="aca-cta__text">

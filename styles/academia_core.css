@@ -50,6 +50,14 @@
   margin-bottom: 16px;
   text-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
+.aca-hero__logo {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 0 auto 22px;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
+}
 .aca-hero__subtitle {
   font-size: clamp(15px, 2.5vw, 19px);
   color: rgba(255,255,255,0.84);
@@ -307,6 +315,13 @@
   background: var(--aca-gris-claro);
   padding: 80px 0;
   text-align: center;
+}
+.aca-cta__logo {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  margin: 0 auto 24px;
 }
 .aca-cta__title {
   font-family: 'Libre Baskerville', serif !important;
