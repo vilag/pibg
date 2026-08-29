@@ -37,15 +37,16 @@ self.addEventListener('notificationclick', function (event) {
 
     event.waitUntil(
         self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
+            // WindowClient.navigate() no es confiable en Safari/iOS (la PWA
+            // agregada a pantalla de inicio se queda donde ya estaba, aunque
+            // "funcione" en Chrome/Android): en vez de navegar una ventana ya
+            // abierta, solo se reutiliza si YA está en la URL exacta de la
+            // notificación; para cualquier otro caso (o si no hay ventana
+            // abierta) se abre una nueva directamente ahí, que es el patrón
+            // que sí funciona en todas las plataformas.
             for (var i = 0; i < clientList.length; i++) {
                 var cliente = clientList[i];
-                if ('focus' in cliente) {
-                    // Navega la ventana ya abierta a la URL indicada antes de
-                    // enfocarla — antes solo se enfocaba y se quedaba donde ya
-                    // estuviera.
-                    if ('navigate' in cliente) {
-                        cliente.navigate(urlCompleta).catch(function () {});
-                    }
+                if (cliente.url === urlCompleta && 'focus' in cliente) {
                     return cliente.focus();
                 }
             }
