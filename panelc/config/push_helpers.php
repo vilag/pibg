@@ -83,3 +83,46 @@ function push_enviar_fcm($accessToken, $token, $titulo, $mensaje, $url)
     $expirada = in_array($http_code, [400, 404], true) && stripos((string)$respuesta, 'UNREGISTERED') !== false;
     return ['exito' => $http_code === 200, 'expirada' => $expirada];
 }
+
+/**
+ * Envia una notificacion push a todos los suscriptores activos (WebPush para
+ * iOS/navegador y FCM para Android), desactiva las suscripciones expiradas y
+ * registra el envio en el historial. Devuelve ['total' => int, 'exitosos' => int].
+ */
+function push_notificar_suscriptores($titulo, $mensaje, $url = '')
+{
+    require_once __DIR__ . '/../modelos/Push_suscripciones.php';
+    $modelo = new Push_suscripciones();
+
+    $suscripciones = array_merge(
+        $modelo->listar_activas('webpush'),
+        $modelo->listar_activas('fcm')
+    );
+
+    $total = count($suscripciones);
+    $exitosos = 0;
+    $accessTokenFcm = null;
+    $fcm_disponible = defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '';
+    if ($fcm_disponible) {
+        $accessTokenFcm = push_fcm_obtener_token();
+    }
+
+    foreach ($suscripciones as $fila) {
+        if ($fila['tipo'] === 'webpush') {
+            $resultado = push_enviar_webpush($fila, $titulo, $mensaje, $url);
+        } else {
+            if (!$accessTokenFcm) { continue; }
+            $resultado = push_enviar_fcm($accessTokenFcm, $fila['fcm_token'], $titulo, $mensaje, $url);
+        }
+
+        if ($resultado['exito']) {
+            $exitosos++;
+        } elseif ($resultado['expirada']) {
+            $modelo->desactivar($fila['id']);
+        }
+    }
+
+    $modelo->registrar_envio($titulo, $mensaje, $url ?: null, $total, $exitosos);
+
+    return ['total' => $total, 'exitosos' => $exitosos];
+}

@@ -236,6 +236,20 @@ switch ($_GET["op"] ?? '') {
             $_POST['predicacion'] ?? '',
             $_POST['archivo_pred'] ?? ''
         );
+
+        if ($id > 0) {
+            require_once "../config/push_helpers.php";
+            try {
+                push_notificar_suscriptores(
+                    'Nueva predicación: ' . $_POST['nom_sermon'],
+                    'Predicador: ' . $_POST['predicador'],
+                    '/blog.php?id=' . $id
+                );
+            } catch (\Throwable $e) {
+                // no interrumpir el guardado de la predicación si falla el envío de la notificación
+            }
+        }
+
         echo json_encode(['ok' => $id > 0, 'id' => $id]);
         break;
 

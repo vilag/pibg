@@ -38,42 +38,14 @@ switch ($op) {
             break;
         }
 
-        $suscripciones = array_merge(
-            $modelo->listar_activas('webpush'),
-            $modelo->listar_activas('fcm')
-        );
-
-        $total = count($suscripciones);
-        $exitosos = 0;
-        $accessTokenFcm = null;
-        $fcm_disponible = defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '';
-        if ($fcm_disponible) {
-            $accessTokenFcm = push_fcm_obtener_token();
-        }
-
-        foreach ($suscripciones as $fila) {
-            if ($fila['tipo'] === 'webpush') {
-                $resultado = push_enviar_webpush($fila, $titulo, $mensaje, $url);
-            } else {
-                if (!$accessTokenFcm) { continue; }
-                $resultado = push_enviar_fcm($accessTokenFcm, $fila['fcm_token'], $titulo, $mensaje, $url);
-            }
-
-            if ($resultado['exito']) {
-                $exitosos++;
-            } elseif ($resultado['expirada']) {
-                $modelo->desactivar($fila['id']);
-            }
-        }
-
-        $modelo->registrar_envio($titulo, $mensaje, $url ?: null, $total, $exitosos);
+        $resultado = push_notificar_suscriptores($titulo, $mensaje, $url);
 
         $avisos = [];
-        if (!$fcm_disponible) {
+        if (!(defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '')) {
             $avisos[] = 'Firebase (Android) aún no está configurado — solo se envió a suscriptores de iOS/navegador.';
         }
 
-        echo json_encode(['ok' => true, 'total' => $total, 'exitosos' => $exitosos, 'avisos' => $avisos]);
+        echo json_encode(['ok' => true, 'total' => $resultado['total'], 'exitosos' => $resultado['exitosos'], 'avisos' => $avisos]);
         break;
 
     default:
