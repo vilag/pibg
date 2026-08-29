@@ -80,38 +80,31 @@
   <!-- Lo que ofrecemos -->
   <div class="aca-sec aca-sec--gray">
     <div class="container">
-      <div class="row">
-        <div class="col-12 text-center mb-5">
+      <div class="row align-items-center">
+        <div class="col-lg-5 mb-4 mb-lg-0 text-center">
+          <img src="images/ministerios/academia_core_banner.png" alt="Academia Coré - instrumentos que enseñamos" class="aca-sec__img aca-sec__img--poster">
+        </div>
+        <div class="col-lg-7">
           <div class="aca-sec__tag">Lo que ofrecemos</div>
-          <h2 class="aca-sec__title" style="margin-bottom:0;">Una academia para todos</h2>
-        </div>
-      </div>
-      <div class="row">
-
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="aca-card">
-            <div class="aca-card__icon"><i class="fa fa-music"></i></div>
-            <div class="aca-card__title">Clases de música</div>
-            <p class="aca-card__text">Formación musical para cualquier persona interesada en aprender, sin importar el punto de partida.</p>
+          <h2 class="aca-sec__title">Instrumentos y clases disponibles</h2>
+          <p class="aca-sec__text">
+            Contamos con clases para los siguientes instrumentos y disciplinas musicales:
+          </p>
+          <div class="aca-instrumentos">
+            <span class="aca-instrumento">Violín</span>
+            <span class="aca-instrumento">Piano</span>
+            <span class="aca-instrumento">Clarinete</span>
+            <span class="aca-instrumento">Trompeta</span>
+            <span class="aca-instrumento">Guitarra</span>
+            <span class="aca-instrumento">Cello</span>
+            <span class="aca-instrumento">Canto</span>
+            <span class="aca-instrumento">Saxofón</span>
+            <span class="aca-instrumento">Flauta transversal</span>
           </div>
+          <p class="aca-sec__text" style="margin-top:20px;">
+            Además de las clases individuales, los alumnos tienen la oportunidad de formar parte de nuestro <strong>coro</strong>, acompañados siempre por <strong>maestros dedicados</strong> a su proceso de aprendizaje.
+          </p>
         </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="aca-card">
-            <div class="aca-card__icon"><i class="fa fa-users"></i></div>
-            <div class="aca-card__title">Coro</div>
-            <p class="aca-card__text">Un espacio para poner en práctica lo aprendido y servir con la música dentro de la iglesia.</p>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="aca-card">
-            <div class="aca-card__icon"><i class="fa fa-graduation-cap"></i></div>
-            <div class="aca-card__title">Maestros dedicados</div>
-            <p class="aca-card__text">Maestros comprometidos que acompañan el proceso de aprendizaje de cada alumno.</p>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>

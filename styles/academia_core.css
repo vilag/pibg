@@ -111,6 +111,30 @@
   box-shadow: 0 20px 60px rgba(0,0,0,0.14);
 }
 
+.aca-sec__img--poster {
+  width: auto;
+  max-width: 320px;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+
+.aca-instrumentos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.aca-instrumento {
+  display: inline-block;
+  background: #fff;
+  color: var(--aca-azul);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 2px solid var(--aca-dorado);
+}
+
 .aca-card {
   background: #fff;
   border-radius: 16px;
