@@ -77,7 +77,7 @@ switch ($op) {
                 . "Teléfono: $telefono\n"
                 . "Instrumentos de interés: $instrumentos_txt";
             $headers_admin = "From: $remitente\r\nReply-To: $correo\r\n";
-            @mail('pibgdlar@gmail.com', $asunto_admin, $cuerpo_admin, $headers_admin);
+            @mail($academia->obtener_correos_notificacion(), $asunto_admin, $cuerpo_admin, $headers_admin);
 
             // Correo de agradecimiento a quien solicitó informes
             $asunto_user = 'Gracias por tu interés en Academia Coré';

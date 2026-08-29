@@ -41,4 +41,26 @@ class Academia_core
         }
         return ['id' => $conexion->insert_id, 'limitado' => false];
     }
+
+    // Nota: este método existe también, verbatim, en
+    // panelc/modelos/Academia_solicitudes.php. Se mantiene duplicado (no se
+    // comparte vía require) porque raíz y panelc/ son árboles independientes
+    // en todo este proyecto (ver también config/Conexion.php vs
+    // panelc/config/Conexion.php); si se actualiza aquí, actualizar también
+    // la copia del panel admin.
+    public function obtener_correos_notificacion()
+    {
+        // Antes de correr panelc/db/academia_config.sql la tabla no existe:
+        // no se debe tronar la solicitud pública por eso, solo usar el
+        // correo por defecto.
+        try {
+            $r = ejecutarConsultaSimpleFila("SELECT correos_notificacion FROM academia_config WHERE id = 1 LIMIT 1");
+            if ($r && $r['correos_notificacion'] !== '') {
+                return $r['correos_notificacion'];
+            }
+        } catch (\Throwable $e) {
+            error_log('Academia_core::obtener_correos_notificacion: ' . $e->getMessage());
+        }
+        return 'pibgdlar@gmail.com';
+    }
 }

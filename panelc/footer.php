@@ -58,6 +58,17 @@
             });
         }
     })();
+    // Badge de solicitudes pendientes de Academia Coré (todas las páginas del admin)
+    (function() {
+        if (typeof $ !== 'undefined' && document.getElementById('badge_academia_solicitudes')) {
+            $.getJSON("ajax/academia_solicitudes.php?op=contar", function(data) {
+                if (data && data.n > 0) {
+                    document.getElementById('badge_academia_solicitudes').textContent = data.n;
+                    document.getElementById('badge_academia_solicitudes').style.display = 'inline';
+                }
+            });
+        }
+    })();
     </script>
   </body>
 </html>
