@@ -3,10 +3,10 @@
 <style>
 .app-notif-banner { display: none; background: linear-gradient(100deg, #1D4268 0%, #0b1c30 100%); padding: 34px 0; }
 .app-notif-banner.app-notif-banner--visible { display: block !important; }
-.app-notif-banner .app-promo-inner { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
-.app-notif-banner .app-promo-text { flex: 1; min-width: 240px; }
-.app-notif-banner .app-promo-title { color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-.app-notif-banner .app-promo-desc { color: rgba(255,255,255,.88); font-size: 14px; line-height: 1.6; max-width: 560px; }
+.app-notif-banner__inner { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.app-notif-banner__text { flex: 1; min-width: 240px; }
+.app-notif-banner__title { color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.app-notif-banner__desc { color: rgba(255,255,255,.88); font-size: 14px; line-height: 1.6; max-width: 560px; }
 .app-notif-icon-wrap { width: 68px; height: 68px; border-radius: 18px; background: rgba(255, 255, 255, .12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .app-notif-icon-wrap i { font-size: 30px; color: #fff; }
 .app-notif-btn { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #1D4268 !important; font-weight: 700; font-size: 15px; padding: 14px 28px; border: none; border-radius: 10px; cursor: pointer; white-space: nowrap; box-shadow: 0 6px 16px rgba(0, 0, 0, .18); animation: app-notif-pulse 2.2s infinite; transition: transform .15s; }
@@ -25,20 +25,20 @@ html.pibg-app-instalada .app-notif-browser-banner { display: none !important; }
 .app-notif-browser-btn:hover { transform: translateY(-2px); opacity: .92; }
 .app-notif-browser-text { color: #cfd8e3; font-size: 15px; line-height: 1.6; margin: 0 0 22px; }
 @media only screen and (max-width: 767px) {
-    .app-notif-banner .app-promo-inner { flex-direction: column; text-align: center; }
+    .app-notif-banner__inner { flex-direction: column; text-align: center; }
     .app-notif-btn { width: 100%; justify-content: center; }
 }
 </style>
 
 <section class="app-notif-banner" id="app_notif_banner">
 	<div class="container">
-		<div class="app-promo-inner">
+		<div class="app-notif-banner__inner">
 			<div class="app-notif-icon-wrap">
 				<i class="fa fa-bell" aria-hidden="true"></i>
 			</div>
-			<div class="app-promo-text">
-				<div class="app-promo-title">No te pierdas ningún anuncio</div>
-				<div class="app-promo-desc">Activa las notificaciones y entérate al instante de nuevas
+			<div class="app-notif-banner__text">
+				<div class="app-notif-banner__title">No te pierdas ningún anuncio</div>
+				<div class="app-notif-banner__desc">Activa las notificaciones y entérate al instante de nuevas
 					actividades, predicaciones y avisos importantes.</div>
 			</div>
 			<button type="button" class="app-notif-btn" id="app_notif_btn" onclick="app_notif_activar_click()">
@@ -172,7 +172,10 @@ function app_notif_activar_click() {
 	push_activar(function () {
 		resultado.textContent = '¡Listo! Ya recibirás notificaciones. 🔔';
 		setTimeout(function () {
-			document.getElementById('app_notif_banner').style.display = 'none';
+			// La clase --visible fuerza display:block con !important, así que hay
+			// que quitarla (no basta con un display:none inline) para que el
+			// banner realmente desaparezca.
+			document.getElementById('app_notif_banner').classList.remove('app-notif-banner--visible');
 		}, 2200);
 	}, function (msg) {
 		btn.disabled = false;
