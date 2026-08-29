@@ -135,6 +135,13 @@ if (mb_strlen($q_raw, 'UTF-8') >= 2) {
             'icono'    => 'fa-child',
             'keywords' => ['niños','ninos','niño','nino','infantil','niñez','ninez','ebv','escuela dominical','niñas'],
         ],
+        [
+            'titulo'   => 'Academia Coré',
+            'sub'      => 'Academia de música de la PIBG · Clases y coro para todas las edades',
+            'url'      => 'academia_core.php',
+            'icono'    => 'fa-music',
+            'keywords' => ['academia core','academia coré','coré','core','academia de música','academia de musica','clases de música','clases de musica','academia musical'],
+        ],
     ];
     $q_lower = mb_strtolower($q_raw, 'UTF-8');
     foreach ($paginas_estaticas as $pag) {

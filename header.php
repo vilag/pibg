@@ -99,6 +99,7 @@
                                     <!-- <li><a href="bach.php" style="background-color: rgba(0,0,0,0); color: #fff;">Coro J.S. Bach</a></li> -->
 									<li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes</a></li>
 									<li><a href="infantil.php" style="background-color: rgba(0,0,0,0); color: #fff;">Niños</a></li>
+									<li><a href="academia_core.php" style="background-color: rgba(0,0,0,0); color: #fff;">Academia Coré</a></li>
 									<!-- <li><a href="lumbrera.php" style="background-color: rgba(0,0,0,0); color: #fff;">Jóvenes Lumbrera</a></li> -->
 									
 								</ul>
@@ -221,6 +222,7 @@
 				<li class="menu_mm"><a href="biografias.php">Biografías</a></li>
 				<li class="menu_mm"><a href="lumbrera.php">Jóvenes</a></li>
 				<li class="menu_mm"><a href="infantil.php">Niños</a></li>
+				<li class="menu_mm"><a href="academia_core.php">Academia Coré</a></li>
 				<li class="menu_mm"><a href="buscar.php">Buscar</a></li>
 				<!-- <li class="menu_mm"><a href="bach.php">Coro J.S. Bach</a></li> -->
 				<!-- <li class="menu_mm"><a href="lumbrera.php">Jóvenes Lumbrera</a></li> -->

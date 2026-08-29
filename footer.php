@@ -88,6 +88,7 @@ html.pibg-app-instalada .app-notif-browser-banner { display: none !important; }
 					<li><a href="biografias.php">Biografías</a></li>
 					<li><a href="lumbrera.php">Jóvenes</a></li>
 					<li><a href="infantil.php">Niños</a></li>
+					<li><a href="academia_core.php">Academia Coré</a></li>
 					<li><a href="bach.php">Coro J. S. Bach</a></li>
 					<li class="js-app-install-item"><a href="descarga-app.php"><i class="fa fa-mobile" aria-hidden="true"></i> Instalar la App</a></li>
 				</ul>
