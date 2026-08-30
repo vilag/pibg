@@ -21,7 +21,13 @@ class Academia_solicitudes
     {
         $id    = (int)$id;
         $valor = $valor ? 1 : 0;
-        return ejecutarConsulta("UPDATE academia_solicitudes SET atendida = $valor WHERE id = $id");
+        // Se comprueba que la fila exista (en vez de fiarse de affected_rows,
+        // que da 0 tanto si el id no existe como si ya tenía ese mismo valor)
+        // para que un id ya eliminado por otro admin reporte error real.
+        if (!ejecutarConsultaSimpleFila("SELECT id FROM academia_solicitudes WHERE id = $id")) {
+            return false;
+        }
+        return ejecutarConsulta("UPDATE academia_solicitudes SET atendida = $valor WHERE id = $id") !== false;
     }
 
     public function eliminar($id)
@@ -39,7 +45,16 @@ class Academia_solicitudes
         try {
             $r = ejecutarConsultaSimpleFila("SELECT correos_notificacion FROM academia_config WHERE id = 1 LIMIT 1");
             if ($r && $r['correos_notificacion'] !== '') {
-                return $r['correos_notificacion'];
+                // Se revalida aquí (no solo al guardar desde el panel) por si
+                // el valor llegó a la tabla por otra vía (edición manual,
+                // restauración de base de datos, etc.) y quedó mal formado.
+                $validos = array_filter(
+                    array_map('trim', explode(',', $r['correos_notificacion'])),
+                    function ($c) { return filter_var($c, FILTER_VALIDATE_EMAIL) !== false; }
+                );
+                if (!empty($validos)) {
+                    return implode(', ', $validos);
+                }
             }
         } catch (\Throwable $e) {
             error_log('Academia_solicitudes::obtener_correos_notificacion: ' . $e->getMessage());
@@ -51,9 +66,15 @@ class Academia_solicitudes
     {
         global $conexion;
         $correos = $conexion->real_escape_string(trim($correos));
-        return ejecutarConsulta(
-            "INSERT INTO academia_config (id, correos_notificacion) VALUES (1, '$correos')
-             ON DUPLICATE KEY UPDATE correos_notificacion = '$correos'"
-        );
+        try {
+            $ok = ejecutarConsulta(
+                "INSERT INTO academia_config (id, correos_notificacion) VALUES (1, '$correos')
+                 ON DUPLICATE KEY UPDATE correos_notificacion = '$correos'"
+            );
+            return $ok !== false;
+        } catch (\Throwable $e) {
+            error_log('Academia_solicitudes::guardar_correos_notificacion: ' . $e->getMessage());
+            return false;
+        }
     }
 }

@@ -17,7 +17,12 @@ function listar_academia_solicitudes() {
 function toggle_atendida_academia(id, valor) {
     $.post("ajax/academia_solicitudes.php?op=toggle_atendida", { id: id, valor: valor }, function (r) {
         var data = typeof r === "string" ? JSON.parse(r) : r;
-        if (data.ok) { listar_academia_solicitudes(); }
+        if (data.ok) {
+            listar_academia_solicitudes();
+        } else {
+            bootbox.alert("No se pudo actualizar (es posible que ya no exista esta solicitud).");
+            listar_academia_solicitudes();
+        }
     });
 }
 
@@ -30,8 +35,13 @@ function eliminar_solicitud_academia(id) {
         },
         callback: function (result) {
             if (result) {
-                $.post("ajax/academia_solicitudes.php?op=eliminar", { id: id }, function () {
-                    listar_academia_solicitudes();
+                $.post("ajax/academia_solicitudes.php?op=eliminar", { id: id }, function (r) {
+                    var data = typeof r === "string" ? JSON.parse(r) : r;
+                    if (data.ok) {
+                        listar_academia_solicitudes();
+                    } else {
+                        bootbox.alert(data.msg || "No se pudo eliminar la solicitud.");
+                    }
                 });
             }
         }

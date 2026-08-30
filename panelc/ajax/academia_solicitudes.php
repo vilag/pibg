@@ -59,22 +59,22 @@ switch ($_GET['op'] ?? '') {
         break;
 
     case 'guardar_config':
-        $correos = trim($_POST['correos'] ?? '');
-        $lista   = array_filter(array_map('trim', explode(',', $correos)));
+        $correos     = trim($_POST['correos'] ?? '');
+        $lista       = array_filter(array_map('trim', explode(',', $correos)));
+        $invalido    = null;
+        foreach ($lista as $c) {
+            if (!filter_var($c, FILTER_VALIDATE_EMAIL)) { $invalido = $c; break; }
+        }
 
         if (empty($lista)) {
             echo json_encode(['ok' => false, 'msg' => 'Ingresa al menos un correo.']);
-            break;
+        } elseif ($invalido !== null) {
+            echo json_encode(['ok' => false, 'msg' => "El correo \"$invalido\" no es válido."]);
+        } elseif (!$modelo->guardar_correos_notificacion(implode(', ', $lista))) {
+            echo json_encode(['ok' => false, 'msg' => 'No se pudo guardar. Verifica que la tabla academia_config exista.']);
+        } else {
+            echo json_encode(['ok' => true]);
         }
-        foreach ($lista as $c) {
-            if (!filter_var($c, FILTER_VALIDATE_EMAIL)) {
-                echo json_encode(['ok' => false, 'msg' => "El correo \"$c\" no es válido."]);
-                exit;
-            }
-        }
-
-        $modelo->guardar_correos_notificacion(implode(', ', $lista));
-        echo json_encode(['ok' => true]);
         break;
 
     default:

@@ -56,7 +56,16 @@ class Academia_core
         try {
             $r = ejecutarConsultaSimpleFila("SELECT correos_notificacion FROM academia_config WHERE id = 1 LIMIT 1");
             if ($r && $r['correos_notificacion'] !== '') {
-                return $r['correos_notificacion'];
+                // Se revalida aquí (no solo al guardar desde el panel) por si
+                // el valor llegó a la tabla por otra vía (edición manual,
+                // restauración de base de datos, etc.) y quedó mal formado.
+                $validos = array_filter(
+                    array_map('trim', explode(',', $r['correos_notificacion'])),
+                    function ($c) { return filter_var($c, FILTER_VALIDATE_EMAIL) !== false; }
+                );
+                if (!empty($validos)) {
+                    return implode(', ', $validos);
+                }
             }
         } catch (\Throwable $e) {
             error_log('Academia_core::obtener_correos_notificacion: ' . $e->getMessage());
