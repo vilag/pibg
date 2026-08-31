@@ -5,6 +5,7 @@
 ══════════════════════════════════════════════════════ */
 var qb_idx       = 0;
 var chart_instances = [];
+var metricas_encuesta_id = null;
 
 var TIPO_LABELS = {
     libre:          'Respuesta libre',
@@ -424,13 +425,27 @@ function copiar_link() {
    Métricas
 ══════════════════════════════════════════════════════ */
 function ver_metricas(id) {
+    metricas_encuesta_id = id;
     $('#metricas_contenido').html('<div class="text-center py-4"><span class="text-muted">Cargando...</span></div>');
+    $('#tabla_respuestas_wrap').empty();
     $('#modalMetricas').modal('show');
 
+    // Las dos peticiones son independientes, se lanzan en paralelo. Cada
+    // callback comprueba que la encuesta abierta siga siendo la misma antes
+    // de pintar nada, por si el admin abre otra encuesta antes de que
+    // terminen (evita mezclar datos de una encuesta en el modal de otra).
     $.post('ajax/encuestas.php?op=obtener_metricas', { id: id }, function (data) {
-        data = JSON.parse(data);
-        renderizar_metricas(data);
+        if (metricas_encuesta_id !== id) return;
+        var d;
+        try { d = JSON.parse(data); } catch (e) {
+            console.error('Respuesta del servidor:', data);
+            $('#metricas_contenido').html('<div class="text-center text-danger py-3">Error al cargar las métricas.</div>');
+            return;
+        }
+        renderizar_metricas(d);
     });
+
+    cargar_tabla_respuestas(id);
 }
 
 // Muestra, aparte y marcadas, las respuestas capturadas con una redacción
@@ -541,6 +556,84 @@ function renderizar_metricas(data) {
             return;
         }
         $cont.append($card);
+    });
+}
+
+/* ══════════════════════════════════════════════════════
+   Respuestas individuales (tabla con opción de eliminar)
+══════════════════════════════════════════════════════ */
+function cargar_tabla_respuestas(id) {
+    $.post('ajax/encuestas.php?op=exportar_respuestas', { id: id }, function (data) {
+        if (metricas_encuesta_id !== id) return;
+        var d;
+        try { d = JSON.parse(data); } catch (e) {
+            console.error('Respuesta del servidor:', data);
+            $('#tabla_respuestas_wrap').html('<div class="text-center text-danger py-3">Error al cargar las respuestas individuales.</div>');
+            return;
+        }
+        renderizar_tabla_respuestas(d);
+    });
+}
+
+function renderizar_tabla_respuestas(data) {
+    var $wrap = $('#tabla_respuestas_wrap');
+    if (!$wrap.length) return;
+    $wrap.empty();
+
+    var $card = $('<div class="met-card"></div>');
+    var pids = Object.keys(data.preguntas);
+
+    if (!data.respuestas.length) {
+        $card.append('<div class="met-titulo">📋 Respuestas individuales</div>');
+        $card.append('<div class="text-muted" style="font-size:13px;">Aún no hay respuestas.</div>');
+        $wrap.append($card);
+        return;
+    }
+
+    $card.append('<div class="met-titulo">📋 Respuestas individuales ' +
+        '<span style="font-size:11px;color:#aaa;font-weight:400;">(' + data.respuestas.length + ')</span></div>');
+
+    var $tableWrap = $('<div class="table-responsive"></div>');
+    var $table = $('<table class="table table-sm table-striped" style="font-size:12px;"></table>');
+    var $theadRow = $('<tr><th style="white-space:nowrap;">Fecha</th></tr>');
+    pids.forEach(function (pid) {
+        $theadRow.append('<th>' + escHtml(data.preguntas[pid]) + '</th>');
+    });
+    $theadRow.append('<th>Acciones</th>');
+    $table.append($('<thead></thead>').append($theadRow));
+
+    var $tbody = $('<tbody></tbody>');
+    data.respuestas.forEach(function (r) {
+        var $tr = $('<tr></tr>');
+        $tr.append('<td style="white-space:nowrap;">' + escHtml(r.fecha) + '</td>');
+        pids.forEach(function (pid) {
+            $tr.append('<td>' + escHtml(r['p_' + pid] || '—') + '</td>');
+        });
+        $tr.append('<td><button class="btn btn-sm btn-danger" onclick="borrar_respuesta_individual(' + r.id + ');" style="padding:2px 8px;font-size:11px;">Eliminar</button></td>');
+        $tbody.append($tr);
+    });
+    $table.append($tbody);
+    $tableWrap.append($table);
+    $card.append($tableWrap);
+    $wrap.append($card);
+}
+
+function borrar_respuesta_individual(id) {
+    bootbox.confirm({
+        message: '¿Eliminar esta respuesta? Esta acción no se puede deshacer.',
+        buttons: {
+            confirm: { label: 'Sí, eliminar', className: 'btn-danger' },
+            cancel:  { label: 'Cancelar',     className: 'btn-secondary' },
+        },
+        callback: function (r) {
+            if (!r) return;
+            $.post('ajax/encuestas.php?op=borrar_respuesta', { id: id }, function () {
+                // Se vuelven a cargar metricas y tabla juntas: borrar una
+                // respuesta cambia tambien los totales/graficas, no solo la fila.
+                if (metricas_encuesta_id) { ver_metricas(metricas_encuesta_id); }
+                listar_encuestas();
+            });
+        },
     });
 }
 

@@ -232,6 +232,13 @@ class Encuestas
         return $resp_id;
     }
 
+    public function borrar_respuesta($id)
+    {
+        $id = intval($id);
+        ejecutarConsulta("DELETE FROM encuesta_respuesta_detalles WHERE respuesta_id='$id'");
+        return ejecutarConsulta("DELETE FROM encuesta_respuestas WHERE id='$id'");
+    }
+
     /* ── Métricas ───────────────────────────────────── */
 
     // Calcula la métrica de una sola pregunta (por su id), sin importar si

@@ -146,6 +146,12 @@ switch ($op) {
         echo json_encode($enc->obtener_respuestas_excel($id));
         break;
 
+    case 'borrar_respuesta':
+        $id = intval($_POST['id'] ?? 0);
+        $enc->borrar_respuesta($id);
+        echo json_encode(['ok' => true]);
+        break;
+
     case 'crear_para_evento':
         $idactiv      = intval($_POST['idactiv']      ?? 0);
         $nombre_corto = $_POST['nombre_corto']         ?? '';

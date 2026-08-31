@@ -179,6 +179,7 @@ if (!isset($_SESSION["nombre"])) {
         <div id="metricas_contenido">
           <div class="text-center py-4 text-muted">Cargando...</div>
         </div>
+        <div id="tabla_respuestas_wrap"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
