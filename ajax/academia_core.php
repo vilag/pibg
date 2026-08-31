@@ -12,8 +12,12 @@ switch ($op) {
 
     case 'solicitar_informes':
         // Honeypot: campo oculto que solo un bot llenaría. Se responde "ok"
-        // sin guardar nada ni enviar correos, para no delatar el filtro.
-        if (trim($_POST['aca_web'] ?? '') !== '') {
+        // sin guardar nada ni enviar correos, para no delatar el filtro al
+        // cliente; se deja rastro solo en el log del servidor, por si algún
+        // navegador o gestor de contraseñas llegara a autocompletarlo en un
+        // usuario real (ya pasó una vez con el nombre anterior del campo).
+        if (trim($_POST['aca_campo_extra'] ?? '') !== '') {
+            error_log('academia_core: honeypot activado, ip=' . ($_SERVER['REMOTE_ADDR'] ?? '?'));
             echo json_encode(['ok' => true]);
             break;
         }

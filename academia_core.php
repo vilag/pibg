@@ -142,8 +142,12 @@
         <h3 class="aca-form__title">Solicita informes</h3>
         <p class="aca-form__subtitle">Déjanos tus datos y el instrumento que te interesa; te contactaremos con gusto.</p>
 
-        <!-- Honeypot anti-spam: campo oculto que un humano nunca llena -->
-        <input type="text" id="aca_web" name="aca_web" class="aca-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <!-- Honeypot anti-spam: campo oculto que un humano nunca llena. El
+             nombre debe evitar palabras como "web"/"url"/"email" que algunos
+             gestores de contraseñas y el autocompletado del navegador
+             llenan automáticamente incluso con autocomplete="off", lo que
+             haría que un usuario real quedara marcado como bot en silencio. -->
+        <input type="text" id="aca_campo_extra" name="aca_campo_extra" class="aca-form__honeypot" tabindex="-1" autocomplete="new-password" aria-hidden="true">
 
         <div class="aca-form__row">
           <div class="aca-form__group">

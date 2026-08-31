@@ -31,7 +31,7 @@ function academia_enviar_solicitud() {
         correo: correo,
         telefono: telefono,
         instrumentos: instrumentos,
-        aca_web: $("#aca_web").val()
+        aca_campo_extra: $("#aca_campo_extra").val()
     }, function (r) {
         var resp = typeof r === 'string' ? JSON.parse(r) : r;
         btn.prop('disabled', false).html('<i class="fa fa-paper-plane"></i> Solicitar informes');
