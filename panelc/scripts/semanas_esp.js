@@ -584,7 +584,7 @@ function agregar_pregunta(datos) {
     }
 
     var $q = $('\
-<div class="qb-pregunta" data-idx="' + idx + '">\
+<div class="qb-pregunta" data-idx="' + idx + '" data-id="' + ((datos && datos.id) ? datos.id : '') + '">\
   <div class="card-header">\
     <div class="d-flex align-items-center">\
       <span class="qb-num font-weight-bold mr-2" style="color:#042C49;min-width:28px;">P' + (idx + 1) + '</span>\
@@ -692,12 +692,17 @@ function serializar_preguntas() {
     $('#qb_lista .qb-pregunta').each(function () {
         var $q   = $(this);
         var tipo = $q.find('.qb-tipo').val();
+        var qid  = $q.attr('data-id');
         var p = {
             tipo:     tipo,
             pregunta: $q.find('.qb-texto').val().trim(),
             requerida: $q.find('.qb-requerida').is(':checked') ? 1 : 0,
             opciones: [],
         };
+        // Si es una pregunta existente (se está editando), se manda su id
+        // para que el backend conserve el historial de respuestas en vez de
+        // tratarla como una pregunta nueva.
+        if (qid) { p.id = parseInt(qid, 10); }
         if (tipo === 'opcion_multiple' || tipo === 'casillas') {
             $q.find('.qb-opcion-input').each(function () {
                 var v = $(this).val().trim();

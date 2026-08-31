@@ -156,8 +156,10 @@ class Encuestas
         $encuesta_id = intval($encuesta_id);
 
         $actuales = [];
-        $res = ejecutarConsulta("SELECT id, pregunta FROM encuesta_preguntas WHERE encuesta_id='$encuesta_id' AND activo=1");
-        while ($fila = $res->fetch_assoc()) { $actuales[(int)$fila['id']] = $fila['pregunta']; }
+        $res = ejecutarConsulta("SELECT id, pregunta, tipo FROM encuesta_preguntas WHERE encuesta_id='$encuesta_id' AND activo=1");
+        while ($fila = $res->fetch_assoc()) {
+            $actuales[(int)$fila['id']] = ['pregunta' => $fila['pregunta'], 'tipo' => $fila['tipo']];
+        }
 
         $ids_usados = [];
 
@@ -174,14 +176,20 @@ class Encuestas
 
             if ($id_existente && array_key_exists($id_existente, $actuales)) {
                 $ids_usados[] = $id_existente;
-                if ($actuales[$id_existente] === $pregunta) {
-                    // Mismo texto: solo se actualizan tipo/opciones/orden/requerida en el mismo lugar.
+                $sin_cambios = $actuales[$id_existente]['pregunta'] === $pregunta
+                    && $actuales[$id_existente]['tipo'] === ($p['tipo'] ?? 'libre');
+                if ($sin_cambios) {
+                    // Ni el texto ni el tipo cambiaron: solo se actualizan opciones/orden/requerida en el mismo lugar.
                     ejecutarConsulta("UPDATE encuesta_preguntas SET
                         orden='$orden', tipo='$tipo', opciones=$opciones, requerida='$requerida'
                         WHERE id='$id_existente'");
                 } else {
-                    // El texto cambió: se conserva la pregunta anterior (con sus respuestas)
-                    // y se crea una nueva versión enlazada.
+                    // El texto y/o el tipo de respuesta cambiaron: se conserva la
+                    // pregunta anterior (con sus respuestas, bajo su propio tipo
+                    // original) y se crea una nueva versión enlazada. Si solo
+                    // cambiara el tipo (ej. de "calificación" a "libre") sin tocar
+                    // el texto, versionar evita reinterpretar respuestas viejas
+                    // (números de calificación, etc.) bajo el tipo nuevo.
                     ejecutarConsulta("UPDATE encuesta_preguntas SET activo=0 WHERE id='$id_existente'");
                     ejecutarConsulta("INSERT INTO encuesta_preguntas
                         (encuesta_id, orden, tipo, pregunta, opciones, requerida, activo, reemplaza_a)
