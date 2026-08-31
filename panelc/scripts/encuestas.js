@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#modalMetricas').on('hidden.bs.modal', function () {
         chart_instances.forEach(function (c) { c.destroy(); });
         chart_instances = [];
+        // Si el admin cierra el modal mientras una eliminación de respuesta
+        // sigue en vuelo, su callback no debe reabrirlo al llegar tarde.
+        metricas_encuesta_id = null;
     });
 
     // ── Toggle público/privado ──
@@ -476,6 +479,14 @@ function renderizar_metricas(data) {
     var $cont = $('#metricas_contenido');
     $cont.empty();
 
+    // Se destruyen las gráficas de la vuelta anterior antes de crear otras:
+    // renderizar_metricas() se puede volver a ejecutar sin que el modal se
+    // cierre de por medio (ej. al eliminar una respuesta desde la propia
+    // tabla), y el listener 'hidden.bs.modal' que limpia chart_instances no
+    // se dispara en ese caso.
+    chart_instances.forEach(function (c) { c.destroy(); });
+    chart_instances = [];
+
     // ── Resumen general ──
     var $resumen = $('<div class="card enc-card mb-3"><div class="card-body"><div class="row text-center"></div></div></div>');
     var $row = $resumen.find('.row');
@@ -581,7 +592,10 @@ function renderizar_tabla_respuestas(data) {
     $wrap.empty();
 
     var $card = $('<div class="met-card"></div>');
-    var pids = Object.keys(data.preguntas);
+    // Object.keys(data.preguntas) NO sirve aquí: al ser un objeto con claves
+    // numéricas (id de pregunta), JS las reordena de menor a mayor al leerlas
+    // sin importar el ORDER BY del servidor. Se usa la lista ya ordenada.
+    var pids = data.orden_preguntas || Object.keys(data.preguntas);
 
     if (!data.respuestas.length) {
         $card.append('<div class="met-titulo">📋 Respuestas individuales</div>');
@@ -646,7 +660,10 @@ function exportar_excel(id, titulo) {
         var preguntas  = data.preguntas;
         var respuestas = data.respuestas;
 
-        var pids = Object.keys(preguntas);
+        // Ver nota en renderizar_tabla_respuestas(): no usar Object.keys()
+        // aquí, reordena las columnas por id en vez de respetar el orden
+        // configurado en el constructor de la encuesta.
+        var pids = data.orden_preguntas || Object.keys(preguntas);
         var headers = ['#', 'Fecha', 'IP'].concat(pids.map(function (pid) { return preguntas[pid]; }));
         var rows = [headers];
 

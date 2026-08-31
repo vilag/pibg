@@ -323,12 +323,20 @@ class Encuestas
     {
         $encuesta_id = intval($encuesta_id);
         $preguntas   = [];
+        $orden_preguntas = [];
         // Incluye también las versiones históricas (activo=0) de preguntas
         // corregidas, para no perder esas columnas en la exportación; se
         // etiquetan para distinguirlas de la versión vigente.
         $pr = ejecutarConsulta("SELECT * FROM encuesta_preguntas WHERE encuesta_id='$encuesta_id' ORDER BY orden ASC, id ASC");
         while ($p = $pr->fetch_object()) {
             $preguntas[$p->id] = $p->activo ? $p->pregunta : $p->pregunta . ' (versión anterior)';
+            // $preguntas queda indexado por pregunta_id (necesario para cruzarlo
+            // con encuesta_respuesta_detalles), pero json_encode lo manda como
+            // objeto y JS reordena las claves numéricas de menor a mayor al
+            // leerlas — no respeta el ORDER BY orden. Por eso se manda también
+            // esta lista aparte, ya en el orden correcto, para que el frontend
+            // no dependa del orden de las claves del objeto.
+            $orden_preguntas[] = $p->id;
         }
 
         $rows = [];
@@ -345,7 +353,7 @@ class Encuestas
             }
             $rows[] = $row;
         }
-        return ['preguntas' => $preguntas, 'respuestas' => $rows];
+        return ['preguntas' => $preguntas, 'orden_preguntas' => $orden_preguntas, 'respuestas' => $rows];
     }
 }
 ?>
