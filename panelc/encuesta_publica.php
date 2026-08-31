@@ -25,7 +25,7 @@ if (!$token) {
         } elseif ($encuesta->fecha_inicio && $hoy < $encuesta->fecha_inicio) {
             $error = 'Esta encuesta aún no está disponible. Inicia el ' . date('d/m/Y', strtotime($encuesta->fecha_inicio)) . '.';
         } else {
-            $res_p = ejecutarConsulta("SELECT * FROM encuesta_preguntas WHERE encuesta_id='{$encuesta->id}' ORDER BY orden ASC");
+            $res_p = ejecutarConsulta("SELECT * FROM encuesta_preguntas WHERE encuesta_id='{$encuesta->id}' AND activo=1 ORDER BY orden ASC");
             while ($p = $res_p->fetch_object()) { $preguntas[] = $p; }
         }
     }

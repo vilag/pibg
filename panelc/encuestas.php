@@ -35,6 +35,11 @@ if (!isset($_SESSION["nombre"])) {
   .met-texto-item:last-child { border-bottom:none; }
   .met-stat-big { font-size:42px; font-weight:800; color:#042C49; line-height:1; }
   .met-stars { color:#f5a623; font-size:20px; }
+  .met-historial { background:#fff8e6; border:1px solid #f5d98e; border-radius:8px; padding:10px 12px; margin-bottom:12px; }
+  .met-historial-version { margin-bottom:8px; }
+  .met-historial-version:last-child { margin-bottom:0; }
+  .met-historial-tag { font-size:12px; font-weight:700; color:#8a6d1f; margin-bottom:4px; }
+  .met-historial-fila { font-size:13px; color:#555; padding:2px 0 2px 20px; }
 </style>
 
 <div class="main-panel">

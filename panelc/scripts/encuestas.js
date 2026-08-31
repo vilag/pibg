@@ -173,7 +173,7 @@ function agregar_pregunta(datos) {
     }
 
     var $q = $('\
-<div class="qb-pregunta" data-idx="' + idx + '">\
+<div class="qb-pregunta" data-idx="' + idx + '" data-id="' + ((datos && datos.id) ? datos.id : '') + '">\
   <div class="card-header">\
     <div class="d-flex align-items-center">\
       <span class="qb-num font-weight-bold mr-2" style="color:#042C49;min-width:28px;">P' + (idx + 1) + '</span>\
@@ -285,12 +285,17 @@ function serializar_preguntas() {
     $('#qb_lista .qb-pregunta').each(function () {
         var $q   = $(this);
         var tipo = $q.find('.qb-tipo').val();
+        var qid  = $q.attr('data-id');
         var p = {
             tipo:     tipo,
             pregunta: $q.find('.qb-texto').val().trim(),
             requerida: $q.find('.qb-requerida').is(':checked') ? 1 : 0,
             opciones: [],
         };
+        // Si es una pregunta existente (se está editando), se manda su id
+        // para que el backend conserve el historial de respuestas en vez de
+        // tratarla como una pregunta nueva.
+        if (qid) { p.id = parseInt(qid, 10); }
         if (tipo === 'opcion_multiple' || tipo === 'casillas') {
             $q.find('.qb-opcion-input').each(function () {
                 var v = $(this).val().trim();
@@ -428,6 +433,30 @@ function ver_metricas(id) {
     });
 }
 
+// Muestra, aparte y marcadas, las respuestas capturadas con una redacción
+// anterior de la pregunta (antes de que se corrigiera el texto), para no
+// mezclarlas con las respuestas de la versión vigente.
+function render_historial_html(historial) {
+    var $box = $('<div class="met-historial"></div>');
+    historial.forEach(function (v) {
+        var $v = $('<div class="met-historial-version"></div>');
+        var total_v = (v.textos ? v.textos.length : 0) ||
+            v.respuestas.reduce(function (acc, r) { return acc + r.cnt; }, 0);
+        $v.append('<div class="met-historial-tag">🕓 Antes de la corrección — "' + escHtml(v.pregunta) + '" (' + total_v + ' respuesta(s))</div>');
+        if (v.textos) {
+            v.textos.forEach(function (t) {
+                $v.append('<div class="met-texto-item">💬 ' + escHtml(t) + '</div>');
+            });
+        } else {
+            v.respuestas.forEach(function (r) {
+                $v.append('<div class="met-historial-fila">' + escHtml(r.valor || '(sin respuesta)') + ': <b>' + r.cnt + '</b></div>');
+            });
+        }
+        $box.append($v);
+    });
+    return $box;
+}
+
 function renderizar_metricas(data) {
     var $cont = $('#metricas_contenido');
     $cont.empty();
@@ -450,6 +479,10 @@ function renderizar_metricas(data) {
     data.preguntas.forEach(function (p, i) {
         var $card = $('<div class="met-card"></div>');
         $card.append('<div class="met-titulo">P' + (i + 1) + '. ' + escHtml(p.pregunta) + ' <span style="font-size:11px;color:#aaa;font-weight:400;">(' + TIPO_LABELS[p.tipo] + ')</span></div>');
+
+        if (p.historial && p.historial.length) {
+            $card.append(render_historial_html(p.historial));
+        }
 
         if (p.tipo === 'libre') {
             var textos = p.textos || [];

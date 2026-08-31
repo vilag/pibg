@@ -46,7 +46,7 @@ class Encuestas
     {
         $sql = "SELECT e.*,
                 (SELECT COUNT(*) FROM encuesta_respuestas r WHERE r.encuesta_id = e.id) AS total_respuestas,
-                (SELECT COUNT(*) FROM encuesta_preguntas p WHERE p.encuesta_id = e.id) AS total_preguntas
+                (SELECT COUNT(*) FROM encuesta_preguntas p WHERE p.encuesta_id = e.id AND p.activo=1) AS total_preguntas
                 FROM encuestas e ORDER BY e.fecha_creacion DESC";
         return ejecutarConsulta($sql);
     }
@@ -61,7 +61,29 @@ class Encuestas
     {
         $encuesta_id = intval($encuesta_id);
         return ejecutarConsulta("SELECT * FROM encuesta_preguntas
-            WHERE encuesta_id='$encuesta_id' ORDER BY orden ASC");
+            WHERE encuesta_id='$encuesta_id' AND activo=1 ORDER BY orden ASC");
+    }
+
+    // Versiones anteriores (activo=0) de una pregunta que fue corregida,
+    // más antigua primero, siguiendo la cadena reemplaza_a hacia atrás.
+    private function obtener_historial_pregunta($pregunta_id)
+    {
+        $historial = [];
+        $actual = intval($pregunta_id);
+        // Tope de 20 saltos para no entrar en bucle infinito ante datos corruptos.
+        for ($i = 0; $i < 20 && $actual; $i++) {
+            $fila = ejecutarConsultaSimpleFila(
+                "SELECT id, pregunta, reemplaza_a FROM encuesta_preguntas WHERE id='$actual'"
+            );
+            if (!$fila || !$fila['reemplaza_a']) break;
+            $anterior = ejecutarConsultaSimpleFila(
+                "SELECT id, pregunta, tipo FROM encuesta_preguntas WHERE id='" . intval($fila['reemplaza_a']) . "'"
+            );
+            if (!$anterior) break;
+            array_unshift($historial, $anterior);
+            $actual = $anterior['id'];
+        }
+        return $historial;
     }
 
     public function obtener_encuesta_por_actividad($idactiv)
@@ -106,22 +128,77 @@ class Encuestas
 
     /* ── Preguntas ──────────────────────────────────── */
 
+    /**
+     * Guarda las preguntas del constructor, preservando el id de las que no
+     * cambiaron para no desconectar las respuestas ya capturadas.
+     *
+     * Antes esto borraba TODAS las preguntas de la encuesta y las volvía a
+     * insertar en cada guardado (incluso si solo se corregía el texto de
+     * una), generando ids nuevos por el AUTO_INCREMENT — las respuestas ya
+     * guardadas en encuesta_respuesta_detalles seguían apuntando al id
+     * viejo (ya borrado) y desaparecían de los resultados.
+     *
+     * Cada elemento de $preguntas puede traer un 'id' (pregunta existente
+     * que se está editando) o no traerlo (pregunta nueva):
+     *   - Si el texto no cambió: se actualiza en el mismo lugar (mismo id).
+     *   - Si el texto cambió: se conserva la fila anterior (activo=0, ya no
+     *     se cuenta en resultados "actuales" ni se manda a responder), y se
+     *     inserta una fila nueva con reemplaza_a apuntando a la anterior,
+     *     para poder mostrar ambos periodos por separado.
+     *   - Preguntas nuevas: se insertan tal cual.
+     *   - Preguntas existentes que ya no vienen en la lista (se borraron en
+     *     el constructor): se marcan activo=0 en vez de borrarse, para no
+     *     perder sus respuestas históricas.
+     */
     public function guardar_preguntas($encuesta_id, $preguntas)
     {
         global $conexion;
         $encuesta_id = intval($encuesta_id);
-        ejecutarConsulta("DELETE FROM encuesta_preguntas WHERE encuesta_id='$encuesta_id'");
+
+        $actuales = [];
+        $res = ejecutarConsulta("SELECT id, pregunta FROM encuesta_preguntas WHERE encuesta_id='$encuesta_id' AND activo=1");
+        while ($fila = $res->fetch_assoc()) { $actuales[(int)$fila['id']] = $fila['pregunta']; }
+
+        $ids_usados = [];
+
         foreach ($preguntas as $i => $p) {
-            $orden    = $i + 1;
-            $tipo     = $conexion->real_escape_string($p['tipo']     ?? 'libre');
-            $pregunta = $conexion->real_escape_string($p['pregunta'] ?? '');
+            $orden     = $i + 1;
+            $tipo      = $conexion->real_escape_string($p['tipo']     ?? 'libre');
+            $pregunta  = $p['pregunta'] ?? '';
             $requerida = isset($p['requerida']) && $p['requerida'] ? 1 : 0;
-            $opciones = (isset($p['opciones']) && is_array($p['opciones']))
+            $opciones  = (isset($p['opciones']) && is_array($p['opciones']))
                 ? "'" . $conexion->real_escape_string(json_encode($p['opciones'], JSON_UNESCAPED_UNICODE)) . "'"
                 : "NULL";
-            ejecutarConsulta("INSERT INTO encuesta_preguntas
-                (encuesta_id, orden, tipo, pregunta, opciones, requerida)
-                VALUES ('$encuesta_id','$orden','$tipo','$pregunta',$opciones,'$requerida')");
+            $pregunta_sql = $conexion->real_escape_string($pregunta);
+            $id_existente = isset($p['id']) ? intval($p['id']) : 0;
+
+            if ($id_existente && array_key_exists($id_existente, $actuales)) {
+                $ids_usados[] = $id_existente;
+                if ($actuales[$id_existente] === $pregunta) {
+                    // Mismo texto: solo se actualizan tipo/opciones/orden/requerida en el mismo lugar.
+                    ejecutarConsulta("UPDATE encuesta_preguntas SET
+                        orden='$orden', tipo='$tipo', opciones=$opciones, requerida='$requerida'
+                        WHERE id='$id_existente'");
+                } else {
+                    // El texto cambió: se conserva la pregunta anterior (con sus respuestas)
+                    // y se crea una nueva versión enlazada.
+                    ejecutarConsulta("UPDATE encuesta_preguntas SET activo=0 WHERE id='$id_existente'");
+                    ejecutarConsulta("INSERT INTO encuesta_preguntas
+                        (encuesta_id, orden, tipo, pregunta, opciones, requerida, activo, reemplaza_a)
+                        VALUES ('$encuesta_id','$orden','$tipo','$pregunta_sql',$opciones,'$requerida',1,'$id_existente')");
+                }
+            } else {
+                // Pregunta nueva (no traía id, o traía uno que ya no es una pregunta activa de esta encuesta).
+                ejecutarConsulta("INSERT INTO encuesta_preguntas
+                    (encuesta_id, orden, tipo, pregunta, opciones, requerida, activo)
+                    VALUES ('$encuesta_id','$orden','$tipo','$pregunta_sql',$opciones,'$requerida',1)");
+            }
+        }
+
+        // Preguntas que existían y ya no vienen en la lista: se retiran sin borrar el historial.
+        $sobrantes = array_diff(array_keys($actuales), $ids_usados);
+        foreach ($sobrantes as $id_sobrante) {
+            ejecutarConsulta("UPDATE encuesta_preguntas SET activo=0 WHERE id='" . intval($id_sobrante) . "'");
         }
     }
 
@@ -149,6 +226,42 @@ class Encuestas
 
     /* ── Métricas ───────────────────────────────────── */
 
+    // Calcula la métrica de una sola pregunta (por su id), sin importar si
+    // está activa o es una versión histórica retirada.
+    private function calcular_metrica_pregunta($pregunta_id, $tipo)
+    {
+        $m = ['respuestas' => []];
+
+        if ($tipo === 'libre') {
+            $textos = ejecutarConsulta(
+                "SELECT valor FROM encuesta_respuesta_detalles WHERE pregunta_id='$pregunta_id'"
+            );
+            $m['textos'] = [];
+            while ($t = $textos->fetch_object()) {
+                $m['textos'][] = $t->valor;
+            }
+        } else {
+            $agg = ejecutarConsulta(
+                "SELECT valor, COUNT(*) AS cnt
+                 FROM encuesta_respuesta_detalles
+                 WHERE pregunta_id='$pregunta_id'
+                 GROUP BY valor ORDER BY cnt DESC"
+            );
+            while ($d = $agg->fetch_object()) {
+                $m['respuestas'][] = ['valor' => $d->valor, 'cnt' => (int) $d->cnt];
+            }
+            if ($tipo === 'calificacion' && count($m['respuestas'])) {
+                $sum = 0; $cnt = 0;
+                foreach ($m['respuestas'] as $r) {
+                    $sum += floatval($r['valor']) * $r['cnt'];
+                    $cnt += $r['cnt'];
+                }
+                $m['promedio'] = $cnt > 0 ? round($sum / $cnt, 1) : 0;
+            }
+        }
+        return $m;
+    }
+
     public function obtener_metricas($encuesta_id)
     {
         $encuesta_id = intval($encuesta_id);
@@ -160,41 +273,30 @@ class Encuestas
         $metricas  = [];
 
         while ($p = $preguntas->fetch_object()) {
-            $m = [
-                'pregunta_id' => $p->id,
-                'pregunta'    => $p->pregunta,
-                'tipo'        => $p->tipo,
-                'total'       => $total,
-                'respuestas'  => [],
-            ];
+            $m = array_merge(
+                [
+                    'pregunta_id' => $p->id,
+                    'pregunta'    => $p->pregunta,
+                    'tipo'        => $p->tipo,
+                    'total'       => $total,
+                ],
+                $this->calcular_metrica_pregunta($p->id, $p->tipo)
+            );
 
-            if ($p->tipo === 'libre') {
-                $textos = ejecutarConsulta(
-                    "SELECT valor FROM encuesta_respuesta_detalles WHERE pregunta_id='{$p->id}'"
+            // Versiones anteriores de esta misma pregunta (texto corregido en
+            // algún momento): se muestran aparte, marcadas como histórico,
+            // en vez de perderse o mezclarse con las respuestas actuales.
+            $m['historial'] = [];
+            foreach ($this->obtener_historial_pregunta($p->id) as $version) {
+                // Se usa el tipo propio de esa versión (pudo cambiar junto
+                // con el texto, ej. de "calificación" a "libre"), no el tipo
+                // de la pregunta activa actual.
+                $m['historial'][] = array_merge(
+                    ['pregunta_id' => $version['id'], 'pregunta' => $version['pregunta']],
+                    $this->calcular_metrica_pregunta($version['id'], $version['tipo'])
                 );
-                $m['textos'] = [];
-                while ($t = $textos->fetch_object()) {
-                    $m['textos'][] = $t->valor;
-                }
-            } else {
-                $agg = ejecutarConsulta(
-                    "SELECT valor, COUNT(*) AS cnt
-                     FROM encuesta_respuesta_detalles
-                     WHERE pregunta_id='{$p->id}'
-                     GROUP BY valor ORDER BY cnt DESC"
-                );
-                while ($d = $agg->fetch_object()) {
-                    $m['respuestas'][] = ['valor' => $d->valor, 'cnt' => (int) $d->cnt];
-                }
-                if ($p->tipo === 'calificacion' && count($m['respuestas'])) {
-                    $sum = 0; $cnt = 0;
-                    foreach ($m['respuestas'] as $r) {
-                        $sum += floatval($r['valor']) * $r['cnt'];
-                        $cnt += $r['cnt'];
-                    }
-                    $m['promedio'] = $cnt > 0 ? round($sum / $cnt, 1) : 0;
-                }
             }
+
             $metricas[] = $m;
         }
         return ['total_respuestas' => $total, 'preguntas' => $metricas];
@@ -206,9 +308,12 @@ class Encuestas
     {
         $encuesta_id = intval($encuesta_id);
         $preguntas   = [];
-        $pr = $this->obtener_preguntas($encuesta_id);
+        // Incluye también las versiones históricas (activo=0) de preguntas
+        // corregidas, para no perder esas columnas en la exportación; se
+        // etiquetan para distinguirlas de la versión vigente.
+        $pr = ejecutarConsulta("SELECT * FROM encuesta_preguntas WHERE encuesta_id='$encuesta_id' ORDER BY orden ASC, id ASC");
         while ($p = $pr->fetch_object()) {
-            $preguntas[$p->id] = $p->pregunta;
+            $preguntas[$p->id] = $p->activo ? $p->pregunta : $p->pregunta . ' (versión anterior)';
         }
 
         $rows = [];
