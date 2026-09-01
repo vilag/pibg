@@ -223,6 +223,32 @@ if (!isset($_SESSION["nombre"])) {
         <div id="comp_privado_msg" style="color:#6c757d;font-size:13px;">
           La encuesta está en modo privado. Solo administradores pueden verla.
         </div>
+
+        <hr style="margin:22px 0;">
+
+        <p style="font-size:13px;color:#555;">Comparte un enlace de solo lectura para que cualquier persona vea los resultados actualizándose en tiempo real, sin poder responder ni editar nada.</p>
+
+        <div class="d-flex align-items-center mb-3">
+          <span style="font-size:14px;font-weight:600;margin-right:12px;">Resultados en vivo</span>
+          <label class="switch-toggle mb-0">
+            <input type="checkbox" id="resul_toggle">
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
+
+        <div id="resul_link_area" style="display:none;">
+          <label style="font-size:13px;font-weight:600;">Enlace de resultados</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="resul_link" readonly style="font-size:12px;">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" onclick="copiar_link_resultados();" style="font-size:12px;">Copiar</button>
+            </div>
+          </div>
+          <p id="resul_copiado" style="display:none;color:#28a745;font-size:12px;margin-top:4px;">✓ ¡Enlace copiado!</p>
+        </div>
+        <div id="resul_privado_msg" style="color:#6c757d;font-size:13px;">
+          Los resultados no se están compartiendo. Solo administradores pueden verlos.
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

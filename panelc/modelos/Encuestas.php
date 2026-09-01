@@ -126,6 +126,31 @@ class Encuestas
         ejecutarConsulta("UPDATE encuestas SET es_publica=0, token_publico=NULL WHERE id='$id'");
     }
 
+    // Token independiente del anterior: permite compartir solo la vista de
+    // resultados en tiempo real sin exponer (ni depender de) el enlace para
+    // responder la encuesta.
+    public function generar_token_resultados($id)
+    {
+        $id    = intval($id);
+        $token = bin2hex(random_bytes(16));
+        ejecutarConsulta("UPDATE encuestas SET resultados_publicos=1, token_resultados='$token' WHERE id='$id'");
+        return $token;
+    }
+
+    public function revocar_token_resultados($id)
+    {
+        $id = intval($id);
+        ejecutarConsulta("UPDATE encuestas SET resultados_publicos=0, token_resultados=NULL WHERE id='$id'");
+    }
+
+    public function obtener_encuesta_por_token_resultados($token)
+    {
+        global $conexion;
+        $token = $conexion->real_escape_string($token);
+        return ejecutarConsulta("SELECT * FROM encuestas
+            WHERE token_resultados='$token' AND resultados_publicos=1");
+    }
+
     /* ── Preguntas ──────────────────────────────────── */
 
     /**

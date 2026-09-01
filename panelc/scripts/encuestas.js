@@ -86,6 +86,20 @@ document.addEventListener('DOMContentLoaded', function () {
             listar_encuestas();
         });
     });
+
+    // ── Toggle resultados en vivo ──
+    $('#resul_toggle').on('change', function () {
+        var activar = this.checked ? 1 : 0;
+        var id      = $('#comp_id').val();
+        $.post('ajax/encuestas.php?op=toggle_publica_resultados', { id: id, activar: activar }, function (data) {
+            data = JSON.parse(data);
+            if (data.ok && data.url) {
+                mostrar_link_resultados(data.url);
+            } else {
+                ocultar_link_resultados();
+            }
+        });
+    });
 });
 
 /* ══════════════════════════════════════════════════════
@@ -396,6 +410,15 @@ function compartir_encuesta(id) {
             ocultar_link();
         }
         $('#comp_copiado').hide();
+
+        $('#resul_toggle').prop('checked', e.resultados_publicos == 1);
+        if (e.resultados_publicos && e.token_resultados) {
+            mostrar_link_resultados(generar_url_resultados(e.token_resultados));
+        } else {
+            ocultar_link_resultados();
+        }
+        $('#resul_copiado').hide();
+
         $('#modalCompartir').modal('show');
     });
 }
@@ -422,6 +445,30 @@ function copiar_link() {
     el.select();
     document.execCommand('copy');
     $('#comp_copiado').show();
+}
+
+function generar_url_resultados(token) {
+    var base = window.location.origin;
+    var path = window.location.pathname.replace(/\/[^/]+$/, '');
+    return base + path + '/encuesta_resultados.php?t=' + token;
+}
+
+function mostrar_link_resultados(url) {
+    $('#resul_link').val(url);
+    $('#resul_link_area').show();
+    $('#resul_privado_msg').hide();
+}
+
+function ocultar_link_resultados() {
+    $('#resul_link_area').hide();
+    $('#resul_privado_msg').show();
+}
+
+function copiar_link_resultados() {
+    var el = document.getElementById('resul_link');
+    el.select();
+    document.execCommand('copy');
+    $('#resul_copiado').show();
 }
 
 /* ══════════════════════════════════════════════════════

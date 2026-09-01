@@ -16,6 +16,21 @@ if ($op === 'guardar_respuesta') {
     exit;
 }
 
+// Resultados en tiempo real vía enlace público: el token identifica la
+// encuesta (en vez de su id) para que nadie pueda ver métricas de otra
+// encuesta solo cambiando un número en la URL.
+if ($op === 'obtener_metricas_publica') {
+    $token    = trim($_POST['token'] ?? '');
+    $encuesta = $token ? $enc->obtener_encuesta_por_token_resultados($token)->fetch_object() : null;
+    if (!$encuesta) {
+        echo json_encode(['ok' => false, 'msg' => 'Enlace no válido.']);
+        exit;
+    }
+    $metricas = $enc->obtener_metricas($encuesta->id);
+    echo json_encode(array_merge(['ok' => true, 'titulo' => $encuesta->titulo], $metricas));
+    exit;
+}
+
 /* ── Resto requiere sesión de administrador ─────────── */
 if (!isset($_SESSION['nombre'])) {
     echo json_encode(['ok' => false, 'msg' => 'Sin sesión']); exit;
@@ -132,6 +147,22 @@ switch ($op) {
             echo json_encode(['ok' => true, 'token' => $token, 'url' => $url]);
         } else {
             $enc->revocar_token($id);
+            echo json_encode(['ok' => true, 'token' => null]);
+        }
+        break;
+
+    case 'toggle_publica_resultados':
+        $id      = intval($_POST['id']     ?? 0);
+        $activar = intval($_POST['activar'] ?? 0);
+        if ($activar) {
+            $token = $enc->generar_token_resultados($id);
+            $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            $host  = $_SERVER['HTTP_HOST'];
+            $dir   = rtrim(dirname(str_replace('/ajax', '', $_SERVER['PHP_SELF'])), '/');
+            $url   = $proto . '://' . $host . $dir . '/encuesta_resultados.php?t=' . $token;
+            echo json_encode(['ok' => true, 'token' => $token, 'url' => $url]);
+        } else {
+            $enc->revocar_token_resultados($id);
             echo json_encode(['ok' => true, 'token' => null]);
         }
         break;
