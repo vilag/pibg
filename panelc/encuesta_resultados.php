@@ -93,6 +93,44 @@ var TIPO_LABELS = {
 };
 var chart_instances = [];
 
+/* ── Gráficas — estilo compartido (mismo criterio que el panel de
+   administración: un solo color institucional, nunca uno distinto por
+   barra; el valor se lee en la etiqueta, no adivinando por el color) ── */
+var ENC_NAVY = '#042C49';
+var ENC_INK  = '#495057';
+var ENC_AXIS = '#898781';
+var ENC_GRID = '#e9ecef';
+
+function enc_navy_shade(t) {
+    var r = Math.round(205 + (4  - 205) * t);
+    var g = Math.round(219 + (44 - 219) * t);
+    var b = Math.round(229 + (73 - 229) * t);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
+
+var encBarValueLabels = {
+    id: 'encBarValueLabels',
+    afterDatasetsDraw: function (chart) {
+        var ctx = chart.ctx;
+        chart.data.datasets.forEach(function (dataset, dsIndex) {
+            var meta = chart.getDatasetMeta(dsIndex);
+            if (meta.hidden) return;
+            meta.data.forEach(function (el, idx) {
+                var value = dataset.data[idx];
+                if (value === null || value === undefined) return;
+                ctx.save();
+                ctx.font = '600 12px "Segoe UI",sans-serif';
+                ctx.fillStyle = ENC_INK;
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, el.x + 8, el.y);
+                ctx.restore();
+            });
+        });
+    },
+};
+Chart.register(encBarValueLabels);
+
 function escHtml(s) {
     if (!s) return '';
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -100,10 +138,13 @@ function escHtml(s) {
 
 function render_historial_html(historial) {
     var $box = $('<div class="met-historial"></div>');
+    var con_respuestas = 0;
     historial.forEach(function (v) {
-        var $v = $('<div class="met-historial-version"></div>');
         var total_v = (v.textos ? v.textos.length : 0) ||
             v.respuestas.reduce(function (acc, r) { return acc + r.cnt; }, 0);
+        if (!total_v) return;
+        con_respuestas++;
+        var $v = $('<div class="met-historial-version"></div>');
         $v.append('<div class="met-historial-tag">🕓 Antes de la corrección — "' + escHtml(v.pregunta) + '" (' + total_v + ' respuesta(s))</div>');
         if (v.textos) {
             v.textos.forEach(function (t) {
@@ -116,7 +157,7 @@ function render_historial_html(historial) {
         }
         $box.append($v);
     });
-    return $box;
+    return con_respuestas ? $box : null;
 }
 
 function renderizar_metricas(data) {
@@ -141,7 +182,8 @@ function renderizar_metricas(data) {
         $card.append('<div class="met-titulo">P' + (i + 1) + '. ' + escHtml(p.pregunta) + ' <span style="font-size:11px;color:#aaa;font-weight:400;">(' + TIPO_LABELS[p.tipo] + ')</span></div>');
 
         if (p.historial && p.historial.length) {
-            $card.append(render_historial_html(p.historial));
+            var $historial = render_historial_html(p.historial);
+            if ($historial) $card.append($historial);
         }
 
         if (p.tipo === 'libre') {
@@ -158,42 +200,67 @@ function renderizar_metricas(data) {
             }
             $cont.append($card);
         } else if (p.tipo === 'calificacion') {
-            var labels = [], values = [];
+            var labels = [], values = [], colors = [], total_c = 0;
             var dist = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 };
-            p.respuestas.forEach(function (r) { if (dist[r.valor] !== undefined) { dist[r.valor] = r.cnt; } });
-            for (var n = 1; n <= 5; n++) { labels.push('⭐'.repeat(n)); values.push(dist[String(n)]); }
+            p.respuestas.forEach(function (r) { if (dist[r.valor] !== undefined) { dist[r.valor] = r.cnt; total_c += r.cnt; } });
+            for (var n = 1; n <= 5; n++) {
+                labels.push(n + ' estrella' + (n === 1 ? '' : 's'));
+                values.push(dist[String(n)]);
+                colors.push(enc_navy_shade(n / 5));
+            }
             var promedio = p.promedio || 0;
-            $card.append('<div style="font-size:22px;font-weight:700;color:#f5a623;margin-bottom:8px;">★ ' + promedio + ' / 5</div>');
+            $card.append('<div style="font-size:22px;font-weight:700;color:#042C49;margin-bottom:10px;">★ ' +
+                promedio + ' <span style="font-size:13px;font-weight:400;color:#6c757d;">/ 5 · ' + total_c + ' respuesta(s)</span></div>');
             var canvas_id = 'chart_' + i;
-            $card.append('<canvas id="' + canvas_id + '" height="80"></canvas>');
+            $card.append('<canvas id="' + canvas_id + '" height="150"></canvas>');
             $cont.append($card);
+            var max_v = Math.max.apply(null, values.concat([1]));
             var ctx = document.getElementById(canvas_id).getContext('2d');
             chart_instances.push(new Chart(ctx, {
                 type: 'bar',
-                data: { labels: labels, datasets: [{ label: 'Respuestas', data: values,
-                    backgroundColor: ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'], borderRadius: 6 }] },
-                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } },
+                data: { labels: labels, datasets: [{ label: 'Respuestas', data: values, backgroundColor: colors,
+                    borderRadius: { topRight: 4, bottomRight: 4 }, barPercentage: 0.6, maxBarThickness: 24 }] },
+                options: {
+                    indexAxis: 'y',
+                    layout: { padding: { right: 26 } },
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, suggestedMax: max_v * 1.2,
+                             ticks: { precision: 0, color: ENC_AXIS },
+                             grid: { color: ENC_GRID }, border: { display: false } },
+                        y: { grid: { display: false }, border: { display: false },
+                             ticks: { color: ENC_INK, font: { size: 12 } } },
+                    },
+                },
             }));
         } else {
-            var labels2 = [], values2 = [], bg = [];
-            var palette = ['#042C49','#1D6F42','#f5a623','#e74c3c','#8e44ad','#2980b9','#16a085','#c0392b','#2c3e50','#d35400'];
-            p.respuestas.forEach(function (r, ri) {
+            var labels2 = [], values2 = [];
+            p.respuestas.forEach(function (r) {
                 labels2.push(escHtml(r.valor) || '(sin respuesta)');
                 values2.push(r.cnt);
-                bg.push(palette[ri % palette.length]);
             });
-            var usePie = (p.tipo === 'verdadero_falso' || p.tipo === 'si_no');
+
             var canvas_id2 = 'chart_' + i;
-            $card.append('<canvas id="' + canvas_id2 + '" height="' + (usePie ? '140' : '80') + '"></canvas>');
+            var alto2 = Math.max(90, labels2.length * 36 + 24);
+            $card.append('<canvas id="' + canvas_id2 + '" height="' + alto2 + '"></canvas>');
             $cont.append($card);
+            var max_v2 = Math.max.apply(null, values2.concat([1]));
             var ctx2 = document.getElementById(canvas_id2).getContext('2d');
             chart_instances.push(new Chart(ctx2, {
-                type: usePie ? 'pie' : 'bar',
-                data: { labels: labels2, datasets: [{ label: 'Respuestas', data: values2, backgroundColor: bg, borderRadius: usePie ? 0 : 6 }] },
+                type: 'bar',
+                data: { labels: labels2, datasets: [{ label: 'Respuestas', data: values2, backgroundColor: ENC_NAVY,
+                    borderRadius: { topRight: 4, bottomRight: 4 }, barPercentage: 0.6, maxBarThickness: 24 }] },
                 options: {
-                    indexAxis: usePie ? undefined : 'y',
-                    plugins: { legend: { display: usePie, position: 'right' } },
-                    scales: usePie ? {} : { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    indexAxis: 'y',
+                    layout: { padding: { right: 30 } },
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, suggestedMax: max_v2 * 1.18,
+                             ticks: { precision: 0, color: ENC_AXIS },
+                             grid: { color: ENC_GRID }, border: { display: false } },
+                        y: { grid: { display: false }, border: { display: false },
+                             ticks: { color: ENC_INK, font: { size: 12 } } },
+                    },
                 },
             }));
         }
