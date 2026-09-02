@@ -132,7 +132,7 @@
         Escríbenos y con gusto te compartimos información sobre horarios, costos e inscripciones.
       </p>
       <div class="aca-contacto">
-        <a href="https://api.whatsapp.com/send?phone=3330230905"><i class="fa fa-whatsapp"></i> (33) 30230905</a>
+        <a href="https://api.whatsapp.com/send?phone=3312283091"><i class="fa fa-whatsapp"></i> (33) 12283091</a>
         <a href="tel:+523336144120"><i class="fa fa-phone"></i> (33) 36144120</a>
         <a href="mailto:pibgdlar@gmail.com"><i class="fa fa-envelope"></i> pibgdlar@gmail.com</a>
       </div>
