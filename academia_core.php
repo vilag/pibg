@@ -131,6 +131,9 @@
       <p class="aca-cta__text">
         Escríbenos y con gusto te compartimos información sobre horarios, costos e inscripciones.
       </p>
+      <p class="aca-cta__text">
+        <strong>Horario de clases:</strong> Sábados de 9:00 am a 1:00 pm.
+      </p>
       <div class="aca-contacto">
         <a href="https://api.whatsapp.com/send?phone=3312283091"><i class="fa fa-whatsapp"></i> (33) 12283091</a>
         <a href="tel:+523336144120"><i class="fa fa-phone"></i> (33) 36144120</a>
