@@ -95,6 +95,17 @@
       <p class="aca-instrumentos-sec__text">
         Además de las clases individuales, los alumnos tienen la oportunidad de formar parte de nuestro <strong>coro</strong>, acompañados siempre por <strong>maestros dedicados</strong> a su proceso de aprendizaje.
       </p>
+
+      <h3 class="aca-sec__title aca-instrumentos-sec__title" style="margin-top:2rem;">Clases complementarias</h3>
+      <div class="aca-instrumentos-box">
+        <div class="aca-instrumentos">
+          <span class="aca-instrumento">Fundamento bíblico</span>
+          <span class="aca-instrumento">Apreciación musical</span>
+          <span class="aca-instrumento">Solfeo</span>
+          <span class="aca-instrumento">Armonía</span>
+          <span class="aca-instrumento">Solfeo práctico</span>
+        </div>
+      </div>
     </div>
   </div>
 

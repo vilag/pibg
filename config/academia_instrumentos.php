@@ -4,4 +4,5 @@
 return [
     'Violín', 'Piano', 'Clarinete', 'Trompeta', 'Guitarra',
     'Cello', 'Canto', 'Saxofón', 'Flauta transversal',
+    'Guitarra eléctrica', 'Bajo eléctrico',
 ];
