@@ -160,3 +160,30 @@ function push_notificar_admin($titulo, $mensaje, $url = '')
         }
     }
 }
+
+/**
+ * Envia el push configurable de un evento (ej. 'predicacion_nueva',
+ * 'peticion_oracion'). Lee su configuracion en push_eventos_config —si esta
+ * desactivado o no existe, no hace nada— sustituye las variables ({clave} =>
+ * valor) en el titulo/mensaje guardados, y lo manda a todos los suscriptores
+ * o solo al admin segun el "destino" configurado.
+ */
+function push_disparar_evento($clave, array $variables, $url = '')
+{
+    require_once __DIR__ . '/../modelos/Push_eventos.php';
+    $modelo = new Push_eventos();
+    $config = $modelo->obtener($clave);
+
+    if (!$config || !$config['activo']) {
+        return;
+    }
+
+    $titulo  = strtr($config['titulo'], $variables);
+    $mensaje = strtr($config['mensaje'], $variables);
+
+    if ($config['destino'] === 'admin') {
+        push_notificar_admin($titulo, $mensaje, $url);
+    } else {
+        push_notificar_suscriptores($titulo, $mensaje, $url);
+    }
+}

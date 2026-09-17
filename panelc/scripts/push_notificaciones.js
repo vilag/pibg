@@ -2,7 +2,119 @@ document.addEventListener('DOMContentLoaded', function () {
     cargar_conteos();
     cargar_historial();
     cargar_suscripciones();
+    cargar_eventos();
     push_admin_inicializar();
+});
+
+// Claves de eventos donde cambiar el destino a "todos" tiene una implicación
+// de privacidad (contenido que hoy es solo para el admin dejaría de serlo).
+var PUSH_EVENTOS_RIESGO_TODOS = {
+    peticion_oracion: 'Esto transmitirá las peticiones de oración a TODOS los suscriptores del sitio, no solo a ti.'
+};
+
+function push_eventos_escape(texto) {
+    return $('<div>').text(texto || '').html();
+}
+
+function cargar_eventos() {
+    $.get('ajax/push_notificaciones.php', { op: 'eventos_listar' }, function (res) {
+        if (!res || !res.ok || !res.eventos.length) {
+            $('#push_eventos_lista').html('<div class="text-muted">No hay eventos configurables.</div>');
+            return;
+        }
+        var html = res.eventos.map(push_eventos_render_card).join('');
+        $('#push_eventos_lista').html(html);
+        res.eventos.forEach(function (evento) {
+            // .val() asigna la propiedad del DOM directamente — a diferencia
+            // de interpolar en value="...", no se rompe si el título trae
+            // comillas.
+            $('#push_eventos_lista .push-evento-card[data-clave="' + evento.clave + '"] .push-evento-titulo').val(evento.titulo);
+        });
+        $('#push_eventos_lista .push-evento-destino').trigger('change');
+    }, 'json').fail(function () {
+        $('#push_eventos_lista').html('<div class="push-aviso">No se pudo cargar la configuración.</div>');
+    });
+}
+
+function push_eventos_render_card(evento) {
+    var clave = evento.clave;
+    var checked = evento.activo == 1 ? 'checked' : '';
+    var optTodos = evento.destino === 'todos' ? 'selected' : '';
+    var optAdmin = evento.destino === 'admin' ? 'selected' : '';
+
+    return '' +
+        '<div class="push-evento-card" data-clave="' + clave + '">' +
+            '<div class="push-evento-header">' +
+                '<label style="margin:0;"><input type="checkbox" class="push-evento-activo" ' + checked + '> ' +
+                    '<strong>' + push_eventos_escape(evento.nombre_legible) + '</strong></label>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>¿A quién llega?</label>' +
+                '<select class="form-control push-evento-destino">' +
+                    '<option value="todos" ' + optTodos + '>Todos los suscriptores</option>' +
+                    '<option value="admin" ' + optAdmin + '>Solo tú (administrador)</option>' +
+                '</select>' +
+                '<div class="push-evento-advertencia push-aviso" style="display:none;"></div>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Título</label>' +
+                '<input type="text" class="form-control push-evento-titulo" maxlength="150">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Mensaje</label>' +
+                '<textarea class="form-control push-evento-mensaje" rows="2" maxlength="255">' + push_eventos_escape(evento.mensaje) + '</textarea>' +
+            '</div>' +
+            (evento.variables ? '<div class="push-evento-variables">Variables disponibles: ' + push_eventos_escape(evento.variables) + '</div>' : '') +
+            '<button type="button" class="push-btn-enviar push-evento-guardar" style="margin-top:10px;">Guardar</button> ' +
+            '<span class="push-evento-resultado"></span>' +
+        '</div>';
+}
+
+$(document).on('change', '.push-evento-destino', function () {
+    var card = $(this).closest('.push-evento-card');
+    var clave = card.data('clave');
+    var aviso = card.find('.push-evento-advertencia');
+    var riesgo = PUSH_EVENTOS_RIESGO_TODOS[clave];
+
+    if ($(this).val() === 'todos' && riesgo) {
+        aviso.text('⚠️ ' + riesgo).show();
+    } else {
+        aviso.hide();
+    }
+});
+
+$(document).on('click', '.push-evento-guardar', function () {
+    var btn = $(this);
+    var card = btn.closest('.push-evento-card');
+    var resultado = card.find('.push-evento-resultado');
+    var titulo = card.find('.push-evento-titulo').val().trim();
+    var mensaje = card.find('.push-evento-mensaje').val().trim();
+
+    if (!titulo || !mensaje) {
+        resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('El título y el mensaje son obligatorios.');
+        return;
+    }
+
+    btn.prop('disabled', true);
+    resultado.removeClass('push-evento-error push-evento-guardado').text('Guardando…');
+
+    $.post('ajax/push_notificaciones.php?op=eventos_guardar', {
+        clave: card.data('clave'),
+        activo: card.find('.push-evento-activo').is(':checked') ? 1 : 0,
+        destino: card.find('.push-evento-destino').val(),
+        titulo: titulo,
+        mensaje: mensaje
+    }, function (res) {
+        btn.prop('disabled', false);
+        if (res && res.ok) {
+            resultado.removeClass('push-evento-error').addClass('push-evento-guardado').text('Guardado.');
+        } else {
+            resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text((res && res.msg) || 'No se pudo guardar.');
+        }
+    }, 'json').fail(function () {
+        btn.prop('disabled', false);
+        resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('No se pudo guardar.');
+    });
 });
 
 function push_admin_inicializar() {

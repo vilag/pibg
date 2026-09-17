@@ -300,10 +300,10 @@ echo '
 			$carta .= "Mensaje: $motivo_peticion";
 			mail($destinatario, $asunto, $carta);
 
-			require_once __DIR__ . '/../config/push_admin.php';
-			push_avisar_admin(
-				'Nueva petición de oración',
-				$nombre_peticion . ': ' . $motivo_peticion,
+			require_once __DIR__ . '/../config/push_eventos.php';
+			push_disparar_evento_raiz(
+				'peticion_oracion',
+				['{nombre}' => $nombre_peticion, '{motivo}' => $motivo_peticion],
 				'/panelc/peticiones.php'
 			);
 

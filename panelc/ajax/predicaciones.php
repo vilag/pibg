@@ -260,13 +260,13 @@ switch ($_GET["op"] ?? '') {
         if ($id > 0 && $es_admin) {
             require_once "../config/push_helpers.php";
             try {
-                push_notificar_suscriptores(
-                    'Nueva predicación: ' . $_POST['nom_sermon'],
-                    'Predicador: ' . $_POST['predicador'],
+                push_disparar_evento(
+                    'predicacion_nueva',
+                    ['{nombre_sermon}' => $_POST['nom_sermon'], '{predicador}' => $_POST['predicador']],
                     '/blog.php?id=' . $id
                 );
             } catch (\Throwable $e) {
-                error_log('push_notificar_suscriptores (nueva predicación #' . $id . '): ' . $e->getMessage());
+                error_log('push_disparar_evento (nueva predicación #' . $id . '): ' . $e->getMessage());
             }
         }
         break;
