@@ -25,13 +25,11 @@ if (!isset($_SESSION["nombre"])) {
   .push-badge-inactivo { background: #f1f1f1; color: #888; }
   .push-badge-todos { background: #cfe2ff; color: #084298; }
   .push-badge-admin { background: #d4edda; color: #155724; }
-  .push-evento-card { border: 1px solid #eee; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
-  .push-evento-card:last-child { margin-bottom: 0; }
-  .push-evento-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
-  .push-evento-header strong { font-size: 14px; }
   .push-evento-variables { font-size: 12px; color: #6c757d; margin-top: 4px; }
   .push-evento-guardado { color: #155724; font-size: 13px; }
   .push-evento-error { color: #b02a37; font-size: 13px; }
+  .push-fila-evento { cursor: pointer; }
+  .push-fila-evento:hover { background: #f8f9fa; }
 </style>
 
 <div class="content-wrapper">
@@ -45,13 +43,19 @@ if (!isset($_SESSION["nombre"])) {
           <div class="push-card" style="margin-bottom: 24px;">
             <h5>¿Cuándo se envía una notificación?</h5>
             <p class="text-muted" style="font-size:13px;">
-              Estos avisos se disparan solos cuando pasa el evento — actívalos o desactívalos,
-              decide a quién le llegan y edita su texto. Si eliges "Un usuario específico", esa
-              persona debe activar sus notificaciones en "Mis notificaciones" desde su propio
-              dispositivo. Lo que redactes y envíes con el botón "Enviar notificación" (abajo)
-              siempre es manual y va a todos los suscriptores; eso no se configura aquí.
+              Estos avisos se disparan solos cuando pasa el evento. Abre uno para activarlo o
+              desactivarlo, decidir a quién le llega y editar su texto. Lo que redactes y envíes
+              con el botón "Enviar notificación" (abajo) siempre es manual y va a todos los
+              suscriptores; eso no se configura aquí.
             </p>
-            <div id="push_eventos_lista" class="text-muted">Cargando…</div>
+            <table class="push-tabla-hist">
+              <thead>
+                <tr><th>Evento</th><th>Estado</th><th>A quién llega</th><th></th></tr>
+              </thead>
+              <tbody id="push_tabla_eventos">
+                <tr><td colspan="4" class="text-center text-muted">Cargando…</td></tr>
+              </tbody>
+            </table>
           </div>
 
           <div class="push-card">
@@ -122,6 +126,55 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
   </div><!-- content-wrapper ends -->
+
+  <div class="modal fade" id="modalEventoPush" tabindex="-1" role="dialog" aria-labelledby="modalEventoPushLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEventoPushLabel">Editar aviso</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="evento_clave">
+          <div class="form-group">
+            <label style="margin:0;"><input type="checkbox" id="evento_activo"> Activo</label>
+          </div>
+          <div class="form-group">
+            <label>¿A quién llega?</label>
+            <select class="form-control" id="evento_destino">
+              <option value="todos">Todos los suscriptores</option>
+              <option value="admin">Cualquier administrador</option>
+              <option value="usuario">Un usuario específico del panel</option>
+            </select>
+            <div id="evento_advertencia" class="push-aviso" style="display:none;"></div>
+          </div>
+          <div class="form-group" id="evento_usuario_wrap" style="display:none;">
+            <label>¿A qué usuario?</label>
+            <select class="form-control" id="evento_usuario">
+              <option value="">Elige un usuario…</option>
+            </select>
+            <div class="push-evento-variables">Ese usuario debe activar sus notificaciones en "Mis notificaciones" desde su propio dispositivo.</div>
+          </div>
+          <div class="form-group">
+            <label>Título</label>
+            <input type="text" class="form-control" id="evento_titulo" maxlength="150">
+          </div>
+          <div class="form-group">
+            <label>Mensaje</label>
+            <textarea class="form-control" id="evento_mensaje" rows="2" maxlength="255"></textarea>
+          </div>
+          <div class="push-evento-variables" id="evento_variables"></div>
+          <div id="evento_resultado" style="margin-top: 10px;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="evento_guardar_btn" onclick="push_evento_guardar()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script src="../js/push_cliente.js"></script>
 <script src="scripts/push_activador.js?v=<?php echo rand(); ?>"></script>

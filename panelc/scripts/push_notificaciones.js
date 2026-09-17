@@ -12,6 +12,7 @@ var PUSH_EVENTOS_RIESGO_TODOS = {
 };
 
 var PUSH_USUARIOS_CACHE = [];
+var PUSH_EVENTOS_CACHE = [];
 
 function push_eventos_escape(texto) {
     return $('<div>').text(texto || '').html();
@@ -19,6 +20,15 @@ function push_eventos_escape(texto) {
 
 function push_usuario_nombre(u) {
     return [u.nombre, u.apellido_p, u.apellido_m].filter(Boolean).join(' ');
+}
+
+function push_destino_legible(evento) {
+    if (evento.destino === 'admin') { return 'Cualquier administrador'; }
+    if (evento.destino === 'usuario') {
+        var u = PUSH_USUARIOS_CACHE.find(function (x) { return x.idusuario == evento.idusuario_destino; });
+        return u ? ('Solo ' + push_usuario_nombre(u)) : 'Un usuario específico (sin elegir)';
+    }
+    return 'Todos los suscriptores';
 }
 
 function cargar_usuarios_y_eventos() {
@@ -30,79 +40,59 @@ function cargar_usuarios_y_eventos() {
 function cargar_eventos() {
     $.get('ajax/push_notificaciones.php', { op: 'eventos_listar' }, function (res) {
         if (!res || !res.ok || !res.eventos.length) {
-            $('#push_eventos_lista').html('<div class="text-muted">No hay eventos configurables.</div>');
+            $('#push_tabla_eventos').html('<tr><td colspan="4" class="text-center text-muted">No hay eventos configurables.</td></tr>');
             return;
         }
-        var html = res.eventos.map(push_eventos_render_card).join('');
-        $('#push_eventos_lista').html(html);
-        res.eventos.forEach(function (evento) {
-            var card = $('#push_eventos_lista .push-evento-card[data-clave="' + evento.clave + '"]');
-            // .val() asigna la propiedad del DOM directamente — a diferencia
-            // de interpolar en value="...", no se rompe si el título trae
-            // comillas.
-            card.find('.push-evento-titulo').val(evento.titulo);
-            if (evento.idusuario_destino) {
-                card.find('.push-evento-usuario').val(evento.idusuario_destino);
-            }
-        });
-        $('#push_eventos_lista .push-evento-destino').trigger('change');
+        PUSH_EVENTOS_CACHE = res.eventos;
+        $('#push_tabla_eventos').html(res.eventos.map(push_eventos_render_fila).join(''));
     }, 'json').fail(function () {
-        $('#push_eventos_lista').html('<div class="push-aviso">No se pudo cargar la configuración.</div>');
+        $('#push_tabla_eventos').html('<tr><td colspan="4" class="push-aviso">No se pudo cargar la configuración.</td></tr>');
     });
 }
 
-function push_eventos_render_card(evento) {
-    var clave = evento.clave;
-    var checked = evento.activo == 1 ? 'checked' : '';
-    var optTodos = evento.destino === 'todos' ? 'selected' : '';
-    var optAdmin = evento.destino === 'admin' ? 'selected' : '';
-    var optUsuario = evento.destino === 'usuario' ? 'selected' : '';
+function push_eventos_render_fila(evento) {
+    var estado = evento.activo == 1
+        ? '<span class="push-badge push-badge-activo">Activo</span>'
+        : '<span class="push-badge push-badge-inactivo">Inactivo</span>';
+    var destinoBadgeClase = evento.destino === 'todos' ? 'push-badge-todos' : 'push-badge-admin';
+
+    return '<tr class="push-fila-evento" onclick="push_evento_abrir(\'' + evento.clave + '\')">' +
+        '<td>' + push_eventos_escape(evento.nombre_legible) + '</td>' +
+        '<td>' + estado + '</td>' +
+        '<td><span class="push-badge ' + destinoBadgeClase + '">' + push_eventos_escape(push_destino_legible(evento)) + '</span></td>' +
+        '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation(); push_evento_abrir(\'' + evento.clave + '\');">Editar</button></td>' +
+        '</tr>';
+}
+
+function push_evento_abrir(clave) {
+    var evento = PUSH_EVENTOS_CACHE.find(function (e) { return e.clave === clave; });
+    if (!evento) { return; }
 
     var opcionesUsuarios = PUSH_USUARIOS_CACHE.map(function (u) {
         return '<option value="' + u.idusuario + '">' + push_eventos_escape(push_usuario_nombre(u)) + '</option>';
     }).join('');
 
-    return '' +
-        '<div class="push-evento-card" data-clave="' + clave + '">' +
-            '<div class="push-evento-header">' +
-                '<label style="margin:0;"><input type="checkbox" class="push-evento-activo" ' + checked + '> ' +
-                    '<strong>' + push_eventos_escape(evento.nombre_legible) + '</strong></label>' +
-            '</div>' +
-            '<div class="form-group">' +
-                '<label>¿A quién llega?</label>' +
-                '<select class="form-control push-evento-destino">' +
-                    '<option value="todos" ' + optTodos + '>Todos los suscriptores</option>' +
-                    '<option value="admin" ' + optAdmin + '>Cualquier administrador</option>' +
-                    '<option value="usuario" ' + optUsuario + '>Un usuario específico del panel</option>' +
-                '</select>' +
-                '<div class="push-evento-advertencia push-aviso" style="display:none;"></div>' +
-            '</div>' +
-            '<div class="form-group push-evento-usuario-wrap" style="display:none;">' +
-                '<label>¿A qué usuario?</label>' +
-                '<select class="form-control push-evento-usuario">' +
-                    '<option value="">Elige un usuario…</option>' +
-                    opcionesUsuarios +
-                '</select>' +
-                '<div class="push-evento-variables">Ese usuario debe activar sus notificaciones en "Mis notificaciones" desde su propio dispositivo.</div>' +
-            '</div>' +
-            '<div class="form-group">' +
-                '<label>Título</label>' +
-                '<input type="text" class="form-control push-evento-titulo" maxlength="150">' +
-            '</div>' +
-            '<div class="form-group">' +
-                '<label>Mensaje</label>' +
-                '<textarea class="form-control push-evento-mensaje" rows="2" maxlength="255">' + push_eventos_escape(evento.mensaje) + '</textarea>' +
-            '</div>' +
-            (evento.variables ? '<div class="push-evento-variables">Variables disponibles: ' + push_eventos_escape(evento.variables) + '</div>' : '') +
-            '<button type="button" class="push-btn-enviar push-evento-guardar" style="margin-top:10px;">Guardar</button> ' +
-            '<span class="push-evento-resultado"></span>' +
-        '</div>';
+    $('#modalEventoPushLabel').text(evento.nombre_legible);
+    $('#evento_clave').val(evento.clave);
+    $('#evento_activo').prop('checked', evento.activo == 1);
+    $('#evento_destino').val(evento.destino);
+    $('#evento_usuario').html('<option value="">Elige un usuario…</option>' + opcionesUsuarios);
+    if (evento.idusuario_destino) { $('#evento_usuario').val(evento.idusuario_destino); }
+    // .val() asigna la propiedad del DOM directamente — a diferencia de
+    // interpolar en value="...", no se rompe si el título trae comillas.
+    $('#evento_titulo').val(evento.titulo);
+    $('#evento_mensaje').val(evento.mensaje);
+    $('#evento_variables').text(evento.variables ? ('Variables disponibles: ' + evento.variables) : '');
+    $('#evento_resultado').empty();
+    $('#evento_guardar_btn').prop('disabled', false);
+
+    $('#evento_destino').trigger('change');
+    $('#modalEventoPush').modal('show');
 }
 
-$(document).on('change', '.push-evento-destino', function () {
-    var card = $(this).closest('.push-evento-card');
-    var clave = card.data('clave');
-    var aviso = card.find('.push-evento-advertencia');
+$('#evento_destino').on('change', function () {
+    var clave = $('#evento_clave').val();
+    var aviso = $('#evento_advertencia');
     var riesgo = PUSH_EVENTOS_RIESGO_TODOS[clave];
     var valor = $(this).val();
 
@@ -112,17 +102,16 @@ $(document).on('change', '.push-evento-destino', function () {
         aviso.hide();
     }
 
-    card.find('.push-evento-usuario-wrap').toggle(valor === 'usuario');
+    $('#evento_usuario_wrap').toggle(valor === 'usuario');
 });
 
-$(document).on('click', '.push-evento-guardar', function () {
-    var btn = $(this);
-    var card = btn.closest('.push-evento-card');
-    var resultado = card.find('.push-evento-resultado');
-    var titulo = card.find('.push-evento-titulo').val().trim();
-    var mensaje = card.find('.push-evento-mensaje').val().trim();
-    var destino = card.find('.push-evento-destino').val();
-    var idusuario_destino = card.find('.push-evento-usuario').val();
+function push_evento_guardar() {
+    var resultado = $('#evento_resultado');
+    var btn = $('#evento_guardar_btn');
+    var titulo = $('#evento_titulo').val().trim();
+    var mensaje = $('#evento_mensaje').val().trim();
+    var destino = $('#evento_destino').val();
+    var idusuario_destino = $('#evento_usuario').val();
 
     if (!titulo || !mensaje) {
         resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('El título y el mensaje son obligatorios.');
@@ -137,8 +126,8 @@ $(document).on('click', '.push-evento-guardar', function () {
     resultado.removeClass('push-evento-error push-evento-guardado').text('Guardando…');
 
     $.post('ajax/push_notificaciones.php?op=eventos_guardar', {
-        clave: card.data('clave'),
-        activo: card.find('.push-evento-activo').is(':checked') ? 1 : 0,
+        clave: $('#evento_clave').val(),
+        activo: $('#evento_activo').is(':checked') ? 1 : 0,
         destino: destino,
         idusuario_destino: idusuario_destino,
         titulo: titulo,
@@ -147,6 +136,8 @@ $(document).on('click', '.push-evento-guardar', function () {
         btn.prop('disabled', false);
         if (res && res.ok) {
             resultado.removeClass('push-evento-error').addClass('push-evento-guardado').text('Guardado.');
+            cargar_eventos();
+            setTimeout(function () { $('#modalEventoPush').modal('hide'); }, 500);
         } else {
             resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text((res && res.msg) || 'No se pudo guardar.');
         }
@@ -154,7 +145,7 @@ $(document).on('click', '.push-evento-guardar', function () {
         btn.prop('disabled', false);
         resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('No se pudo guardar.');
     });
-});
+}
 
 function cargar_conteos() {
     $.get('ajax/push_notificaciones.php', { op: 'contar' }, function (res) {
