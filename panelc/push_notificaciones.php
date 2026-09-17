@@ -88,17 +88,6 @@ if (!isset($_SESSION["nombre"])) {
           </div>
 
           <div class="push-card" style="margin-top: 24px;">
-            <h5>Avisos para ti como administrador</h5>
-            <p class="text-muted" style="font-size:13px;">
-              Actívalas en este dispositivo para recibir un aviso al instante cada vez que alguien
-              envíe una petición de oración desde el sitio — solo a ti, no se transmite a los
-              demás suscriptores.
-            </p>
-            <button type="button" class="push-btn-enviar" id="push_admin_btn" onclick="push_admin_activar()">Activar en este dispositivo</button>
-            <div id="push_admin_resultado" style="margin-top: 14px;"></div>
-          </div>
-
-          <div class="push-card" style="margin-top: 24px;">
             <h5>Historial de envíos</h5>
             <table class="push-tabla-hist">
               <thead>
@@ -176,8 +165,6 @@ if (!isset($_SESSION["nombre"])) {
     </div>
   </div>
 
-<script src="../js/push_cliente.js"></script>
-<script src="scripts/push_activador.js?v=<?php echo rand(); ?>"></script>
 <script src="scripts/push_notificaciones.js?v=<?php echo rand(); ?>"></script>
 
 <?php
