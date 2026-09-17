@@ -46,9 +46,10 @@ if (!isset($_SESSION["nombre"])) {
             <h5>¿Cuándo se envía una notificación?</h5>
             <p class="text-muted" style="font-size:13px;">
               Estos avisos se disparan solos cuando pasa el evento — actívalos o desactívalos,
-              decide a quién le llegan y edita su texto. Lo que redactes y envíes con el botón
-              "Enviar notificación" (abajo) siempre es manual y va a todos los suscriptores; eso
-              no se configura aquí.
+              decide a quién le llegan y edita su texto. Si eliges "Un usuario específico", esa
+              persona debe activar sus notificaciones en "Mis notificaciones" desde su propio
+              dispositivo. Lo que redactes y envíes con el botón "Enviar notificación" (abajo)
+              siempre es manual y va a todos los suscriptores; eso no se configura aquí.
             </p>
             <div id="push_eventos_lista" class="text-muted">Cargando…</div>
           </div>
@@ -123,6 +124,7 @@ if (!isset($_SESSION["nombre"])) {
   </div><!-- content-wrapper ends -->
 
 <script src="../js/push_cliente.js"></script>
+<script src="scripts/push_activador.js?v=<?php echo rand(); ?>"></script>
 <script src="scripts/push_notificaciones.js?v=<?php echo rand(); ?>"></script>
 
 <?php

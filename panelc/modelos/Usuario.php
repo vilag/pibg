@@ -24,6 +24,18 @@ Class Usuario
 		$sql="SELECT * FROM usuario_permiso WHERE idusuario='$idusuario'";
 		return ejecutarConsulta($sql);
 	}
+
+	// Usuarios activos del panel, para elegir a quien dirigir un aviso push
+	// especifico (push_eventos_config.idusuario_destino). Cualquier usuario
+	// del panel puede ser destinatario, no solo los administradores.
+	public function listar_activos()
+	{
+		$sql = "SELECT idusuario, nombre, apellido_p, apellido_m, puesto FROM usuario WHERE estatus='1' ORDER BY nombre ASC";
+		$res = ejecutarConsulta($sql);
+		$filas = [];
+		while ($row = $res->fetch_assoc()) { $filas[] = $row; }
+		return $filas;
+	}
 }
 
 ?>

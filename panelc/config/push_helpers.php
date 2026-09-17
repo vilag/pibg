@@ -85,6 +85,39 @@ function push_enviar_fcm($accessToken, $token, $titulo, $mensaje, $url)
 }
 
 /**
+ * Envia $titulo/$mensaje/$url a cada fila de $suscripciones (WebPush o FCM
+ * segun su tipo), desactivando las que resulten expiradas. Devuelve el
+ * numero de envios exitosos. Logica compartida por
+ * push_notificar_suscriptores(), push_notificar_admin() y
+ * push_notificar_usuario() — solo cambia de donde sale la lista de filas.
+ */
+function push_enviar_a_lista(array $suscripciones, $titulo, $mensaje, $url, Push_suscripciones $modelo)
+{
+    $exitosos = 0;
+    $accessTokenFcm = null;
+    $fcm_disponible = defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '';
+
+    foreach ($suscripciones as $fila) {
+        if ($fila['tipo'] === 'webpush') {
+            $resultado = push_enviar_webpush($fila, $titulo, $mensaje, $url);
+        } else {
+            if (!$fcm_disponible) { continue; }
+            if ($accessTokenFcm === null) { $accessTokenFcm = push_fcm_obtener_token(); }
+            if (!$accessTokenFcm) { continue; }
+            $resultado = push_enviar_fcm($accessTokenFcm, $fila['fcm_token'], $titulo, $mensaje, $url);
+        }
+
+        if ($resultado['exito']) {
+            $exitosos++;
+        } elseif ($resultado['expirada']) {
+            $modelo->desactivar($fila['id']);
+        }
+    }
+
+    return $exitosos;
+}
+
+/**
  * Envia una notificacion push a todos los suscriptores activos (WebPush para
  * iOS/navegador y FCM para Android), desactiva las suscripciones expiradas y
  * registra el envio en el historial. Devuelve ['total' => int, 'exitosos' => int].
@@ -100,27 +133,7 @@ function push_notificar_suscriptores($titulo, $mensaje, $url = '')
     );
 
     $total = count($suscripciones);
-    $exitosos = 0;
-    $accessTokenFcm = null;
-    $fcm_disponible = defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '';
-    if ($fcm_disponible) {
-        $accessTokenFcm = push_fcm_obtener_token();
-    }
-
-    foreach ($suscripciones as $fila) {
-        if ($fila['tipo'] === 'webpush') {
-            $resultado = push_enviar_webpush($fila, $titulo, $mensaje, $url);
-        } else {
-            if (!$accessTokenFcm) { continue; }
-            $resultado = push_enviar_fcm($accessTokenFcm, $fila['fcm_token'], $titulo, $mensaje, $url);
-        }
-
-        if ($resultado['exito']) {
-            $exitosos++;
-        } elseif ($resultado['expirada']) {
-            $modelo->desactivar($fila['id']);
-        }
-    }
+    $exitosos = push_enviar_a_lista($suscripciones, $titulo, $mensaje, $url, $modelo);
 
     $modelo->registrar_envio($titulo, $mensaje, $url ?: null, $total, $exitosos);
 
@@ -139,26 +152,19 @@ function push_notificar_admin($titulo, $mensaje, $url = '')
 {
     require_once __DIR__ . '/../modelos/Push_suscripciones.php';
     $modelo = new Push_suscripciones();
+    push_enviar_a_lista($modelo->listar_admins_activos(), $titulo, $mensaje, $url, $modelo);
+}
 
-    $suscripciones = $modelo->listar_admins_activos();
-
-    $accessTokenFcm = null;
-    $fcm_disponible = defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '';
-
-    foreach ($suscripciones as $fila) {
-        if ($fila['tipo'] === 'webpush') {
-            $resultado = push_enviar_webpush($fila, $titulo, $mensaje, $url);
-        } else {
-            if (!$fcm_disponible) { continue; }
-            if ($accessTokenFcm === null) { $accessTokenFcm = push_fcm_obtener_token(); }
-            if (!$accessTokenFcm) { continue; }
-            $resultado = push_enviar_fcm($accessTokenFcm, $fila['fcm_token'], $titulo, $mensaje, $url);
-        }
-
-        if (!empty($resultado['expirada'])) {
-            $modelo->desactivar($fila['id']);
-        }
-    }
+/**
+ * Envia una notificacion push SOLO a las suscripciones activas de un usuario
+ * especifico del panel (idusuario) — sin importar si es admin o no. Se usa
+ * cuando un evento esta configurado con destino='usuario'.
+ */
+function push_notificar_usuario($idusuario, $titulo, $mensaje, $url = '')
+{
+    require_once __DIR__ . '/../modelos/Push_suscripciones.php';
+    $modelo = new Push_suscripciones();
+    push_enviar_a_lista($modelo->listar_por_usuario($idusuario), $titulo, $mensaje, $url, $modelo);
 }
 
 /**
@@ -183,6 +189,12 @@ function push_disparar_evento($clave, array $variables, $url = '')
 
     if ($config['destino'] === 'admin') {
         push_notificar_admin($titulo, $mensaje, $url);
+    } elseif ($config['destino'] === 'usuario') {
+        // Sin destinatario configurado, no se envia a nadie — mejor eso que
+        // transmitirlo por error a todos los suscriptores publicos.
+        if ($config['idusuario_destino']) {
+            push_notificar_usuario($config['idusuario_destino'], $titulo, $mensaje, $url);
+        }
     } else {
         push_notificar_suscriptores($titulo, $mensaje, $url);
     }

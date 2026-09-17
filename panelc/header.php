@@ -355,6 +355,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="mis_notificaciones.php">
+              <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
+              <span class="menu-title">Mis notificaciones</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="encuestas.php">
               <img src="images/iconos/list_b.png" style="width: 25px; margin-right: 14px; margin-left: -3px;" alt="">
               <span class="menu-title">Encuestas</span>

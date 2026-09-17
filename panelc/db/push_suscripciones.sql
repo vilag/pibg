@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS push_suscripciones (
     user_agent VARCHAR(255) NULL,
     activo TINYINT(1) NOT NULL DEFAULT 1,
     es_admin TINYINT(1) NOT NULL DEFAULT 0,
+    idusuario INT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uq_fcm_token (fcm_token),
     UNIQUE KEY uq_endpoint (endpoint(255))

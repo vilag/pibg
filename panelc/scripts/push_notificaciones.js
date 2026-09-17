@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     cargar_conteos();
     cargar_historial();
     cargar_suscripciones();
-    cargar_eventos();
-    push_admin_inicializar();
+    cargar_usuarios_y_eventos();
 });
 
 // Claves de eventos donde cambiar el destino a "todos" tiene una implicación
@@ -12,8 +11,20 @@ var PUSH_EVENTOS_RIESGO_TODOS = {
     peticion_oracion: 'Esto transmitirá las peticiones de oración a TODOS los suscriptores del sitio, no solo a ti.'
 };
 
+var PUSH_USUARIOS_CACHE = [];
+
 function push_eventos_escape(texto) {
     return $('<div>').text(texto || '').html();
+}
+
+function push_usuario_nombre(u) {
+    return [u.nombre, u.apellido_p, u.apellido_m].filter(Boolean).join(' ');
+}
+
+function cargar_usuarios_y_eventos() {
+    $.get('ajax/push_notificaciones.php', { op: 'usuarios_listar' }, function (res) {
+        PUSH_USUARIOS_CACHE = (res && res.ok) ? res.usuarios : [];
+    }, 'json').always(cargar_eventos);
 }
 
 function cargar_eventos() {
@@ -25,10 +36,14 @@ function cargar_eventos() {
         var html = res.eventos.map(push_eventos_render_card).join('');
         $('#push_eventos_lista').html(html);
         res.eventos.forEach(function (evento) {
+            var card = $('#push_eventos_lista .push-evento-card[data-clave="' + evento.clave + '"]');
             // .val() asigna la propiedad del DOM directamente — a diferencia
             // de interpolar en value="...", no se rompe si el título trae
             // comillas.
-            $('#push_eventos_lista .push-evento-card[data-clave="' + evento.clave + '"] .push-evento-titulo').val(evento.titulo);
+            card.find('.push-evento-titulo').val(evento.titulo);
+            if (evento.idusuario_destino) {
+                card.find('.push-evento-usuario').val(evento.idusuario_destino);
+            }
         });
         $('#push_eventos_lista .push-evento-destino').trigger('change');
     }, 'json').fail(function () {
@@ -41,6 +56,11 @@ function push_eventos_render_card(evento) {
     var checked = evento.activo == 1 ? 'checked' : '';
     var optTodos = evento.destino === 'todos' ? 'selected' : '';
     var optAdmin = evento.destino === 'admin' ? 'selected' : '';
+    var optUsuario = evento.destino === 'usuario' ? 'selected' : '';
+
+    var opcionesUsuarios = PUSH_USUARIOS_CACHE.map(function (u) {
+        return '<option value="' + u.idusuario + '">' + push_eventos_escape(push_usuario_nombre(u)) + '</option>';
+    }).join('');
 
     return '' +
         '<div class="push-evento-card" data-clave="' + clave + '">' +
@@ -52,9 +72,18 @@ function push_eventos_render_card(evento) {
                 '<label>¿A quién llega?</label>' +
                 '<select class="form-control push-evento-destino">' +
                     '<option value="todos" ' + optTodos + '>Todos los suscriptores</option>' +
-                    '<option value="admin" ' + optAdmin + '>Solo tú (administrador)</option>' +
+                    '<option value="admin" ' + optAdmin + '>Cualquier administrador</option>' +
+                    '<option value="usuario" ' + optUsuario + '>Un usuario específico del panel</option>' +
                 '</select>' +
                 '<div class="push-evento-advertencia push-aviso" style="display:none;"></div>' +
+            '</div>' +
+            '<div class="form-group push-evento-usuario-wrap" style="display:none;">' +
+                '<label>¿A qué usuario?</label>' +
+                '<select class="form-control push-evento-usuario">' +
+                    '<option value="">Elige un usuario…</option>' +
+                    opcionesUsuarios +
+                '</select>' +
+                '<div class="push-evento-variables">Ese usuario debe activar sus notificaciones en "Mis notificaciones" desde su propio dispositivo.</div>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label>Título</label>' +
@@ -75,12 +104,15 @@ $(document).on('change', '.push-evento-destino', function () {
     var clave = card.data('clave');
     var aviso = card.find('.push-evento-advertencia');
     var riesgo = PUSH_EVENTOS_RIESGO_TODOS[clave];
+    var valor = $(this).val();
 
-    if ($(this).val() === 'todos' && riesgo) {
+    if (valor === 'todos' && riesgo) {
         aviso.text('⚠️ ' + riesgo).show();
     } else {
         aviso.hide();
     }
+
+    card.find('.push-evento-usuario-wrap').toggle(valor === 'usuario');
 });
 
 $(document).on('click', '.push-evento-guardar', function () {
@@ -89,9 +121,15 @@ $(document).on('click', '.push-evento-guardar', function () {
     var resultado = card.find('.push-evento-resultado');
     var titulo = card.find('.push-evento-titulo').val().trim();
     var mensaje = card.find('.push-evento-mensaje').val().trim();
+    var destino = card.find('.push-evento-destino').val();
+    var idusuario_destino = card.find('.push-evento-usuario').val();
 
     if (!titulo || !mensaje) {
         resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('El título y el mensaje son obligatorios.');
+        return;
+    }
+    if (destino === 'usuario' && !idusuario_destino) {
+        resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('Elige a qué usuario se le enviará.');
         return;
     }
 
@@ -101,7 +139,8 @@ $(document).on('click', '.push-evento-guardar', function () {
     $.post('ajax/push_notificaciones.php?op=eventos_guardar', {
         clave: card.data('clave'),
         activo: card.find('.push-evento-activo').is(':checked') ? 1 : 0,
-        destino: card.find('.push-evento-destino').val(),
+        destino: destino,
+        idusuario_destino: idusuario_destino,
         titulo: titulo,
         mensaje: mensaje
     }, function (res) {
@@ -116,38 +155,6 @@ $(document).on('click', '.push-evento-guardar', function () {
         resultado.removeClass('push-evento-guardado').addClass('push-evento-error').text('No se pudo guardar.');
     });
 });
-
-function push_admin_inicializar() {
-    if (!('serviceWorker' in navigator)) { return; }
-    // El sitio público registra este mismo sw.js desde js/custom.js, pero el
-    // panel es un árbol aparte que no lo carga — hay que registrarlo aquí
-    // para que navigator.serviceWorker.ready se resuelva en esta página.
-    navigator.serviceWorker.register('../sw.js').catch(function () {});
-
-    if (typeof push_yaActivo !== 'function') { return; }
-    push_yaActivo(function (activo) {
-        if (activo) {
-            $('#push_admin_btn').hide();
-            $('#push_admin_resultado').html('<div class="text-success">Ya tienes activadas las notificaciones en este dispositivo.</div>');
-        }
-    });
-}
-
-function push_admin_activar() {
-    var btn = $('#push_admin_btn');
-    var resultado = $('#push_admin_resultado');
-    btn.prop('disabled', true);
-    resultado.html('<div class="text-muted">Activando…</div>');
-
-    push_activar(function () {
-        btn.hide();
-        resultado.html('<div class="text-success">Notificaciones activadas en este dispositivo.</div>');
-        cargar_suscripciones();
-    }, function (msg) {
-        btn.prop('disabled', false);
-        resultado.html('<div class="push-aviso">' + msg + '</div>');
-    }, 'ajax/push_suscribir_admin.php');
-}
 
 function cargar_conteos() {
     $.get('ajax/push_notificaciones.php', { op: 'contar' }, function (res) {

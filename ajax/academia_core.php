@@ -93,6 +93,13 @@ switch ($op) {
                 . "Primera Iglesia Bautista de Guadalajara";
             $headers_user = "From: $remitente\r\n";
             @mail($correo, $asunto_user, $cuerpo_user, $headers_user);
+
+            require_once __DIR__ . '/../config/push_eventos.php';
+            push_disparar_evento_raiz(
+                'academia_solicitud',
+                ['{nombre}' => $nombre, '{telefono}' => $telefono, '{instrumentos}' => $instrumentos_txt],
+                '/panelc/academia_solicitudes.php'
+            );
         }
         break;
 

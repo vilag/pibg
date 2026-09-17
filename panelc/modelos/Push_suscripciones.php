@@ -31,39 +31,55 @@ Class Push_suscripciones
         return ejecutarConsulta($sql);
     }
 
-    // Igual que guardar_webpush()/guardar_fcm() pero marcando la suscripción
-    // como es_admin=1. Solo debe llamarse desde un endpoint que ya validó
-    // sesión de administrador (panelc/ajax/push_suscribir_admin.php) — un
-    // visitante público nunca debe poder marcarse a sí mismo como admin.
-    public function guardar_webpush_admin($endpoint, $p256dh, $auth, $user_agent)
+    // Igual que guardar_webpush()/guardar_fcm() pero vinculando la
+    // suscripción a la cuenta del panel que la activó (idusuario) y marcando
+    // es_admin segun su rol real en ese momento. Solo debe llamarse desde un
+    // endpoint que ya validó sesión de un usuario del panel
+    // (panelc/ajax/push_suscribir_usuario.php) — un visitante público nunca
+    // debe poder marcarse a sí mismo como usuario/admin.
+    public function guardar_webpush_usuario($endpoint, $p256dh, $auth, $user_agent, $idusuario, $es_admin)
     {
         global $conexion;
         $endpoint   = $conexion->real_escape_string($endpoint);
         $p256dh     = $conexion->real_escape_string($p256dh);
         $auth       = $conexion->real_escape_string($auth);
         $user_agent = $conexion->real_escape_string(substr($user_agent, 0, 255));
+        $idusuario  = intval($idusuario);
+        $es_admin   = intval($es_admin) ? 1 : 0;
 
-        $sql = "INSERT INTO push_suscripciones (tipo, endpoint, p256dh, auth, user_agent, activo, es_admin)
-                VALUES ('webpush', '$endpoint', '$p256dh', '$auth', '$user_agent', 1, 1)
-                ON DUPLICATE KEY UPDATE p256dh='$p256dh', auth='$auth', user_agent='$user_agent', activo=1, es_admin=1";
+        $sql = "INSERT INTO push_suscripciones (tipo, endpoint, p256dh, auth, user_agent, activo, es_admin, idusuario)
+                VALUES ('webpush', '$endpoint', '$p256dh', '$auth', '$user_agent', 1, $es_admin, $idusuario)
+                ON DUPLICATE KEY UPDATE p256dh='$p256dh', auth='$auth', user_agent='$user_agent', activo=1, es_admin=$es_admin, idusuario=$idusuario";
         return ejecutarConsulta($sql);
     }
 
-    public function guardar_fcm_admin($token, $user_agent)
+    public function guardar_fcm_usuario($token, $user_agent, $idusuario, $es_admin)
     {
         global $conexion;
         $token      = $conexion->real_escape_string($token);
         $user_agent = $conexion->real_escape_string(substr($user_agent, 0, 255));
+        $idusuario  = intval($idusuario);
+        $es_admin   = intval($es_admin) ? 1 : 0;
 
-        $sql = "INSERT INTO push_suscripciones (tipo, fcm_token, user_agent, activo, es_admin)
-                VALUES ('fcm', '$token', '$user_agent', 1, 1)
-                ON DUPLICATE KEY UPDATE user_agent='$user_agent', activo=1, es_admin=1";
+        $sql = "INSERT INTO push_suscripciones (tipo, fcm_token, user_agent, activo, es_admin, idusuario)
+                VALUES ('fcm', '$token', '$user_agent', 1, $es_admin, $idusuario)
+                ON DUPLICATE KEY UPDATE user_agent='$user_agent', activo=1, es_admin=$es_admin, idusuario=$idusuario";
         return ejecutarConsulta($sql);
     }
 
     public function listar_admins_activos()
     {
         $sql = "SELECT * FROM push_suscripciones WHERE activo=1 AND es_admin=1";
+        $res = ejecutarConsulta($sql);
+        $filas = [];
+        while ($row = $res->fetch_assoc()) { $filas[] = $row; }
+        return $filas;
+    }
+
+    public function listar_por_usuario($idusuario)
+    {
+        $idusuario = intval($idusuario);
+        $sql = "SELECT * FROM push_suscripciones WHERE activo=1 AND idusuario=$idusuario";
         $res = ejecutarConsulta($sql);
         $filas = [];
         while ($row = $res->fetch_assoc()) { $filas[] = $row; }
@@ -92,7 +108,7 @@ Class Push_suscripciones
     public function listar_todas($limite = 200)
     {
         $limite = intval($limite);
-        $sql = "SELECT id, tipo, user_agent, activo, es_admin, fecha_creacion
+        $sql = "SELECT id, tipo, user_agent, activo, es_admin, idusuario, fecha_creacion
                 FROM push_suscripciones
                 ORDER BY fecha_creacion DESC
                 LIMIT $limite";

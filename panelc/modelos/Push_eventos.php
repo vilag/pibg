@@ -25,17 +25,20 @@ Class Push_eventos
 
     // Solo actualiza — el conjunto de claves es fijo, atado a los puntos del
     // codigo que llaman a push_disparar_evento(); el panel no crea eventos.
-    public function guardar($clave, $activo, $destino, $titulo, $mensaje)
+    public function guardar($clave, $activo, $destino, $idusuario_destino, $titulo, $mensaje)
     {
         global $conexion;
         $clave   = $conexion->real_escape_string($clave);
         $activo  = intval($activo) ? 1 : 0;
-        $destino = $destino === 'admin' ? 'admin' : 'todos';
+        $destino = in_array($destino, ['admin', 'usuario'], true) ? $destino : 'todos';
+        $idusuario_destino_sql = ($destino === 'usuario' && intval($idusuario_destino) > 0)
+            ? intval($idusuario_destino)
+            : 'NULL';
         $titulo  = $conexion->real_escape_string(trim($titulo));
         $mensaje = $conexion->real_escape_string(trim($mensaje));
 
         $sql = "UPDATE push_eventos_config
-                SET activo=$activo, destino='$destino', titulo='$titulo', mensaje='$mensaje'
+                SET activo=$activo, destino='$destino', idusuario_destino=$idusuario_destino_sql, titulo='$titulo', mensaje='$mensaje'
                 WHERE clave='$clave'";
         return ejecutarConsulta($sql);
     }
