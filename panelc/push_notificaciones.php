@@ -23,6 +23,8 @@ if (!isset($_SESSION["nombre"])) {
   .push-badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 700; }
   .push-badge-activo { background: #d4edda; color: #155724; }
   .push-badge-inactivo { background: #f1f1f1; color: #888; }
+  .push-badge-todos { background: #cfe2ff; color: #084298; }
+  .push-badge-admin { background: #d4edda; color: #155724; }
 </style>
 
 <div class="content-wrapper">
@@ -32,6 +34,32 @@ if (!isset($_SESSION["nombre"])) {
         <div class="col-12">
 
           <h4 style="margin-bottom: 20px;">Notificaciones Push</h4>
+
+          <div class="push-card" style="margin-bottom: 24px;">
+            <h5>¿Cuándo se envía una notificación?</h5>
+            <table class="push-tabla-hist">
+              <thead>
+                <tr><th>Evento</th><th>¿Cuándo se dispara?</th><th>¿A quién llega?</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Se publica una nueva predicación</td>
+                  <td>Automático, en cuanto se guarda</td>
+                  <td><span class="push-badge push-badge-todos">Todos los suscriptores</span></td>
+                </tr>
+                <tr>
+                  <td>Alguien envía una petición de oración desde el sitio</td>
+                  <td>Automático, en el momento en que se envía</td>
+                  <td><span class="push-badge push-badge-admin">Solo tú, si activaste este dispositivo</span></td>
+                </tr>
+                <tr>
+                  <td>El mensaje que redactes en "Enviar notificación" (abajo)</td>
+                  <td>Manual, en el momento en que presionas el botón</td>
+                  <td><span class="push-badge push-badge-todos">Todos los suscriptores</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="push-card">
             <div class="push-conteos">
