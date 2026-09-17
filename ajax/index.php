@@ -271,20 +271,41 @@ echo '
 			$fecha_hora = $_POST['fecha_hora'];
 
 			$rspta=$index->guardar_motivo($nombre_peticion,$telefono_peticion,$motivo_peticion,$fecha_hora);
-			echo json_encode($rspta);
-	 		//echo $rspta ? "Anulada" : "No se puede anular";
+
+			// Responder antes de enviar el correo y el push: ambos son E/S de
+			// red que puede tardar (o colgarse) y no deben hacer esperar al
+			// usuario que ya guardó su petición. Mismo patrón que
+			// ajax/academia_core.php.
+			$respuesta = json_encode($rspta);
+			if (function_exists('fastcgi_finish_request')) {
+				echo $respuesta;
+				fastcgi_finish_request();
+			} else {
+				ignore_user_abort(true);
+				header('Content-Length: ' . strlen($respuesta));
+				header('Connection: close');
+				echo $respuesta;
+				if (ob_get_level() > 0) { @ob_end_flush(); }
+				@flush();
+			}
+			if (session_status() === PHP_SESSION_ACTIVE) {
+				session_write_close();
+			}
 
 			// $destinatario = "vilag2407@gmail.com, pibg.isotomayor@gmail.com, pibgdlar@gmail.com";
-	
-			  $destinatario = "vilag2407@gmail.com, orel.vilchis@gmail.com";
-			 $asunto = "Petición de oración desde pagina web: ".$nombre_peticion;
- 
-			 $carta = "De: $nombre_peticion \n";
-			//  $carta .= "Correo: $email \n";
-			 $carta .= "Telefono: $telefono_peticion \n";
-			 $carta .= "Mensaje: $motivo_peticion";
- 
-			 mail($destinatario, $asunto, $carta);
+			$destinatario = "vilag2407@gmail.com, orel.vilchis@gmail.com";
+			$asunto = "Petición de oración desde pagina web: ".$nombre_peticion;
+			$carta = "De: $nombre_peticion \n";
+			$carta .= "Telefono: $telefono_peticion \n";
+			$carta .= "Mensaje: $motivo_peticion";
+			mail($destinatario, $asunto, $carta);
+
+			require_once __DIR__ . '/../config/push_admin.php';
+			push_avisar_admin(
+				'Nueva petición de oración',
+				$nombre_peticion . ': ' . $motivo_peticion,
+				'/panelc/peticiones.php'
+			);
 
 		break;
 

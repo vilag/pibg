@@ -37,14 +37,16 @@ function push_yaActivo(callback) {
     }).catch(function () { callback(false); });
 }
 
-function push_activar(onExito, onError) {
+function push_activar(onExito, onError, endpointUrl) {
+    endpointUrl = endpointUrl || 'push_suscribir.php';
+
     if (!push_soportado()) {
         if (onError) onError('Tu navegador no soporta notificaciones.');
         return;
     }
 
     if (push_esNativo()) {
-        push_activarNativo(onExito, onError);
+        push_activarNativo(onExito, onError, endpointUrl);
         return;
     }
 
@@ -59,7 +61,7 @@ function push_activar(onExito, onError) {
                 applicationServerKey: push_urlBase64ToUint8Array(PUSH_VAPID_PUBLIC_KEY)
             }).then(function (sub) {
                 var json = sub.toJSON();
-                $.post('push_suscribir.php', {
+                $.post(endpointUrl, {
                     op: 'guardar_webpush',
                     endpoint: json.endpoint,
                     p256dh: json.keys.p256dh,
@@ -75,7 +77,8 @@ function push_activar(onExito, onError) {
     });
 }
 
-function push_activarNativo(onExito, onError) {
+function push_activarNativo(onExito, onError, endpointUrl) {
+    endpointUrl = endpointUrl || 'push_suscribir.php';
     // Requiere el plugin @capacitor/push-notifications (pendiente de credenciales
     // de Firebase). Si no está disponible, se avisa en vez de fallar en silencio.
     try {
@@ -90,7 +93,7 @@ function push_activarNativo(onExito, onError) {
                 return;
             }
             PushNotifications.addListener('registration', function (token) {
-                $.post('push_suscribir.php', { op: 'guardar_fcm', token: token.value }, function (res) {
+                $.post(endpointUrl, { op: 'guardar_fcm', token: token.value }, function (res) {
                     if (res && res.ok) { if (onExito) onExito(); }
                     else if (onError) onError('No se pudo guardar la suscripción.');
                 }, 'json');

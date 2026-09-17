@@ -126,3 +126,37 @@ function push_notificar_suscriptores($titulo, $mensaje, $url = '')
 
     return ['total' => $total, 'exitosos' => $exitosos];
 }
+
+/**
+ * Envia una notificacion push SOLO a las suscripciones marcadas como admin
+ * (es_admin=1) — para avisos internos (ej. nueva peticion de oracion) que no
+ * deben transmitirse a los demas suscriptores publicos del sitio. A
+ * diferencia de push_notificar_suscriptores(), no queda registrada en el
+ * historial de envios masivos ni desactiva suscripciones expiradas del lado
+ * publico (misma tabla, pero un filtro y un proposito distintos).
+ */
+function push_notificar_admin($titulo, $mensaje, $url = '')
+{
+    require_once __DIR__ . '/../modelos/Push_suscripciones.php';
+    $modelo = new Push_suscripciones();
+
+    $suscripciones = $modelo->listar_admins_activos();
+
+    $accessTokenFcm = null;
+    $fcm_disponible = defined('FCM_PROJECT_ID') && FCM_PROJECT_ID !== '';
+
+    foreach ($suscripciones as $fila) {
+        if ($fila['tipo'] === 'webpush') {
+            $resultado = push_enviar_webpush($fila, $titulo, $mensaje, $url);
+        } else {
+            if (!$fcm_disponible) { continue; }
+            if ($accessTokenFcm === null) { $accessTokenFcm = push_fcm_obtener_token(); }
+            if (!$accessTokenFcm) { continue; }
+            $resultado = push_enviar_fcm($accessTokenFcm, $fila['fcm_token'], $titulo, $mensaje, $url);
+        }
+
+        if (!empty($resultado['expirada'])) {
+            $modelo->desactivar($fila['id']);
+        }
+    }
+}
