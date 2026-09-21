@@ -4,6 +4,11 @@ require_once "../modelos/Calendario.php";
 
 $calendario=new Calendario();
 
+function calendario_es_admin()
+{
+	return isset($_SESSION['nombre']) && $_SESSION['administrador'] == 1;
+}
+
 
 switch ($_GET["op"]){
 
@@ -23,7 +28,7 @@ switch ($_GET["op"]){
 		case 'analizar_pdf':
 
 			header('Content-Type: application/json; charset=utf-8');
-			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+			if (!calendario_es_admin()) {
 				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
 				break;
 			}
@@ -49,7 +54,7 @@ switch ($_GET["op"]){
 		case 'guardar_multiples':
 
 			header('Content-Type: application/json; charset=utf-8');
-			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+			if (!calendario_es_admin()) {
 				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
 				break;
 			}
@@ -220,7 +225,7 @@ switch ($_GET["op"]){
 		case 'obtener_dia':
 
 			header('Content-Type: application/json; charset=utf-8');
-			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+			if (!calendario_es_admin()) {
 				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
 				break;
 			}
@@ -233,7 +238,7 @@ switch ($_GET["op"]){
 		case 'actualizar_dia_calendario':
 
 			header('Content-Type: application/json; charset=utf-8');
-			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+			if (!calendario_es_admin()) {
 				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
 				break;
 			}

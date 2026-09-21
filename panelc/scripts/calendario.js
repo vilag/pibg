@@ -136,8 +136,12 @@ function guardar_dia_calendario()
 		{
 			data = JSON.parse(data);
 
-			if (editando && (!data || !data.ok)) {
-				bootbox.alert((data && data.msg) ? data.msg : "No se pudo actualizar el registro.");
+			// op=actualizar_dia_calendario responde {ok:bool}; op=guardar_dia_calendario
+			// responde el booleano crudo de la consulta (true/false).
+			var exito = editando ? !!(data && data.ok) : !!data;
+			if (!exito) {
+				var msg = (data && data.msg) ? data.msg : (editando ? "No se pudo actualizar el registro." : "No se pudo guardar el registro.");
+				bootbox.alert(msg);
 				return;
 			}
 

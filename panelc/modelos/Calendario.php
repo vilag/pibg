@@ -67,9 +67,21 @@ Class Calendario
 	public function actualizar_dia_calendario($idcal, $fecha_hora, $dia_nom, $nom_activ, $tema, $tipo)
     {
     	global $conexion;
+    	$idcalInt = intval($idcal);
+
+    	// Se comprueba que la fila exista antes de actualizar: fiarse de
+    	// affected_rows() no sirve, porque tambien da 0 cuando los valores
+    	// nuevos son iguales a los que ya tenia (no solo cuando el id no
+    	// existe), y en ese caso el guardado si fue exitoso.
+    	$check = $conexion->prepare("SELECT idcal FROM calendario WHERE idcal=?");
+    	$check->bind_param('i', $idcalInt);
+    	$check->execute();
+    	if (!$check->get_result()->fetch_assoc()) {
+    		return false;
+    	}
+
     	$stmt = $conexion->prepare("UPDATE calendario SET fecha_hora=?, dia_nom=?, nom_activ=?, tema=?, tipo=? WHERE idcal=?");
     	$tipoInt = intval($tipo);
-    	$idcalInt = intval($idcal);
     	$stmt->bind_param('ssssii', $fecha_hora, $dia_nom, $nom_activ, $tema, $tipoInt, $idcalInt);
     	return $stmt->execute();
     }
