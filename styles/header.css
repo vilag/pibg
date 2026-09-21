@@ -146,6 +146,42 @@ h1, h2, h3, h4, h5, h6,
     color: #fff !important;
 }
 
+/* Badge "EN VIVO" — barra superior (desktop) y menú móvil */
+.en_vivo_badge a {
+    display: flex;
+    align-items: center;
+    background: rgba(220,53,69,0.16);
+    border: 1px solid rgba(220,53,69,0.55);
+    border-radius: 20px;
+    padding: 3px 12px;
+}
+.top_bar_contact_list li.en_vivo_badge label,
+.en_vivo_badge_movil a {
+    color: #ff6b6b !important;
+    font-weight: 700 !important;
+}
+.en_vivo_punto {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff3b3b;
+    margin-right: 7px;
+    animation: en_vivo_pulso 1.4s ease-in-out infinite;
+}
+@keyframes en_vivo_pulso {
+    0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255,59,59,0.6); }
+    50%      { transform: scale(1.15); box-shadow: 0 0 0 5px rgba(255,59,59,0); }
+}
+.en_vivo_badge_movil {
+    padding: 10px 0;
+}
+.en_vivo_badge_movil a {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
 /* ══════════════════════════════════════════════════════════════════
    NAV BAR  — barra de navegación
 ═══════════════════════════════════════════════════════════════════ */

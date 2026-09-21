@@ -45,7 +45,10 @@
 									</li>
 									<li style="cursor: pointer;">
 										<a href="mailto:pibgdlar@gmail.com"><div><img src="images/iconos/email.png" alt="" style="width: 18px;">&nbsp;&nbsp;&nbsp;<label style="color: #fff;">pibgdlar@gmail.com</label></div></a>
-										
+
+									</li>
+									<li class="en_vivo_badge" style="display:none;cursor:pointer;">
+										<a href="#" onclick="abrir_video_en_vivo(); return false;"><div><span class="en_vivo_punto"></span>&nbsp;<label style="color:#fff;">EN VIVO &mdash; Ver transmisión</label></div></a>
 									</li>
 									
 								</ul>
@@ -243,6 +246,9 @@
 			</ul>
 		</nav>
 		<div class="menu_extra">
+			<div class="en_vivo_badge en_vivo_badge_movil" style="display:none;">
+				<a href="#" onclick="abrir_video_en_vivo(); return false;"><span class="en_vivo_punto"></span>&nbsp;EN VIVO &mdash; Ver transmisión</a>
+			</div>
 			<div class="menu_phone">
 				<a href="https://api.whatsapp.com/send?phone=3330230905" target="_blank"><span class="menu_title">phone:</span>(33) 30230905</a>
 			</div>

@@ -12,6 +12,9 @@ listar_activ_dest();
 set_live();
 AOS.init();
 
+verificar_en_vivo();
+setInterval(verificar_en_vivo, 120000); // revisar cada 2 minutos
+
 // setTimeout(() => {
 // 	$("#punto_live").removeClass("entrada").addClass("salida");
 // 	setInterval(() => {
@@ -748,6 +751,42 @@ function ocultar_info_banner() {
 function abrir_video_banner(url) {
 	var embed = yt_embed(url);
 	$('#modal_video_banner_src').attr('src', embed + '?autoplay=1&rel=0');
+	$('#modal_video_banner').modal('show').one('hidden.bs.modal', function() {
+		$('#modal_video_banner_src').attr('src', '');
+	});
+}
+
+// Transmisión en vivo del canal de YouTube: se checa cada 2 minutos
+// (ajax/youtube_en_vivo.php, con caché de 90s del lado del servidor). Si hay
+// transmisión, se abre sola la primera vez que se detecta en esta carga de
+// página; si el usuario la cierra, queda el badge "EN VIVO" del header para
+// volver a abrirla con un click.
+var yt_en_vivo_abierta_ya = false;
+
+function verificar_en_vivo() {
+	$.get('ajax/youtube_en_vivo.php', function (res) {
+		var en_vivo = !!(res && res.en_vivo);
+		var channel_id = (res && res.channel_id) || '';
+		$('.en_vivo_badge').toggle(en_vivo).attr('data-channel', channel_id);
+
+		if (en_vivo) {
+			if (!yt_en_vivo_abierta_ya) {
+				yt_en_vivo_abierta_ya = true;
+				abrir_video_en_vivo(channel_id);
+			}
+		} else {
+			// Se re-arma para la próxima transmisión si la pestaña se queda
+			// abierta más allá de esta (ej. un domingo completo).
+			yt_en_vivo_abierta_ya = false;
+		}
+	}, 'json');
+}
+
+function abrir_video_en_vivo(channel_id) {
+	channel_id = channel_id || $('.en_vivo_badge').first().attr('data-channel');
+	if (!channel_id) { return; }
+	var embed = 'https://www.youtube.com/embed/live_stream?channel=' + channel_id + '&autoplay=1&mute=1&rel=0';
+	$('#modal_video_banner_src').attr('src', embed);
 	$('#modal_video_banner').modal('show').one('hidden.bs.modal', function() {
 		$('#modal_video_banner_src').attr('src', '');
 	});
