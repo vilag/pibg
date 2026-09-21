@@ -836,7 +836,17 @@ function count_activ_esp(){
 			$('#content_actividades_destacadas').append(filaBig);
 		}
 
-		animar_contenedores();
+		if (data.length > 0) {
+			animar_contenedores();
+		} else {
+			// Sin actividades destacadas vigentes: animar_contenedores() asume
+			// que hay al menos una (usa array_activ_des[cont2] antes de poder
+			// comparar cont2 contra un length de 0), así que nunca llegaba a
+			// doEndCycle() y el texto bíblico ya mostrado se quedaba trabado
+			// para siempre. Se deja el texto bíblico como está y solo se
+			// reintenta más tarde, por si se agrega una actividad después.
+			scheduleAnim(() => { count_activ_esp(); }, 10000);
+		}
 
 	});
 }
