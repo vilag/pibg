@@ -54,6 +54,26 @@ Class Calendario
     	return ejecutarConsulta($sql);
     }
 
+	public function obtener_dia($idcal)
+    {
+    	global $conexion;
+    	$stmt = $conexion->prepare("SELECT idcal, DATE(fecha_hora) as fecha, TIME(fecha_hora) as hora, dia_nom, nom_activ, tema, tipo FROM calendario WHERE idcal=?");
+    	$idcalInt = intval($idcal);
+    	$stmt->bind_param('i', $idcalInt);
+    	$stmt->execute();
+    	return $stmt->get_result();
+    }
+
+	public function actualizar_dia_calendario($idcal, $fecha_hora, $dia_nom, $nom_activ, $tema, $tipo)
+    {
+    	global $conexion;
+    	$stmt = $conexion->prepare("UPDATE calendario SET fecha_hora=?, dia_nom=?, nom_activ=?, tema=?, tipo=? WHERE idcal=?");
+    	$tipoInt = intval($tipo);
+    	$idcalInt = intval($idcal);
+    	$stmt->bind_param('ssssii', $fecha_hora, $dia_nom, $nom_activ, $tema, $tipoInt, $idcalInt);
+    	return $stmt->execute();
+    }
+
 	// Insercion segura (prepared statement) usada por la carga masiva desde PDF.
 	public function insertar_seguro($fecha_hora, $dia_nom, $nom_activ, $tema, $tipo)
     {

@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
     listar_activ_sem();
 });
 
+var modo_edicion_cal = false;
+var idcal_editar = 0;
+
 function cal_cargar_filtro_anios() {
 	$.post("ajax/calendario.php?op=listar_anios_disponibles", function (res) {
 		if (!res || !res.ok) { listar_dias(); return; }
@@ -102,10 +105,8 @@ function guardar_dia_calendario()
 	var dia = $("#dia").val();
 	var nom_actividad = $("#nom_actividad").val();
 	var tema_actividad = $("#tema_actividad").val();
-	var tipo_actividad = $("#tipo_actividad").val();
 	var tipo_actividad = $('input[name="tipo_actividad"]:checked').val();
 	var tipo_act = 0;
-	//alert(tipo_actividad);
 
 	if (tipo_actividad=="Si" || tipo_actividad=="No") {
 		if (tipo_actividad=="Si") {
@@ -119,29 +120,75 @@ function guardar_dia_calendario()
 	}
 
 	var fecha_hora = fecha_actividad+" "+hora_actividad;
+	var editando = modo_edicion_cal;
+	// Al editar no se exige que la hora sea distinta de "00:00:00": ese valor
+	// es válido para un registro ya guardado (medianoche, o una actividad
+	// importada del PDF sin hora capturada) y no debe bloquear la edición de
+	// los demás campos de un registro existente.
+	var hora_valida = editando || hora_actividad != "00:00:00";
 
-	// alert(fecha_actividad);
-	// return;
-	if (fecha_actividad!="" && hora_actividad!="00:00:00" && nom_actividad!="") {
-		$.post("ajax/calendario.php?op=guardar_dia_calendario",{fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad,tema_actividad:tema_actividad,tipo_act:tipo_act},function(data, status)
+	if (fecha_actividad!="" && hora_valida && nom_actividad!="") {
+		var datos = {fecha_hora:fecha_hora,dia:dia,nom_actividad:nom_actividad,tema_actividad:tema_actividad,tipo_act:tipo_act};
+		var op = editando ? "actualizar_dia_calendario" : "guardar_dia_calendario";
+		if (editando) { datos.idcal = idcal_editar; }
+
+		$.post("ajax/calendario.php?op=" + op, datos, function(data, status)
 		{
 			data = JSON.parse(data);
 
-			alert("Registro guardado exitosamente");
-			$("#fecha_actividad").val("");
-			$("#hora_actividad").val("00:00:00");
-			$("#dia").val("");
-			$("#nom_actividad").val("");
-			$("#tema_actividad").val("");
+			if (editando && (!data || !data.ok)) {
+				bootbox.alert((data && data.msg) ? data.msg : "No se pudo actualizar el registro.");
+				return;
+			}
+
+			cancelar_edicion_calendario();
 			listar_dias();
+			bootbox.alert(editando ? "Registro actualizado exitosamente" : "Registro guardado exitosamente");
 
 		});
 	}else{
 		bootbox.alert("Es necesario capturar los datos obligatorios: fecha, hora y nombre de actividad.");
 	}
+}
 
-	
-	
+function editar_dia_calendario(idcal)
+{
+	$.post("ajax/calendario.php?op=obtener_dia", { idcal: idcal }, function (data) {
+		data = JSON.parse(data);
+		if (!data.ok || !data.dia) { bootbox.alert(data.msg || "No se encontró el registro."); return; }
+		var d = data.dia;
+
+		$("#fecha_actividad").val(d.fecha);
+		$("#hora_actividad").val(d.hora);
+		$("#dia").val(d.dia_nom);
+		$("#nom_actividad").val(d.nom_activ);
+		$("#tema_actividad").val(d.tema);
+		$('input[name="tipo_actividad"]').prop('checked', false);
+		$(d.tipo == 1 ? "#activ1" : "#activ2").prop('checked', true);
+
+		modo_edicion_cal = true;
+		idcal_editar = idcal;
+		$("#cal_form_titulo").text("Editar registro de calendario");
+		$("#cal_btn_guardar").text("Actualizar");
+		$("#cal_editando_msg").show();
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	});
+}
+
+function cancelar_edicion_calendario()
+{
+	modo_edicion_cal = false;
+	idcal_editar = 0;
+	$("#cal_form_titulo").text("Registrar en calendario");
+	$("#cal_btn_guardar").text("Guardar");
+	$("#cal_editando_msg").hide();
+	$("#fecha_actividad").val("");
+	$("#hora_actividad").val("00:00:00");
+	$("#dia").val("");
+	$("#nom_actividad").val("");
+	$("#tema_actividad").val("");
+	$('input[name="tipo_actividad"]').prop('checked', false);
 }
 
 var cal_pdf_eventos = [];

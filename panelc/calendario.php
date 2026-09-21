@@ -24,8 +24,12 @@ if ($_SESSION['administrador']==1)
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">Registrar en calendario</h4>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                            <h4 class="card-title mb-3" id="cal_form_titulo">Registrar en calendario</h4>
+                            <span id="cal_editando_msg" style="display:none;font-size:13px;color:#042C49;">
+                                Editando registro —
+                                <a href="#" onclick="cancelar_edicion_calendario();return false;">Cancelar</a>
+                            </span>
                         </div>
                         <form class="forms-sample" style="padding-top: 20px;">
                             <label for="">Seleccion rapida</label>
@@ -89,7 +93,7 @@ if ($_SESSION['administrador']==1)
                             <div class="col-lg-12" style="float: left;">
                                 <div class="form-group" style="margin-top: 50px; text-align: right;">
                                     <!-- <button class="btn btn-primary mr-2" >Guardar</button> -->
-                                    <b style="padding: 20px; background-color: #000; color: #fff; cursor: pointer; border-radius: 10px;" onclick="guardar_dia_calendario();">Guardar</b>
+                                    <b id="cal_btn_guardar" style="padding: 20px; background-color: #000; color: #fff; cursor: pointer; border-radius: 10px;" onclick="guardar_dia_calendario();">Guardar</b>
                                 </div>
                             </div>
                             
@@ -209,9 +213,9 @@ if ($_SESSION['administrador']==1)
                                     Transmisión
                                 </th>
                                 <th>
-                                    Eliminar
+                                    Acciones
                                 </th>
-                            
+
                             </tr>
                         </thead>
                         <tbody id="dias_calendario">

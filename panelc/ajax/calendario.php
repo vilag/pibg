@@ -104,7 +104,7 @@ switch ($_GET["op"]){
 						}
 						
 						echo '
-                               
+
                             <tr>
                                 <td class="py-1">
                                     '.$reg->fecha.'
@@ -113,24 +113,27 @@ switch ($_GET["op"]){
                                     '.$reg->hora.' hrs.
                                 </td>
                                 <td>
-                                    '.$reg->dia_nom.'
+                                    '.htmlspecialchars($reg->dia_nom).'
                                 </td>
 								<td>
-                                    '.$reg->tema.'
+                                    '.htmlspecialchars($reg->nom_activ).'
                                 </td>
                                 <td>
-                                    '.$reg->nom_activ.'
+                                    '.htmlspecialchars($reg->tema).'
                                 </td>
 								<td>
                                     '.$tipo.'
                                 </td>
-								<td>
-									<button style="background-color:rgb(129, 2, 2); padding: 10px; border-radius: 5px;">
-										<img onclick="borrar_dia('.$reg->idcal.');" src="images/iconos/basura.png" style="width: 20px; height: 20px">
+								<td style="white-space:nowrap;">
+									<button style="background-color:#1F4168; padding: 10px; border-radius: 5px; border:none; margin-right:5px;">
+										<img onclick="editar_dia_calendario('.$reg->idcal.');" src="images/iconos/editar.png" style="width: 20px; height: 20px; cursor:pointer;">
 									</button>
-                                    
+									<button style="background-color:rgb(129, 2, 2); padding: 10px; border-radius: 5px; border:none;">
+										<img onclick="borrar_dia('.$reg->idcal.');" src="images/iconos/basura.png" style="width: 20px; height: 20px; cursor:pointer;">
+									</button>
+
                                 </td>
-                               
+
                             </tr>
 
 						';
@@ -206,13 +209,44 @@ switch ($_GET["op"]){
 		break;
 
 		case 'borrar_dia':
-			
+
 			$idcal = $_POST['idcal'];
-										
+
 			$rspta=$calendario->borrar_dia($idcal);
 			echo json_encode($rspta);
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
-	
+
+		case 'obtener_dia':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			$idcal = intval($_POST['idcal'] ?? 0);
+			$rspta = $calendario->obtener_dia($idcal);
+			$reg = $rspta ? $rspta->fetch_assoc() : null;
+			echo json_encode(['ok' => (bool) $reg, 'dia' => $reg]);
+		break;
+
+		case 'actualizar_dia_calendario':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!isset($_SESSION['nombre']) || $_SESSION['administrador'] != 1) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			$idcal = intval($_POST['idcal'] ?? 0);
+			$fecha_hora = $_POST['fecha_hora'] ?? '';
+			$dia = $_POST['dia'] ?? '';
+			$nom_actividad = $_POST['nom_actividad'] ?? '';
+			$tema_actividad = $_POST['tema_actividad'] ?? '';
+			$tipo_act = $_POST['tipo_act'] ?? 0;
+
+			$rspta = $calendario->actualizar_dia_calendario($idcal, $fecha_hora, $dia, $nom_actividad, $tema_actividad, $tipo_act);
+			echo json_encode(['ok' => (bool) $rspta]);
+		break;
+
 }
 ?>
