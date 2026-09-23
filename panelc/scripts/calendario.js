@@ -229,9 +229,10 @@ function cal_analizar_pdf() {
 			}
 			cal_pdf_eventos = res.eventos.map(function (e) {
 				e.seleccionado = false;
-				// Por defecto todas las actividades se registran como que
-				// si transmiten en vivo; se puede cambiar fila por fila.
-				e.tipo = 1;
+				// Por defecto todas las actividades se registran como que si
+				// transmiten en vivo, excepto las de las categorias que
+				// normalmente no se transmiten (ver cal_pdf_categoria).
+				e.tipo = cal_pdf_categoria(e.nom_activ) ? 0 : 1;
 				return e;
 			});
 			document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Marca con el check las que quieras registrar (o usa "Marcar todas").';
@@ -266,18 +267,23 @@ function cal_pdf_visibles() {
 	return out;
 }
 
-// Colores suaves para resaltar filas cuyo nombre de actividad coincida
-// (aunque sea de forma aproximada) con estas categorias recurrentes del
-// calendario. La comparacion ignora mayusculas/acentos.
+// Resaltado de filas cuyo nombre de actividad coincida (aunque sea de
+// forma aproximada) con estas categorias recurrentes del calendario, que
+// normalmente no se transmiten en vivo. La comparacion ignora
+// mayusculas/acentos.
 function cal_pdf_quitar_acentos(s) {
 	return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
 }
 
-function cal_pdf_color_fila(nom_activ) {
+// CAL_PDF_CATEGORIAS (bg/borde por categoria) lo define calendario.php justo
+// antes de cargar este script, a partir del mismo arreglo que usa para la
+// leyenda, para que ambos no se puedan desincronizar.
+
+function cal_pdf_categoria(nom_activ) {
 	var t = cal_pdf_quitar_acentos(nom_activ).toLowerCase();
-	if ((t.indexOf('cena') !== -1 && t.indexOf('senor') !== -1) || t.indexOf('santa cena') !== -1) return '#fdf3d9'; // Cena del Señor / Santa Cena
-	if (t.indexOf('negocios') !== -1) return '#dceeff'; // Sesion(es) de negocios
-	if (t.indexOf('convivi') !== -1 || t.indexOf('comida') !== -1 || t.indexOf('conas') !== -1) return '#e1f5e1'; // Comidas y convivios
+	if ((t.indexOf('cena') !== -1 && t.indexOf('senor') !== -1) || t.indexOf('santa cena') !== -1) return 'cena'; // Cena del Señor / Santa Cena
+	if (t.indexOf('negocios') !== -1) return 'negocios'; // Sesion(es) de negocios
+	if (t.indexOf('convivi') !== -1 || t.indexOf('comida') !== -1 || t.indexOf('conas') !== -1) return 'convivio'; // Comidas y convivios
 	return '';
 }
 
@@ -286,14 +292,17 @@ function cal_pdf_render_tabla() {
 	var tbody = document.getElementById('cal_pdf_tabla');
 	var html = cal_pdf_visibles().map(function (par) {
 		var e = par.e, i = par.i;
-		var color = cal_pdf_color_fila(e.nom_activ);
-		return '<tr' + (color ? ' style="background-color:' + color + ';"' : '') + '>' +
-			'<td><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
-			'<td><input type="date" class="form-control form-control-sm" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
-			'<td><input type="text" class="form-control form-control-sm" style="width:80px;" value="' + e.hora + '" onchange="cal_pdf_actualizar(' + i + ',\'hora\',this.value)"></td>' +
-			'<td><input type="text" class="form-control form-control-sm" value="' + cal_pdf_escapar(e.nom_activ) + '" onchange="cal_pdf_actualizar(' + i + ',\'nom_activ\',this.value)"></td>' +
-			'<td><input type="text" class="form-control form-control-sm" value="' + cal_pdf_escapar(e.tema) + '" onchange="cal_pdf_actualizar(' + i + ',\'tema\',this.value)"></td>' +
-			'<td><select class="form-control form-control-sm" onchange="cal_pdf_actualizar(' + i + ',\'tipo\',this.value)">' +
+		var estilo = CAL_PDF_CATEGORIAS[cal_pdf_categoria(e.nom_activ)];
+		var trStyle = estilo ? ' style="background-color:' + estilo.bg + ';"' : '';
+		var campoStyle = estilo ? 'background-color:' + estilo.bg + ';' : '';
+		var primeraCeldaStyle = estilo ? 'border-left:5px solid ' + estilo.borde + ';' : '';
+		return '<tr' + trStyle + '>' +
+			'<td style="' + primeraCeldaStyle + '"><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
+			'<td><input type="date" class="form-control form-control-sm" style="' + campoStyle + '" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" style="width:80px;' + campoStyle + '" value="' + e.hora + '" onchange="cal_pdf_actualizar(' + i + ',\'hora\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" style="' + campoStyle + '" value="' + cal_pdf_escapar(e.nom_activ) + '" onchange="cal_pdf_actualizar(' + i + ',\'nom_activ\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" style="' + campoStyle + '" value="' + cal_pdf_escapar(e.tema) + '" onchange="cal_pdf_actualizar(' + i + ',\'tema\',this.value)"></td>' +
+			'<td><select class="form-control form-control-sm" style="' + campoStyle + '" onchange="cal_pdf_actualizar(' + i + ',\'tipo\',this.value)">' +
 				'<option value="0" ' + (e.tipo == 0 ? 'selected' : '') + '>No</option>' +
 				'<option value="1" ' + (e.tipo == 1 ? 'selected' : '') + '>Si</option>' +
 			'</select></td>' +
@@ -316,9 +325,21 @@ function cal_pdf_actualizar(i, campo, valor) {
 		cal_pdf_eventos[i].dia_nom = mapa[dia] || dia;
 	}
 	if (campo === 'seleccionado') cal_pdf_actualizar_contador();
-	// Re-renderizar para que el color de la fila se actualice si el nombre
-	// editado ahora coincide (o deja de coincidir) con alguna categoria.
-	if (campo === 'nom_activ') cal_pdf_render_tabla();
+	if (campo === 'tipo') {
+		// El usuario cambio Transmisión a mano: ya no se debe pisar con el
+		// valor por defecto de la categoria si luego edita el nombre.
+		cal_pdf_eventos[i]._tipo_manual = true;
+	}
+	if (campo === 'nom_activ') {
+		// El nombre editado puede ahora coincidir (o dejar de coincidir) con
+		// alguna categoria: se actualiza la transmision por defecto (solo si
+		// el usuario no la cambio a mano) y se re-renderiza para reflejar el
+		// color y el select de Transmisión.
+		if (!cal_pdf_eventos[i]._tipo_manual) {
+			cal_pdf_eventos[i].tipo = cal_pdf_categoria(valor) ? 0 : 1;
+		}
+		cal_pdf_render_tabla();
+	}
 }
 
 function cal_pdf_actualizar_contador() {

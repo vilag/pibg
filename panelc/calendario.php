@@ -12,6 +12,14 @@ else
 require 'header.php';
 if ($_SESSION['administrador']==1)
 {
+// Categorias recurrentes que normalmente no se transmiten en vivo: fuente
+// unica para el color de resaltado (legenda + filas de la tabla en
+// scripts/calendario.js, que lee este mismo arreglo via CAL_PDF_CATEGORIAS).
+$cal_pdf_categorias = [
+    'cena'     => ['label' => 'Cena del Señor',       'bg' => '#fbe6ad', 'borde' => '#c9971f'],
+    'negocios' => ['label' => 'Sesiones de negocios', 'bg' => '#bfe0ff', 'borde' => '#2f7fd1'],
+    'convivio' => ['label' => 'Comidas y convivios',  'bg' => '#bfead0', 'borde' => '#2e9e5b'],
+];
 ?>
 
 <!-- partial -->
@@ -146,9 +154,10 @@ if ($_SESSION['administrador']==1)
                                 <button type="button" class="btn btn-success" id="cal_pdf_btn_registrar" onclick="cal_pdf_registrar_seleccionadas();">Registrar seleccionadas (<span id="cal_pdf_contador">0</span>)</button>
                             </div>
                             <div class="d-flex flex-wrap align-items-center mb-2" style="gap: 16px; font-size: 12px; color: #6c757d;">
-                                <span><span style="display:inline-block; width:12px; height:12px; background-color:#fdf3d9; border-radius:3px; margin-right:5px; vertical-align:middle;"></span>Cena del Señor</span>
-                                <span><span style="display:inline-block; width:12px; height:12px; background-color:#dceeff; border-radius:3px; margin-right:5px; vertical-align:middle;"></span>Sesiones de negocios</span>
-                                <span><span style="display:inline-block; width:12px; height:12px; background-color:#e1f5e1; border-radius:3px; margin-right:5px; vertical-align:middle;"></span>Comidas y convivios</span>
+                                <?php foreach ($cal_pdf_categorias as $cat): ?>
+                                <span><span style="display:inline-block; width:12px; height:12px; background-color:<?php echo $cat['bg']; ?>; border-left:3px solid <?php echo $cat['borde']; ?>; margin-right:5px; vertical-align:middle;"></span><?php echo htmlspecialchars($cat['label']); ?></span>
+                                <?php endforeach; ?>
+                                <span class="text-muted">— estas categorías inician con Transmisión = No</span>
                             </div>
                             <div class="table-responsive" style="max-height: 500px; overflow: auto;">
                                 <table class="table table-sm table-striped">
@@ -239,6 +248,7 @@ if ($_SESSION['administrador']==1)
           </div>
           <!-- content-wrapper ends -->
 
+           <script type="text/javascript">var CAL_PDF_CATEGORIAS = <?php echo json_encode($cal_pdf_categorias); ?>;</script>
            <script type="text/javascript" src="scripts/calendario.js?v=<?php echo(rand()); ?>"></script>
 <?php
   require "footer.php";
