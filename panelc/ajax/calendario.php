@@ -96,9 +96,18 @@ switch ($_GET["op"]){
 
 		case 'listar_dias':
 
+			header('Content-Type: application/json; charset=utf-8');
 			$mes = isset($_POST['mes']) && $_POST['mes'] !== '' ? intval($_POST['mes']) : null;
 			$anio = isset($_POST['anio']) && $_POST['anio'] !== '' ? intval($_POST['anio']) : null;
-			$rspta = $calendario->listar_dias($mes, $anio);
+			$por_pagina = 50;
+			$total = $calendario->contar_dias($mes, $anio);
+			$total_paginas = max(1, (int) ceil($total / $por_pagina));
+			$pagina = isset($_POST['pagina']) ? intval($_POST['pagina']) : 1;
+			if ($pagina < 1) $pagina = 1;
+			if ($pagina > $total_paginas) $pagina = $total_paginas;
+
+			$rspta = $calendario->listar_dias($mes, $anio, $pagina, $por_pagina);
+			$html = '';
 			while ($reg = $rspta->fetch_object())
 					{
 						if ($reg->tipo==1) {
@@ -107,8 +116,8 @@ switch ($_GET["op"]){
 						if ($reg->tipo==0) {
 							$tipo = "No";
 						}
-						
-						echo '
+
+						$html .= '
 
                             <tr>
                                 <td class="py-1">
@@ -142,8 +151,10 @@ switch ($_GET["op"]){
                             </tr>
 
 						';
-						
+
 					}
+
+			echo json_encode(['ok' => true, 'html' => $html, 'pagina' => $pagina, 'total_paginas' => $total_paginas, 'total' => $total]);
 
 		break;
 
@@ -251,6 +262,45 @@ switch ($_GET["op"]){
 
 			$rspta = $calendario->actualizar_dia_calendario($idcal, $fecha_hora, $dia, $nom_actividad, $tema_actividad, $tipo_act);
 			echo json_encode(['ok' => (bool) $rspta]);
+		break;
+
+		case 'marcar_no_transmite':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!calendario_es_admin()) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			$nom_activ = $_POST['nom_activ'] ?? '';
+			$rspta = $calendario->marcar_no_transmite($nom_activ);
+			echo json_encode(['ok' => (bool) $rspta]);
+		break;
+
+		case 'desmarcar_no_transmite':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!calendario_es_admin()) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			$nom_activ = $_POST['nom_activ'] ?? '';
+			$rspta = $calendario->desmarcar_no_transmite($nom_activ);
+			echo json_encode(['ok' => (bool) $rspta]);
+		break;
+
+		case 'listar_no_transmite':
+
+			header('Content-Type: application/json; charset=utf-8');
+			if (!calendario_es_admin()) {
+				echo json_encode(['ok' => false, 'msg' => 'Sin acceso.']);
+				break;
+			}
+			$rspta = $calendario->listar_no_transmite();
+			$nombres = [];
+			while ($reg = $rspta->fetch_assoc()) {
+				$nombres[] = $reg['nom_activ_norm'];
+			}
+			echo json_encode(['ok' => true, 'nombres' => $nombres]);
 		break;
 
 }

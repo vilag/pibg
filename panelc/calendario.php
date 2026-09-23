@@ -239,6 +239,7 @@ $cal_pdf_categorias = [
                         </tbody>
                         </table>
                     </div>
+                    <div id="cal_paginacion" class="d-flex align-items-center justify-content-center" style="margin-top: 12px;"></div>
                     </div>
                 </div>
               </div>
