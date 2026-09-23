@@ -166,6 +166,7 @@ $cal_pdf_categorias = [
                                             <th></th>
                                             <th>Fecha</th>
                                             <th>Hora</th>
+                                            <th>Día</th>
                                             <th>Nombre de actividad</th>
                                             <th>Tema / Encargados</th>
                                             <th>Transmisión</th>

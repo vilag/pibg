@@ -300,6 +300,7 @@ function cal_pdf_render_tabla() {
 			'<td style="' + primeraCeldaStyle + '"><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
 			'<td><input type="date" class="form-control form-control-sm" style="' + campoStyle + '" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="width:80px;' + campoStyle + '" value="' + e.hora + '" onchange="cal_pdf_actualizar(' + i + ',\'hora\',this.value)"></td>' +
+			'<td><input type="text" class="form-control form-control-sm" style="width:100px;' + campoStyle + '" value="' + cal_pdf_escapar(e.dia_nom) + '" onchange="cal_pdf_actualizar(' + i + ',\'dia_nom\',this.value)"></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="' + campoStyle + '" value="' + cal_pdf_escapar(e.nom_activ) + '" onchange="cal_pdf_actualizar(' + i + ',\'nom_activ\',this.value)"></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="' + campoStyle + '" value="' + cal_pdf_escapar(e.tema) + '" onchange="cal_pdf_actualizar(' + i + ',\'tema\',this.value)"></td>' +
 			'<td><select class="form-control form-control-sm" style="' + campoStyle + '" onchange="cal_pdf_actualizar(' + i + ',\'tipo\',this.value)">' +
