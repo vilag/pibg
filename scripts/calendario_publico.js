@@ -72,15 +72,24 @@ function cal_pub_mover_mes(delta, despues_de_cargar) {
 	cal_pub_cargar_mes(despues_de_cargar);
 }
 
+var cal_pub_peticion_actual = 0;
+
 function cal_pub_cargar_mes(despues_de_cargar) {
 	document.getElementById('cal_pub_sel_mes').value = cal_pub_estado.mes;
 	document.getElementById('cal_pub_sel_anio').value = cal_pub_estado.anio;
 	document.getElementById('cal_pub_titulo').textContent = MESES_PUB[cal_pub_estado.mes - 1] + ' ' + cal_pub_estado.anio;
+	cal_pub_reset_detalle();
 
 	var grid = document.getElementById('cal_pub_grid');
 	grid.classList.add('cal_pub_cargando');
 
+	// Si el usuario navega varias veces seguidas antes de que responda el
+	// servidor, las respuestas pueden llegar desordenadas; se descarta
+	// cualquier respuesta que ya no corresponda a la ultima peticion hecha.
+	var idPeticion = ++cal_pub_peticion_actual;
+
 	$.get('ajax/index.php?op=listar_calendario_mes&mes=' + cal_pub_estado.mes + '&anio=' + cal_pub_estado.anio, function (res) {
+		if (idPeticion !== cal_pub_peticion_actual) return;
 		grid.classList.remove('cal_pub_cargando');
 		if (!res || !res.ok) {
 			cal_pub_estado.eventos_por_dia = {};
@@ -98,9 +107,15 @@ function cal_pub_cargar_mes(despues_de_cargar) {
 
 		if (despues_de_cargar) despues_de_cargar();
 	}, 'json').fail(function () {
+		if (idPeticion !== cal_pub_peticion_actual) return;
 		grid.classList.remove('cal_pub_cargando');
 		grid.innerHTML = '<div class="cal_pub_error">No se pudo cargar el calendario. Intenta recargar la página.</div>';
 	});
+}
+
+function cal_pub_reset_detalle() {
+	document.getElementById('cal_pub_detalle_titulo').textContent = 'Selecciona un día';
+	document.getElementById('cal_pub_detalle_lista').innerHTML = '<div class="cal_pub_detalle_vacio">Da clic en un día del calendario para ver sus actividades.</div>';
 }
 
 function cal_pub_render_grid() {
