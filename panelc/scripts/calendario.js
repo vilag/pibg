@@ -229,6 +229,9 @@ function cal_analizar_pdf() {
 			}
 			cal_pdf_eventos = res.eventos.map(function (e) {
 				e.seleccionado = false;
+				// Por defecto todas las actividades se registran como que
+				// si transmiten en vivo; se puede cambiar fila por fila.
+				e.tipo = 1;
 				return e;
 			});
 			document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Marca con el check las que quieras registrar (o usa "Marcar todas").';
@@ -263,12 +266,28 @@ function cal_pdf_visibles() {
 	return out;
 }
 
+// Colores suaves para resaltar filas cuyo nombre de actividad coincida
+// (aunque sea de forma aproximada) con estas categorias recurrentes del
+// calendario. La comparacion ignora mayusculas/acentos.
+function cal_pdf_quitar_acentos(s) {
+	return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+function cal_pdf_color_fila(nom_activ) {
+	var t = cal_pdf_quitar_acentos(nom_activ).toLowerCase();
+	if ((t.indexOf('cena') !== -1 && t.indexOf('senor') !== -1) || t.indexOf('santa cena') !== -1) return '#fdf3d9'; // Cena del Señor / Santa Cena
+	if (t.indexOf('negocios') !== -1) return '#dceeff'; // Sesion(es) de negocios
+	if (t.indexOf('convivi') !== -1 || t.indexOf('comida') !== -1 || t.indexOf('conas') !== -1) return '#e1f5e1'; // Comidas y convivios
+	return '';
+}
+
 function cal_pdf_render_tabla() {
 	document.getElementById('cal_pdf_revision').style.display = cal_pdf_eventos.length ? 'block' : 'none';
 	var tbody = document.getElementById('cal_pdf_tabla');
 	var html = cal_pdf_visibles().map(function (par) {
 		var e = par.e, i = par.i;
-		return '<tr>' +
+		var color = cal_pdf_color_fila(e.nom_activ);
+		return '<tr' + (color ? ' style="background-color:' + color + ';"' : '') + '>' +
 			'<td><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
 			'<td><input type="date" class="form-control form-control-sm" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="width:80px;" value="' + e.hora + '" onchange="cal_pdf_actualizar(' + i + ',\'hora\',this.value)"></td>' +
@@ -297,6 +316,9 @@ function cal_pdf_actualizar(i, campo, valor) {
 		cal_pdf_eventos[i].dia_nom = mapa[dia] || dia;
 	}
 	if (campo === 'seleccionado') cal_pdf_actualizar_contador();
+	// Re-renderizar para que el color de la fila se actualice si el nombre
+	// editado ahora coincide (o deja de coincidir) con alguna categoria.
+	if (campo === 'nom_activ') cal_pdf_render_tabla();
 }
 
 function cal_pdf_actualizar_contador() {
@@ -324,7 +346,7 @@ function cal_pdf_agregar_fila() {
 		dia_nom: '',
 		nom_activ: '',
 		tema: '',
-		tipo: 0,
+		tipo: 1,
 		seleccionado: true
 	});
 	cal_pdf_render_tabla();

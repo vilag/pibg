@@ -145,6 +145,11 @@ if ($_SESSION['administrador']==1)
                                 </div>
                                 <button type="button" class="btn btn-success" id="cal_pdf_btn_registrar" onclick="cal_pdf_registrar_seleccionadas();">Registrar seleccionadas (<span id="cal_pdf_contador">0</span>)</button>
                             </div>
+                            <div class="d-flex flex-wrap align-items-center mb-2" style="gap: 16px; font-size: 12px; color: #6c757d;">
+                                <span><span style="display:inline-block; width:12px; height:12px; background-color:#fdf3d9; border-radius:3px; margin-right:5px; vertical-align:middle;"></span>Cena del Señor</span>
+                                <span><span style="display:inline-block; width:12px; height:12px; background-color:#dceeff; border-radius:3px; margin-right:5px; vertical-align:middle;"></span>Sesiones de negocios</span>
+                                <span><span style="display:inline-block; width:12px; height:12px; background-color:#e1f5e1; border-radius:3px; margin-right:5px; vertical-align:middle;"></span>Comidas y convivios</span>
+                            </div>
                             <div class="table-responsive" style="max-height: 500px; overflow: auto;">
                                 <table class="table table-sm table-striped">
                                     <thead>
