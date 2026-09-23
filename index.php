@@ -1435,6 +1435,9 @@ Y todo lo que hace, prosperará</p>
 
 
 							</div>
+							<a href="calendario.php" class="cal_ver_completo_link">
+								Ver calendario completo <span aria-hidden="true">&#8250;</span>
+							</a>
 						</div>
 
 						<!-- News -->

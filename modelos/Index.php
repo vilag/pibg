@@ -20,7 +20,26 @@ Class Index
 	{
 		$sql="SELECT DAY(fecha_hora) as dia, MONTH(fecha_hora) as mes, TIME(fecha_hora) as hora, nom_activ, tema  FROM calendario WHERE fecha_hora>='$fecha' ORDER BY DATE(fecha_hora) ASC, TIME(fecha_hora) ASC LIMIT 5";
 		//return ejecutarConsultaSimpleFila($sql);
-		return ejecutarConsulta($sql);			
+		return ejecutarConsulta($sql);
+	}
+
+	// Todas las actividades de un mes, para el calendario publico de mes completo
+	// (a diferencia de listar_calendario, que solo trae las 5 mas proximas).
+	public function listar_calendario_mes($mes, $anio)
+	{
+		global $conexion;
+		$mesInt = intval($mes);
+		$anioInt = intval($anio);
+		$stmt = $conexion->prepare("SELECT DAY(fecha_hora) as dia, TIME(fecha_hora) as hora, nom_activ, tema, tipo FROM calendario WHERE MONTH(fecha_hora)=? AND YEAR(fecha_hora)=? ORDER BY fecha_hora ASC");
+		$stmt->bind_param('ii', $mesInt, $anioInt);
+		$stmt->execute();
+		return $stmt->get_result();
+	}
+
+	public function listar_calendario_anios()
+	{
+		$sql = "SELECT DISTINCT YEAR(fecha_hora) as anio FROM calendario ORDER BY anio ASC";
+		return ejecutarConsulta($sql);
 	}
 
 	public function buscar_activ_sem($dia,$hora)

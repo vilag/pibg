@@ -106,6 +106,32 @@ switch ($_GET["op"]){
 	 		//echo $rspta ? "Anulada" : "No se puede anular";
 		break;
 
+		case 'listar_calendario_mes':
+
+			header('Content-Type: application/json; charset=utf-8');
+			$mes = isset($_GET['mes']) ? intval($_GET['mes']) : (int) date('n');
+			$anio = isset($_GET['anio']) ? intval($_GET['anio']) : (int) date('Y');
+			$rspta = $index->listar_calendario_mes($mes, $anio);
+			$dias = [];
+			while ($reg = $rspta->fetch_assoc()) {
+				$dias[] = $reg;
+			}
+			echo json_encode(['ok' => true, 'mes' => $mes, 'anio' => $anio, 'dias' => $dias]);
+		break;
+
+		case 'listar_calendario_anios':
+
+			header('Content-Type: application/json; charset=utf-8');
+			$anioActual = (int) date('Y');
+			$anios = [$anioActual - 1, $anioActual, $anioActual + 1, $anioActual + 2];
+			$rspta = $index->listar_calendario_anios();
+			while ($reg = $rspta->fetch_object()) {
+				if (!in_array((int) $reg->anio, $anios, true)) $anios[] = (int) $reg->anio;
+			}
+			sort($anios);
+			echo json_encode(['ok' => true, 'anios' => array_values($anios), 'anio_actual' => $anioActual, 'mes_actual' => (int) date('n')]);
+		break;
+
 		
 
 		// case 'listar_lecturas':

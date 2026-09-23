@@ -1571,3 +1571,24 @@ html.pibg-app-instalada .app-promo-banner {
 /* Los estilos del aviso "activar notificaciones" / "instalar la app para
    notificaciones" ahora viven en footer.php (compartido por todas las
    páginas públicas), junto con su HTML y su script de activación. */
+
+.cal_ver_completo_link {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-top: 24px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #F2125E;
+	text-decoration: none !important;
+}
+.cal_ver_completo_link span {
+	font-size: 18px;
+	transition: transform .15s;
+}
+.cal_ver_completo_link:hover {
+	color: #c40e4a;
+}
+.cal_ver_completo_link:hover span {
+	transform: translateX(3px);
+}
