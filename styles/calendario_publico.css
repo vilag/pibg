@@ -257,10 +257,30 @@
 	font-size: 14px;
 }
 
+@media only screen and (max-width: 991px) {
+	.cal_pub_celda {
+		height: 96px;
+		padding: 7px 6px;
+	}
+	.cal_pub_celda_num {
+		width: 20px;
+		height: 20px;
+		margin-bottom: 4px;
+	}
+	.cal_pub_chip {
+		font-size: 10px;
+		padding: 1px 5px;
+	}
+}
+
 @media only screen and (max-width: 767px) {
+	.cal_pub {
+		padding-top: 40px;
+	}
 	.cal_pub_toolbar {
 		flex-direction: column;
 		align-items: stretch;
+		gap: 14px;
 	}
 	.cal_pub_nav {
 		justify-content: center;
@@ -272,11 +292,75 @@
 		height: 76px;
 		padding: 6px 5px;
 	}
+	.cal_pub_celda_num {
+		width: 20px;
+		height: 20px;
+		margin-bottom: 4px;
+	}
 	.cal_pub_chip {
 		font-size: 9px;
 		padding: 2px 4px;
 	}
 	.cal_pub_titulo {
 		min-width: 0;
+	}
+	.cal_pub_detalle {
+		padding: 18px;
+		margin-bottom: 50px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.cal_pub_nav {
+		gap: 10px;
+	}
+	.cal_pub_titulo {
+		font-size: 17px;
+	}
+	.cal_pub_selects {
+		width: 100%;
+	}
+	.cal_pub_select {
+		flex: 1;
+		min-width: 0;
+	}
+	.cal_pub_hoy {
+		flex: 1;
+		min-width: 0;
+		padding: 8px 10px;
+	}
+	.cal_pub_semana > div {
+		padding: 8px 0;
+		font-size: 10px;
+	}
+	.cal_pub_celda {
+		height: 68px;
+		padding: 4px 3px;
+	}
+	.cal_pub_celda_num {
+		font-size: 11px;
+		width: 18px;
+		height: 18px;
+		margin-bottom: 2px;
+	}
+	.cal_pub_chip {
+		font-size: 8px;
+		padding: 1px 3px;
+		gap: 2px;
+	}
+	.cal_pub_punto {
+		width: 5px;
+		height: 5px;
+	}
+	.cal_pub_mas {
+		font-size: 8px;
+		padding: 0 3px;
+	}
+	.cal_pub_ev {
+		gap: 12px;
+	}
+	.cal_pub_ev_hora {
+		width: 44px;
+		font-size: 13px;
 	}
 }
