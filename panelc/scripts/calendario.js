@@ -134,10 +134,12 @@ function guardar_dia_calendario()
 
 		$.post("ajax/calendario.php?op=" + op, datos, function(data, status)
 		{
-			data = JSON.parse(data);
+			// op=actualizar_dia_calendario responde JSON (jQuery ya lo parsea
+			// por el header Content-Type que manda ese endpoint) con {ok:bool};
+			// op=guardar_dia_calendario responde el booleano crudo como texto,
+			// por eso solo ese caso necesita JSON.parse.
+			if (!editando) { data = JSON.parse(data); }
 
-			// op=actualizar_dia_calendario responde {ok:bool}; op=guardar_dia_calendario
-			// responde el booleano crudo de la consulta (true/false).
 			var exito = editando ? !!(data && data.ok) : !!data;
 			if (!exito) {
 				var msg = (data && data.msg) ? data.msg : (editando ? "No se pudo actualizar el registro." : "No se pudo guardar el registro.");
@@ -158,7 +160,8 @@ function guardar_dia_calendario()
 function editar_dia_calendario(idcal)
 {
 	$.post("ajax/calendario.php?op=obtener_dia", { idcal: idcal }, function (data) {
-		data = JSON.parse(data);
+		// El endpoint responde JSON con header Content-Type: application/json,
+		// asi que jQuery ya entrega "data" parseado como objeto.
 		if (!data.ok || !data.dia) { bootbox.alert(data.msg || "No se encontró el registro."); return; }
 		var d = data.dia;
 
