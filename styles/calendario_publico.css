@@ -107,11 +107,12 @@
 }
 .cal_pub_celda {
 	background: #fff;
-	min-height: 112px;
+	height: 112px;
 	padding: 9px 8px;
 	display: flex;
 	flex-direction: column;
 	cursor: pointer;
+	overflow: hidden;
 	transition: background .12s;
 }
 .cal_pub_celda:hover {
@@ -146,6 +147,8 @@
 	box-shadow: inset 0 0 0 2px #F2125E;
 }
 .cal_pub_celda_eventos {
+	flex: 1;
+	min-height: 0;
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
@@ -266,7 +269,7 @@
 		justify-content: center;
 	}
 	.cal_pub_celda {
-		min-height: 76px;
+		height: 76px;
 		padding: 6px 5px;
 	}
 	.cal_pub_chip {
