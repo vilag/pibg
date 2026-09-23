@@ -267,12 +267,17 @@ function cal_analizar_pdf() {
 			}
 			peticionConocidas.then(function (nombres) {
 				cal_pdf_no_transmite_conocidas = nombres;
-				cal_pdf_eventos = res.eventos.map(function (e) {
+				var mapeados = res.eventos.map(function (e) {
 					e.seleccionado = false;
 					e.tipo = cal_pdf_tipo_por_defecto(e.nom_activ);
 					return e;
 				});
-				document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + '). Marca con el check las que quieras registrar (o usa "Marcar todas").';
+				var sinDuplicados = cal_pdf_quitar_duplicados(mapeados);
+				cal_pdf_eventos = sinDuplicados.eventos;
+				var msgDuplicados = sinDuplicados.duplicados > 0
+					? (' Se omitieron ' + sinDuplicados.duplicados + ' actividades duplicadas encontradas en el PDF.')
+					: '';
+				document.getElementById('cal_pdf_estado').textContent = 'Se encontraron ' + cal_pdf_eventos.length + ' actividades (año ' + res.anio + ').' + msgDuplicados + ' Marca con el check las que quieras registrar (o usa "Marcar todas").';
 				cal_pdf_poblar_filtro_anios();
 				cal_pdf_render_tabla();
 			});
@@ -341,6 +346,24 @@ function cal_pdf_tipo_por_defecto(nom_activ) {
 	return (cal_pdf_categoria(nom_activ) || cal_pdf_es_no_transmite_conocida(nom_activ)) ? 0 : 1;
 }
 
+// A veces el PDF trae la misma actividad repetida (por ejemplo por un error
+// de lectura de una tabla con columnas dobles); se quitan los repetidos
+// exactos (misma fecha + hora + nombre, ignorando mayusculas/acentos) antes
+// de mostrar la tabla de revision, para no tener que desmarcarlos a mano ni
+// arriesgarse a registrar el mismo evento dos veces.
+function cal_pdf_quitar_duplicados(eventos) {
+	var vistos = {};
+	var resultado = [];
+	var duplicados = 0;
+	eventos.forEach(function (e) {
+		var clave = (e.fecha || '') + '|' + (e.hora || '') + '|' + cal_pdf_normalizar_nombre(e.nom_activ);
+		if (vistos[clave]) { duplicados++; return; }
+		vistos[clave] = true;
+		resultado.push(e);
+	});
+	return { eventos: resultado, duplicados: duplicados };
+}
+
 function cal_pdf_marcar_no_transmite(nom_activ) {
 	if (!nom_activ) return;
 	$.post('ajax/calendario.php?op=marcar_no_transmite', { nom_activ: nom_activ });
@@ -366,6 +389,20 @@ function cal_pdf_programar_no_transmite(i, nom_activ, marcar) {
 	}, 500);
 }
 
+var CAL_MESES_LARGO = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+// Solo para mostrar junto al selector de fecha (AAAA-MM-DD); el input de
+// tipo date sigue siendo el que se lee al guardar, esto no lo toca.
+function cal_pdf_fecha_larga(fechaIso) {
+	if (!fechaIso) return '';
+	var partes = fechaIso.split('-');
+	if (partes.length !== 3) return '';
+	var dia = parseInt(partes[2], 10);
+	var mes = CAL_MESES_LARGO[parseInt(partes[1], 10) - 1];
+	if (!dia || !mes) return '';
+	return dia + ' de ' + mes + ' de ' + partes[0];
+}
+
 function cal_pdf_render_tabla() {
 	document.getElementById('cal_pdf_revision').style.display = cal_pdf_eventos.length ? 'block' : 'none';
 	var tbody = document.getElementById('cal_pdf_tabla');
@@ -377,7 +414,8 @@ function cal_pdf_render_tabla() {
 		var primeraCeldaStyle = estilo ? 'border-left:5px solid ' + estilo.borde + ';' : '';
 		return '<tr' + trStyle + '>' +
 			'<td style="' + primeraCeldaStyle + '"><input type="checkbox" ' + (e.seleccionado ? 'checked' : '') + ' onchange="cal_pdf_actualizar(' + i + ',\'seleccionado\',this.checked)"></td>' +
-			'<td><input type="date" class="form-control form-control-sm" style="' + campoStyle + '" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)"></td>' +
+			'<td><input type="date" class="form-control form-control-sm" style="' + campoStyle + '" value="' + e.fecha + '" onchange="cal_pdf_actualizar(' + i + ',\'fecha\',this.value)">' +
+				'<div style="font-size:11px;color:#6c757d;margin-top:2px;">' + cal_pdf_escapar(cal_pdf_fecha_larga(e.fecha)) + '</div></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="width:80px;' + campoStyle + '" value="' + e.hora + '" onchange="cal_pdf_actualizar(' + i + ',\'hora\',this.value)"></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="width:100px;' + campoStyle + '" value="' + cal_pdf_escapar(e.dia_nom) + '" onchange="cal_pdf_actualizar(' + i + ',\'dia_nom\',this.value)"></td>' +
 			'<td><input type="text" class="form-control form-control-sm" style="' + campoStyle + '" value="' + cal_pdf_escapar(e.nom_activ) + '" onchange="cal_pdf_actualizar(' + i + ',\'nom_activ\',this.value)"></td>' +
@@ -403,6 +441,9 @@ function cal_pdf_actualizar(i, campo, valor) {
 		var dia = moment(valor).format('dddd');
 		var mapa = { Monday: 'Lunes', Tuesday: 'Martes', Wednesday: 'Miercoles', Thursday: 'Jueves', Friday: 'Viernes', Saturday: 'Sabado', Sunday: 'Domingo' };
 		cal_pdf_eventos[i].dia_nom = mapa[dia] || dia;
+		// Se re-renderiza solo para refrescar la leyenda de fecha larga bajo
+		// el selector; el valor que se guarda sigue siendo el del input.
+		cal_pdf_render_tabla();
 	}
 	if (campo === 'seleccionado') cal_pdf_actualizar_contador();
 	if (campo === 'tipo') {

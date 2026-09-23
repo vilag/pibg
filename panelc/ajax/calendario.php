@@ -9,6 +9,17 @@ function calendario_es_admin()
 	return isset($_SESSION['nombre']) && $_SESSION['administrador'] == 1;
 }
 
+// Solo para mostrar en la columna Fecha de la tabla; el valor que se manda
+// a guardar/editar/borrar sigue siendo el idcal y las fechas ISO de
+// siempre, esto no toca esos procesos.
+function calendario_fecha_larga($fechaIso)
+{
+	$meses = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+	$ts = strtotime((string) $fechaIso);
+	if ($ts === false) return $fechaIso;
+	return (int) date('j', $ts) . ' de ' . $meses[(int) date('n', $ts)] . ' de ' . date('Y', $ts);
+}
+
 
 switch ($_GET["op"]){
 
@@ -63,13 +74,17 @@ switch ($_GET["op"]){
 				echo json_encode(['ok' => false, 'msg' => 'No se recibieron actividades para guardar.']);
 				break;
 			}
-			// Evita duplicados exactos (misma fecha_hora + nombre), por ejemplo
-			// si la peticion llega repetida por un doble clic o un reintento.
+			// Evita duplicados (misma fecha_hora + nombre de actividad), por
+			// ejemplo si la peticion llega repetida por un doble clic, un
+			// reintento, o si se vuelve a analizar/registrar un PDF que ya se
+			// habia cargado antes. La comparacion del nombre ignora
+			// mayusculas/acentos/espacios para que una diferencia minima de
+			// captura no deje pasar un duplicado real.
 			global $conexion;
 			$existentes = [];
 			$rExist = $conexion->query("SELECT fecha_hora, nom_activ FROM calendario");
 			while ($rExist && ($row = $rExist->fetch_assoc())) {
-				$existentes[$row['fecha_hora'] . '|' . $row['nom_activ']] = true;
+				$existentes[$row['fecha_hora'] . '|' . calendario_normalizar_nombre($row['nom_activ'])] = true;
 			}
 
 			$guardados = 0;
@@ -84,7 +99,7 @@ switch ($_GET["op"]){
 				if ($fecha === '' || $nombre === '') continue;
 				$fechaHora = $fecha . ' ' . ($hora !== '' ? $hora : '00:00:00');
 
-				$clave = $fechaHora . '|' . $nombre;
+				$clave = $fechaHora . '|' . calendario_normalizar_nombre($nombre);
 				if (isset($existentes[$clave])) { $omitidos++; continue; } // ya existe, se omite
 
 				$calendario->insertar_seguro($fechaHora, $diaNom, $nombre, $tema, $tipo);
@@ -121,7 +136,7 @@ switch ($_GET["op"]){
 
                             <tr>
                                 <td class="py-1">
-                                    '.$reg->fecha.'
+                                    '.calendario_fecha_larga($reg->fecha).'
                                 </td>
                                 <td>
                                     '.$reg->hora.' hrs.
